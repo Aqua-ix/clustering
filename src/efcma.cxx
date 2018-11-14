@@ -25,6 +25,7 @@ void Efcma::revise_membership(void){
       for(int j=0;j<centers_number();j++){
         denominator+=Alpha[j]/Alpha[i]*exp(-1.0*FuzzifierLambda*(Dissimilarities[j][k]-Dissimilarities[i][k]));
       }
+      std::cout<<"d:"<<denominator<<std::endl;
       Membership[i][k]=1.0/denominator;
     }//else
   }//k
@@ -38,6 +39,7 @@ void Efcma::revise_alpha(void){
     for(int k=0;k<data_number();k++){
       numerator+=Membership[i][k];
     }
+    std::cout<<"a:"<<Alpha[i]<<std::endl;
     Alpha[i]=numerator/data_number();
   }
   return;
