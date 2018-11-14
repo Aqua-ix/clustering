@@ -1,0 +1,139 @@
+%\documentclass{beamer}
+%\usepackage{minijs}
+%\usepackage{here}
+%\mode<presentation>{
+%  \usetheme{Antibes}
+%  \usecolortheme{beaver}
+%  \setbeamercovered{transparent}
+%}
+\documentclass[13pt,dvipdfmx]{beamer}
+\usepackage[english]{babel}
+% pdfの栞の字化けを防ぐ
+\AtBeginDvi{\special{pdf:tounicode EUC-UCS2}}
+% テーマ
+\usetheme{AnnArbor}
+\usepackage{caption}
+\setbeamertemplate{navigation symbols}{} 
+\usepackage{graphicx}
+%\usepackage[dvipdfmx]{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{txfonts}
+\usepackage{colortbl}
+\renewcommand{\familydefault}{\sfdefault}
+\renewcommand{\kanjifamilydefault}{\gtdefault}
+\setbeamerfont{title}{size=\large,series=\bfseries}
+\setbeamerfont{frametitle}{size=\large,series=\bfseries}
+\setbeamertemplate{frametitle}[default][center]
+\usefonttheme{professionalfonts} 
+
+%1ページめ
+\title{クラスタリング手法の評価}
+\author{AF16009 池辺 颯一}
+\institute{SIT}
+\date{2018年12月12日}
+
+\begin{document}
+\begin{frame}\frametitle{}
+ \titlepage
+\end{frame}
+
+\begin{frame}\frametitle{背景}
+\begin{itemize}
+ \item 情報化社会の発展によりデータ量が膨大になりつつある
+ \item それらのデータを自動的に分類するクラスタリングに着目
+\end{itemize}
+\end{frame}
+
+\begin{frame}\frametitle{目的}
+\begin{block}{目的}
+\begin{itemize}
+ \item 
+\end{itemize}
+\end{block}
+\vspace{4mm}
+\begin{block}{目標}
+\begin{itemize}
+ \item 各クラスタリング手法について比較及び評価を行う
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}\frametitle{実験方法}
+\begin{center}
+\end{center}
+\end{frame}
+
+\begin{frame}\frametitle{実験評価方法}
+\begin{center}
+\end{center}
+\end{frame}
+
+\begin{frame}\frametitle{\Large クラスタリング手法}
+ \begin{block}{eFCMA}
+  $\underset{u,v,\pi}{\text{minimize}}$
+  $\sum_{i=1}^C\sum_{k=1}^Nu_{i,k}||x_k-v_i||_2^2+\lambda^{-1}\sum_{i=1}^C\sum_{k=1}^Nu_{i,k}\log(\frac{u_{i,k}}{\pi_{i}})$\centering\\
+ \end{block}
+\begin{align*}
+ d_{i,k}&=||x_{k}-v_{i}||_{2}^2, \\
+ u_{i,k}&=\frac{\pi_{i}\exp(-\lambda||x_k-v_i||_2^2)}{\sum_{j=1}^C\pi_{j}\exp(-\lambda||x_k-v_j||_2^2)\quad,}\\
+ v_{i}=\frac{\sum_{k=1}^Nu_{i,k}x_{k}}{\quad\sum_{k=1}^Nu_{i,k}},
+ %%\alpha_{i}&=\frac{\sum_{k=1}^Nu_{i,k}}{\quad N}.
+\end{align*}
+\end{frame}
+
+\begin{frame}\frametitle{\Large クラスタリング手法}
+ \begin{block}{qFCMA}
+  $\underset{u,v,\alpha}{\text{minimize}}$
+  $\sum_{i=1}^C\sum_{k=1}^N(\alpha_{i})^{1-m}(u_{i,k})^m||x_k-v_i||_2^2+\frac{\lambda^{-1}}{m-1}\sum_{i=1}^C\sum_{k=1}^N(\alpha_{i})^{1-m}(u_{i,k})^m$\centering\\
+ \end{block}
+ \begin{align*}
+  d_{i,k}&=||x_{k}-v_{i}||_{2}^2, \\
+  u_{i,k}&=\frac{\alpha_{i}(1+\lambda(1-m)||x_i-v_k||_2^2)^\frac{1}{1-m}}{\quad\sum_{j=1}^C\alpha_{j}(1+\lambda(1-m)||x_j-v_k||_2^2)^\frac{1}{1-m}\quad,}\\
+  v_{i}=\frac{\sum_{k=1}^N(u_{i,k})^mx_{k}}{\quad\sum_{k=1}^N(u_{i,k})^{m}},
+ \end{align*}
+\end{frame}
+
+\begin{frame}\frametitle{\large クラスタリング手法}
+ \begin{block}{sfcma}
+  $\underset{u,v,\alpha}{\text{minimize}}$
+  $\sum_{i=1}^c\sum_{k=1}^n(\alpha_{i})^{1-m}(u_{i,k})^m||x_k-v_i||_2^2$\\
+  subject \; to \; $\sum_{i=1}^cu_{i,k}=1$\;,\;$\sum_{i=1}^c\alpha_{i}=1$\;and\;$u_{i,k}\in[0,1]$\quad$m>1$
+ \end{block}
+ \begin{align*}
+  d_{i,k}&=||x_{k}-v_{i}||_{2}^2=\left(\sqrt{\sum_{\ell=1}^m (x_{k,\ell}-v_{i,\ell})^2}\;\right)^2,\\
+  u_{i,k}&=\frac{1}{\sum_{j=1}^c\frac{\alpha_{j}}{\alpha_{i}}\left(\frac{d_{j,k}}{d_{i,k}}\right)^\frac{1}{1-m}},\quad
+  v_{i}=\frac{\sum_{k=1}^n(u_{i,k})^mx_{k}}{\quad\sum_{k=1}^n(u_{i,k})^{m}},\\
+ \end{align*}
+\end{frame}
+
+
+\begin{frame}\frametitle{使用する実データ}
+\begin{center}
+{\Large Yeast Data Set}
+\begin{figure}
+\end{figure}
+\end{center}
+\end{frame}
+
+\begin{frame}\frametitle{実験結果}
+\begin{center}
+{\Large}
+\begin{figure}
+\end{figure}
+\end{center}
+\end{frame}
+
+\begin{frame}\frametitle{考察}
+\begin{itemize}
+ \item 
+\end{itemize}
+\end{frame}
+
+\begin{frame}\frametitle{まとめ}
+\begin{itemize}
+ \item 
+\end{itemize}
+\end{frame}
+
+\end{document}
