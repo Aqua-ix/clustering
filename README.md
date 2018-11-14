@@ -1,7 +1,7 @@
 # clustering
 C++ Programming for Clustering
 
-#Algorythm
+# Algorythm
  - HCM
  - sFCM
  - eFCM
