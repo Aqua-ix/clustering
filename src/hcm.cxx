@@ -238,3 +238,7 @@ Vector &Hcm::data(int index1){
 Vector &Hcm::centers(int index1){
   return Centers[index1];
 }
+
+double &Hcm::alpha(int index){
+  return Alpha[index];
+}

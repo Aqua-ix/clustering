@@ -32,7 +32,7 @@ int main(void){
   ifs >> data_number;
   ifs >> data_dimension;
 	
-  Efcma test(data_dimension, data_number, centers_number, 0.5);
+  Efcma test(data_dimension, data_number, centers_number, 1);
 
   for(int cnt=0;cnt<data_number;cnt++){
     for(int ell=0;ell<data_dimension;ell++){
@@ -46,6 +46,7 @@ int main(void){
   std::uniform_int_distribution<> randDataNumber(0,test.data_number()-1);
   for(int i=0;i<test.centers_number();i++){
     test.centers(i)=test.data()[randDataNumber(mt)];
+    test.alpha(i)=1.0/centers_number;
   }
 #ifdef VERBOSE
   std::cout << "v:\n" << test.centers() << std::endl;

@@ -29,6 +29,7 @@ class Hcm{
   Matrix membership(void) const;
   Matrix tmp_membership(void) const;
   Vector alpha(void) const;
+  double &alpha(int index);
   Vector tmp_alpha(void) const;
   int &iterates(void);
   Matrix dissimilarities(void) const;
