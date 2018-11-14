@@ -32,7 +32,7 @@ int main(void){
   ifs >> data_number;
   ifs >> data_dimension;
 	
-  Efcm test(data_dimension, data_number, centers_number, 10.0);
+  Efcma test(data_dimension, data_number, centers_number, 0.5);
 
   for(int cnt=0;cnt<data_number;cnt++){
     for(int ell=0;ell<data_dimension;ell++){
@@ -57,6 +57,7 @@ int main(void){
 #ifdef VERBOSE
     std::cout << "d:\n" << test.dissimilarities() << std::endl;
 #endif
+    test.revise_alpha();
     test.revise_membership();
 #ifdef VERBOSE
     std::cout << "u:\n" << test.membership() << std::endl;
@@ -102,7 +103,7 @@ int main(void){
 #endif
   
   std::string filenameResultMembership
-    =std::string("eFCM-Em")+std::to_string(test.fuzzifierEm())+std::string("-")
+    =std::string("eFCM-Lambda")+std::to_string(test.fuzzifierLambda())+std::string("-")
     +filenameData.substr(0, filenameDataDotPosition)
     +std::string(".result_membership");
   std::ofstream ofs_membership(filenameResultMembership);
@@ -124,7 +125,7 @@ int main(void){
   ofs_membership.close();
 
   std::string filenameResultCenters
-    =std::string("eFCM-Em")+std::to_string(test.fuzzifierEm())+std::string("-")
+    =std::string("eFCM-Lambda")+std::to_string(test.fuzzifierLambda())+std::string("-")
     +filenameData.substr(0, filenameDataDotPosition)
     +std::string(".result_centers");
   std::ofstream ofs_centers(filenameResultCenters);
@@ -149,9 +150,9 @@ int main(void){
 	      << std::endl;
     exit(1);
   }
-  Efcm ClassFunction(test.dimension(), 1, test.centers_number(), test.fuzzifierEm());
+  Efcm ClassFunction(test.dimension(), 1, test.centers_number(), test.fuzzifierLambda());
   std::string filenameClassificationFunction
-    =std::string("eFCM-Em")+std::to_string(test.fuzzifierEm())+std::string("-")
+    =std::string("eFCM-Lambda")+std::to_string(test.fuzzifierLambda())+std::string("-")
     +filenameData.substr(0, filenameDataDotPosition)
     +std::string(".result_classificationFunction");
   std::ofstream ofs_classificationFunction(filenameClassificationFunction);

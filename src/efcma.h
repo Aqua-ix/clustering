@@ -18,7 +18,6 @@ public:
   double fuzzifierLambda(void)const;
   double &fuzzifierLambda(void);
   void revise_membership(void);
-  void revise_centers(void);
   void revise_alpha(void);
 };
 
