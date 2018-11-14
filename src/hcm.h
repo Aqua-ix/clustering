@@ -10,6 +10,7 @@ class Hcm{
   Matrix Data, Centers, Tmp_Centers;
   Matrix Membership, Tmp_Membership, Dissimilarities;
   Matrix CrispMembership, CorrectCrispMembership, ContingencyTable;
+  Vector Alpha,Tmp_Alpha;
   int Iterates;
   double Objective;
  public:
