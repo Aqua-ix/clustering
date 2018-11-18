@@ -15,7 +15,7 @@ C++ Programming for Clustering
 [Boost C++ Libraries](https://www.boost.org/)
 
 ## Command
-###example : qFCM
+### example : qFCM
 ```
 $g++ -DCLASSIFICATION_FUNCTION -DCHECK_ANSWER -std=c++11 hcm.cxx qfcm.cxx sfcm.cxx efcm.cxx  matrix.cxx vector.cxx qfcm_main_2d-Gaussian-2clusters.cxx
 ```
