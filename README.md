@@ -11,7 +11,7 @@ C++ Programming for Clustering
  - qFCMA
 
 # Run
-## Need
+## Require
 [Boost C++ Libraries](https://www.boost.org/)
 
 ## Command
