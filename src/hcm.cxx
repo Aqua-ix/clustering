@@ -239,6 +239,10 @@ Vector &Hcm::centers(int index1){
   return Centers[index1];
 }
 
-double &Hcm::alpha(int index){
-  return Alpha[index];
+Vector Hcm::alpha(void) const{
+  return Alpha;
+}
+
+double &Hcm::alpha(int index1){
+  return Alpha[index1];
 }
