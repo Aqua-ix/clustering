@@ -108,7 +108,7 @@ int main(void){
 #endif
   
   std::string filenameResultMembership
-    =std::string("eFCMA-Em")+std::to_string(test.fuzzifierLambda())+std::string("-")
+    =std::string("eFCMA-Lambda")+std::to_string(test.fuzzifierLambda())+std::string("-")
     +filenameData.substr(0, filenameDataDotPosition)
     +std::string(".result_membership");
   std::ofstream ofs_membership(filenameResultMembership);
@@ -130,7 +130,7 @@ int main(void){
   ofs_membership.close();
 
   std::string filenameResultCenters
-    =std::string("eFCMA-Em")+std::to_string(test.fuzzifierLambda())+std::string("-")
+    =std::string("eFCMA-Lambda")+std::to_string(test.fuzzifierLambda())+std::string("-")
     +filenameData.substr(0, filenameDataDotPosition)
     +std::string(".result_centers");
   std::ofstream ofs_centers(filenameResultCenters);
@@ -157,7 +157,7 @@ int main(void){
   }
   Efcma ClassFunction(test.dimension(), 1, test.centers_number(), test.fuzzifierLambda());
   std::string filenameClassificationFunction
-    =std::string("eFCMA-Em")+std::to_string(test.fuzzifierLambda())+std::string("-")
+    =std::string("eFCMA-Lambda")+std::to_string(test.fuzzifierLambda())+std::string("-")
     +filenameData.substr(0, filenameDataDotPosition)
     +std::string(".result_classificationFunction");
   std::ofstream ofs_classificationFunction(filenameClassificationFunction);
