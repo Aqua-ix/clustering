@@ -33,8 +33,8 @@
 \title{研究内容詳細}
 \subtitle{クラスタリング手法の評価に向けて}
 \author{池辺 颯一}
-\institute{芝浦工業大学}
-\date{2018年12月15日}
+\institute{芝浦工業大学 工学部 通信工学科}
+\date{2018年11月16日}
 
 \begin{document}
 \begin{frame}\frametitle{}
@@ -79,16 +79,10 @@
 \vspace{4mm}
 \begin{block}{目標}
 \begin{itemize}
- \item 各クラスタリング手法のプログラムC++を用いて開発
+ \item 各クラスタリング手法のプログラムをC++を用いて開発
  \item プログラムの実行結果からクラスタリング精度を評価
 \end{itemize}
 \end{block}
-\end{frame}
-
-\begin{frame}\frametitle{実験方法}
-\begin{center}
- \includegraphics[width=100mm]{experiment_process.png}
-\end{center}
 \end{frame}
 
 \begin{frame}\frametitle{実験対象}
@@ -99,10 +93,9 @@
     \item eFCM
    \end{itemize}
   \end{block}
-
  \begin{block}{提案手法}
    \begin{itemize}
-    \item クラスタサイズ調整変数を導入することで処理の高速化を図る
+    \item クラスタサイズ調整変数を導入
     \item sFCMA
     \item pFCMA
     \item eFCMA
@@ -157,7 +150,6 @@
   \end{itemize}
 \end{frame}
 
-
 \begin{frame}\frametitle{アルゴリズム}
 \begin{block}{FCM(Fusssy c-means)}
 \begin{enumerate}
@@ -167,6 +159,12 @@
  \item 収束条件を満たせば終了。満たさなければ2へ。
 \end{enumerate}
 \end{block}
+\end{frame}
+
+\begin{frame}\frametitle{実験方法}
+\begin{center}
+ \includegraphics[width=100mm]{experiment_process.png}
+\end{center}
 \end{frame}
 
 \begin{frame}\frametitle{評価方法}

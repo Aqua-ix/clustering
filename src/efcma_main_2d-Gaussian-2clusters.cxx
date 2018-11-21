@@ -18,7 +18,7 @@ int main(void){
   std::string::size_type filenameDataDotPosition=filenameData.find_last_of(".");
   if(filenameDataDotPosition==std::string::npos){
     std::cerr << "File:" << filenameData
-              << " needs \".\" and filename-extention." << std::endl;
+	      << " needs \".\" and filename-extention." << std::endl;
     exit(1);
   }
 
@@ -32,7 +32,7 @@ int main(void){
   ifs >> data_number;
   ifs >> data_dimension;
 	
-  Efcma test(data_dimension, data_number, centers_number, 1);
+  Efcma test(data_dimension, data_number, centers_number, 10);
 
   for(int cnt=0;cnt<data_number;cnt++){
     for(int ell=0;ell<data_dimension;ell++){
@@ -48,6 +48,8 @@ int main(void){
     test.centers(i)=test.data()[randDataNumber(mt)];
     test.alpha(i)=1.0/centers_number;
   }
+
+  
 #ifdef VERBOSE
   std::cout << "v:\n" << test.centers() << std::endl;
 #endif
@@ -58,7 +60,6 @@ int main(void){
 #ifdef VERBOSE
     std::cout << "d:\n" << test.dissimilarities() << std::endl;
 #endif
-    test.revise_alpha();
     test.revise_membership();
 #ifdef VERBOSE
     std::cout << "u:\n" << test.membership() << std::endl;
@@ -67,10 +68,14 @@ int main(void){
 #ifdef VERBOSE
     std::cout << "v:\n" << test.centers() << std::endl;
 #endif
-
+    test.revise_alpha();
+#ifdef VERBOSE
+    std::cout << "a:\n" << test.alpha() << std::endl;
+#endif
     double diff_u=max_norm(test.tmp_membership()-test.membership());
     double diff_v=max_norm(test.tmp_centers()-test.centers());
-    double diff=diff_u+diff_v;
+    //double diff_a=max_norm(test.tmp_alpha()-test.alpha());
+    double diff=diff_u+diff_v;//+diff_a;
 #ifdef DIFF
     std::cout << "#diff:" << diff << "\t";
     std::cout << "#diff_u:" << diff_u << "\t";
@@ -86,7 +91,6 @@ int main(void){
 
 #ifdef CHECK_ANSWER
   test.set_crispMembership();
-
   std::ifstream ifs_correctCrispMembership(filenameCorrectCrispMembership);
   if(!ifs_correctCrispMembership){
     std::cerr << "File:" << filenameCorrectCrispMembership
@@ -104,7 +108,7 @@ int main(void){
 #endif
   
   std::string filenameResultMembership
-    =std::string("eFCM-Lambda")+std::to_string(test.fuzzifierLambda())+std::string("-")
+    =std::string("eFCMA-Lambda")+std::to_string(test.fuzzifierLambda())+std::string("-")
     +filenameData.substr(0, filenameDataDotPosition)
     +std::string(".result_membership");
   std::ofstream ofs_membership(filenameResultMembership);
@@ -126,7 +130,7 @@ int main(void){
   ofs_membership.close();
 
   std::string filenameResultCenters
-    =std::string("eFCM-Lambda")+std::to_string(test.fuzzifierLambda())+std::string("-")
+    =std::string("eFCMA-Lambda")+std::to_string(test.fuzzifierLambda())+std::string("-")
     +filenameData.substr(0, filenameDataDotPosition)
     +std::string(".result_centers");
   std::ofstream ofs_centers(filenameResultCenters);
@@ -151,9 +155,9 @@ int main(void){
 	      << std::endl;
     exit(1);
   }
-  Efcm ClassFunction(test.dimension(), 1, test.centers_number(), test.fuzzifierLambda());
+  Efcma ClassFunction(test.dimension(), 1, test.centers_number(), test.fuzzifierLambda());
   std::string filenameClassificationFunction
-    =std::string("eFCM-Lambda")+std::to_string(test.fuzzifierLambda())+std::string("-")
+    =std::string("eFCMA-Lambda")+std::to_string(test.fuzzifierLambda())+std::string("-")
     +filenameData.substr(0, filenameDataDotPosition)
     +std::string(".result_classificationFunction");
   std::ofstream ofs_classificationFunction(filenameClassificationFunction);
