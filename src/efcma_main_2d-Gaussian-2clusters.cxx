@@ -10,6 +10,8 @@
 const int centers_number=2;
 
 int main(void){
+  double Lambda = 10.0;
+  
   std::string filenameData("2d-Gaussian-2clusters.dat");
 #ifdef CHECK_ANSWER
   std::string filenameCorrectCrispMembership("2d-Gaussian-2clusters.correctCrispMembership");
@@ -32,7 +34,7 @@ int main(void){
   ifs >> data_number;
   ifs >> data_dimension;
 	
-  Efcma test(data_dimension, data_number, centers_number, 10);
+  Efcma test(data_dimension, data_number, centers_number, Lambda);
 
   for(int cnt=0;cnt<data_number;cnt++){
     for(int ell=0;ell<data_dimension;ell++){
@@ -75,7 +77,7 @@ int main(void){
     double diff_u=max_norm(test.tmp_membership()-test.membership());
     double diff_v=max_norm(test.tmp_centers()-test.centers());
     double diff_a=max_norm(test.tmp_alpha()-test.alpha());
-    double diff=diff_u+diff_v;//+diff_a;
+    double diff=diff_u+diff_v+diff_a;
 #ifdef DIFF
     std::cout << "#diff:" << diff << "\t";
     std::cout << "#diff_u:" << diff_u << "\t";
@@ -108,7 +110,7 @@ int main(void){
 #endif
   
   std::string filenameResultMembership
-    =std::string("eFCMA-Lambda")+std::to_string(test.fuzzifierLambda())+std::string("-")
+    =std::string("eFCMA")/*-Lambda")+std::to_string(test.fuzzifierLambda())*/+std::string("-")
     +filenameData.substr(0, filenameDataDotPosition)
     +std::string(".result_membership");
   std::ofstream ofs_membership(filenameResultMembership);
@@ -130,7 +132,7 @@ int main(void){
   ofs_membership.close();
 
   std::string filenameResultCenters
-    =std::string("eFCMA-Lambda")+std::to_string(test.fuzzifierLambda())+std::string("-")
+    =std::string("eFCMA")/*-Lambda")+std::to_string(test.fuzzifierLambda())*/+std::string("-")
     +filenameData.substr(0, filenameDataDotPosition)
     +std::string(".result_centers");
   std::ofstream ofs_centers(filenameResultCenters);
@@ -157,7 +159,7 @@ int main(void){
   }
   Efcma ClassFunction(test.dimension(), 1, test.centers_number(), test.fuzzifierLambda());
   std::string filenameClassificationFunction
-    =std::string("eFCMA-Lambda")+std::to_string(test.fuzzifierLambda())+std::string("-")
+    =std::string("eFCMA")/*-Lambda")+std::to_string(test.fuzzifierLambda())*/+std::string("-")
     +filenameData.substr(0, filenameDataDotPosition)
     +std::string(".result_classificationFunction");
   std::ofstream ofs_classificationFunction(filenameClassificationFunction);
