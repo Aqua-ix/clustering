@@ -7,5 +7,5 @@
 *.gz
 *.toc
 *.result_centers
-*.result_classificationFunction
 *.result.membership
+*.result_classificationFunction
