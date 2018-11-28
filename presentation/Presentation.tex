@@ -30,11 +30,11 @@
 
 
 %1ページめ
-\title{研究内容詳細}
-\subtitle{クラスタリング手法の評価に向けて}
+\title{通信ゼミナール}
+\subtitle{クラスタリング手法の評価}
 \author{池辺 颯一}
 \institute{芝浦工業大学 工学部 通信工学科}
-\date{2018年12月19日}
+\date{2018年12月12日}
 
 \begin{document}
 \begin{frame}\frametitle{}
@@ -46,7 +46,6 @@
  \item 情報化社会の発展によりデータが複雑かつ膨大に
  \item ビッグデータを人の手で分類するのは難しい
  \item それらのデータを自動的に分類するクラスタリングに着目
- \item 機械学習における教師なし学習にあたる
 \end{itemize}
 \vspace{5mm}
 \begin{figure}[htbp]
@@ -93,7 +92,7 @@
     \item eFCM
    \end{itemize}
   \end{block}
- \begin{block}{提案手法}
+ \begin{block}{比較対象手法}
    \begin{itemize}
     \item クラスタサイズ調整変数を導入
     \item sFCMA
@@ -105,49 +104,64 @@
 
 \begin{frame}\frametitle{クラスタリングの最適化問題}
   \begin{block}{eFCMA}
-  \quad$\underset{u,v,\pi}{\text{minimize}}$
-    $\sum_{i=1}^C\sum_{k=1}^Nu_{i,k}||x_k-v_i||_2^2+\lambda^{-1}\sum_{i=1}^C\sum_{k=1}^Nu_{i,k}\log(\frac{u_{i,k}}{\pi_{i}})$
+  \quad$\underset{u,v,\alpha}{\text{minimize}}$
+    $\sum_{i=1}^C\sum_{k=1}^Nu_{i,k}||x_k-v_i||_2^2+\lambda^{-1}\sum_{i=1}^C\sum_{k=1}^Nu_{i,k}\log\Bigl(\frac{u_{i,k}}{\alpha_{i}}\Bigl)$
   \end{block}
-  %%  \begin{align*}
-  %%   d_{i,k}&=||x_{k}-v_{i}||_{2}^2, \\
-  %%   u_{i,k}&=\frac{\pi_{i}\exp(-\lambda||x_k-v_i||_2^2)}{\sum_{j=1}^C\pi_{j}\exp(-\lambda||x_k-v_j||_2^2)\quad,}\\
-  %%   v_{i}=\frac{\sum_{k=1}^Nu_{i,k}x_{k}}{\quad\sum_{k=1}^Nu_{i,k}},
-  %%   \alpha_{i}&=\frac{\sum_{k=1}^Nu_{i,k}}{\quad N}.
-  %%  \end{align*}
-  %% \end{frame}
-  
-  %% \begin{frame}\frametitle{クラスタリング手法}
+  \begin{center}
+\begin{tabular}{c||c|c||c} \hline
+	{$N$}&データ数&{$x_k$}&データ数 \\ \hline
+	{$C$}&クラスタ数&{$v_i$}&クラスタ中心\\ \hline
+	{$\lambda$}&ファジィ化パラメータ&{$u_{i,k}$}&帰属度 \\ \hline
+	{$\alpha_i$}&クラスタサイズ調整変数\\ \hline
+\end{tabular}
+\end{center}
+   %% \begin{align*}
+   %%   v_{i}=\frac{\sum_{k=1}^Nu_{i,k}x_{k}}{\quad\sum_{k=1}^Nu_{i,k}},\\
+   %% u_{i,k}&=\frac{\pi_{i}\exp(-\lambda||x_k-v_i||_2^2)}{\sum_{j=1}^C\pi_{j}\exp(-\lambda||x_k-v_j||_2^2)},\\
+   %%  \alpha_{i}&=\frac{\sum_{k=1}^Nu_{i,k}}{\quad N}.\\
+   %% \end{align*}
+\end{frame}
+
+\begin{frame}\frametitle{クラスタリングの最適化問題}
   \begin{block}{qFCMA}
     \quad$\underset{u,v,\alpha}{\text{minimize}}$
     $\sum_{i=1}^C\sum_{k=1}^N(\alpha_{i})^{1-m}(u_{i,k})^m||x_k-v_i||_2^2$\\
     \qquad\qquad\qquad\qquad$+\frac{\lambda^{-1}}{m-1}\sum_{i=1}^C\sum_{k=1}^N(\alpha_{i})^{1-m}(u_{i,k})^m$
   \end{block}
-  %%  \begin{align*}
-  %%   d_{i,k}&=||x_{k}-v_{i}||_{2}^2, \\
-  %%   u_{i,k}&=\frac{\alpha_{i}(1+\lambda(1-m)||x_i-v_k||_2^2)^\frac{1}{1-m}}{\quad\sum_{j=1}^C\alpha_{j}(1+\lambda(1-m)||x_j-v_k||_2^2)^\frac{1}{1-m}\quad,}\\
-  %%   v_{i}=\frac{\sum_{k=1}^N(u_{i,k})^mx_{k}}{\quad\sum_{k=1}^N(u_{i,k})^{m}},
-  %%  \end{align*}
-  %% \end{frame}
+  \begin{center}
+\begin{tabular}{c||c|c||c} \hline
+	{$N$}&データ数&{$x_k$}&データ数 \\ \hline
+	{$C$}&クラスタ数&{$v_i$}&クラスタ中心\\ \hline
+	{$\lambda,m$}&ファジィ化パラメータ&{$u_{i,k}$}&帰属度 \\ \hline
+	{$\alpha_i$}&クラスタサイズ調整変数\\ \hline
+\end{tabular}
+\end{center}
+   %% \begin{align*}
+   %%  v_{i}=\frac{\sum_{k=1}^N(u_{i,k})^mx_{k}}{\quad\sum_{k=1}^N(u_{i,k})^{m}},\\
+   %%  u_{i,k}&=\frac{\alpha_{i}(1+\lambda(1-m)||x_i-v_k||_2^2)^\frac{1}{1-m}}{\quad\sum_{j=1}^C\alpha_{j}(1+\lambda(1-m)||x_j-v_k||_2^2)^\frac{1}{1-m}},\\
+   %%  \alpha_{i}&=\frac{1}{\sum_{j=1}^C\left(\sum_{k=1}^N\frac{(u_{j,k})^m(1-\lambda(1-m)d_{j,k})}{(u_i,k)^m(1-\lambda(1-m)d_{i,k})}\right)^{\frac{1}{m}}}.\\
+   %% \end{align*}
+  \end{frame}
 
-%% \begin{frame}\frametitle{クラスタリング手法}
+\begin{frame}\frametitle{クラスタリングの最適化問題}
   \begin{block}{sFCMA}
     \quad$\underset{u,v,\alpha}{\text{minimize}}$
     $\sum_{i=1}^C\sum_{k=1}^N(\alpha_{i})^{1-m}(u_{i,k})^m||x_k-v_i||_2^2$\\
     \qquad{\text{subject to}}$\sum_{i=1}^Cu_{i,k}=1$\;,\;$\sum_{i=1}^C\alpha_{i}=1$\;and\;$u_{i,k}\in[0,1]$\quad$m>1$
   \end{block}
+  \begin{center}
+\begin{tabular}{c||c|c||c} \hline
+	{$N$}&データ数&{$x_k$}&データ数 \\ \hline
+	{$C$}&クラスタ数&{$v_i$}&クラスタ中心\\ \hline
+	{$m$}&ファジィ化パラメータ&{$u_{i,k}$}&帰属度 \\ \hline
+	{$\alpha$}&クラスタサイズ調整変数\\ \hline
+\end{tabular}
+\end{center}
   %% \begin{align*}
-  %%  d_{i,k}&=||x_{k}-v_{i}||_{2}^2=\left(\sqrt{\sum_{\ell=1}^m (x_{k,\ell}-v_{i,\ell})^2}\;\right)^2,\\
-  %%  u_{i,k}&=\frac{1}{\sum_{j=1}^c\frac{\alpha_{j}}{\alpha_{i}}\left(\frac{d_{j,k}}{d_{i,k}}\right)^\frac{1}{1-m}},\quad
-  %%  v_{i}=\frac{\sum_{k=1}^n(u_{i,k})^mx_{k}}{\quad\sum_{k=1}^n(u_{i,k})^{m}},\\
+  %%   v_{i}=\frac{\sum_{k=1}^N(u_{i,k})^mx_{k}}{\quad\sum_{k=1}^N(u_{i,k})^{m}},\\
+  %%  u_{i,k}&=\frac{1}{\sum_{j=1}^c\frac{\alpha_{j}}{\alpha_{i}}\left(\frac{d_{j,k}}{d_{i,k}}\right)^\frac{1}{1-m}},\\
+  %%  \alpha_{i}&=\frac{1}{\sum_{j=1}^C\left(\sum_{k=1}^N\frac{(u_{j,k})^md_{j,k}}{(u_{i,k})^md_{i,k}}\right)^{\frac{1}{m}}}.\\
   %% \end{align*}
-  \begin{itemize}
-    \item $N$ : 個体数
-    \item $C$ : クラスタ数
-    \item $\lambda$, $m$ : ファジィ化パラメータ
-    \item $u_{i,k}$ : $i$番目の個体におけるクラスタ$k$に対する帰属度
-    \item $v_{i}$ : $i$番目のクラスタ中心
-    \item $x_{k}$ : $k$番目の個体
-  \end{itemize}
 \end{frame}
 
 \begin{frame}\frametitle{アルゴリズム}
@@ -172,7 +186,6 @@
 \begin{itemize}
  \item -1から1までの範囲で精度評価を行う指標
  \item 1の時に完全一致で0の時にランダム
- \item マイナスの値はランダムの期待値を下回る
  \item ARIの値が高いほど高評価
 \end{itemize}
 \end{block}
@@ -191,21 +204,12 @@
   \end{block}
 \end{frame}
 
-\begin{frame}\frametitle{進捗状況}
-\begin{itemize}
- \item sFCMを動作させるのに必要なプログラムを実装済
-       \begin{itemize}
-       \item sFCM
-       \item pFCM
-       \item eFCM
-       \end{itemize}
-\end{itemize}
+\begin{frame}\frametitle{実験結果}
 \end{frame}
 
-\begin{frame}\frametitle{課題}
+\begin{frame}\frametitle{考察}
 \begin{itemize}
-\item 処理の高速化
-\item 既存手法からの継承
+\item 
 \end{itemize}
 \end{frame}
 
@@ -221,14 +225,14 @@
     \item プログラムの実行結果からクラスタリング精度を評価
     \end{itemize}
   \end{block}
-  \begin{block}{進捗}
+  \begin{block}{実験結果}
     \begin{itemize}
-    \item sFCMを動作させるのに必要なプログラムが完成
+    \item 
     \end{itemize}
   \end{block}
-  \begin{block}{課題}
-    \begin{itemize}
-    \item 処理の高速化
+  \begin{block}{考察}
+      \begin{itemize}
+    \item 
     \end{itemize}
   \end{block}
 \end{frame}
