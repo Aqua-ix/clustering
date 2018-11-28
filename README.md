@@ -3,21 +3,21 @@ C++ Programming for Clustering
 
 # Algorythm
  - HCM
- - sFCM
  - eFCM
  - qFCM
- - sFCMA
+ - sFCM
  - eFCMA
  - qFCMA
+ - sFCMA
 
 # Run
 ## Require
 [Boost C++ Libraries](https://www.boost.org/)
 
 ## Command
-### example : qFCM
+### example : eFCMA
 ```
-g++ -DCLASSIFICATION_FUNCTION -DCHECK_ANSWER -std=c++11 hcm.cxx qfcm.cxx sfcm.cxx efcm.cxx  matrix.cxx vector.cxx qfcm_main_2d-Gaussian-2clusters.cxx
+g++ -DCLASSIFICATION_FUNCTION -DCHECK_ANSWER -std=c++11 hcm.cxx efcm.cxx qfcm.cxx sfcm.cxx efcma.cxx qfcma.cxx sfcma.cxx matrix.cxx vector.cxx efcma_main_2d-Gaussian-2clusters.cxx
 ```
 To show graph, use [gnuplot](http://www.gnuplot.info/).
 ```
