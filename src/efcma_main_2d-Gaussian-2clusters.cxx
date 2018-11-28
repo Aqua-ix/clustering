@@ -74,7 +74,7 @@ int main(void){
 #endif
     double diff_u=max_norm(test.tmp_membership()-test.membership());
     double diff_v=max_norm(test.tmp_centers()-test.centers());
-    //double diff_a=max_norm(test.tmp_alpha()-test.alpha());
+    double diff_a=max_norm(test.tmp_alpha()-test.alpha());
     double diff=diff_u+diff_v;//+diff_a;
 #ifdef DIFF
     std::cout << "#diff:" << diff << "\t";

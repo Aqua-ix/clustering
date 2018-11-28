@@ -246,3 +246,7 @@ Vector Hcm::alpha(void) const{
 double &Hcm::alpha(int index1){
   return Alpha[index1];
 }
+
+Vector Hcm::tmp_alpha(void) const{
+  return Tmp_Alpha;
+}
