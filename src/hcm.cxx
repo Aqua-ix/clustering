@@ -152,8 +152,8 @@ void Hcm::set_crispMembership(void){
     int max_index=-1;
     for(int i=0;i<centers_number();i++){
       if(Membership[i][k]>max){
-	max=Membership[i][k];
-	max_index=i;
+        max=Membership[i][k];
+        max_index=i;
       }
     }
     CrispMembership[max_index][k]=1.0;

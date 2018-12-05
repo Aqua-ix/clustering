@@ -94,7 +94,7 @@ int main(void){
   
 #ifdef CHECK_ANSWER
   test.set_crispMembership();
-  
+  /*
   std::ifstream ifs_correctCrispMembership(filenameCorrectCrispMembership);
   if(!ifs_correctCrispMembership){
     std::cerr << "File:" << filenameCorrectCrispMembership
@@ -106,6 +106,7 @@ int main(void){
       ifs_correctCrispMembership >> test.correctCrispMembership(i, k);
     }
   }
+  */
   test.set_contingencyTable();
   std::cout << "Contingency Table:\n" << test.contingencyTable() << std::endl;
   std::cout << "ARI:" << test.ARI() << std::endl;
