@@ -11,9 +11,14 @@ const int centers_number=4;
 
 int main(void){
 
-  std::ofstream outputfile("qfcma_user_knowledge_ARI.txt");
-
-  double Em=2.0;
+#ifdef EM
+  std::ofstream outputfile("qfcma_user_knowledge_ARI_Em.txt");
+  double Lambda = 1000;
+#endif
+#ifdef LAMBDA
+  std::ofstream outputfile("qfcma_user_knowledge_ARI_Lambda.txt");
+  double Em =2.0;
+#endif
   
   std::string filenameData("user_knowledge.dat");
   std::string filenameCorrectCrispMembership("user_knowledge.correctCrispMembership");
@@ -25,7 +30,12 @@ int main(void){
     exit(1);
   }
 
-  for(double Lambda=0;Lambda<10000;Lambda+=100){
+#ifdef EM
+  for(double Em=2.0;Em>1;Em-=0.1){
+#endif
+#ifdef LAMBDA
+  for(double Lambda=50;Lambda<=500;Lambda+=10){
+#endif 
     std::ifstream ifs(filenameData);
     if(!ifs){
       std::cerr << "File:" << filenameData
@@ -125,11 +135,16 @@ int main(void){
     test.set_contingencyTable();
     std::cout << "Contingency Table:\n" << test.contingencyTable() << std::endl;
     std::cout << "ARI:" << test.ARI() << std::endl;
+#ifdef EM
+    outputfile<<Em<<"\t";
+#endif
+#ifdef LAMBDA
     outputfile<<Lambda<<"\t";
+#endif
     outputfile<<test.ARI()<<"\t";
     outputfile<<"\n";
 #endif
   }
-  
+  outputfile.close();
   return 0;
 }

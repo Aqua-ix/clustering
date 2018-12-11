@@ -24,7 +24,7 @@ int main(void){
     exit(1);
   }
     
-  for(double Lambda=0;Lambda<10000;Lambda+=100){
+  for(double Lambda=6.0;Lambda<10;Lambda+=0.5){
     std::ifstream ifs(filenameData);
     if(!ifs){
       std::cerr << "File:" << filenameData
@@ -129,5 +129,6 @@ int main(void){
     outputfile<<"\n";
 #endif
   }
+  outputfile.close();
   return 0;
 }

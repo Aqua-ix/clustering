@@ -10,7 +10,8 @@
 const int centers_number=2;
 
 int main(void){
-  double Em=2.0;
+    std::ofstream outputfile("sfcma_user_knowledge_ARI.txt");
+
   
   std::string filenameData("user_knowledge.dat");
   std::string filenameCorrectCrispMembership("user_knowledge.correctCrispMembership");
@@ -21,7 +22,7 @@ int main(void){
               << " needs \".\" and filename-extention." << std::endl;
     exit(1);
   }
-
+  for(double Em=3.0;Em>1;Em-=0.1){
   std::ifstream ifs(filenameData);
   if(!ifs){
     std::cerr << "File:" << filenameData
@@ -120,125 +121,11 @@ int main(void){
   test.set_contingencyTable();
   std::cout << "Contingency Table:\n" << test.contingencyTable() << std::endl;
   std::cout << "ARI:" << test.ARI() << std::endl;
+  outputfile<<Em<<"\t";
+  outputfile<<test.ARI()<<"\t";
+  outputfile<<"\n";
 #endif
-  
-  std::string filenameResultMembership
-    =std::string("sFCMA-")
-    //+std::to_string(test.fuzzifierLambda())+std::string("-")
-    +filenameData.substr(0, filenameDataDotPosition)
-    +std::string(".result_membership");
-  std::ofstream ofs_membership(filenameResultMembership);
-  if(!ofs_membership){
-    std::cerr << "File:" << filenameResultMembership
-	      << "could not open." << std::endl;
-    exit(1);
   }
-
-  for(int k=0;k<test.data_number();k++){
-    for(int ell=0;ell<test.dimension();ell++){
-      ofs_membership << test.data()[k][ell] << "\t";
-    }
-    for(int i=0;i<test.centers_number();i++){
-      ofs_membership << test.membership()[i][k] << "\t";
-    }
-    ofs_membership << std::endl;
-  }
-  ofs_membership.close();
-
-  std::string filenameResultCenters
-    =std::string("sFCMA-")
-    //+std::to_string(test.fuzzifierLambda())+std::string("-")
-    +filenameData.substr(0, filenameDataDotPosition)
-    +std::string(".result_centers");
-  std::ofstream ofs_centers(filenameResultCenters);
-  if(!ofs_centers){
-    std::cerr << "File:" << filenameResultCenters
-	      << "could not open." << std::endl;
-    exit(1);
-  }
-  for(int i=0;i<test.centers_number();i++){
-    for(int ell=0;ell<test.dimension();ell++){
-      ofs_centers << test.centers()[i][ell] << "\t";
-    }
-    ofs_centers << std::endl;
-  }
-  ofs_centers.close();
-
-#ifdef CLASSIFICATION_FUNCTION
-  //Classification Function
-  if(test.dimension()>2){
-    std::cerr << "Dimension:" << test.dimension()
-	      << "is too high for classification function visualization."
-	      << std::endl;
-    exit(1);
-  }
-  Sfcma ClassFunction(test.dimension(), 1, test.centers_number(), test.fuzzifierEm());
-  std::string filenameClassificationFunction
-    =std::string("sFCMA-")
-    //+std::to_string(test.fuzzifierLambda())+std::string("-")
-    +filenameData.substr(0, filenameDataDotPosition)
-    +std::string(".result_classificationFunction");
-  std::ofstream ofs_classificationFunction(filenameClassificationFunction);
-  if(!ofs_classificationFunction){
-    std::cerr << "File:" << filenameClassificationFunction
-	      << "could not open." << std::endl;
-    exit(1);
-  }
-  for(int i=0;i<test.centers_number();i++){
-    ClassFunction.centers(i)=test.centers(i);
-  }
-  Vector Min(test.dimension(), DBL_MAX, "all");
-  Vector Max(test.dimension(), -DBL_MAX, "all");
-  for(int k=0;k<test.data_number();k++){
-    for(int ell=0;ell<test.dimension();ell++){
-      if(Min[ell]>test.data(k, ell)){
-	Min[ell]=test.data(k, ell);
-      }
-      if(Max[ell]<test.data(k, ell)){
-	Max[ell]=test.data(k, ell);
-      }
-    }
-  }
-  Vector Mid=0.5*(Max+Min);
-  Vector Width=Max-Min;
-  Min=Mid-Width;
-  Max=Mid+Width;
-
-  for(double x0=Min[0];x0<=Max[0];x0+=Width[0]/10.0){
-    for(double x1=Min[1];x1<=Max[1];x1+=Width[1]/10.0){
-#ifdef VERBOSE
-      std::cout << "x0:" << x0 << "\t" << "x1:" << x1 << std::endl;
-#endif
-      ClassFunction.data(0,0)=x0;
-      ClassFunction.data(0,1)=x1;
-      while(1){
-	ClassFunction.revise_dissimilarities();
-	ClassFunction.revise_membership();
-	double diff_u=frobenius_norm(ClassFunction.tmp_membership()-ClassFunction.membership());
-#ifdef DIFF
-	std::cout << "diff_u:" << diff_u << std::endl;
-#endif
-	if(diff_u<DIFF_FOR_STOP)break;
-      }
-      for(int ell=0;ell<ClassFunction.dimension();ell++){
-	ofs_classificationFunction << ClassFunction.data()[0][ell] << "\t";
-      }
-      for(int i=0;i<ClassFunction.centers_number();i++){
-	ofs_classificationFunction << ClassFunction.membership()[i][0] << "\t";
-      }
-      double max=0.0;
-      for(int i=0;i<ClassFunction.centers_number();i++){
-	if(max<ClassFunction.membership()[i][0]){
-	  max=ClassFunction.membership()[i][0];
-	}
-      }
-      ofs_classificationFunction << max << "\t";
-      ofs_classificationFunction << std::endl;
-    }
-    ofs_classificationFunction << std::endl;
-  }
-
-#endif
-
+  outputfile.close();
   return 0;
 }
