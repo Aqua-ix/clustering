@@ -10,7 +10,7 @@
 const int centers_number=2;
 
 int main(void){
-  double Em=2.0;
+  double Em=3.0;
   
   std::string filenameData("2d-Gaussian-2clusters.dat");
 #ifdef CHECK_ANSWER
@@ -110,8 +110,8 @@ int main(void){
 #endif
   
   std::string filenameResultMembership
-    =std::string("sFCMA-")
-    //+std::to_string(test.fuzzifierLambda())+std::string("-")
+    =std::string("sFCMA-Em")
+    +std::to_string(test.fuzzifierEm())+std::string("-")
     +filenameData.substr(0, filenameDataDotPosition)
     +std::string(".result_membership");
   std::ofstream ofs_membership(filenameResultMembership);
@@ -133,8 +133,8 @@ int main(void){
   ofs_membership.close();
 
   std::string filenameResultCenters
-    =std::string("sFCMA-")
-    //+std::to_string(test.fuzzifierLambda())+std::string("-")
+    =std::string("sFCMA-Em")
+    +std::to_string(test.fuzzifierEm())+std::string("-")
     +filenameData.substr(0, filenameDataDotPosition)
     +std::string(".result_centers");
   std::ofstream ofs_centers(filenameResultCenters);
@@ -161,8 +161,8 @@ int main(void){
   }
   Sfcma ClassFunction(test.dimension(), 1, test.centers_number(), test.fuzzifierEm());
   std::string filenameClassificationFunction
-    =std::string("sFCMA-")
-    //+std::to_string(test.fuzzifierLambda())+std::string("-")
+    =std::string("sFCMA-Em")
+    +std::to_string(test.fuzzifierEm())+std::string("-")
     +filenameData.substr(0, filenameDataDotPosition)
     +std::string(".result_classificationFunction");
   std::ofstream ofs_classificationFunction(filenameClassificationFunction);

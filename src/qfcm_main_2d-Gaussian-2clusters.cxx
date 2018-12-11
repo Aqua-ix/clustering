@@ -107,7 +107,9 @@ int main(void){
 #endif
   
   std::string filenameResultMembership
-    =std::string("qFCM-Em")+std::to_string(test.fuzzifierEm())+std::string("-")
+    =std::string("qFCM-Em")+std::to_string(test.fuzzifierEm())
+    +std::string("-Lambda")+std::to_string(test.fuzzifierLambda())
+    +std::string("-")
     +filenameData.substr(0, filenameDataDotPosition)
     +std::string(".result_membership");
   std::ofstream ofs_membership(filenameResultMembership);
@@ -129,7 +131,9 @@ int main(void){
   ofs_membership.close();
 
   std::string filenameResultCenters
-    =std::string("qFCM-Em")+std::to_string(test.fuzzifierEm())+std::string("-")
+    =std::string("qFCM-Em")+std::to_string(test.fuzzifierEm())
+    +std::string("-Lambda")+std::to_string(test.fuzzifierLambda())
+    +std::string("-")
     +filenameData.substr(0, filenameDataDotPosition)
     +std::string(".result_centers");
   std::ofstream ofs_centers(filenameResultCenters);
@@ -156,7 +160,9 @@ int main(void){
   }
   Qfcm ClassFunction(test.dimension(), 1, test.centers_number(), test.fuzzifierEm(),test.fuzzifierLambda());
   std::string filenameClassificationFunction
-    =std::string("qFCM-Em")+std::to_string(test.fuzzifierEm())+std::string("-")
+    =std::string("qFCM-Em")+std::to_string(test.fuzzifierEm())
+    +std::string("-Lambda")+std::to_string(test.fuzzifierLambda())
+    +std::string("-")
     +filenameData.substr(0, filenameDataDotPosition)
     +std::string(".result_classificationFunction");
   std::ofstream ofs_classificationFunction(filenameClassificationFunction);

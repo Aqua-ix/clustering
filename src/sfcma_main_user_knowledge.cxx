@@ -2,7 +2,7 @@
 #include<fstream>
 #include<cstdlib>
 #include<random>
-#include"qfcma.h"
+#include"sfcma.h"
 
 #define MAX_ITERATES 100000
 #define DIFF_FOR_STOP 1.0E-10
@@ -10,13 +10,10 @@
 const int centers_number=2;
 
 int main(void){
-  double Em=3.0;
-  double Lambda=1.0;
+  double Em=2.0;
   
-  std::string filenameData("2d-Gaussian-2clusters.dat");
-#ifdef CHECK_ANSWER
-  std::string filenameCorrectCrispMembership("2d-Gaussian-2clusters.correctCrispMembership");
-#endif
+  std::string filenameData("user_knowledge.dat");
+  std::string filenameCorrectCrispMembership("user_knowledge.correctCrispMembership");
 
   std::string::size_type filenameDataDotPosition=filenameData.find_last_of(".");
   if(filenameDataDotPosition==std::string::npos){
@@ -35,21 +32,35 @@ int main(void){
   ifs >> data_number;
   ifs >> data_dimension;
 	
-  Qfcma test(data_dimension, data_number, centers_number, Em, Lambda);
+  Sfcma test(data_dimension, data_number, centers_number, Em);
 
   for(int cnt=0;cnt<data_number;cnt++){
     for(int ell=0;ell<data_dimension;ell++){
       ifs >> test.data(cnt, ell);
     }
   }
-  
+
   /***Initial Centers Setting***/
   std::random_device rnd;
   std::mt19937 mt(rnd());
   std::uniform_int_distribution<> randDataNumber(0,test.data_number()-1);
+  std::ifstream ifs_correctCrispMembership(filenameCorrectCrispMembership);
+  if(!ifs_correctCrispMembership){
+    std::cerr << "File:" << filenameCorrectCrispMembership
+              << " could not open." << std::endl;
+    exit(1);
+  }
+  for(int i=0;i<test.centers_number();i++){
+    for(int k=0;k<test.data_number();k++){
+      ifs_correctCrispMembership >> test.correctCrispMembership(i, k);
+    }
+  }
   for(int i=0;i<test.centers_number();i++){
     test.centers(i)=test.data()[randDataNumber(mt)];
     test.alpha(i)=1.0/centers_number;
+     for(int k=0;k<test.data_number();k++){
+       test.membership(i,k)=test.correctCrispMembership(i, k);
+    }
   }
 #ifdef VERBOSE
   std::cout << "v:\n" << test.centers() << std::endl;
@@ -70,7 +81,7 @@ int main(void){
 #endif
     test.revise_alpha();
 #ifdef VERBOSE
-    std::cout << "a:\n" << test.clusters_size() << std::endl;
+    std::cout << "a:\n" << test.alpha() << std::endl;
 #endif
     
     double diff_u=max_norm(test.tmp_membership()-test.membership());
@@ -83,7 +94,6 @@ int main(void){
     std::cout << "#diff_v:" << diff_v << "\t";
     std::cout << "#diff_a:" << diff_a << "\n";
 #endif
-    
     if(diff<DIFF_FOR_STOP)break;
     if(test.iterates()>=MAX_ITERATES)break;
     test.iterates()++;
@@ -91,13 +101,14 @@ int main(void){
 #ifdef VERBOSE
   std::cout << "v:\n" << test.centers() << std::endl;
 #endif
-  
+
 #ifdef CHECK_ANSWER
   test.set_crispMembership();
+  /*
   std::ifstream ifs_correctCrispMembership(filenameCorrectCrispMembership);
   if(!ifs_correctCrispMembership){
     std::cerr << "File:" << filenameCorrectCrispMembership
-              << " could not open." << std::endl;
+	      << " could not open." << std::endl;
     exit(1);
   }
   for(int i=0;i<test.centers_number();i++){
@@ -105,15 +116,15 @@ int main(void){
       ifs_correctCrispMembership >> test.correctCrispMembership(i, k);
     }
   }
+  */
   test.set_contingencyTable();
   std::cout << "Contingency Table:\n" << test.contingencyTable() << std::endl;
   std::cout << "ARI:" << test.ARI() << std::endl;
 #endif
   
   std::string filenameResultMembership
-    =std::string("qFCMA-Em")+std::to_string(test.fuzzifierEm())
-    +std::string("-Lambda")+std::to_string(test.fuzzifierLambda())
-    +std::string("-")
+    =std::string("sFCMA-")
+    //+std::to_string(test.fuzzifierLambda())+std::string("-")
     +filenameData.substr(0, filenameDataDotPosition)
     +std::string(".result_membership");
   std::ofstream ofs_membership(filenameResultMembership);
@@ -135,9 +146,8 @@ int main(void){
   ofs_membership.close();
 
   std::string filenameResultCenters
-    =std::string("qFCMA-Em")+std::to_string(test.fuzzifierEm())
-    +std::string("-Lambda")+std::to_string(test.fuzzifierLambda())
-    +std::string("-")
+    =std::string("sFCMA-")
+    //+std::to_string(test.fuzzifierLambda())+std::string("-")
     +filenameData.substr(0, filenameDataDotPosition)
     +std::string(".result_centers");
   std::ofstream ofs_centers(filenameResultCenters);
@@ -162,11 +172,10 @@ int main(void){
 	      << std::endl;
     exit(1);
   }
-  Qfcma ClassFunction(test.dimension(), 1, test.centers_number(), test.fuzzifierEm(), test.fuzzifierLambda());
+  Sfcma ClassFunction(test.dimension(), 1, test.centers_number(), test.fuzzifierEm());
   std::string filenameClassificationFunction
-    =std::string("qFCMA-Em")+std::to_string(test.fuzzifierEm())
-    +std::string("-Lambda")+std::to_string(test.fuzzifierLambda())
-    +std::string("-")
+    =std::string("sFCMA-")
+    //+std::to_string(test.fuzzifierLambda())+std::string("-")
     +filenameData.substr(0, filenameDataDotPosition)
     +std::string(".result_classificationFunction");
   std::ofstream ofs_classificationFunction(filenameClassificationFunction);
