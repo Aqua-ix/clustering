@@ -10,8 +10,8 @@
 const int centers_number=2;
 
 int main(void){
-  double Em=3.0;
-  double Lambda=1.0;
+  double Em=2.0;
+  double Lambda=10.0;
   
   std::string filenameData("2d-Gaussian-2clusters.dat");
 #ifdef CHECK_ANSWER
