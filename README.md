@@ -21,7 +21,7 @@ g++ -DCLASSIFICATION_FUNCTION -DCHECK_ANSWER -std=c++11 hcm.cxx efcm.cxx qfcm.cx
 ```
 To show graph, use [gnuplot](http://www.gnuplot.info/).
 ```
-splot "eFCMA-2d-Gaussian-2clusters.result_classificationFunction" using 1:2:3 with lines, "eFCMA-2d-Gaussian-2clusters.result_classificationFunction" using 1:2:4 with lines, "< awk '{if($3>$4){print $1, $2, $3;}}' eFCMA-2d-Gaussian-2clusters.result_membership", "< awk '{if($4>$3){print $1, $2, $4;}}' eFCMA-2d-Gaussian-2clusters.result_membership"
+splot "eFCMA-Lambdax.000000-2d-Gaussian-2clusters.result_classificationFunction" using 1:2:3 with lines, "eFCMA-Lambdax.000000-2d-Gaussian-2clusters.result_classificationFunction" using 1:2:4 with lines, "< awk '{if($3>$4){print $1, $2, $3;}}' eFCMA-Lambdax.000000-2d-Gaussian-2clusters.result_membership", "< awk '{if($4>$3){print $1, $2, $4;}}' eFCMA-Lambdax.000000-2d-Gaussian-2clusters.result_membership"
 ```
 
 ### qFCMA
@@ -30,7 +30,7 @@ g++ -DCLASSIFICATION_FUNCTION -DCHECK_ANSWER -std=c++11 hcm.cxx efcm.cxx qfcm.cx
 ```
 To show graph, use [gnuplot](http://www.gnuplot.info/).
 ```
-splot "qFCMA-2d-Gaussian-2clusters.result_classificationFunction" using 1:2:3 with lines, "qFCMA-2d-Gaussian-2clusters.result_classificationFunction" using 1:2:4 with lines, "< awk '{if($3>$4){print $1, $2, $3;}}' qFCMA-2d-Gaussian-2clusters.result_membership", "< awk '{if($4>$3){print $1, $2, $4;}}' qFCMA-2d-Gaussian-2clusters.result_membership"
+splot "qFCMA-Emx.000000-Lambdax.000000-2d-Gaussian-2clusters.result_classificationFunction" using 1:2:3 with lines, "qFCMA-Emx.000000-Lambdax.000000-2d-Gaussian-2clusters.result_classificationFunction" using 1:2:4 with lines, "< awk '{if($3>$4){print $1, $2, $3;}}' qFCMA-2d-Gaussian-2clusters.result_membership", "< awk '{if($4>$3){print $1, $2, $4;}}' qFCMA-Emx.000000-Lambdax.000000-2d-Gaussian-2clusters.result_membership"
 ```
 
 
@@ -40,6 +40,6 @@ g++ -DCLASSIFICATION_FUNCTION -DCHECK_ANSWER -std=c++11 hcm.cxx efcm.cxx qfcm.cx
 ```
 To show graph, use [gnuplot](http://www.gnuplot.info/).
 ```
-splot "sFCMA-2d-Gaussian-2clusters.result_classificationFunction" using 1:2:3 with lines, "sFCMA-2d-Gaussian-2clusters.result_classificationFunction" using 1:2:4 with lines, "< awk '{if($3>$4){print $1, $2, $3;}}' sFCMA-2d-Gaussian-2clusters.result_membership", "< awk '{if($4>$3){print $1, $2, $4;}}' sFCMA-2d-Gaussian-2clusters.result_membership"
+splot "sFCMA-Emx.000000-2d-Gaussian-2clusters.result_classificationFunction" using 1:2:3 with lines, "sFCMA-Emx.000000-2d-Gaussian-2clusters.result_classificationFunction" using 1:2:4 with lines, "< awk '{if($3>$4){print $1, $2, $3;}}' sFCMA-Emx.000000-2d-Gaussian-2clusters.result_membership", "< awk '{if($4>$3){print $1, $2, $4;}}' sFCMA-Emx.000000-2d-Gaussian-2clusters.result_membership"
 ```
 
