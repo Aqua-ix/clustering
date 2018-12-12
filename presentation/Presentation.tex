@@ -15,19 +15,18 @@
 \usepackage{caption}
 \setbeamertemplate{navigation symbols}{} 
 \usepackage{graphicx}
-%\usepackage[dvipdfmx]{graphicx}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{txfonts}
 \usepackage{colortbl}
 \usepackage{svg}
+\usepackage{pdfpages}
 \renewcommand{\familydefault}{\sfdefault}
 \renewcommand{\kanjifamilydefault}{\gtdefault}
 \setbeamerfont{title}{size=\large,series=\bfseries}
 \setbeamerfont{frametitle}{size=\large,series=\bfseries}
 \setbeamertemplate{frametitle}[default][center]
 \usefonttheme{professionalfonts} 
-
 
 %1ページめ
 \title{通信ゼミナール}
@@ -72,14 +71,14 @@
 \begin{frame}\frametitle{目的・目標}
 \begin{block}{目的}
 \begin{itemize}
- \item クラスタリング手法の1つであるFussy c-meansにクラスタサイズ調整変数を導入した最適化問題の中から最も精度が高いものを発見する
+\item クラスタリング手法の1つであるFussy c-meansの中からよりよい手法を発見する
 \end{itemize}
 \end{block}
 \vspace{4mm}
 \begin{block}{目標}
-\begin{itemize}
- \item 各クラスタリング手法のプログラムをC++を用いて開発
- \item プログラムの実行結果からクラスタリング精度を評価
+  \begin{itemize}
+  \item クラスタサイズ調整変数を導入した最適化問題の中から最も精度が高いものを発見する
+  \item C++プログラムの実行結果からクラスタリング精度を評価
 \end{itemize}
 \end{block}
 \end{frame}
@@ -140,7 +139,7 @@
    %%  u_{i,k}&=\frac{\alpha_{i}(1+\lambda(1-m)||x_i-v_k||_2^2)^\frac{1}{1-m}}{\quad\sum_{j=1}^C\alpha_{j}(1+\lambda(1-m)||x_j-v_k||_2^2)^\frac{1}{1-m}},\\
    %%  \alpha_{i}&=\frac{1}{\sum_{j=1}^C\left(\sum_{k=1}^N\frac{(u_{j,k})^m(1-\lambda(1-m)d_{j,k})}{(u_i,k)^m(1-\lambda(1-m)d_{i,k})}\right)^{\frac{1}{m}}}.\\
    %% \end{align*}
-  \end{frame}
+\end{frame}
 
 \begin{frame}\frametitle{クラスタリングの最適化問題}
   \begin{block}{sFCMA}
@@ -192,18 +191,161 @@
 \end{center}
 \end{frame}
 
-\begin{frame}\frametitle{使用する実データ}
-  \begin{block}{Yeast Data Set}
+\begin{frame}\frametitle{人工データ実験}
+  \begin{block}{使用する人工データ}
     \begin{itemize}
-    \item Yeast(酵母)の形など9属性を収録したデータ
-    \item ソース : UCI  Machine Learning Repository
-    \item 個体数 : 1484
-    \item クラス数 : 10
+    \item 平均値（-1, -1）標準偏差（0.5, 0.5）のガウスサンプリングで生成
+   　\item データ数: 100
+    \item クラス数 : 2
     \end{itemize}
   \end{block}
 \end{frame}
 
+\begin{frame}\frametitle{実験結果:人工データ}
+  \begin{block}{eFCMA}
+   \begin{figure}[htbp]
+    \begin{center}
+    %%\includepdf[]{eFCMA-Lambda10.000000-2d-Gaussian-2clusters.result_classificationFunction.pdf}
+   \end{center}
+   \captionsetup{labelformat=empty,labelsep=none}
+   \caption{$\lambda=10.0$}
+  \end{figure}
+ \end{block}
+\end{frame}
+
+\begin{frame}\frametitle{実験結果:人工データ}
+  \begin{block}{qFCMA}
+  %\vspace{5mm}
+   \begin{figure}[htbp]
+ \begin{minipage}{0.32\hsize}
+  \begin{center}
+   %\includegraphics[width=32mm]{qfcma2_2.png}
+  \end{center}
+  \captionsetup{labelformat=empty,labelsep=none}
+  \caption{$m=1.1, \lambda=10.0$}
+  \label{fig:one}
+ \end{minipage}
+%\hspace{1cm}
+ \begin{minipage}{0.32\hsize}
+  \begin{center}
+   %\includegraphics[width=32mm]{qfcma1_2.png}
+  \end{center}
+  \captionsetup{labelformat=empty,labelsep=none}
+  \caption{$m=2.0, \lambda=10.0$}
+  \label{fig:two}
+ \end{minipage}
+ %\hspace{1cm}
+ \begin{minipage}{0.32\hsize}
+  \begin{center}
+   %\includegraphics[width=32mm]{qfcma2_100000.png}
+  \end{center}
+  \captionsetup{labelformat=empty,labelsep=none}
+  \caption{$m=2.0, \lambda=10000$}
+  \label{fig:three}
+ \end{minipage}
+\end{figure}
+ \end{block}
+\end{frame}
+
+\begin{frame}\frametitle{実験結果:人工データ}
+  \begin{block}{sFCMA}
+   \begin{figure}[htbp]
+    \begin{center}
+    %%\includepdf[]{sFCMA-Em2.000000-2d-Gaussian-2clusters.result_classificationFunction.pdf}
+   \end{center}
+    \captionsetup{labelformat=empty,labelsep=none}
+   \caption{$m=2.0$}
+  \end{figure}
+ \end{block}
+\end{frame}
+
+\begin{frame}\frametitle{実データ実験}
+  \begin{block}{User Knowledge Modeling Data Set}
+    \begin{itemize}
+    \item 被験者の勉強時間、試験結果など5属性を収録したデータ
+    \item ソース : UCI  Machine Learning Repository
+    \item 個体数 : 403
+    \item クラス数 : 4(非常に低い、低い、中央、高い)
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+
+\begin{frame}\frametitle{実験条件}
+\begin{block}{eFCMA}
+  パラメータ$\lambda$を6.0から0.1刻みで10.0まで変化させた際のARIを導出
+\end{block}
+\begin{block}{sFCMA}
+  パラメータ$m$を3.0から0.1刻みで1.1まで変化させた際のARIを導出
+\end{block}
+\begin{block}{qFCMA}
+  \begin{itemize}
+  \item パラメータ$\lambda$を10.0で固定し、パラメータmを2.0から0.1刻みで1.1まで変化させた際のARIを導出
+  \item パラメータ$m$を2.0で固定し、パラメータ$\lambda$50.0から10刻みで200まで変化させた際のARIを導出
+  \end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}\frametitle{実験結果:実データ}
+  \begin{block}{eFCMA}
+   \begin{figure}[htbp]
+    \begin{center}
+    %%\includegraphics[height=60mm]{efcma_0_01_1.pdf}
+   \end{center}
+   \captionsetup{labelformat=empty,labelsep=none}
+   \caption{最高ARI:0.309493}
+  \end{figure}
+ \end{block}
+\end{frame}
+
+
+\begin{frame}\frametitle{実験結果:実データ}
+  \begin{block}{qFCMA}
+   \begin{figure}[htbp]
+    \begin{center}
+    %%\includegraphics[height=60mm]{qfcma_1_00_10_0-1.pdf}
+   \end{center}
+   \captionsetup{labelformat=empty,labelsep=none}
+   \caption{$\lambda$=10.0  最高ARI:0.229751}
+  \end{figure}
+ \end{block}
+\end{frame}
+
+\begin{frame}\frametitle{実験結果:実データ}
+  \begin{block}{qFCMA}
+   \begin{figure}[htbp]
+    \begin{center}
+    %%\includegraphics[height=60mm]{qfcma_1_00-0_01_1.pdf}
+   \end{center}
+   \captionsetup{labelformat=empty,labelsep=none}
+   \caption{m=2.0 最高ARI:0.214619}
+  \end{figure}
+ \end{block}
+\end{frame}
+
+\begin{frame}\frametitle{実験結果:実データ}
+  \begin{block}{sFCMA}
+   \begin{figure}[htbp]
+    \begin{center}
+    %%\includegraphics[height=60mm]{sfcma_1_00_10.pdf}
+   \end{center}
+   \captionsetup{labelformat=empty,labelsep=none}
+   \caption{最高ARI:0.73515}
+  \end{figure}
+ \end{block}
+\end{frame}
+
 \begin{frame}\frametitle{実験結果}
+\begin{block}{各手法の最高ARI}
+\vspace{5mm}
+  \begin{table}[htb]
+   \begin{tabular}{ l | c }\hline
+     eFCMA & 0.309493 \\ \hline  
+     qFCMA & 0.222143\\  \hline
+     sFCMA & 0.73515\\ \hline
+   \end{tabular}
+  \end{table}
+ \end{block}
 \end{frame}
 
 \begin{frame}\frametitle{考察}
@@ -215,13 +357,13 @@
 \begin{frame}\frametitle{まとめ}
   \begin{block}{目的}
     \begin{itemize}
-    \item クラスタリング手法の1つであるFussy c-meansを応用した最適化問題の中から最も精度が高いものを発見する
+    \item クラスタリング手法の1つであるFussy c-meansの中からより確実な手法を発見する
     \end{itemize}
   \end{block}
   \begin{block}{目標}
     \begin{itemize}
-    \item 各クラスタリング手法のプログラムC++を用いて開発
-    \item プログラムの実行結果からクラスタリング精度を評価
+     \item クラスタサイズ調整変数を導入した最適化問題の中から最も精度が高いものを発見する
+     \item C++プログラムの実行結果からクラスタリング精度を評価
     \end{itemize}
   \end{block}
   \begin{block}{実験結果}
@@ -234,6 +376,30 @@
     \item 
     \end{itemize}
   \end{block}
+\end{frame}
+
+\begin{frame}\frametitle{補足:eFCMAの更新式}
+   \begin{eqnarray*}
+   &v_{i}& =\frac{\sum_{k=1}^Nu_{i,k}x_{k}}{\quad\sum_{k=1}^Nu_{i,k}},\\
+   &u_{i,k}&=\frac{\pi_{i}\exp(-\lambda||x_k-v_i||_2^2)}{\sum_{j=1}^C\pi_{j}\exp(-\lambda||x_k-v_j||_2^2)},\\
+   &\alpha_{i}&=\frac{\sum_{k=1}^Nu_{i,k}}{\quad N}.\\
+   \end{eqnarray*}
+\end{frame}
+
+\begin{frame}\frametitle{補足:qFCMAの更新式}
+  \begin{eqnarray*}
+    &v_{i}&=\frac{\sum_{k=1}^N(u_{i,k})^mx_{k}}{\quad\sum_{k=1}^N(u_{i,k})^{m}},\quad\\
+    &u_{i,k}&=\frac{\alpha_{i}(1+\lambda(1-m)||x_i-v_k||_2^2)^\frac{1}{1-m}}{\quad\sum_{j=1}^C\alpha_{j}(1+\lambda(1-m)||x_j-v_k||_2^2)^\frac{1}{1-m}},\\
+    & \alpha_{i}&=\frac{1}{\sum_{j=1}^C\left(\sum_{k=1}^N\frac{(u_{j,k})^m(1-\lambda(1-m)d_{j,k})}{(u_i,k)^m(1-\lambda(1-m)d_{i,k})}\right)^{\frac{1}{m}}}.\\
+      \end{eqnarray*}
+\end{frame}
+
+\begin{frame}\frametitle{補足:sFCMAの更新式}
+  \begin{eqnarray*}
+  &v_{i}&=\frac{\sum_{k=1}^N(u_{i,k})^mx_{k}}{\quad\sum_{k=1}^N(u_{i,k})^{m}},\\
+  &u_{i,k}&=\frac{1}{\sum_{j=1}^c\frac{\alpha_{j}}{\alpha_{i}}\left(\frac{d_{j,k}}{d_{i,k}}\right)^\frac{1}{1-m}},\\
+  &\alpha_{i}&=\frac{1}{\sum_{j=1}^C\left(\sum_{k=1}^N\frac{(u_{j,k})^md_{j,k}}{(u_{i,k})^md_{i,k}}\right)^{\frac{1}{m}}}.\\
+  \end{eqnarray*}
 \end{frame}
 
 \end{document}
