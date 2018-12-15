@@ -11,7 +11,7 @@
 % pdfの栞の字化けを防ぐ
 \AtBeginDvi{\special{pdf:tounicode EUC-UCS2}}
 % テーマ
-\usetheme{Madrid}
+\usetheme{CambridgeUS}
 \usepackage{caption}
 \setbeamertemplate{navigation symbols}{} 
 \usepackage{graphicx}
@@ -29,8 +29,7 @@
 \usefonttheme{professionalfonts} 
 
 %1ページめ
-\title{通信ゼミナール}
-\subtitle{クラスタリング手法の評価}
+\title{クラスタ調整変数を導入したクラスタリング手法の評価}
 \author{池辺 颯一}
 \institute{芝浦工業大学 工学部 通信工学科}
 \date{2018年12月12日}
@@ -86,16 +85,16 @@
 \begin{frame}\frametitle{実験対象}
   \begin{block}{既存手法}
    \begin{itemize}
-    \item sFCM
-    \item pFCM
     \item eFCM
+    \item qFCM
+    \item sFCM
    \end{itemize}
   \end{block}
  \begin{block}{比較対象手法(上記手法にクラスタサイズ調整変数を導入)}
    \begin{itemize}
-    \item sFCMA
-    \item pFCMA
     \item eFCMA
+    \item qFCMA
+    \item sFCMA
    \end{itemize}
  \end{block}
 \end{frame}
@@ -214,6 +213,19 @@
 \end{frame}
 
 \begin{frame}\frametitle{実験結果:人工データ}
+  \begin{block}{sFCMA}
+   \begin{figure}[htbp]
+    \begin{center}
+    \includegraphics[height=60mm]{sFCMA-Em2.png}
+   \end{center}
+    \captionsetup{labelformat=empty,labelsep=none}
+   \caption{$m=2.0$}
+  \end{figure}
+ \end{block}
+\end{frame}
+
+
+\begin{frame}\frametitle{実験結果:人工データ}
   \begin{block}{qFCMA}
   %\vspace{5mm}
    \begin{figure}[htbp]
@@ -247,18 +259,6 @@
  \end{block}
 \end{frame}
 
-\begin{frame}\frametitle{実験結果:人工データ}
-  \begin{block}{sFCMA}
-   \begin{figure}[htbp]
-    \begin{center}
-    \includegraphics[height=60mm]{sFCMA-Em2.png}
-   \end{center}
-    \captionsetup{labelformat=empty,labelsep=none}
-   \caption{$m=2.0$}
-  \end{figure}
- \end{block}
-\end{frame}
-
 \begin{frame}\frametitle{実データ実験}
   \begin{block}{User Knowledge Modeling Data Set}
     \begin{itemize}
@@ -275,15 +275,16 @@
 \begin{block}{eFCMA}
   パラメータ$\lambda$を6.0から0.1刻みで10.0まで変化させた際のARIを導出
 \end{block}
-\begin{block}{sFCMA}
-  パラメータ$m$を3.0から0.1刻みで1.1まで変化させた際のARIを導出
-\end{block}
 \begin{block}{qFCMA}
   \begin{itemize}
   \item パラメータ$\lambda$を10.0で固定し、パラメータmを2.0から0.1刻みで1.1まで変化させた際のARIを導出
   \item パラメータ$m$を2.0で固定し、パラメータ$\lambda$50.0から10刻みで200まで変化させた際のARIを導出
   \end{itemize}
 \end{block}
+\begin{block}{sFCMA}
+  パラメータ$m$を3.0から0.1刻みで1.1まで変化させた際のARIを導出
+\end{block}
+
 \end{frame}
 
 \begin{frame}\frametitle{実験結果:実データ}
@@ -345,13 +346,23 @@
      sFCMA & 0.73515\\ \hline
    \end{tabular}
   \end{table}
+  sFCMAが最も高評価となった
  \end{block}
 \end{frame}
 
-\begin{frame}\frametitle{考察}
-\begin{itemize}
-\item 
-\end{itemize}
+\begin{frame}\frametitle{考察・課題}
+  \begin{block}{考察}
+    \begin{itemize}
+    \item sFCMAとeFCMA、qFCMAとの差は、エントロピー項の有無。
+    \item エントロピー項を削除したことが計算結果に影響したと考えられる。
+    \end{itemize}
+    \end{block}
+  \begin{block}{課題}
+    \begin{itemize}
+    \item 他の実データでも同様の傾向が現れるかどうかの検証。
+    \item エントロピー項が影響する原因及び理由の調査。
+    \end{itemize}
+    \end{block}
 \end{frame}
 
 \begin{frame}\frametitle{まとめ}
@@ -368,12 +379,12 @@
   \end{block}
   \begin{block}{実験結果}
     \begin{itemize}
-    \item 
+    \item sFCMAが高評価となった
     \end{itemize}
   \end{block}
   \begin{block}{考察}
-      \begin{itemize}
-    \item 
+    \begin{itemize}
+    \item エントロピー項を削除したことが計算結果に影響したと考えられる
     \end{itemize}
   \end{block}
 \end{frame}
