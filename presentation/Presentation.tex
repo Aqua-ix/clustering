@@ -29,7 +29,7 @@
 \usefonttheme{professionalfonts} 
 
 %1ページめ
-\title{クラスタ調整変数を導入したクラスタリング手法の評価}
+\title{クラスタサイズ調整変数を導入したクラスタリング手法の評価}
 \author{池辺 颯一}
 \institute{芝浦工業大学 工学部 通信工学科}
 \date{2018年12月12日}
@@ -77,20 +77,12 @@
 \begin{block}{目標}
   \begin{itemize}
   \item クラスタサイズ調整変数を導入した最適化問題の中から最も精度が高いものを発見する
-  \item C++プログラムの実行結果からクラスタリング精度を評価
 \end{itemize}
 \end{block}
 \end{frame}
 
 \begin{frame}\frametitle{実験対象}
-  \begin{block}{既存手法}
-   \begin{itemize}
-    \item eFCM
-    \item qFCM
-    \item sFCM
-   \end{itemize}
-  \end{block}
- \begin{block}{比較対象手法(上記手法にクラスタサイズ調整変数を導入)}
+ \begin{block}{提案手法}
    \begin{itemize}
     \item eFCMA
     \item qFCMA
@@ -103,20 +95,16 @@
   \begin{block}{eFCMA}
   \quad$\underset{u,v,\alpha}{\text{minimize}}$
     $\sum_{i=1}^C\sum_{k=1}^Nu_{i,k}||x_k-v_i||_2^2+\lambda^{-1}\sum_{i=1}^C\sum_{k=1}^Nu_{i,k}\log\Bigl(\frac{u_{i,k}}{\alpha_{i}}\Bigl)$
+    \qquad{\text{subject to}}$\sum_{i=1}^Cu_{i,k}=1$\;,\;$\sum_{i=1}^C\alpha_{i}=1$\;and\;$u_{i,k}\in[0,1]$\quad$m>1$
   \end{block}
   \begin{center}
-\begin{tabular}{c||c|c||c} \hline
+\begin{tabular}{c|c||c|c} \hline
 	{$N$}&データ数&{$x_k$}&データ数 \\ \hline
 	{$C$}&クラスタ数&{$v_i$}&クラスタ中心\\ \hline
 	{$\lambda$}&ファジィ化パラメータ&{$u_{i,k}$}&帰属度 \\ \hline
 	{$\alpha_i$}&クラスタサイズ調整変数\\ \hline
 \end{tabular}
 \end{center}
-   %% \begin{align*}
-   %%   v_{i}=\frac{\sum_{k=1}^Nu_{i,k}x_{k}}{\quad\sum_{k=1}^Nu_{i,k}},\\
-   %% u_{i,k}&=\frac{\pi_{i}\exp(-\lambda||x_k-v_i||_2^2)}{\sum_{j=1}^C\pi_{j}\exp(-\lambda||x_k-v_j||_2^2)},\\
-   %%  \alpha_{i}&=\frac{\sum_{k=1}^Nu_{i,k}}{\quad N}.\\
-   %% \end{align*}
 \end{frame}
 
 \begin{frame}\frametitle{クラスタリングの最適化問題}
@@ -124,20 +112,16 @@
     \quad$\underset{u,v,\alpha}{\text{minimize}}$
     $\sum_{i=1}^C\sum_{k=1}^N(\alpha_{i})^{1-m}(u_{i,k})^m||x_k-v_i||_2^2$\\
     \qquad\qquad\qquad\qquad$+\frac{\lambda^{-1}}{m-1}\sum_{i=1}^C\sum_{k=1}^N(\alpha_{i})^{1-m}(u_{i,k})^m$
+    \qquad{\text{subject to}}$\sum_{i=1}^Cu_{i,k}=1$\;,\;$\sum_{i=1}^C\alpha_{i}=1$\;and\;$u_{i,k}\in[0,1]$\quad$m>1$
   \end{block}
   \begin{center}
-\begin{tabular}{c||c|c||c} \hline
+\begin{tabular}{c|c||c|c} \hline
 	{$N$}&データ数&{$x_k$}&データ数 \\ \hline
 	{$C$}&クラスタ数&{$v_i$}&クラスタ中心\\ \hline
 	{$\lambda,m$}&ファジィ化パラメータ&{$u_{i,k}$}&帰属度 \\ \hline
 	{$\alpha_i$}&クラスタサイズ調整変数\\ \hline
 \end{tabular}
 \end{center}
-   %% \begin{align*}
-   %%  v_{i}=\frac{\sum_{k=1}^N(u_{i,k})^mx_{k}}{\quad\sum_{k=1}^N(u_{i,k})^{m}},\\
-   %%  u_{i,k}&=\frac{\alpha_{i}(1+\lambda(1-m)||x_i-v_k||_2^2)^\frac{1}{1-m}}{\quad\sum_{j=1}^C\alpha_{j}(1+\lambda(1-m)||x_j-v_k||_2^2)^\frac{1}{1-m}},\\
-   %%  \alpha_{i}&=\frac{1}{\sum_{j=1}^C\left(\sum_{k=1}^N\frac{(u_{j,k})^m(1-\lambda(1-m)d_{j,k})}{(u_i,k)^m(1-\lambda(1-m)d_{i,k})}\right)^{\frac{1}{m}}}.\\
-   %% \end{align*}
 \end{frame}
 
 \begin{frame}\frametitle{クラスタリングの最適化問題}
@@ -147,18 +131,13 @@
     \qquad{\text{subject to}}$\sum_{i=1}^Cu_{i,k}=1$\;,\;$\sum_{i=1}^C\alpha_{i}=1$\;and\;$u_{i,k}\in[0,1]$\quad$m>1$
   \end{block}
   \begin{center}
-\begin{tabular}{c||c|c||c} \hline
+\begin{tabular}{c|c||c|c} \hline
 	{$N$}&データ数&{$x_k$}&データ数 \\ \hline
 	{$C$}&クラスタ数&{$v_i$}&クラスタ中心\\ \hline
 	{$m$}&ファジィ化パラメータ&{$u_{i,k}$}&帰属度 \\ \hline
 	{$\alpha$}&クラスタサイズ調整変数\\ \hline
 \end{tabular}
 \end{center}
-  %% \begin{align*}
-  %%   v_{i}=\frac{\sum_{k=1}^N(u_{i,k})^mx_{k}}{\quad\sum_{k=1}^N(u_{i,k})^{m}},\\
-  %%  u_{i,k}&=\frac{1}{\sum_{j=1}^c\frac{\alpha_{j}}{\alpha_{i}}\left(\frac{d_{j,k}}{d_{i,k}}\right)^\frac{1}{1-m}},\\
-  %%  \alpha_{i}&=\frac{1}{\sum_{j=1}^C\left(\sum_{k=1}^N\frac{(u_{j,k})^md_{j,k}}{(u_{i,k})^md_{i,k}}\right)^{\frac{1}{m}}}.\\
-  %% \end{align*}
 \end{frame}
 
 \begin{frame}\frametitle{アルゴリズム}
