@@ -24,7 +24,7 @@ int main(void){
     exit(1);
   }
     
-  for(double Lambda=6.0;Lambda<10;Lambda+=0.5){
+  for(double Lambda=5.0;Lambda<10.0;Lambda+=0.1){
     std::ifstream ifs(filenameData);
     if(!ifs){
       std::cerr << "File:" << filenameData

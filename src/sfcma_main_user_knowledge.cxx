@@ -22,7 +22,7 @@ int main(void){
               << " needs \".\" and filename-extention." << std::endl;
     exit(1);
   }
-  for(double Em=3.0;Em>1;Em-=0.1){
+  for(double Em=2.0;Em>1.01;Em-=0.01){
   std::ifstream ifs(filenameData);
   if(!ifs){
     std::cerr << "File:" << filenameData
