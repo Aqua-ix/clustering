@@ -178,7 +178,7 @@
 \begin{frame}\frametitle{実験結果:人工データ}
   \begin{block}{eFCMA}
     \begin{figure}[htbp]
-      \begin{minipage}{0.4\hsize}
+      \begin{minipage}{0.32\hsize}
         \begin{center}
           \includegraphics[width=40mm]{eFCMA-Lambda1.png}
         \end{center}
@@ -186,8 +186,7 @@
         \caption{$\lambda=1$}
         \label{fig:one}
       \end{minipage}
-      \hspace{1cm}
-      \begin{minipage}{0.4\hsize}
+      \begin{minipage}{0.32\hsize}
         \begin{center}
           \includegraphics[width=40mm]{eFCMA-Lambda10000.png}
         \end{center}
@@ -195,6 +194,14 @@
         \caption{$\lambda=10000$}
         \label{fig:two}
       \end{minipage}
+     \begin{minipage}{0.32\hsize}
+        \begin{center}
+          \includegraphics[width=40mm]{HCM.png}
+        \end{center}
+        \captionsetup{labelformat=empty,labelsep=none}
+        \caption{HCM}
+      \label{fig:three}
+     \end{minipage}
     \end{figure}
   \end{block}
   \begin{block}{eFCMAの特徴}
@@ -207,7 +214,7 @@
 \begin{frame}\frametitle{実験結果:人工データ}
   \begin{block}{sFCMA}
     \begin{figure}[htbp]
-      \begin{minipage}{0.4\hsize}
+      \begin{minipage}{0.32\hsize}
         \begin{center}
           \includegraphics[width=40mm]{sFCMA-Em2.png}
         \end{center}
@@ -215,8 +222,7 @@
         \caption{$m=2$}
         \label{fig:one}
       \end{minipage}
-      \hspace{1cm}
-      \begin{minipage}{0.4\hsize}
+      \begin{minipage}{0.32\hsize}
         \begin{center}
           \includegraphics[width=40mm]{sFCMA-Em11.png}
         \end{center}
@@ -224,6 +230,14 @@
         \caption{$m=1.01$}
         \label{fig:two}
       \end{minipage}
+     \begin{minipage}{0.32\hsize}
+        \begin{center}
+          \includegraphics[width=40mm]{HCM.png}
+        \end{center}
+        \captionsetup{labelformat=empty,labelsep=none}
+        \caption{HCM}
+        \label{fig:three}
+     \end{minipage}
     \end{figure}
   \end{block}
   \begin{block}{sFCMAの特徴}
@@ -237,7 +251,7 @@
   \begin{block}{qFCMA}
     %\vspace{5mm}
     \begin{figure}[htbp]
-      \begin{minipage}{0.32\hsize}
+      \begin{minipage}{0.4\hsize}
         \begin{center}
           \includegraphics[width=32mm]{qFCMA-Em11-Lambda10.png}
         \end{center}
@@ -246,29 +260,20 @@
         \label{fig:one}
       \end{minipage}
       %\hspace{1cm}
-      \begin{minipage}{0.32\hsize}
-        \begin{center}
-          \includegraphics[width=32mm]{qFCMA-Em2-Lambda10.png}
-        \end{center}
-        \captionsetup{labelformat=empty,labelsep=none}
-        \caption{$m=2$\;, \;$\lambda=10$}
-        \label{fig:two}
-      \end{minipage}
-      %\hspace{1cm}
-      \begin{minipage}{0.32\hsize}
+      \begin{minipage}{0.4\hsize}
         \begin{center}
           \includegraphics[width=32mm]{qFCMA-Em2-Lambda10000.png}
         \end{center}
         \captionsetup{labelformat=empty,labelsep=none}
         \caption{$m=2$\;, \;$\lambda=10000$}
-        \label{fig:three}
+        \label{fig:two}
       \end{minipage}
     \end{figure}
   \end{block}
   \begin{block}{qFCMAの特徴}
     \begin{itemize}
       \item パラメータ$\lambda$を無限大に近づけるとsFCMAに近づく
-      \item パラメータ$m$を1に近づけるとeFCMAに近づく    
+      \item パラメータ$m$を1に近づけるとeFCMAに近づく
     \end{itemize}
   \end{block}
 \end{frame}
