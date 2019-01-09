@@ -69,15 +69,11 @@
 
 \begin{frame}\frametitle{目的・目標}
   \begin{block}{目的}
-    \begin{itemize}
-    \item 
-    \end{itemize}
+   より精度が高いクラスタリング手法の発見
   \end{block}
   \vspace{4mm}
   \begin{block}{目標}
-    \begin{itemize}
-    \item 
-    \end{itemize}
+   クラスタサイズ調整変数を導入した3つの手法について比較と評価を行う
   \end{block}
 \end{frame}
 
@@ -90,13 +86,6 @@
     \end{itemize}
   \end{block}
 \end{frame}
-
-\begin{frame}\frametitle{研究評価方法}
-  \begin{enumerate}
-  \item 
-  \end{enumerate}
-\end{frame}
-
 
 \begin{frame}\frametitle{クラスタリングの最適化問題}
   \begin{block}{eFCMA}
@@ -147,7 +136,7 @@
   \end{center}
 \end{frame}
 
-\begin{frame}\frametitle{実験方法}
+\begin{frame}\frametitle{研究方法}
   \begin{enumerate}
   \item 人工データ実験
   \item 実データ実験
@@ -304,18 +293,18 @@
 \begin{frame}\frametitle{実験条件}
   \begin{block}{eFCMA}
     \begin{center}
-      パラメータ$\lambda$を5.0から0.1刻みで10.0まで変化させる
+      パラメータ$\lambda$を0.1から0.1刻みで100まで変化させる
     \end{center}
   \end{block}
   \begin{block}{qFCMA}
     \begin{itemize}
-      \item パラメータ$\lambda$を5.0から0.1刻みで10.0まで変化させる
-      \item パラメータ$m$を2.0から0.01刻みで1.01まで変化させる
+      \item パラメータ$\lambda$を0.1から0.1刻みで100まで変化させる
+      \item パラメータ$m$を2から0.01刻みで1.01まで変化させる
     \end{itemize}
   \end{block}
   \begin{block}{sFCMA}
     \begin{center}
-      パラメータ$m$を2.0から0.01刻みで1.01まで変化させる
+      パラメータ$m$を2から0.01刻みで1.01まで変化させる
     \end{center}
   \end{block}
 \end{frame}
@@ -335,7 +324,7 @@
         \includegraphics[height=60mm]{efcma_ARI.png}
       \end{center}
       \captionsetup{labelformat=empty,labelsep=none}
-      \caption{最高ARI:}
+      \caption{最高ARI:0.315282 ($\lambda=99.5$))}
     \end{figure}
   \end{block}
 \end{frame}
@@ -360,7 +349,7 @@
         \includegraphics[height=60mm]{sfcma_ARI.png}
       \end{center}
       \captionsetup{labelformat=empty,labelsep=none}
-      \caption{最高ARI:}
+      \caption{最高ARI:0.715312 ($m=1.01$)}
     \end{figure}
   \end{block}
 \end{frame}
@@ -370,9 +359,9 @@
     \vspace{5mm}
     \begin{table}[htb]
       \begin{tabular}{ l || c | c }\hline
-        eFCMA &  & $\lambda = $\\ \hline  
+        eFCMA & 0.315282 & $\lambda = 99.5$\\ \hline  
         qFCMA &  & $\lambda = $\;, \;$m = $\\  \hline
-        sFCMA &  & $m = $\\ \hline
+        sFCMA & 0.715312 & $m = 1.01$\\ \hline
       \end{tabular}
     \end{table}
   \end{block}
@@ -400,24 +389,17 @@
 
 \begin{frame}\frametitle{まとめ}
   \begin{block}{目的}
-    \begin{itemize}
-    \item 
-    \end{itemize}
+   より精度が高いクラスタリング手法の発見
   \end{block}
+  \vspace{4mm}
   \begin{block}{目標}
-    \begin{itemize}
-    \item 
-    \end{itemize}
+   クラスタサイズ調整変数を導入した3つの手法について比較と評価を行う
   \end{block}
   \begin{block}{実験結果}
-    \begin{itemize}
-    \item sFCMAが高評価となった
-    \end{itemize}
+   sFCMAが高評価となった
   \end{block}
   \begin{block}{考察}
-    \begin{itemize}
-    \item エントロピー項を削除したことが計算結果に影響したと考えられる
-    \end{itemize}
+   エントロピー項を削除したことが計算結果に影響したと考えられる
   \end{block}
 \end{frame}
 
