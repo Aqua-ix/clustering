@@ -10,7 +10,7 @@
 const int centers_number=4;
 
 int main(void){
-  std::ofstream outputfile("qfcma_user_knowledge_ARI_Lambda.txt");
+  std::ofstream outputfile("qfcma_user_knowledge_ARI.txt");
   
   std::string filenameData("user_knowledge.dat");
   std::string filenameCorrectCrispMembership("user_knowledge.correctCrispMembership");
@@ -22,7 +22,7 @@ int main(void){
     exit(1);
   }
 
-  for(double Lambda=50;Lambda<=100.0;Lambda+=1){
+  for(double Lambda=1.0;Lambda<=100.0;Lambda+=1){
     for(double Em=2.0;Em>1.00;Em-=0.01){
       std::ifstream ifs(filenameData);
       if(!ifs){

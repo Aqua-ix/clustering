@@ -119,8 +119,8 @@ int main(void){
   }
   */
   test.set_contingencyTable();
-  std::cout << "Contingency Table:\n" << test.contingencyTable() << std::endl;
-  std::cout << "ARI:" << test.ARI() << std::endl;
+  //std::cout << "Contingency Table:\n" << test.contingencyTable() << std::endl;
+  std::cout << "Em:" << Em  << "\tARI:" << test.ARI() << std::endl;
   outputfile<<Em<<"\t";
   outputfile<<test.ARI()<<"\t";
   outputfile<<"\n";
