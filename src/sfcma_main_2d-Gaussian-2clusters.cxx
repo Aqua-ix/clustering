@@ -6,11 +6,12 @@
 
 #define MAX_ITERATES 100000
 #define DIFF_FOR_STOP 1.0E-10
+#define EM 1.01
 
 const int centers_number=2;
 
 int main(void){
-  double Em=1.01;
+  double Em=EM;
   
   std::string filenameData("2d-Gaussian-2clusters.dat");
 #ifdef CHECK_ANSWER
