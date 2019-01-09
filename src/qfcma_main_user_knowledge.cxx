@@ -23,7 +23,7 @@ int main(void){
   }
 
   for(double Lambda=1.0;Lambda<=100.0;Lambda+=1){
-    for(double Em=2.0;Em>1.00;Em-=0.01){
+    for(double Em=1.01;Em>1.00;Em-=0.01){
       std::ifstream ifs(filenameData);
       if(!ifs){
         std::cerr << "File:" << filenameData
