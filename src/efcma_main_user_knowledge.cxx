@@ -24,7 +24,7 @@ int main(void){
     exit(1);
   }
     
-  for(double Lambda=6.0;Lambda<10;Lambda+=0.5){
+  for(double Lambda=1;Lambda<=100;Lambda+=1){
     std::ifstream ifs(filenameData);
     if(!ifs){
       std::cerr << "File:" << filenameData
@@ -122,8 +122,8 @@ int main(void){
       }
     */
     test.set_contingencyTable();
-    std::cout << "Contingency Table:\n" << test.contingencyTable() << std::endl;
-    std::cout << "ARI:" << test.ARI() << std::endl;
+    //std::cout << "Contingency Table:\n" << test.contingencyTable() << std::endl;
+    std::cout << "Lambda:" << Lambda << "\tARI:" << test.ARI() << std::endl;
     outputfile<<Lambda<<"\t";
     outputfile<<test.ARI()<<"\t";
     outputfile<<"\n";

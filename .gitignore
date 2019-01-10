@@ -6,6 +6,3 @@
 *.snm
 *.gz
 *.toc
-*.result_centers
-*.result_membership
-*.result_classificationFunction

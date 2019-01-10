@@ -22,7 +22,7 @@ int main(void){
               << " needs \".\" and filename-extention." << std::endl;
     exit(1);
   }
-  for(double Em=3.0;Em>1;Em-=0.1){
+  for(double Em=2.0;Em>1.00;Em-=0.01){
   std::ifstream ifs(filenameData);
   if(!ifs){
     std::cerr << "File:" << filenameData
@@ -119,8 +119,8 @@ int main(void){
   }
   */
   test.set_contingencyTable();
-  std::cout << "Contingency Table:\n" << test.contingencyTable() << std::endl;
-  std::cout << "ARI:" << test.ARI() << std::endl;
+  //std::cout << "Contingency Table:\n" << test.contingencyTable() << std::endl;
+  std::cout << "Em:" << Em  << "\tARI:" << test.ARI() << std::endl;
   outputfile<<Em<<"\t";
   outputfile<<test.ARI()<<"\t";
   outputfile<<"\n";
