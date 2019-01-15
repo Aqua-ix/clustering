@@ -22,8 +22,8 @@ int main(void){
     exit(1);
   }
 
-  for(double Lambda=100;Lambda<=100;Lambda+=1){
-    for(double Em=2.0;Em>1.00;Em-=0.01){
+  for(double Lambda=99;Lambda<100;Lambda+=1){
+    for(double Em=2;Em>1.00;Em-=0.01){
       std::ifstream ifs(filenameData);
       if(!ifs){
         std::cerr << "File:" << filenameData
@@ -83,7 +83,7 @@ int main(void){
 #endif
         test.revise_alpha();
 #ifdef VERBOSE
-        std::cout << "a:\n" << test.clusters_size() << std::endl;
+        std::cout << "a:\n" << test.alpha() << std::endl;
 #endif
     
         double diff_u=max_norm(test.tmp_membership()-test.membership());
