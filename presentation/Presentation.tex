@@ -33,7 +33,7 @@
 \title[クラスタリング手法の評価]{クラスタサイズ調整変数を導入したクラスタリング手法の評価}
 \author{池辺 颯一}
 \institute[情報数理工学研究室]{情報数理工学研究室 \and af16009@shibaura-it.ac.jp}
-\date{2018年1月16日}
+\date{2019年1月16日}
 
 \begin{document}
 \begin{frame}\frametitle{}
@@ -66,9 +66,9 @@
   \end{block}
   \vspace{4mm}
   \begin{block}{目標}
-   \begin{itemize}
-    \item 各手法において2クラス分類を行う
-    \item 各手法のクラスタリング精度についての算出及び比較を行う
+    \begin{itemize}
+    \item 各手法で2クラス分類を行い特性を把握する
+    \item 各手法のクラスタリング精度の算出及び比較を行う
    \end{itemize}
   \end{block}
 \end{frame}
@@ -133,7 +133,7 @@
 \end{frame}
 
 \begin{frame}\frametitle{研究方法}
- \begin{block}{研究評価方法}
+ \begin{block}{研究手順}
    \begin{enumerate}
     \item 人工データ実験
     \item 実データ実験
@@ -156,7 +156,7 @@
 \begin{frame}\frametitle{人工データ実験}
   \begin{block}{使用する人工データ}
     \begin{itemize}
-    \item 平均値($-1$, $-1$), 標準偏差($0.5$, $0.5$)及び平均値($-1$, $-1$), 標準偏差($0.5$, $0.5$)のガウスサンプリングで生成
+    \item 平均値($-1$, $-1$), 標準偏差($0.5$, $0.5$)及び平均値($1$, $1$), 標準偏差($0.5$, $0.5$)のガウスサンプリングで生成
     \item データ数: $100$
     \item クラス数 : $2$
     \end{itemize}
@@ -168,9 +168,9 @@
 
 \begin{frame}\frametitle{アルゴリズム}
   \begin{enumerate}
-  \item クラスタ中心$V$をランダムに与える。
-  \item $V$を用いて帰属度Uを更新する。
-  \item $U$を用いて$V$及びクラスタサイズ調整変数$A$を更新する。
+  \item クラスタ中心をランダムに与える。
+  \item クラスタ中心を用いて帰属度を更新する。
+  \item 帰属度を用いてクラスタ中心及びクラスタサイズ調整変数を更新する。
   \item 収束すれば終了し、そうでない場合は$2$に戻る。
   \end{enumerate}
 \end{frame}
@@ -300,12 +300,12 @@
 \begin{frame}\frametitle{実験条件}
   \begin{block}{eFCMA}
     \begin{center}
-      パラメータ$\lambda$を0.1から0.1刻みで100まで変化させる
+      パラメータ$\lambda$を0.1から1刻みで100まで変化させる
     \end{center}
   \end{block}
   \begin{block}{qFCMA}
     \begin{itemize}
-      \item パラメータ$\lambda$を0.1から0.1刻みで100まで変化させる
+      \item パラメータ$\lambda$を0.1から1刻みで100まで変化させる
       \item パラメータ$m$を2から0.01刻みで1.01まで変化させる
     \end{itemize}
   \end{block}
@@ -318,8 +318,8 @@
 
 \begin{frame}\frametitle{アルゴリズム}
   \begin{enumerate}
-  \item 正解帰属度を用いて帰属度$U$を初期化する。
-  \item $U$を用いてクラスタ中心$V$及びクラスタサイズ調整変数$A$を更新する。
+  \item 正解帰属度を用いて帰属度を初期化する。
+  \item 帰属度を用いてクラスタ中心及びクラスタサイズ調整変数を更新する。
   \item 収束すれば終了し、そうでない場合は$2$に戻る。
   \end{enumerate}
 \end{frame}
@@ -331,7 +331,7 @@
         \includegraphics[height=60mm]{efcma_ARI.png}
       \end{center}
       \captionsetup{labelformat=empty,labelsep=none}
-      \caption{最高ARI:0.315282 ($\lambda=99.5$)}
+      \caption{最高ARI:0.352349 ($\lambda=67$)}
     \end{figure}
   \end{block}
 \end{frame}
@@ -366,7 +366,7 @@
     \vspace{5mm}
     \begin{table}
       \begin{tabular}{ l || c | c }\hline
-        eFCMA & 0.315282 & $\lambda = 99.5$\\ \hline  
+        eFCMA & 0.352349 & $\lambda = 67$\\ \hline  
         qFCMA & 0.339808 & $\lambda = 99 $\;, \;$m = 1.12$\\  \hline
         sFCMA & 0.715312 & $m = 1.01$\\ \hline
       \end{tabular}
@@ -393,7 +393,7 @@
 \begin{frame}\frametitle{まとめ}
   \begin{block}{背景}
    \begin{center}
-    クラスタのサイズを考慮して分類をする手法が提案されている
+    データ量の増大によりクラスタリングに注目が集まっている
    \end{center}
   \end{block}
  \begin{block}{目的}
