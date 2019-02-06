@@ -203,10 +203,60 @@
     (ding)))
 (setq ring-bell-function 'my-bell-function)
 
+;;バッファ全体の句読点と読点をコンマとピリオドに変換
+(defun replace-commaperiod-buffer ()
+  (interactive "r")
+  (save-excursion
+    (replace-string "、" "，" nil (point-min) (point-max))
+    (replace-string "。" "．" nil (point-min) (point-max))))
+
+;;選択範囲内の全角英数字を半角英数字に変換
+(defun hankaku-eisuu-region (start end)
+  (interactive "r")
+  (while (string-match
+          "[０-９Ａ-Ｚａ-ｚ]+"
+          (buffer-substring start end))
+    (save-excursion
+      (japanese-hankaku-region
+       (+ start (match-beginning 0))
+       (+ start (match-end 0))
+       ))))
+
+;;バッファ全体の全角英数字を半角英数字に変換
+(defun hankaku-eisuu-buffer ()
+  (interactive)
+  (hankaku-eisuu-region (point-min) (point-max)))
+
+;;YaTeXモードの時にのみ動作させる用に条件分岐
+(defun replace-commaperiod-before-save-if-needed ()
+  (when (memq major-mode
+              '(yatex-mode))
+    (replace-commaperiod-buffer)(hankaku-eisuu-buffer)))
+
+;;保存前フックに追加
+(add-hook 'before-save-hook 'replace-commaperiod-before-save-if-needed)
+;;読点と句読点をコンマとピリオドに置き換える
+(defun replace-dot-comma ()
+  "s/。/．/g; s/、/，/g;する"
+  (interactive)
+  (let ((curpos (point)))
+    (goto-char (point-min))
+    (while (search-forward "。" nil t) (replace-match "．"))
+    
+    (goto-char (point-min))
+    (while (search-forward "、" nil t) (replace-match "，"))
+    (goto-char curpos)
+    ))
+
+(add-hook 'tex-mode-hook
+          '(lambda ()
+             (add-hook 'before-save-hook 'replace-dot-comma nil 'make-it-local)
+             ))
+
 ;; mozc
 ;;(require 'mozc)
 ;;(setq default-input-method "japanese-mozc")
 
-;; flycheckの設定
+;; flycheck
 ;;(global-flycheck-mode)
 ;;(add-hook 'c++-mode-hook (lambda () (setq flycheck-gcc-language-standard "c++11")))

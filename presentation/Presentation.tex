@@ -127,7 +127,7 @@
 	  {$N$}&データ数&{$x_k$}&データ数 \\ \hline
 	  {$C$}&クラスタ数&{$v_i$}&クラスタ中心\\ \hline
 	  {$m$}&ファジィ化パラメータ&{$u_{i,k}$}&帰属度 \\ \hline
-	  {$\alpha$}&クラスタサイズ調整変数\\ \hline
+	  {$\alpha_i$}&クラスタサイズ調整変数\\ \hline
     \end{tabular}
   \end{center}
 \end{frame}
@@ -140,8 +140,16 @@
     \item 実データ実験で算出したARIにより各手法を評価
     \item 3手法の中でARIの最高値が算出された手法を高評価とする
    \end{enumerate}
+  \end{block}
+\end{frame}
+
+\begin{frame}\frametitle{研究方法}
+ \begin{block}{人工データ実験の評価指標}
+  \begin{itemize}
+   \item 評価指標として分類関数を用いる
+  \end{itemize}
  \end{block}
- \begin{block}{評価指標}
+ \begin{block}{実データ実験の評価指標}
   \begin{itemize}
    \item 評価指標としてARI(Adjusted Rand Index)を用いる
    \item $-1$から$1$までの範囲で精度評価を行う指標
