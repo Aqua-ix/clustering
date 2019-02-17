@@ -11,8 +11,8 @@ C++ Programming for Clustering
  - sFCMA
 
 # Run
-## REQUIRE
-[BOOST C++ Libraries](https://www.boost.org/)
+## Require
+[Boost C++ Libraries](https://www.boost.org/)
 
 ## Command
 ### eFCMA
