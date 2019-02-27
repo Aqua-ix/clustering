@@ -10,9 +10,10 @@
 const int centers_number=2;
 
 int main(void){
-    std::ofstream outputfile("sfcma_user_knowledge_ARI.txt");
-
+  double max_ARI_Em, max_ARI;
   
+  std::ofstream outputfile("sfcma_user_knowledge_ARI.txt");
+
   std::string filenameData("user_knowledge.dat");
   std::string filenameCorrectCrispMembership("user_knowledge.correctCrispMembership");
 
@@ -22,7 +23,7 @@ int main(void){
               << " needs \".\" and filename-extention." << std::endl;
     exit(1);
   }
-  for(double Em=2.0;Em>1.00;Em-=0.01){
+  for(double Em=1.01;Em<=5.00;Em+=0.01){
   std::ifstream ifs(filenameData);
   if(!ifs){
     std::cerr << "File:" << filenameData
@@ -125,7 +126,17 @@ int main(void){
   outputfile<<test.ARI()<<"\t";
   outputfile<<"\n";
 #endif
+
+  if(max_ARI<test.ARI()){
+      max_ARI_Em=Em;
+      max_ARI=test.ARI();
+    }
   }
+  
   outputfile.close();
+
+  std::cout << "max_ARI_Em:" << max_ARI_Em << std::endl;
+  std::cout << "max_ARI:" << max_ARI << std::endl;
+  
   return 0;
 }
