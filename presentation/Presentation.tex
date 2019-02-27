@@ -176,10 +176,10 @@
 
 \begin{frame}\frametitle{アルゴリズム}
   \begin{enumerate}
-  \item クラスタ中心をランダムに与える。
-  \item クラスタ中心を用いて帰属度を更新する。
-  \item 帰属度を用いてクラスタ中心及びクラスタサイズ調整変数を更新する。
-  \item 収束すれば終了し、そうでない場合は$2$に戻る。
+  \item クラスタ中心をランダムに与える．
+  \item クラスタ中心を用いて帰属度を更新する．
+  \item 帰属度を用いてクラスタ中心及びクラスタサイズ調整変数を更新する．
+  \item 収束すれば終了し，そうでない場合は$2$に戻る．
   \end{enumerate}
 \end{frame}
 
@@ -188,7 +188,7 @@
     \begin{figure}[htbp]
       \begin{minipage}{0.32\hsize}
         \begin{center}
-          \includegraphics[width=40mm]{eFCMA-Lambda1.png}
+          \includegraphics[width=40mm]{eFCMA-Lambda1.pdf}
         \end{center}
         \captionsetup{labelformat=empty,labelsep=none}
         \caption{$\lambda=1$}
@@ -196,7 +196,7 @@
       \end{minipage}
       \begin{minipage}{0.32\hsize}
         \begin{center}
-          \includegraphics[width=40mm]{eFCMA-Lambda10000.png}
+          \includegraphics[width=40mm]{eFCMA-Lambda10000.pdf}
         \end{center}
         \captionsetup{labelformat=empty,labelsep=none}
         \caption{$\lambda=10000$}
@@ -204,7 +204,7 @@
       \end{minipage}
      \begin{minipage}{0.32\hsize}
         \begin{center}
-          \includegraphics[width=40mm]{HCM.png}
+          \includegraphics[width=40mm]{HCM.pdf}
         \end{center}
         \captionsetup{labelformat=empty,labelsep=none}
         \caption{HCM}
@@ -224,7 +224,7 @@
     \begin{figure}[htbp]
       \begin{minipage}{0.32\hsize}
         \begin{center}
-          \includegraphics[width=40mm]{sFCMA-Em2.png}
+          \includegraphics[width=40mm]{sFCMA-Em2.pdf}
         \end{center}
         \captionsetup{labelformat=empty,labelsep=none}
         \caption{$m=2$}
@@ -232,7 +232,7 @@
       \end{minipage}
       \begin{minipage}{0.32\hsize}
         \begin{center}
-          \includegraphics[width=40mm]{sFCMA-Em11.png}
+          \includegraphics[width=40mm]{sFCMA-Em11.pdf}
         \end{center}
         \captionsetup{labelformat=empty,labelsep=none}
         \caption{$m=1.01$}
@@ -240,7 +240,7 @@
       \end{minipage}
      \begin{minipage}{0.32\hsize}
         \begin{center}
-          \includegraphics[width=40mm]{HCM.png}
+          \includegraphics[width=40mm]{HCM.pdf}
         \end{center}
         \captionsetup{labelformat=empty,labelsep=none}
         \caption{HCM}
@@ -259,23 +259,31 @@
   \begin{block}{qFCMA}
     %\vspace{5mm}
     \begin{figure}[htbp]
-      \begin{minipage}{0.4\hsize}
+      \begin{minipage}{0.32\hsize}
         \begin{center}
-          \includegraphics[width=32mm]{qFCMA-Em11-Lambda10.png}
+          \includegraphics[width=40mm]{qFCMA-Em2-Lambda10.pdf}
         \end{center}
         \captionsetup{labelformat=empty,labelsep=none}
-        \caption{$m=1.01$\;, \;$\lambda=10$}
+        \caption{$m=2.0$\;, \;$\lambda=10$}
         \label{fig:one}
       \end{minipage}
       %\hspace{1cm}
-      \begin{minipage}{0.4\hsize}
+      \begin{minipage}{0.32\hsize}
         \begin{center}
-          \includegraphics[width=32mm]{qFCMA-Em2-Lambda10000.png}
+          \includegraphics[width=40mm]{qFCMA-Em11-Lambda10.pdf}
         \end{center}
         \captionsetup{labelformat=empty,labelsep=none}
-        \caption{$m=2$\;, \;$\lambda=10000$}
+        \caption{$m=1.01$\;, \;$\lambda=10$}
         \label{fig:two}
       \end{minipage}
+     \begin{minipage}{0.32\hsize}
+      \begin{center}
+       \includegraphics[width=40mm]{qFCMA-Em11-Lambda10000.pdf}
+      \end{center}
+      \captionsetup{labelformat=empty,labelsep=none}
+      \caption{$m=1.01$\;, \;$\lambda=10000$}
+      \label{fig:two}
+     \end{minipage}
     \end{figure}
   \end{block}
   \begin{block}{qFCMAの特徴}
@@ -297,10 +305,10 @@
   \begin{block}{使用する実データ}
     \begin{itemize}
      \item User Knowledge Modeling Data Set
-     \item 被験者の勉強時間、試験結果など5属性を収録したデータ
+     \item 被験者の勉強時間，試験結果など5属性を収録したデータ
      \item ソース : UCI  Machine Learning Repository
      \item 個体数 : 403
-     \item クラス数 : 4(非常に低い、低い、中央、高い)
+     \item クラス数 : 4(非常に低い，低い，中央，高い)
     \end{itemize}
   \end{block}
 \end{frame}
@@ -326,9 +334,9 @@
 
 \begin{frame}\frametitle{アルゴリズム}
   \begin{enumerate}
-  \item 正解帰属度を用いて帰属度を初期化する。
-  \item 帰属度を用いてクラスタ中心及びクラスタサイズ調整変数を更新する。
-  \item 収束すれば終了し、そうでない場合は$2$に戻る。
+  \item 正解帰属度を用いて帰属度を初期化する．
+  \item 帰属度を用いてクラスタ中心及びクラスタサイズ調整変数を更新する．
+  \item 収束すれば終了し，そうでない場合は$2$に戻る．
   \end{enumerate}
 \end{frame}
 
@@ -391,8 +399,8 @@
 \begin{frame}\frametitle{考察}
   \begin{block}{考察}
     \begin{itemize}
-    \item sFCMAとeFCMA及びqFCMAとの差は、エントロピー項の有無。
-    \item エントロピー項を削除したことが計算結果に影響したと考えられる。
+    \item sFCMAとeFCMA及びqFCMAとの差は，エントロピー項の有無．
+    \item エントロピー項を削除したことが計算結果に影響したと考えられる．
     \end{itemize}
   \end{block}
 \end{frame}

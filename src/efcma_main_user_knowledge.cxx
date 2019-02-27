@@ -12,6 +12,8 @@ const int centers_number=4;
 
 int main(void){
 
+  double max_ARI_Lambda, max_ARI;
+  
   std::ofstream outputfile("efcma_user_knowledge_ARI.txt");
   
   std::string filenameData("user_knowledge.dat");
@@ -24,7 +26,7 @@ int main(void){
     exit(1);
   }
     
-  for(double Lambda=1;Lambda<=100;Lambda+=1){
+  for(double Lambda=1;Lambda<=500;Lambda+=1){
     std::ifstream ifs(filenameData);
     if(!ifs){
       std::cerr << "File:" << filenameData
@@ -128,7 +130,17 @@ int main(void){
     outputfile<<test.ARI()<<"\t";
     outputfile<<"\n";
 #endif
+  
+    if(max_ARI<test.ARI()){
+      max_ARI_Lambda=Lambda;
+      max_ARI=test.ARI();
+    }
   }
+  
   outputfile.close();
+
+  std::cout << "max_ARI_Lambda:" << max_ARI_Lambda << std::endl;
+  std::cout << "max_ARI:" << max_ARI << std::endl;
+  
   return 0;
 }

@@ -182,9 +182,9 @@ $(2, 10), (1.01, 10), (1.01, 10000)$
 
 \section{実データの実験結果}
 eFCMA，sFCMA，qFCMAの実データ実験の結果について，それぞれ図~\ref{}，~\ref{}，~\ref{}に示す．
-eFCMAでは$\lambda$の値を$0.1$から$100$まで$1$刻み，
-sFCMAでは$m$の値を$1.01$から$2.00$まで$1.01$刻み，
-qFCMAでは$m$の値を$1.01$から$2.00$まで$0.01$刻み，$\lambda$の値を$0.1$から$100$まで$1$刻みで変化させた．
+eFCMAでは$\lambda$の値を$1$から$500$まで$1$刻み，
+sFCMAでは$m$の値を$1.01$から$5.00$まで$1.01$刻み，
+qFCMAでは$m$の値を$1.01$から$5.00$まで$0.01$刻み，$\lambda$の値を$1$から$500$まで$1$刻みで変化させた．
 それぞれの手法の最高ARIを表~\ref{tbl:max_ari}に示す．
 
 \begin{table}[htbp]
@@ -193,7 +193,7 @@ qFCMAでは$m$の値を$1.01$から$2.00$まで$0.01$刻み，$\lambda$の値を
   \begin{center}
    \begin{tabular}{ l || c | c }\hline
     手法名 & ARIの最高値 & パラメータ値\\ \hline \hline
-    eFCMA & $0.352349$& $\lambda = 67$\\ \hline  
+    eFCMA & $0.355613$& $\lambda = 136$\\ \hline  
     qFCMA & $0.339808$ & $\lambda = 99, m = 1.12$\\  \hline
     sFCMA & $0.715312$ & $m = 1.01$\\ \hline
    \end{tabular}
@@ -204,8 +204,6 @@ qFCMAでは$m$の値を$1.01$から$2.00$まで$0.01$刻み，$\lambda$の値を
 \section{まとめと今後の課題}
 % 本研究の成果を簡潔にまとめるとともに,どのような
 % 課題が今後検討されなければならないかについて述べる．
-
-
 
 \begin{thebibliography}{99}
 \bibitem{Kawasaki}
