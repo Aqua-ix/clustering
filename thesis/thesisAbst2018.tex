@@ -39,11 +39,6 @@
 その値が最も高いものを有用な手法と評価する．
 
 \section{人工データの実験結果}
-<<<<<<< HEAD
-=======
-% 問題点の解決に関して，
-% 提案技術が既存技術と比較してどの程度有効であるか定量的に述べる．
->>>>>>> 20c5c26cd4773bc50344d0cc2ac8c98e3ca05133
 
 人工データとして，
 クラス数2，各クラスのデータ数50，合計データ数100のデータを
@@ -124,7 +119,6 @@ $(2, 10), (1.01, 10), (1.01, 10000)$
 \end{figure}
 
 \section{実データの実験結果}
-<<<<<<< HEAD
 eFCMA，sFCMA，qFCMAの実データ実験の結果について，それぞれ図~\ref{fig:eFCMA_ARI}，~\ref{fig:sFCMA_ARI}，~\ref{fig:qFCMA_ARI}に示す．
 eFCMAでは$\lambda$の値を$1$から$500$まで$1$刻み，
 sFCMAでは$m$の値を$1.01$から$5.00$まで$1.01$刻み，
@@ -150,41 +144,24 @@ qFCMAでは$m$の値を$1.01$から$5.00$まで$0.01$刻み，$\lambda$の値を
  %  \label{fig:qFCMA_ARI}
  % \end{minipage}
 
-=======
-eFCMA，sFCMA，qFCMAの実データ実験の結果について，それぞれ図~\ref{}，~\ref{}，~\ref{}に示す．
-eFCMAでは$\lambda$の値を$0.1$から$100$まで$1$刻み，
-sFCMAでは$m$の値を$1.01$から$2.00$まで$1.01$刻み，
-qFCMAでは$m$の値を$1.01$から$2.00$まで$0.01$刻み，$\lambda$の値を$0.1$から$100$まで$1$刻みで変化させた．
->>>>>>> 20c5c26cd4773bc50344d0cc2ac8c98e3ca05133
 それぞれの手法の最高ARIを表~\ref{tbl:max_ari}に示す．
 
 \begin{table}[htbp]
  \centering
  \caption{各手法のARIの最高値とパラメータ}
   \begin{center}
-<<<<<<< HEAD
    \begin{tabular}{ c || c | c }\hline
     手法名 & ARIの最高値 & パラメータ値\\ \hline \hline
     eFCMA & $0.35561$& $\lambda = 136$\\ \hline  
     qFCMA & $0.33980$ & $\lambda = 99, m = 1.12$\\  \hline
     sFCMA & $0.73515$ & $m = 1.24$\\ \hline
-=======
-   \begin{tabular}{ l || c | c }\hline
-    手法名 & ARIの最高値 & パラメータ値\\ \hline \hline
-    eFCMA & $0.352349$& $\lambda = 67$\\ \hline  
-    qFCMA & $0.339808$ & $\lambda = 99, m = 1.12$\\  \hline
-    sFCMA & $0.715312$ & $m = 1.01$\\ \hline
->>>>>>> 20c5c26cd4773bc50344d0cc2ac8c98e3ca05133
    \end{tabular}
    \label{tbl:max_ari}
   \end{center}
 \end{table}
-<<<<<<< HEAD
 
 最も高いARIを示した手法はsFCMAであった．
 他の$2$手法と比較してARIに$0.4$以上の差が見られた．
-=======
->>>>>>> 20c5c26cd4773bc50344d0cc2ac8c98e3ca05133
 
 \section{まとめと今後の課題}
 既に提案されていた3種のクラスタリング手法の特性と精度について，現在に至るまで明らかになっていなかったため，本研究では，人工データを用いた特性比較及び実データを用いた精度比較を行った．
@@ -193,8 +170,6 @@ sFCMAは$m$が大きくなるとファジィになることが分かった．
 また，qFCMAはeFCMAとsFCMAの両方の特性を併せ持つということが分かった．
 精度はsFCMAが最も高評価となった．要因として，この手法の最適化問題にエントロピー項が含まれないということが挙げられる．sFCMAの精度には，エントロピー項が含まれるeFCMA，qFCMAの2手法と比較して大きな差が見られた．
 今後の課題は，今回用いなかった他の実データで$3$手法の比較を行い，精度についての調査を行うことである．
-
-
 
 \begin{thebibliography}{99}
 \bibitem{s}Miyamoto, S., Kurosawa, N.: ``Controlling Cluster Volume Sizes in Fuzzy c-means Clustering'', Proc.~SCIS\&ISIS2004, pp.~1--4, (2004).
