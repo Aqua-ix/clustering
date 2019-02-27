@@ -14,6 +14,61 @@
 \begin{document}
 \maketitle
 \section{はじめに}
+% ここでは，研究を着手するに至った背景~\cite{Kawasaki}，
+% 研究の目的~\cite{Yamada}に関して，具体的に述べる~\cite{Seki}．
+% 特に，研究課題~(あるべき理想像)と現実とのギャップから問題点が何であるか
+% を明確化し，その問題点を解決するためにどのような方法で，
+% どこまで達成するのかをまとめる．
+% 以下，本稿の書き方について触れる．原稿はA4サイズで作成する．
+% マージンは上マージン30mm，左マージン19mm，右マージン22mm，下マージン27mmとする．
+% フォントは，原則としてタイトルと各節の見出しはゴシック系フォントとし，
+% 著者名と本文は明朝系フォントを用いること．
+% フォントサイズは，タイトルは16ポイント，その他は9ポイントとする．
+% Fig.~\ref{fig:sample}に参考図を示す．
+% 他のワードプロセッサ等で作成する場合は，これらの数値を参考にすること．
+% \begin{figure}[htbp]
+%  \centering
+% \includegraphics[width=\linewidth]{fig.eps}
+% \caption{Current and Temperature as Functions of Applied Voltage.}
+% \label{fig:sample}
+% \end{figure}
+
+% \begin{enumerate}
+%  \item
+% 複数人の共同研究であっても1人ずつ~(1枚ずつ)提出すること．
+% また，自分が中心に行ったことをまとめるので，全く同じ原稿は認めない．
+% \item
+% 研究題目は抽象的な表現を用いず，実際の研究内容を具体的に表したものにする
+%      こと．
+% 英文併記．
+% \item
+% 指導教員名は「姓名」のみを記入すること．著者名(学生名と指導教員名)は英文併記．
+% \item
+% 形式は，「はじめに」「研究内容」「研究成果」「まとめと今後の課題」「参考
+%      文献」
+% などの順で書く.謝辞はまとめの中で書くこと．
+% ただし，各節のタイトルは研究内容に応じて適切に変更してよい．
+% \item
+% 図の番号およびキャプションは図の下に書き，
+% 表の番号およびキャプションは表の上に書くこと．
+% \item
+% 図表内文言は可能な限り英語表記とすること．また，図表のタイトルは日本語表記の下に
+% 英文表記を併記すること．
+% \item
+% 文中で図表を説明する際には「図1に○○を示す」のように日本語の図表番号を用いること．
+% \item
+% 仕上がりは，グレースケールではなく白黒であることに注意して図を作成するこ
+%      と．
+% \item
+% 使用フォントを全て埋め込んだPDFファイルとして提出すること．
+% \item
+% ファイルサイズは5Mバイト以下とすること．
+% \item
+% 共同研究者がいる場合は，自分の名前の後ろに学籍番号とともに記述すること．
+% \item
+% 不明な点は指導教員に確認すること．
+% \end{enumerate}
+
 
 近年，情報通信社会の発展に伴いデータ量が増大し，
 日々多様なデータがコンピュータに蓄積されている．
@@ -26,7 +81,12 @@
 最も有用な手法を発見することを目的とする．
 
 
-\section{実験内容}
+\section{提案内容}
+% 提案技術の具体的内容に関して，
+% 図表などを用いて分かりやすく述べる．
+% また，図を挿入する場合は，カラーは用いず白黒で描くこと．
+% カラーやグレースケールを用いた図や写真は，
+% 印刷時に諧調がつぶれて真っ黒になってしまう可能性があるので特に注意すること．
 
 各クラスタのサイズを考慮するために，
 既存の手法にクラスタサイズ調整変数を導入したeFCMA，qFCMA，sFCMAの3手法について実験を行う．
@@ -39,11 +99,8 @@
 その値が最も高いものを有用な手法と評価する．
 
 \section{人工データの実験結果}
-<<<<<<< HEAD
-=======
 % 問題点の解決に関して，
 % 提案技術が既存技術と比較してどの程度有効であるか定量的に述べる．
->>>>>>> 20c5c26cd4773bc50344d0cc2ac8c98e3ca05133
 
 人工データとして，
 クラス数2，各クラスのデータ数50，合計データ数100のデータを
@@ -124,84 +181,43 @@ $(2, 10), (1.01, 10), (1.01, 10000)$
 \end{figure}
 
 \section{実データの実験結果}
-<<<<<<< HEAD
-eFCMA，sFCMA，qFCMAの実データ実験の結果について，それぞれ図~\ref{fig:eFCMA_ARI}，~\ref{fig:sFCMA_ARI}，~\ref{fig:qFCMA_ARI}に示す．
+eFCMA，sFCMA，qFCMAの実データ実験の結果について，それぞれ図~\ref{}，~\ref{}，~\ref{}に示す．
 eFCMAでは$\lambda$の値を$1$から$500$まで$1$刻み，
 sFCMAでは$m$の値を$1.01$から$5.00$まで$1.01$刻み，
 qFCMAでは$m$の値を$1.01$から$5.00$まで$0.01$刻み，$\lambda$の値を$1$から$500$まで$1$刻みで変化させた．
-
-\begin{figure}[htbp]
- \centering
- \begin{minipage}{0.43\hsize}
-  \includegraphics[width=\linewidth]{eFCMA_ARI.pdf}
-  \caption{eFCMAの実データの実験結果}
-  \label{fig:eFCMA_ARI}
- \end{minipage}
- \begin{minipage}{0.43\hsize}
-  \includegraphics[width=\linewidth]{sFCMA_ARI.pdf}
-  \caption{sFCMAの実データの実験結果}
-  \label{fig:sFCMA_ARI}
- \end{minipage}
-\end{figure}
- % \begin{minipage}{0.43\hsize}
- %  \includegraphics[width=\linewidth]{qFCMA_ARI.pdf}
- %  \label{fig:qfcma-rd-ari-2.pdf}
- %  \caption{qFCMAの実データの実験結果}
- %  \label{fig:qFCMA_ARI}
- % \end{minipage}
-
-=======
-eFCMA，sFCMA，qFCMAの実データ実験の結果について，それぞれ図~\ref{}，~\ref{}，~\ref{}に示す．
-eFCMAでは$\lambda$の値を$0.1$から$100$まで$1$刻み，
-sFCMAでは$m$の値を$1.01$から$2.00$まで$1.01$刻み，
-qFCMAでは$m$の値を$1.01$から$2.00$まで$0.01$刻み，$\lambda$の値を$0.1$から$100$まで$1$刻みで変化させた．
->>>>>>> 20c5c26cd4773bc50344d0cc2ac8c98e3ca05133
 それぞれの手法の最高ARIを表~\ref{tbl:max_ari}に示す．
 
 \begin{table}[htbp]
  \centering
  \caption{各手法のARIの最高値とパラメータ}
   \begin{center}
-<<<<<<< HEAD
-   \begin{tabular}{ c || c | c }\hline
-    手法名 & ARIの最高値 & パラメータ値\\ \hline \hline
-    eFCMA & $0.35561$& $\lambda = 136$\\ \hline  
-    qFCMA & $0.33980$ & $\lambda = 99, m = 1.12$\\  \hline
-    sFCMA & $0.73515$ & $m = 1.24$\\ \hline
-=======
    \begin{tabular}{ l || c | c }\hline
     手法名 & ARIの最高値 & パラメータ値\\ \hline \hline
-    eFCMA & $0.352349$& $\lambda = 67$\\ \hline  
+    eFCMA & $0.355613$& $\lambda = 136$\\ \hline  
     qFCMA & $0.339808$ & $\lambda = 99, m = 1.12$\\  \hline
     sFCMA & $0.715312$ & $m = 1.01$\\ \hline
->>>>>>> 20c5c26cd4773bc50344d0cc2ac8c98e3ca05133
    \end{tabular}
    \label{tbl:max_ari}
   \end{center}
 \end{table}
-<<<<<<< HEAD
-
-最も高いARIを示した手法はsFCMAであった．
-他の$2$手法と比較してARIに$0.4$以上の差が見られた．
-=======
->>>>>>> 20c5c26cd4773bc50344d0cc2ac8c98e3ca05133
 
 \section{まとめと今後の課題}
-既に提案されていた3種のクラスタリング手法の特性と精度について，現在に至るまで明らかになっていなかったため，本研究では，人工データを用いた特性比較及び実データを用いた精度比較を行った．
-その結果として，eFCMAは$\lambda$が大きくなるほどクリスプになり，
-sFCMAは$m$が大きくなるとファジィになることが分かった．
-また，qFCMAはeFCMAとsFCMAの両方の特性を併せ持つということが分かった．
-精度はsFCMAが最も高評価となった．要因として，この手法の最適化問題にエントロピー項が含まれないということが挙げられる．sFCMAの精度には，エントロピー項が含まれるeFCMA，qFCMAの2手法と比較して大きな差が見られた．
-今後の課題は，今回用いなかった他の実データで$3$手法の比較を行い，精度についての調査を行うことである．
-
-
+% 本研究の成果を簡潔にまとめるとともに,どのような
+% 課題が今後検討されなければならないかについて述べる．
 
 \begin{thebibliography}{99}
-\bibitem{s}Miyamoto, S., Kurosawa, N.: ``Controlling Cluster Volume Sizes in Fuzzy c-means Clustering'', Proc.~SCIS\&ISIS2004, pp.~1--4, (2004).
-\bibitem{e}Ichihashi, H., Honda, K., Tani, N.: ``Gaussian Mixture PDF Approximation and Fuzzy c-means Clustering with Entropy Regularization'', Proc.~4th Asian Fuzzy System Symposium, pp.~217--221, (2000).
-\bibitem{q}Miyamoto, S., Ichihashi, H., and Honda, K.: Algorithms for Fuzzy Clustering, Springer (2008).
-\bibitem{分類関数}宮本 定明, 馬屋原 一孝, 向殿 政男:``ファジイ $c$-平均法とエントロピー正則化法におけるファジィ分類関数,''  日本ファジィ学会誌 Vol.~10, No.~3  pp.~548--557, (1998).
-\bibitem{ARI} Hubert, L., and Arabie, P.:``Comparing Partitions,'' Journal of Classifcation, Vol.~2, No.~1,
-pp.~193--218, (1985).
+\bibitem{Kawasaki}
+河崎めぐみ，千葉翔太:
+``加速度センサーを用いたユーザの行動状態推定方式,''
+信学論B, Vol.~J85-B, No.~5, pp.~755--767, (2011).
+\bibitem{Yamada}
+山田一郎，中村仁:
+``モバイル環境におけるマルチメディア通信品質の研究,''
+信学技報, Vol.~109, No.~204, pp.~27--32, (2010).
+\bibitem{Seki}
+Seki, Y. and Kirii, Y.:
+``Fast Handover Scheme using User's preference, ''
+Wireless Communications and Mobile Computing,
+Vol.~7, Issue~5, pp.~553--568, (2009).
 \end{thebibliography}
 \end{document}
