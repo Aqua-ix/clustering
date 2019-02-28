@@ -5,7 +5,7 @@
 #include"qfcma.h"
 
 #define MAX_ITERATES 100000
-#define DIFF_FOR_STOP 1.0E-6
+#define DIFF_FOR_STOP 1.0E-2
 
 const int centers_number=4;
 
@@ -25,7 +25,7 @@ int main(void){
     exit(1);
   }
 
-  for(double Lambda=100;Lambda>0;Lambda-=1){
+  for(double Lambda=100;Lambda>0;Lambda-=10){
     for(double Em=3.0;Em>1.0;Em-=0.1){
 
       std::ifstream ifs(filenameData);
@@ -62,7 +62,7 @@ int main(void){
         }
       }
       for(int i=0;i<test.centers_number();i++){
-        test.centers(i)=test.data()[randDataNumber(mt)];
+        //test.centers(i)=test.data()[randDataNumber(mt)];
         test.alpha(i)=1.0/centers_number;
         for(int k=0;k<test.data_number();k++){
           test.membership(i,k)=test.correctCrispMembership(i, k);
@@ -123,6 +123,7 @@ int main(void){
         max_ARI_Lambda=Lambda;
         max_ARI=test.ARI();
       }
+      outputfile<<"\n";
     }
   }
     

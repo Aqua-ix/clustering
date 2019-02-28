@@ -80,6 +80,7 @@ qFCMAは$m-1\rightarrow+0$とするとeFCMAと同様の特性を示すことが�
   \subcaption{$\lambda$=$10000$}
   \label{fig:eFCMA-Lambda10000}
  \end{minipage}
+ \vspace*{0.5cm}
  \caption{eFCMAの人工データの実験結果}
 \end{figure}
 
@@ -95,6 +96,7 @@ qFCMAは$m-1\rightarrow+0$とするとeFCMAと同様の特性を示すことが�
   \subcaption{$m$=$2$}
   \label{fig:sFCMA-Em2}
  \end{minipage}
+ \vspace*{0.5cm}
  \caption{sFCMAの人工データの実験結果}
 \end{figure}
 
@@ -115,6 +117,7 @@ qFCMAは$m-1\rightarrow+0$とするとeFCMAと同様の特性を示すことが�
   \subcaption{$m=1.1$, $\lambda=10000$}
   \label{fig:qFCMA-Em11-Lambda10000}
  \end{minipage}
+ \vspace*{0.5cm}
  \caption{qFCMAの人工データの実験結果}
 \end{figure}
 
@@ -145,13 +148,12 @@ qFCMAでは$m$の値を$1.1$から$3.0$まで$0.1$刻み，$\lambda$の値を$1$
   \caption{sFCMAの実データの実験結果}
   \label{fig:sFCMA_ARI}
  \end{minipage}
+ \begin{minipage}{0.43\hsize}
+  \includegraphics[width=\linewidth]{qFCMA_ARI.pdf}
+  \caption{qFCMAの実データの実験結果}
+  \label{fig:qFCMA_ARI}
+ \end{minipage}
 \end{figure}
- % \begin{minipage}{0.43\hsize}
- %  \includegraphics[width=\linewidth]{qFCMA_ARI.pdf}
- %  \label{fig:qFCMA_ARI.pdf}
- %  \caption{qFCMAの実データの実験結果}
- %  \label{fig:qFCMA_ARI}
- % \end{minipage}
 
 それぞれの手法の最高ARIを表~\ref{tbl:max_ari}に示す．
 
@@ -163,7 +165,7 @@ qFCMAでは$m$の値を$1.1$から$3.0$まで$0.1$刻み，$\lambda$の値を$1$
     手法名 & ARIの最高値 & パラメータ値\\ \hline \hline
     eFCMA & $0.29500$& $\lambda = 8$\\ \hline  
     sFCMA & $0.73515$ & $m = 3$\\ \hline
-    qFCMA & $0.33980$ & $\lambda = 99, m = 1.12$\\  \hline
+    qFCMA & $0.26286$ & $\lambda = 80$, $m = 1.1$\\  \hline
    \end{tabular}
    \label{tbl:max_ari}
   \end{center}
