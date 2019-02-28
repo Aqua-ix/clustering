@@ -53,9 +53,6 @@ int main(void){
     test.centers(i)=test.data()[randDataNumber(mt)];
     test.alpha(i)=1.0/centers_number;
   }
-#ifdef VERBOSE
-  std::cout << "v:\n" << test.centers() << std::endl;
-#endif
   test.iterates()=0;
   while(1){
     test.revise_dissimilarities();
@@ -72,7 +69,7 @@ int main(void){
 #endif
     test.revise_alpha();
 #ifdef VERBOSE
-    std::cout << "a:\n" << test.clusters_size() << std::endl;
+    std::cout << "a:\n" << test.alpha() << std::endl;
 #endif
     
     double diff_u=max_norm(test.tmp_membership()-test.membership());

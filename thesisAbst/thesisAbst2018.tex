@@ -13,8 +13,9 @@
 
 \begin{document}
 \maketitle
-\section{はじめに}
 
+
+\section{はじめに}
 近年，情報通信社会の発展に伴いデータ量が増大し，
 日々多様なデータがコンピュータに蓄積されている．
 この大量のデータから有益な情報を抽出する手法として，
@@ -27,31 +28,27 @@
 
 
 \section{実験内容}
-
 各クラスタのサイズを考慮するために，
-既存の手法にクラスタサイズ調整変数を導入したeFCMA，qFCMA，sFCMAの3手法について実験を行う．
+既存の手法にクラスタサイズ調整変数を導入した
+eFCMA~\cite{eFCMA}，
+sFCMA~\cite{sFCMA}，
+qFCMA~\cite{qFCMA}
+の3手法について実験を行う．
 
 まず，これらの手法についてそれぞれの特性を把握するため，人工データを用いて実験を行う．
-複数のパラメータで実験を行い，それぞれで算出された分類関数から比較及び評価を行う．
+複数のパラメータで実験を行い，それぞれで算出された分類関数~\cite{cFunc}から比較及び評価を行う．
 
 次に，これらの手法から最も有用なものを発見するために，
-実データを用いてARI(Adjusted Rand Index)を算出し，
+実データを用いてARI(Adjusted Rand Index)~\cite{ARI}を算出し，
 その値が最も高いものを有用な手法と評価する．
 
-\section{人工データの実験結果}
 
+\section{人工データの実験結果}
 人工データとして，
 クラス数2，各クラスのデータ数50，合計データ数100のデータを
 平均値($-1$, $-1$)，標準偏差($0.5$, $0.5$)
 及び平均値($1$, $1$)，標準偏差($0.5$, $0.5$)
 のガウスサンプリングで生成したデータを用いた．
-% (図~\ref{fig:a_data}).
-% \begin{figure}[htbp]
-% \centering
-% \includegraphics[width=6.5cm]{2d-dat.png}
-% \caption{人工データ}
-% \label{fig:a_data}
-% \end{figure}
 
 eFCMAの実験結果を図~\ref{fig:eFCMA-Lambda1}，\ref{fig:eFCMA-Lambda10000}に示す．
 垂直軸は分類関数値を，底面はデータ空間を表す．
@@ -65,8 +62,11 @@ qFCMAの実験結果を図~\ref{fig:qFCMA-Em2-Lambda10}，\ref{fig:qFCMA-Em11-La
 こちらは，パラメータ$(m, \lambda)$の組み合わせとして，
 $(2, 10), (1.01, 10), (1.01, 10000)$
 の3通りでクラスタリングを行った．
-分類関数より，$m$の値を大きくすることによりファジィになり，$\lambda$の値を大きくするほどクリスプになることが分かった．
-また，qFCMAにおいて$\lambda\rightarrow+0$とするとsFCMAと同じ特性が得られることがわかり，qFCMAは$m-1\rightarrow+0$とするとeFCMAと同様の特性を示すことがわかった．これらの実験結果よりqFCMAはsFCMAとeFCMAの特性を併せ持つと言える．
+分類関数より，$m$の値を大きくするとファジィになり，$\lambda$の値を大きくするとクリスプになることが分かった．
+
+また，qFCMAにおいて$\lambda\rightarrow+0$とするとsFCMAと同じ特性が得られることがわかり，
+qFCMAは$m-1\rightarrow+0$とするとeFCMAと同様の特性を示すことがわかった．
+これらの実験結果よりqFCMAはsFCMAとeFCMAの特性を併せ持つと言える．
 
 \begin{figure}[htbp]
  \centering
@@ -118,11 +118,20 @@ $(2, 10), (1.01, 10), (1.01, 10000)$
  \caption{qFCMAの人工データの実験結果}
 \end{figure}
 
+
 \section{実データの実験結果}
-eFCMA，sFCMA，qFCMAの実データ実験の結果について，それぞれ図~\ref{fig:eFCMA_ARI}，~\ref{fig:sFCMA_ARI}，~\ref{fig:qFCMA_ARI}に示す．
-eFCMAでは$\lambda$の値を$1$から$500$まで$1$刻み，
-sFCMAでは$m$の値を$1.01$から$5.00$まで$1.01$刻み，
-qFCMAでは$m$の値を$1.01$から$5.00$まで$0.01$刻み，$\lambda$の値を$1$から$500$まで$1$刻みで変化させた．
+実データとしては，
+個体数403，
+クラス数4の，
+被験者の勉強時間や試験結果などの5属性を収録した
+``User Knowledge Modeling Dasta Set''
+を用いた．
+
+eFCMA，sFCMA，qFCMAの実データ実験の結果について，
+それぞれ図~\ref{fig:eFCMA_ARI}，~\ref{fig:sFCMA_ARI}，~\ref{fig:qFCMA_ARI}に示す．
+eFCMAでは$\lambda$の値を$1$から$100$まで$1$刻み，
+sFCMAでは$m$の値を$1.1$から$4.0$まで$0.1$刻み，
+qFCMAでは$m$の値を$1.1$から$3.0$まで$0.1$刻み，$\lambda$の値を$1$から$100$まで$1$刻みで変化させた．
 
 \begin{figure}[htbp]
  \centering
@@ -139,7 +148,7 @@ qFCMAでは$m$の値を$1.01$から$5.00$まで$0.01$刻み，$\lambda$の値を
 \end{figure}
  % \begin{minipage}{0.43\hsize}
  %  \includegraphics[width=\linewidth]{qFCMA_ARI.pdf}
- %  \label{fig:qfcma-rd-ari-2.pdf}
+ %  \label{fig:qFCMA_ARI.pdf}
  %  \caption{qFCMAの実データの実験結果}
  %  \label{fig:qFCMA_ARI}
  % \end{minipage}
@@ -152,31 +161,34 @@ qFCMAでは$m$の値を$1.01$から$5.00$まで$0.01$刻み，$\lambda$の値を
   \begin{center}
    \begin{tabular}{ c || c | c }\hline
     手法名 & ARIの最高値 & パラメータ値\\ \hline \hline
-    eFCMA & $0.35561$& $\lambda = 136$\\ \hline  
+    eFCMA & $0.29500$& $\lambda = 8$\\ \hline  
+    sFCMA & $0.73515$ & $m = 3$\\ \hline
     qFCMA & $0.33980$ & $\lambda = 99, m = 1.12$\\  \hline
-    sFCMA & $0.73515$ & $m = 1.24$\\ \hline
    \end{tabular}
    \label{tbl:max_ari}
   \end{center}
 \end{table}
 
-最も高いARIを示した手法はsFCMAであった．
-他の$2$手法と比較してARIに$0.4$以上の差が見られた．
+最も高いARIを示した手法はsFCMAであり，他の$2$手法と比較してARIに$0.4$以上の差が見られた．
+
 
 \section{まとめと今後の課題}
-既に提案されていた3種のクラスタリング手法の特性と精度について，現在に至るまで明らかになっていなかったため，本研究では，人工データを用いた特性比較及び実データを用いた精度比較を行った．
+既に提案されていた3種のクラスタリング手法の特性と精度について現在に至るまで明らかになっていなかったため，本研究では，人工データを用いた特性比較及び実データを用いた精度比較を行った．
 その結果として，eFCMAは$\lambda$が大きくなるほどクリスプになり，
 sFCMAは$m$が大きくなるとファジィになることが分かった．
 また，qFCMAはeFCMAとsFCMAの両方の特性を併せ持つということが分かった．
-精度はsFCMAが最も高評価となった．要因として，この手法の最適化問題にエントロピー項が含まれないということが挙げられる．sFCMAの精度には，エントロピー項が含まれるeFCMA，qFCMAの2手法と比較して大きな差が見られた．
+精度はsFCMAが最も高評価となった．要因として，この手法の最適化問題にエントロピー項が含まれないということが考えられる．sFCMAの精度には，エントロピー項が含まれるeFCMA，qFCMAの2手法と比較して大きな差が見られた．
 今後の課題は，今回用いなかった他の実データで$3$手法の比較を行い，精度についての調査を行うことである．
 
-\begin{thebibliography}{99}
-\bibitem{s}Miyamoto, S., Kurosawa, N.: ``Controlling Cluster Volume Sizes in Fuzzy c-means Clustering'', Proc.~SCIS\&ISIS2004, pp.~1--4, (2004).
-\bibitem{e}Ichihashi, H., Honda, K., Tani, N.: ``Gaussian Mixture PDF Approximation and Fuzzy c-means Clustering with Entropy Regularization'', Proc.~4th Asian Fuzzy System Symposium, pp.~217--221, (2000).
-\bibitem{q}Miyamoto, S., Ichihashi, H., and Honda, K.: Algorithms for Fuzzy Clustering, Springer (2008).
-\bibitem{分類関数}宮本 定明, 馬屋原 一孝, 向殿 政男:``ファジイ $c$-平均法とエントロピー正則化法におけるファジィ分類関数,''  日本ファジィ学会誌 Vol.~10, No.~3  pp.~548--557, (1998).
+
+\begin{thebibliography}{5}
+\bibitem{eFCMA}Ichihashi, H., Honda, K., Tani, N.: ``Gaussian Mixture PDF Approximation and Fuzzy c-means Clustering with Entropy Regularization'', Proc.~4th Asian Fuzzy System Symposium, pp.~217--221, (2000).
+\bibitem{sFCMA}Miyamoto, S., Kurosawa, N.: ``Controlling Cluster Volume Sizes in Fuzzy c-means Clustering'', Proc.~SCIS\&ISIS2004, pp.~1--4, (2004).
+\bibitem{qFCMA}Miyamoto, S., Ichihashi, H., and Honda, K.: Algorithms for Fuzzy Clustering, Springer (2008).
+\bibitem{cFunc}宮本 定明, 馬屋原 一孝, 向殿 政男:``ファジイ $c$-平均法とエントロピー正則化法におけるファジィ分類関数,''  日本ファジィ学会誌 Vol.~10, No.~3  pp.~548--557, (1998).
 \bibitem{ARI} Hubert, L., and Arabie, P.:``Comparing Partitions,'' Journal of Classifcation, Vol.~2, No.~1,
 pp.~193--218, (1985).
 \end{thebibliography}
+
+
 \end{document}

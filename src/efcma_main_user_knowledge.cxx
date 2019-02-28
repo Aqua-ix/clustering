@@ -26,7 +26,7 @@ int main(void){
     exit(1);
   }
     
-  for(double Lambda=1;Lambda<=500;Lambda+=1){
+  for(double Lambda=1;Lambda<=100;Lambda+=1){
     std::ifstream ifs(filenameData);
     if(!ifs){
       std::cerr << "File:" << filenameData
@@ -69,12 +69,12 @@ int main(void){
       }
     }
   
-#ifdef VERBOSE
-    std::cout << "v:\n" << test.centers() << std::endl;
-#endif
-
     test.iterates()=0;
     while(1){
+      test.revise_centers();
+#ifdef VERBOSE
+      std::cout << "v:\n" << test.centers() << std::endl;
+#endif
       test.revise_dissimilarities();
 #ifdef VERBOSE
       std::cout << "d:\n" << test.dissimilarities() << std::endl;
@@ -82,10 +82,6 @@ int main(void){
       test.revise_membership();
 #ifdef VERBOSE
       std::cout << "u:\n" << test.membership() << std::endl;
-#endif
-      test.revise_centers();
-#ifdef VERBOSE
-      std::cout << "v:\n" << test.centers() << std::endl;
 #endif
       test.revise_alpha();
 #ifdef VERBOSE
@@ -110,19 +106,6 @@ int main(void){
 
 #ifdef CHECK_ANSWER
     test.set_crispMembership();
-    /*
-      std::ifstream ifs_correctCrispMembership(filenameCorrectCrispMembership);
-      if(!ifs_correctCrispMembership){
-      std::cerr << "File:" << filenameCorrectCrispMembership
-      << " could not open." << std::endl;
-      exit(1);
-      }
-      for(int i=0;i<test.centers_number();i++){
-      for(int k=0;k<test.data_number();k++){
-      ifs_correctCrispMembership >> test.correctCrispMembership(i, k);
-      }
-      }
-    */
     test.set_contingencyTable();
     //std::cout << "Contingency Table:\n" << test.contingencyTable() << std::endl;
     std::cout << "Lambda:" << Lambda << "\tARI:" << test.ARI() << std::endl;

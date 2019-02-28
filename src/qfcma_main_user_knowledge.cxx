@@ -5,7 +5,7 @@
 #include"qfcma.h"
 
 #define MAX_ITERATES 100000
-#define DIFF_FOR_STOP 1.0E-8
+#define DIFF_FOR_STOP 1.0E-6
 
 const int centers_number=4;
 
@@ -25,8 +25,9 @@ int main(void){
     exit(1);
   }
 
-  for(double Lambda=1;Lambda<500;Lambda+=1){
-    for(double Em=1.01;Em<=5.00;Em+=0.01){
+  for(double Lambda=100;Lambda>0;Lambda-=1){
+    for(double Em=3.0;Em>1.0;Em-=0.1){
+
       std::ifstream ifs(filenameData);
       if(!ifs){
         std::cerr << "File:" << filenameData
@@ -67,22 +68,20 @@ int main(void){
           test.membership(i,k)=test.correctCrispMembership(i, k);
         }
       }
+
+      test.iterates()=0;
+      while(1){
+        test.revise_centers();
 #ifdef VERBOSE
       std::cout << "v:\n" << test.centers() << std::endl;
 #endif
-      test.iterates()=0;
-      while(1){
         test.revise_dissimilarities();
 #ifdef VERBOSE
         std::cout << "d:\n" << test.dissimilarities() << std::endl;
-#endif
+#endif  
         test.revise_membership();
 #ifdef VERBOSE
         std::cout << "u:\n" << test.membership() << std::endl;
-#endif
-        test.revise_centers();
-#ifdef VERBOSE
-        std::cout << "v:\n" << test.centers() << std::endl;
 #endif
         test.revise_alpha();
 #ifdef VERBOSE
@@ -110,19 +109,6 @@ int main(void){
   
 #ifdef CHECK_ANSWER
       test.set_crispMembership();
-      /*
-        std::ifstream ifs_correctCrispMembership(filenameCorrectCrispMembership);
-        if(!ifs_correctCrispMembership){
-        std::cerr << "File:" << filenameCorrectCrispMembership
-        << " could not open." << std::endl;
-        exit(1);
-        }
-        for(int i=0;i<test.centers_number();i++){
-        for(int k=0;k<test.data_number();k++){
-        ifs_correctCrispMembership >> test.correctCrispMembership(i, k);
-        }
-        }
-      */
       test.set_contingencyTable();
       //std::cout << "Contingency Table:\n" << test.contingencyTable() << std::endl;
       std::cout << "Lambda:" << Lambda << "\tEm:" << Em << "\tARI:" << test.ARI() << std::endl;

@@ -1,0 +1,104 @@
+\usepackage{moreverb}
+\usepackage{color}
+\usepackage{kanzawa}
+\usepackage{tascmac}
+\usepackage{graphics}
+\makeatletter
+\def\@makechapterhead#1{\vbox to10\normalbaselineskip{\hsize=\linewidth%
+\dimen0=\hsize\advance\dimen0 by-20pt\vfill%
+\leftskip0pt\rightskip0zw\hspace{-5cm}%
+\hbox to\hsize{\vbox to5\normalbaselineskip{\vfill%
+\ifnum \c@secnumdepth >\m@ne %
+\hbox to\dimen0{\hfill%
+\if@mainmatter%
+\Huge\textbf{\@chapapp\thechapter\@chappos}%
+\else%
+\Huge\bf \@chapapp\thechapter\fi}%
+\vskip.5\normalbaselineskip%
+\hrule height.4pt%
+\vskip.5\normalbaselineskip\fi %
+\hfil \hbox to\dimen0{\hfill \Huge\bf #1}%
+\vfill}%
+\vrule width10pt}\vfill}\par}%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\@sect#1#2#3#4#5#6[#7]#8{%
+\newskip\Tmp%
+\setlength{\Tmp}{\textwidth}%
+\advance\Tmp-1zw%
+\ifnum #2>\c@secnumdepth
+\let\@svsec\@empty
+\else
+%
+\ifnum #2=\c@secnumdepth
+\refstepcounter{#1}%
+\protected@edef\@svsec{第\@seccntformat{#1}\hspace*{-1zw}小節\hspace*{1zw}\relax}%
+\else
+%
+\refstepcounter{#1}%
+\protected@edef\@svsec{第\@seccntformat{#1}\hspace*{-1zw}節\hspace*{1zw}\relax}%
+\fi\fi
+\@tempskipa #5\relax
+\ifdim \@tempskipa>\z@%
+%
+\ifnum #2=\c@secnumdepth
+\begingroup%
+#6{%
+\@hangfrom{\hskip #3\relax\@svsec}%
+\interlinepenalty \@M #8\@@par}%
+\endgroup
+\else
+%
+%
+\begingroup%
+\hspace*{-1zw}\colorbox{black}{\makebox[\Tmp][l]{\textcolor{white}{#6{%
+\@hangfrom{\hskip #3\relax\@svsec}%
+\interlinepenalty \@M #8\@@par}%
+}}}
+\endgroup
+\fi
+%
+\csname #1mark\endcsname{#7}%
+\addcontentsline{toc}{#1}{%
+\ifnum #2>\c@secnumdepth \else
+\protect\numberline{\csname the#1\endcsname}%
+\fi
+#7}%
+\else
+\def\@svsechd{%
+#6{\hskip #3\relax
+\@svsec #8}%
+\csname #1mark\endcsname{#7}%
+\addcontentsline{toc}{#1}{%
+\ifnum #2>\c@secnumdepth \else
+\protect\numberline{\csname the#1\endcsname}%
+\fi
+#7}}%
+\fi
+\@xsect{#5}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\thesection}{\@arabic\c@section }
+\renewcommand{\thesubsection}{\@arabic\c@subsection }
+%\renewcommand{\thesection}{第\@arabic\c@section 節}
+%\renewcommand{\thesubsection}{第\@arabic\c@subsection 小節}
+%\renewcommand{\theDef}{\thechapter.\@arabic\c@section.\@arabic\c@subsection }
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\ps@myheadings{%
+\let\@mkboth=\markboth%
+\def\@oddfoot{\hss\hbox to \linewidth%
+{\leaders\vrule height1.5mm depth -.5mm\hfil \bf\it 　\thepage }}%
+\def\@evenfoot{\hss\hbox to \linewidth%
+{\bf\it \thepage 　\leaders\vrule height1.5mm depth -.5mm \hskip 16cm\hfil}}%
+\def\@oddhead{\hss \hbox to 145mm%
+{\leaders \vrule height1.5mm depth -.5mm\hfil \bf \@chapapp\thechapter\@chappos  \leftmark　第\thesection 節 \rightmark}}%
+\def\@evenhead{\hss\hbox to \linewidth%
+{\bf \@chapapp\thechapter\@chappos 　
+\leftmark 　\leaders \vrule height1.5mm depth -.5mm \hskip 16cm \hfil}}%
+\def\chaptermark##1{\markboth{##1}{}}
+\def\sectionmark##1{\markright{##1}{}}
+}
+\makeatother
+\def\diamondeleaders{\par\vskip.5\baselineskip
+\leavevmode\hbox{}\hskip1zw\leaders%
+\hbox to.5zw{\hss\footnotesize ◇\hss}
+\hfill\hskip1zw\hbox{}}
+\def\bibname{参考文献}

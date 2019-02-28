@@ -51,9 +51,6 @@ int main(void){
     test.centers(i)=test.data()[randDataNumber(mt)];
     test.alpha(i)=1.0/centers_number;
   }
-#ifdef VERBOSE
-  std::cout << "v:\n" << test.centers() << std::endl;
-#endif
   test.iterates()=0;
   while(1){
     test.revise_dissimilarities();
