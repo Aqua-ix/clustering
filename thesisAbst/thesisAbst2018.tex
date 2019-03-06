@@ -30,8 +30,8 @@
 \section{実験内容}
 各クラスタのサイズを考慮するために，
 既存の手法にクラスタサイズ調整変数を導入した
-eFCMA~\cite{eFCMA}，
-sFCMA~\cite{sFCMA}，
+eFCMA~\cite{eFCMA}, 
+sFCMA~\cite{sFCMA}, 
 qFCMA~\cite{qFCMA}
 の3手法について実験を行う．
 
@@ -50,35 +50,31 @@ qFCMA~\cite{qFCMA}
 及び平均値($1$, $1$)，標準偏差($0.5$, $0.5$)
 のガウスサンプリングで生成したデータを用いた．
 
-eFCMAの実験結果を図~\ref{fig:eFCMA-Lambda1}，\ref{fig:eFCMA-Lambda10000}に示す．
+eFCMAの実験結果を図~\ref{fig:eFCMA-Lambda1}, \ref{fig:eFCMA-Lambda10}に示す．
 垂直軸は分類関数値を，底面はデータ空間を表す．
 網掛けで示されるのが分類関数であり，各点がデータを表している．
-パラメータ$\lambda$を$1$から$10000$に変化させたところ，$\lambda$の値を大きくすることにより分類関数がクリスプになることが分かった．
+パラメータ$\lambda$を$1.00$から$10.00$に変化させたところ，分類関数は$\lambda$の値が小さいほどファジィになり，大きいほどクリスプになることが分かった．
 
-次に，sFCMAの実験結果を図~\ref{fig:sFCMA-Em11}，\ref{fig:sFCMA-Em2}に示す．
-パラメータ$m$を$2$から$1.01$に変化させたところ，$m$の値を大きくすることにより分類関数がファジィになることが分かった．
+次に，sFCMAの実験結果を図~\ref{fig:sFCMA-Em2}, \ref{fig:sFCMA-Em11}に示す．
+パラメータ$m$を$2.00$から$1.01$に変化させたところ，分類関数は$m$の値が大きいほどファジィになり，小さいほどクリスプになることが分かった．
 
-qFCMAの実験結果を図~\ref{fig:qFCMA-Em2-Lambda10}，\ref{fig:qFCMA-Em11-Lambda10}，\ref{fig:qFCMA-Em11-Lambda10000}に示す．
-こちらは，パラメータ$(m, \lambda)$の組み合わせとして，
-$(2, 10), (1.01, 10), (1.01, 10000)$
-の3通りでクラスタリングを行った．
-分類関数より，$m$の値を大きくするとファジィになり，$\lambda$の値を大きくするとクリスプになることが分かった．
-
-また，qFCMAにおいて$\lambda\rightarrow+0$とするとsFCMAと同じ特性が得られることがわかり，
-qFCMAは$m-1\rightarrow+0$とするとeFCMAと同様の特性を示すことがわかった．
+qFCMAの実験結果を図~\ref{fig:qFCMA-Em2-Lambda1}, \ref{fig:qFCMA-Em11-Lambda1}, \ref{fig:qFCMA-Em11-Lambda10}に示す．
+こちらは，パラメータ($m$, $\lambda$)の組み合わせとして，$(2.00, 1.00)$, $(1.01, 1.00)$, $(1.01, 10.00)$の3通りでクラスタリングを行った．
+図~\ref{fig:qFCMA-Em2-Lambda1}及び図~\ref{fig:qFCMA-Em11-Lambda1}の分類関数より，$m$の値が大きいほどファジィになり，小さいほどクリスプになることが分かった．また，図~\ref{fig:qFCMA-Em11-Lambda1}及び図~\ref{fig:qFCMA-Em11-Lambda10}の分類関数より，$\lambda$の値が小さいほどファジィになり，大きいほどクリスプになることが分かった．
+また，qFCMAにおいて$m-1\rightarrow+0$とするとsFCMAと同じ特性が得られ，$\lambda\rightarrow\infty$とするとeFCMAと同様の特性を示すことがわかった．
 これらの実験結果よりqFCMAはsFCMAとeFCMAの特性を併せ持つと言える．
 
 \begin{figure}[htbp]
  \centering
  \begin{minipage}{0.43\hsize}
   \includegraphics[width=\linewidth]{eFCMA-Lambda1.pdf}
-  \subcaption{$\lambda$=$1$}
+  \subcaption{$\lambda$=$1.00$}
   \label{fig:eFCMA-Lambda1}
  \end{minipage}
  \begin{minipage}{0.43\hsize}
-  \includegraphics[width=\linewidth]{eFCMA-Lambda10000.pdf}
-  \subcaption{$\lambda$=$10000$}
-  \label{fig:eFCMA-Lambda10000}
+  \includegraphics[width=\linewidth]{eFCMA-Lambda10.pdf}
+  \subcaption{$\lambda$=$10.00$}
+  \label{fig:eFCMA-Lambda10}
  \end{minipage}
  \vspace*{0.5cm}
  \caption{eFCMAの人工データの実験結果}
@@ -87,14 +83,14 @@ qFCMAは$m-1\rightarrow+0$とするとeFCMAと同様の特性を示すことが�
 \begin{figure}[htbp]
  \centering
  \begin{minipage}{0.43\hsize}
+  \includegraphics[width=\linewidth]{sFCMA-Em2.pdf}
+  \subcaption{$m$=$2.00$}
+  \label{fig:sFCMA-Em2}
+ \end{minipage}
+ \begin{minipage}{0.43\hsize}
   \includegraphics[width=\linewidth]{sFCMA-Em11.pdf}
   \subcaption{$m$=$1.01$}
   \label{fig:sFCMA-Em11}
- \end{minipage}
- \begin{minipage}{0.43\hsize}
-  \includegraphics[width=\linewidth]{sFCMA-Em2.pdf}
-  \subcaption{$m$=$2$}
-  \label{fig:sFCMA-Em2}
  \end{minipage}
  \vspace*{0.5cm}
  \caption{sFCMAの人工データの実験結果}
@@ -103,19 +99,19 @@ qFCMAは$m-1\rightarrow+0$とするとeFCMAと同様の特性を示すことが�
 \begin{figure}[htbp]
  \centering
  \begin{minipage}{0.43\hsize}
-  \includegraphics[width=\linewidth]{qFCMA-Em2-Lambda10.pdf}
-  \subcaption{$m=2$, $\lambda=10$}
-  \label{fig:qFCMA-Em2-Lambda10}
+  \includegraphics[width=\linewidth]{qFCMA-Em2-Lambda1.pdf}
+  \subcaption{$m=2.00$, $\lambda=1.00$}
+  \label{fig:qFCMA-Em2-Lambda1}
+ \end{minipage}
+ \begin{minipage}{0.43\hsize}
+  \includegraphics[width=\linewidth]{qFCMA-Em11-Lambda1.pdf}
+  \subcaption{$m=1.01$, $\lambda=1.00$}
+  \label{fig:qFCMA-Em11-Lambda1}
  \end{minipage}
  \begin{minipage}{0.43\hsize}
   \includegraphics[width=\linewidth]{qFCMA-Em11-Lambda10.pdf}
-  \subcaption{$m=1.01$, $\lambda=10$}
+  \subcaption{$m=1.01$, $\lambda=10.00$}
   \label{fig:qFCMA-Em11-Lambda10}
- \end{minipage}
- \begin{minipage}{0.43\hsize}
-  \includegraphics[width=\linewidth]{qFCMA-Em11-Lambda10000.pdf}
-  \subcaption{$m=1.1$, $\lambda=10000$}
-  \label{fig:qFCMA-Em11-Lambda10000}
  \end{minipage}
  \vspace*{0.5cm}
  \caption{qFCMAの人工データの実験結果}
@@ -133,7 +129,7 @@ qFCMAは$m-1\rightarrow+0$とするとeFCMAと同様の特性を示すことが�
 eFCMA，sFCMA，qFCMAの実データ実験の結果について，
 それぞれ図~\ref{fig:eFCMA_ARI}，~\ref{fig:sFCMA_ARI}，~\ref{fig:qFCMA_ARI}に示す．
 eFCMAでは$\lambda$の値を$1$から$100$まで$1$刻み，
-sFCMAでは$m$の値を$1.1$から$4.0$まで$0.1$刻み，
+sFCMAでは$m$の値を$1.1$から$3.0$まで$0.1$刻み，
 qFCMAでは$m$の値を$1.1$から$3.0$まで$0.1$刻み，$\lambda$の値を$1$から$100$まで$1$刻みで変化させた．
 
 \begin{figure}[htbp]
@@ -180,7 +176,7 @@ qFCMAでは$m$の値を$1.1$から$3.0$まで$0.1$刻み，$\lambda$の値を$1$
 sFCMAは$m$が大きくなるとファジィになることが分かった．
 また，qFCMAはeFCMAとsFCMAの両方の特性を併せ持つということが分かった．
 精度はsFCMAが最も高評価となった．要因として，この手法の最適化問題にエントロピー項が含まれないということが考えられる．sFCMAの精度には，エントロピー項が含まれるeFCMA，qFCMAの2手法と比較して大きな差が見られた．
-今後の課題は，今回用いなかった他の実データで$3$手法の比較を行い，精度についての調査を行うことである．
+今後の課題は，今回用いなかった他の実データで$3$手法の比較を行い，精度についての裏付けを行うことである．
 
 
 \begin{thebibliography}{5}

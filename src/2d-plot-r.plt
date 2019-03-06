@@ -1,4 +1,4 @@
-splot "qFCMA-Em2.000000-Lambda10.000000-2d-Gaussian-2clusters.result_classificationFunction" using 1:2:3 title "funcsion1"  with lines lc rgb "blue", "qFCMA-Em2.000000-Lambda10.000000-2d-Gaussian-2clusters.result_classificationFunction" using 1:2:4 title "funcsion2"  with lines lc rgb "green", "< awk '{if($3>$4){print $1, $2, $3;}}' qFCMA-Em2.000000-Lambda10.000000-2d-Gaussian-2clusters.result_membership" title "cluster1" lc rgb "yellow", "< awk '{if($4>$3){print $1, $2, $4;}}' qFCMA-Em2.000000-Lambda10.000000-2d-Gaussian-2clusters.result_membership"  title "cluster2" lc rgb "purple"
+splot "eFCMA-Lambda10.000000-2d-Gaussian-2clusters.result_classificationFunction" using 1:2:3 title "funcsion1"  with lines lc rgb "blue", "eFCMA-Lambda10.000000-2d-Gaussian-2clusters.result_classificationFunction" using 1:2:4 title "funcsion2"  with lines lc rgb "green", "< awk '{if($3>$4){print $1, $2, $3;}}' eFCMA-Lambda10.000000-2d-Gaussian-2clusters.result_membership" title "cluster1" lc rgb "yellow", "< awk '{if($4>$3){print $1, $2, $4;}}' eFCMA-Lambda10.000000-2d-Gaussian-2clusters.result_membership"  title "cluster2" lc rgb "purple"
 set hidden3d
 replot
 set ticslevel 0

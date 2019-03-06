@@ -196,10 +196,10 @@
       \end{minipage}
       \begin{minipage}{0.32\hsize}
         \begin{center}
-          \includegraphics[width=40mm]{eFCMA-Lambda10000.pdf}
+          \includegraphics[width=40mm]{eFCMA-Lambda10.pdf}
         \end{center}
         \captionsetup{labelformat=empty,labelsep=none}
-        \caption{$\lambda=10000$}
+        \caption{$\lambda=10$}
         \label{fig:two}
       \end{minipage}
      \begin{minipage}{0.32\hsize}
@@ -214,7 +214,7 @@
   \end{block}
   \begin{block}{eFCMAの特徴}
     \begin{center}
-      パラメータ$\lambda$を無限大に近づけるほどHCMに近づく
+      パラメータ$\lambda$を大きくするほどクリスプになり，HCMに近づく
     \end{center}
   \end{block}
 \end{frame}
@@ -227,7 +227,7 @@
           \includegraphics[width=40mm]{sFCMA-Em2.pdf}
         \end{center}
         \captionsetup{labelformat=empty,labelsep=none}
-        \caption{$m=2$}
+        \caption{$m=2.00$}
         \label{fig:one}
       \end{minipage}
       \begin{minipage}{0.32\hsize}
@@ -250,7 +250,7 @@
   \end{block}
   \begin{block}{sFCMAの特徴}
     \begin{center}
-      パラメータ$m$を1に近づけるほどHCMに近づく
+      パラメータ$m$を1に近づけるほどクリスプになり，HCMに近づく
     \end{center}
   \end{block}
 \end{frame}
@@ -261,35 +261,35 @@
     \begin{figure}[htbp]
       \begin{minipage}{0.32\hsize}
         \begin{center}
-          \includegraphics[width=40mm]{qFCMA-Em2-Lambda10.pdf}
+          \includegraphics[width=40mm]{qFCMA-Em2-Lambda1.pdf}
         \end{center}
         \captionsetup{labelformat=empty,labelsep=none}
-        \caption{$m=2.0$\;, \;$\lambda=10$}
+        \caption{$m=2.00$\;, \;$\lambda=1$}
         \label{fig:one}
       \end{minipage}
       %\hspace{1cm}
       \begin{minipage}{0.32\hsize}
         \begin{center}
-          \includegraphics[width=40mm]{qFCMA-Em11-Lambda10.pdf}
+          \includegraphics[width=40mm]{qFCMA-Em11-Lambda1.pdf}
         \end{center}
         \captionsetup{labelformat=empty,labelsep=none}
-        \caption{$m=1.01$\;, \;$\lambda=10$}
+        \caption{$m=1.01$\;, \;$\lambda=1$}
         \label{fig:two}
       \end{minipage}
      \begin{minipage}{0.32\hsize}
       \begin{center}
-       \includegraphics[width=40mm]{qFCMA-Em11-Lambda10000.pdf}
+       \includegraphics[width=40mm]{qFCMA-Em11-Lambda10.pdf}
       \end{center}
       \captionsetup{labelformat=empty,labelsep=none}
-      \caption{$m=1.01$\;, \;$\lambda=10000$}
+      \caption{$m=1.01$\;, \;$\lambda=10$}
       \label{fig:two}
      \end{minipage}
     \end{figure}
   \end{block}
   \begin{block}{qFCMAの特徴}
     \begin{itemize}
-      \item パラメータ$\lambda$を無限大に近づけるとsFCMAに近づく
-      \item パラメータ$m$を1に近づけるとeFCMAに近づく
+     \item パラメータ$m$を1に近づけるとクリスプになる
+     \item パラメータ$\lambda$が大きいほどクリスプになる
     \end{itemize}
   \end{block}
 \end{frame}
@@ -316,19 +316,19 @@
 \begin{frame}\frametitle{実験条件}
   \begin{block}{eFCMA}
     \begin{center}
-      パラメータ$\lambda$を0.1から1刻みで100まで変化させる
+      パラメータ$\lambda$を1から1刻みで100まで変化させる
+    \end{center}
+  \end{block}
+  \begin{block}{sFCMA}
+    \begin{center}
+      パラメータ$m$を1.1から0.1刻みで3.0まで変化させる
     \end{center}
   \end{block}
   \begin{block}{qFCMA}
     \begin{itemize}
-      \item パラメータ$\lambda$を0.1から1刻みで100まで変化させる
-      \item パラメータ$m$を2から0.01刻みで1.01まで変化させる
+      \item パラメータ$\lambda$を1から1刻みで100まで変化させる
+      \item パラメータ$m$を1.1から0.1刻みで3.0まで変化させる
     \end{itemize}
-  \end{block}
-  \begin{block}{sFCMA}
-    \begin{center}
-      パラメータ$m$を2から0.01刻みで1.01まで変化させる
-    \end{center}
   \end{block}
 \end{frame}
 
@@ -347,7 +347,7 @@
         \includegraphics[height=60mm]{eFCMA_ARI.pdf}
       \end{center}
       \captionsetup{labelformat=empty,labelsep=none}
-      \caption{最高ARI:0.352349 ($\lambda=67$)}
+      \caption{最高ARI:0.29500 ($\lambda=8$)}
     \end{figure}
   \end{block}
 \end{frame}
@@ -359,7 +359,7 @@
         \includegraphics[height=60mm]{sFCMA_ARI.pdf}
       \end{center}
       \captionsetup{labelformat=empty,labelsep=none}
-      \caption{最高ARI:0.715312 ($m=1.01$)}
+      \caption{最高ARI:0.73515 ($m=3.0$)}
     \end{figure}
   \end{block}
 \end{frame}
@@ -368,10 +368,10 @@
   \begin{block}{qFCMA}
     \begin{figure}[htbp]
       \begin{center}
-        \includegraphics[height=60mm]{qfcma_ARI.png}
+        \includegraphics[height=60mm]{qFCMA_ARI.pdf}
       \end{center}
       \captionsetup{labelformat=empty,labelsep=none}
-      \caption{最高ARI:0.339808 ($\lambda=99$, $m=1.12$)}
+      \caption{最高ARI:0.26286 ($\lambda=80$, $m=1.1$)}
     \end{figure}
   \end{block}
 \end{frame}
@@ -381,9 +381,9 @@
     \vspace{5mm}
     \begin{table}
       \begin{tabular}{ l || c | c }\hline
-        eFCMA & 0.352349 & $\lambda = 67$\\ \hline  
-        sFCMA & 0.715312 & $m = 1.01$\\ \hline
-       qFCMA & 0.339808 & $\lambda = 99 $\;, \;$m = 1.12$\\  \hline
+       eFCMA & 0.29500 & $\lambda = 8$\\ \hline  
+       sFCMA & 0.73515 & $m = 3.0$\\ \hline
+       qFCMA & 0.26286 & $\lambda = 80 $\;, \;$m = 1.1$\\  \hline
       \end{tabular}
     \end{table}
   \end{block}

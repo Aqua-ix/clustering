@@ -6,7 +6,7 @@
 
 #define MAX_ITERATES 100000
 #define DIFF_FOR_STOP 1.0E-10
-#define LAMBDA 10000
+#define LAMBDA 1
 
 const int centers_number=2;
 

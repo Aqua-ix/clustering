@@ -82,6 +82,8 @@
 %
 \section{背景}\label{sec:background}
 %
+
+
 \subsection{ファジィクラスタリング}\label{subsec:fuzzy_clustering}
 %
 \subsection{クラスタサイズ調整変数}\label{subsec:cluster_adjust_var}
@@ -90,38 +92,11 @@
 %
 \section{構成}\label{sec:contents}
 本文書の構成を次に示す．
-第\ref{chap:before_method}章では，従来手法について説明する．
 第\ref{chap:suggest_method}章では，提案手法について説明する．
 第\ref{chap:artificial_data}章では，人工データ実験による各手法の特性比較を行う．
 第\ref{chap:real_data}章では，実データ実験による各手法の精度比較を行う．
 最後に第\ref{chap:conclusion}章では，本文書の結論を述べる．
 また，付録では，プログラムソースを掲載している．
-%
-%
-%
-\chapter{従来手法}\label{chap:before_method}
-%
-\section{はじめに}\label{sec:before_method_intro}
-本章では，従来のファジィクラスタリング手法について説明する．
-まず第~\ref{sec:before_method_define}節で定義を示し，
-次に第~\ref{sec:efcm}節から~\ref{sec:qfcm}節で各手法の最適化問題と，その導出について述べる．
-最後に第~\ref{sec:before_algorythm}節でアルゴリズムについて述べる．
-%
-\section{定義}\label{sec:before_method_define}
-%
-\section{eFCM}\label{sec:efcm}
-%
-\section{sFCM}\label{sec:sfcm}
-%
-\section{qFCM}\label{sec:qfcm}
-%
-\section{アルゴリズム}\label{sec:before_algorythm}
-%
-\section{おわりに}\label{sec:before_method_summary}
-本章では，従来のファジィクラスタリング手法について説明した．
-まず第~\ref{sec:before_method_define}節で定義を示し，
-次に第~\ref{sec:efcm}節から~\ref{sec:qfcm}節で各手法の最適化問題と，その導出について述べた．
-最後に第~\ref{sec:before_algorythm}節でアルゴリズムについて述べた．
 %
 %
 %
@@ -135,12 +110,76 @@
 %
 \section{定義}\label{sec:suggest_method_define}
 %
+  \begin{center}
+   \begin{tabular}{c|c||c|c} \hline
+     {$N$}&データ数&{$x_k$}&データ数 \\ \hline
+     {$C$}&クラスタ数&{$v_i$}&クラスタ中心\\ \hline
+     {$\lambda$,~$m$}&ファジィ化パラメータ&{$u_{i,k}$}&帰属度 \\ \hline
+     {$\alpha_i$}&クラスタサイズ調整変数\\ \hline
+   \end{tabular}
+  \end{center}
+
 \section{eFCMA}\label{sec:efcma}
 %
+\begin{align}
+ \underset{u,v,\alpha}{\text{minimize}}
+    \sum_{i=1}^C\sum_{k=1}^Nu_{i,k}||x_k-v_i||_2^2+\lambda^{-1}\sum_{i=1}^C\sum_{k=1}^Nu_{i,k}\log\Bigl(\frac{u_{i,k}}{\alpha_{i}}\Bigl)\\
+    {\text{subject to }}\sum_{i=1}^Cu_{i,k}=1,~\sum_{i=1}^C\alpha_{i}=1{\text{ and }}\lambda>0,~\quad\alpha_{i}>0
+\end{align}
+
+\begin{align}
+    v_{i}=\frac{\sum_{k=1}^Nu_{i,k}x_{k}}{\quad\sum_{k=1}^Nu_{i,k}}
+\end{align}
+
+\begin{align}
+    u_{i,k}=\frac{\pi_{i}\exp(-\lambda||x_k-v_i||_2^2)}{\sum_{j=1}^C\alpha_{j}\exp(-\lambda||x_k-v_j||_2^2)}
+\end{align}
+
+\begin{align}
+    \alpha_{i}=\frac{\sum_{k=1}^Nu_{i,k}}{\quad N}
+\end{align}
+
 \section{sFCMA}\label{sec:sfcma}
 %
+\begin{align}
+ \underset{u,v,\alpha}{\text{minimize}}
+ \sum_{i=1}^C\sum_{k=1}^N(\alpha_{i})^{1-m}(u_{i,k})^m||x_k-v_i||_2^2\\
+ {\text{subject to }}\sum_{i=1}^Cu_{i,k}=1,~\sum_{i=1}^C\alpha_{i}=1{\text{ and }}m>1,~\alpha_{i}>0
+\end{align}
+ 
+\begin{align}
+   v_{i}=\frac{\sum_{k=1}^N(u_{i,k})^mx_{k}}{\quad\sum_{k=1}^N(u_{i,k})^{m}}
+\end{align}
+
+\begin{align}
+   u_{i,k}=\frac{1}{\sum_{j=1}^c\frac{\alpha_{j}}{\alpha_{i}}\left(\frac{d_{j,k}}{d_{i,k}}\right)^\frac{1}{1-m}}
+\end{align}
+
+\begin{align}
+    \alpha_{i}=\frac{1}{\sum_{j=1}^C\left(\sum_{k=1}^N\frac{(u_{j,k})^md_{j,k}}{(u_{i,k})^md_{i,k}}\right)^{\frac{1}{m}}}
+\end{align}
+  
 \section{qFCMA}\label{sec:qfcma}
 %
+\begin{align}
+ \underset{u,v,\alpha}{\text{minimize}}
+ \sum_{i=1}^C\sum_{k=1}^N(\alpha_{i})^{1-m}(u_{i,k})^m||x_k-v_i||_2^2
+ +\frac{\lambda^{-1}}{m-1}\sum_{i=1}^C\sum_{k=1}^N(\alpha_{i})^{1-m}(u_{i,k})^m\\
+ {\text{subject to }}\sum_{i=1}^Cu_{i,k}=1,~\sum_{i=1}^C\alpha_{i}=1{text{ and }}\lambda>0,~m>1,~\alpha_{i}>0
+\end{align}
+
+\begin{align}
+  v_{i}=\frac{\sum_{k=1}^N(u_{i,k})^mx_{k}}{\quad\sum_{k=1}^N(u_{i,k})^{m}}
+\end{align}
+    
+\begin{align}
+  u_{i,k}=\frac{\alpha_{i}(1+\lambda(1-m)||x_i-v_k||_2^2)^\frac{1}{1-m}}{\quad\sum_{j=1}^C\alpha_{j}(1+\lambda(1-m)||x_j-v_k||_2^2)^\frac{1}{1-m}}
+\end{align}
+
+\begin{align}
+ \alpha_{i}=\frac{1}{\sum_{j=1}^C\left(\sum_{k=1}^N\frac{(u_{j,k})^m(1-\lambda(1-m)d_{j,k})}{(u_i,k)^m(1-\lambda(1-m)d_{i,k})}\right)^{\frac{1}{m}}}
+\end{align}
+   
 \section{アルゴリズム}\label{sec:suggest_algorythm}
 %
 \section{おわりに}\label{sec:suggest_method_summary}
@@ -190,7 +229,6 @@
 %
 \chapter{結論}\label{chap:conclusion}
 本文書では，
-第\ref{chap:before_method}章では，従来手法について説明した．
 第\ref{chap:suggest_method}章では，提案手法について説明した．
 第\ref{chap:artificial_data}章では，人工データ実験により各手法の特性比較を行った．
 第\ref{chap:real_data}章では，実データ実験により各手法の精度比較を行った．
