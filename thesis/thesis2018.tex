@@ -110,23 +110,32 @@
 %
 \section{定義}\label{sec:suggest_method_define}
 %
-  \begin{center}
-   \begin{tabular}{c|c||c|c} \hline
-     {$N$}&データ数&{$x_k$}&データ数 \\ \hline
-     {$C$}&クラスタ数&{$v_i$}&クラスタ中心\\ \hline
-     {$\lambda$,~$m$}&ファジィ化パラメータ&{$u_{i,k}$}&帰属度 \\ \hline
-     {$\alpha_i$}&クラスタサイズ調整変数\\ \hline
-   \end{tabular}
-  \end{center}
+次節で述べるファジィクラスリングの最適化問題における各変数の定義について、以下の表に示す。
+ \begin{table}[htbp]
+  \caption{ファジイクラスタリングの最適化問題における定義}
+ \begin{center}
+  \begin{tabular}{c|c||c|c} \hline
+   {$N$}&データ数&{$x_k$}&データ \\ \hline
+   {$C$}&クラスタ数&{$v_i$}&クラスタ中心\\ \hline
+   {$\lambda$,~$m$}&ファジィ化パラメータ&{$u_{i,k}$}&帰属度 \\ \hline
+   {$\alpha_i$}&クラスタサイズ調整変数\\ \hline
+  \end{tabular}
+ \end{center}
+  \label{tab:fuzzy_c_define}
+ \end{table}
 
 \section{eFCMA}\label{sec:efcma}
 %
+Entropy-regularized Fuzzy $c$-Means vAriable controlling clusters size~(eFCMA)~\cite{eFCMA}
+の最適化問題を以下に示す。
+
 \begin{align}
  \underset{u,v,\alpha}{\text{minimize}}
     \sum_{i=1}^C\sum_{k=1}^Nu_{i,k}||x_k-v_i||_2^2+\lambda^{-1}\sum_{i=1}^C\sum_{k=1}^Nu_{i,k}\log\Bigl(\frac{u_{i,k}}{\alpha_{i}}\Bigl)\\
     {\text{subject to }}\sum_{i=1}^Cu_{i,k}=1,~\sum_{i=1}^C\alpha_{i}=1{\text{ and }}\lambda>0,~\quad\alpha_{i}>0
 \end{align}
 
+次に、
 \begin{align}
     v_{i}=\frac{\sum_{k=1}^Nu_{i,k}x_{k}}{\quad\sum_{k=1}^Nu_{i,k}}
 \end{align}
@@ -141,6 +150,9 @@
 
 \section{sFCMA}\label{sec:sfcma}
 %
+Standard Fuzzy $c$-Means with vAriable controlling cluster size~(sFCMA)~\cite{sFCMA}
+の最適化問題を以下に示す。
+
 \begin{align}
  \underset{u,v,\alpha}{\text{minimize}}
  \sum_{i=1}^C\sum_{k=1}^N(\alpha_{i})^{1-m}(u_{i,k})^m||x_k-v_i||_2^2\\
@@ -161,11 +173,14 @@
   
 \section{qFCMA}\label{sec:qfcma}
 %
+$q$-divergence based Fuzzy $c$-Means with vAriable controlling cluster size~(qFCMA)~\cite{qFCMA}
+の最適化問題を以下に示す。
+
 \begin{align}
  \underset{u,v,\alpha}{\text{minimize}}
  \sum_{i=1}^C\sum_{k=1}^N(\alpha_{i})^{1-m}(u_{i,k})^m||x_k-v_i||_2^2
  +\frac{\lambda^{-1}}{m-1}\sum_{i=1}^C\sum_{k=1}^N(\alpha_{i})^{1-m}(u_{i,k})^m\\
- {\text{subject to }}\sum_{i=1}^Cu_{i,k}=1,~\sum_{i=1}^C\alpha_{i}=1{text{ and }}\lambda>0,~m>1,~\alpha_{i}>0
+ {\text{subject to }}\sum_{i=1}^Cu_{i,k}=1,~\sum_{i=1}^C\alpha_{i}=1{\text{ and }}\lambda>0,~m>1,~\alpha_{i}>0
 \end{align}
 
 \begin{align}
