@@ -110,7 +110,7 @@
 %
 \section{定義}\label{sec:suggest_method_define}
 %
-次節で述べるファジィクラスリングの最適化問題における各変数の定義について，以下の表に示す．
+次節で述べるファジィクラスリングの最適化問題における各変数の定義について、以下の表に示す。
  \begin{table}[htbp]
   \caption{ファジイクラスタリングの最適化問題における定義}
  \begin{center}
@@ -127,7 +127,7 @@
 \section{eFCMA}\label{sec:efcma}
 %
 Entropy-regularized Fuzzy $c$-Means vAriable controlling clusters size~(eFCMA)~\cite{eFCMA}
-の最適化問題を以下に示す．
+の最適化問題を以下に示す。
 
 \begin{align}
  \underset{u,v,\alpha}{\text{minimize}}
@@ -135,7 +135,7 @@ Entropy-regularized Fuzzy $c$-Means vAriable controlling clusters size~(eFCMA)~\
     {\text{subject to }}\sum_{i=1}^Cu_{i,k}=1,~\sum_{i=1}^C\alpha_{i}=1{\text{ and }}\lambda>0,~\quad\alpha_{i}>0
 \end{align}
 
-次に，
+次に、
 \begin{align}
     v_{i}=\frac{\sum_{k=1}^Nu_{i,k}x_{k}}{\quad\sum_{k=1}^Nu_{i,k}}
 \end{align}
@@ -151,7 +151,7 @@ Entropy-regularized Fuzzy $c$-Means vAriable controlling clusters size~(eFCMA)~\
 \section{sFCMA}\label{sec:sfcma}
 %
 Standard Fuzzy $c$-Means with vAriable controlling cluster size~(sFCMA)~\cite{sFCMA}
-の最適化問題を以下に示す．
+の最適化問題を以下に示す。
 
 \begin{align}
  \underset{u,v,\alpha}{\text{minimize}}
@@ -174,7 +174,7 @@ Standard Fuzzy $c$-Means with vAriable controlling cluster size~(sFCMA)~\cite{sF
 \section{qFCMA}\label{sec:qfcma}
 %
 $q$-divergence based Fuzzy $c$-Means with vAriable controlling cluster size~(qFCMA)~\cite{qFCMA}
-の最適化問題を以下に示す．
+の最適化問題を以下に示す。
 
 \begin{align}
  \underset{u,v,\alpha}{\text{minimize}}
