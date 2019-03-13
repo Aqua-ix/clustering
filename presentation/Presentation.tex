@@ -76,11 +76,27 @@
 \begin{frame}\frametitle{実験対象}
   \begin{block}{提案手法}
     \begin{itemize}
+    \item sFCMA
     \item eFCMA
     \item qFCMA
-    \item sFCMA
     \end{itemize}
   \end{block}
+\end{frame}
+
+\begin{frame}\frametitle{クラスタリングの最適化問題}
+  \begin{block}{sFCMA}
+    \quad$\underset{u,v,\alpha}{\text{minimize}}$
+    $\sum_{i=1}^C\sum_{k=1}^N(\alpha_{i})^{1-m}(u_{i,k})^m||x_k-v_i||_2^2$\\
+    \qquad\qquad\quad{\text{subject to }}$\sum_{i=1}^Cu_{i,k}=1$\;, \;$\sum_{i=1}^C\alpha_{i}=1$\; and \;$m>1$\;, \;$\alpha_{i}>0$
+  \end{block}
+  \begin{center}
+    \begin{tabular}{c|c||c|c} \hline
+	  {$N$}&データ数&{$x_k$}&データ数 \\ \hline
+	  {$C$}&クラスタ数&{$v_i$}&クラスタ中心\\ \hline
+	  {$m$}&ファジィ化パラメータ&{$u_{i,k}$}&帰属度 \\ \hline
+	  {$\alpha_i$}&クラスタサイズ調整変数\\ \hline
+    \end{tabular}
+  \end{center}
 \end{frame}
 
 \begin{frame}\frametitle{クラスタリングの最適化問題}
@@ -111,22 +127,6 @@
 	  {$N$}&データ数&{$x_k$}&データ数 \\ \hline
 	  {$C$}&クラスタ数&{$v_i$}&クラスタ中心\\ \hline
 	  {$\lambda,m$}&ファジィ化パラメータ&{$u_{i,k}$}&帰属度 \\ \hline
-	  {$\alpha_i$}&クラスタサイズ調整変数\\ \hline
-    \end{tabular}
-  \end{center}
-\end{frame}
-
-\begin{frame}\frametitle{クラスタリングの最適化問題}
-  \begin{block}{sFCMA}
-    \quad$\underset{u,v,\alpha}{\text{minimize}}$
-    $\sum_{i=1}^C\sum_{k=1}^N(\alpha_{i})^{1-m}(u_{i,k})^m||x_k-v_i||_2^2$\\
-    \qquad\qquad\quad{\text{subject to }}$\sum_{i=1}^Cu_{i,k}=1$\;, \;$\sum_{i=1}^C\alpha_{i}=1$\; and \;$m>1$\;, \;$\alpha_{i}>0$
-  \end{block}
-  \begin{center}
-    \begin{tabular}{c|c||c|c} \hline
-	  {$N$}&データ数&{$x_k$}&データ数 \\ \hline
-	  {$C$}&クラスタ数&{$v_i$}&クラスタ中心\\ \hline
-	  {$m$}&ファジィ化パラメータ&{$u_{i,k}$}&帰属度 \\ \hline
 	  {$\alpha_i$}&クラスタサイズ調整変数\\ \hline
     \end{tabular}
   \end{center}
@@ -184,6 +184,42 @@
 \end{frame}
 
 \begin{frame}\frametitle{実験結果}
+  \begin{block}{sFCMA}
+    \begin{figure}[htbp]
+      \begin{minipage}{0.32\hsize}
+        \begin{center}
+          \includegraphics[width=40mm]{sFCMA-Em2.pdf}
+        \end{center}
+        \captionsetup{labelformat=empty,labelsep=none}
+        \caption{$m=2.00$}
+        \label{fig:one}
+      \end{minipage}
+      \begin{minipage}{0.32\hsize}
+        \begin{center}
+          \includegraphics[width=40mm]{sFCMA-Em11.pdf}
+        \end{center}
+        \captionsetup{labelformat=empty,labelsep=none}
+        \caption{$m=1.01$}
+        \label{fig:two}
+      \end{minipage}
+     \begin{minipage}{0.32\hsize}
+        \begin{center}
+          \includegraphics[width=40mm]{HCM.pdf}
+        \end{center}
+        \captionsetup{labelformat=empty,labelsep=none}
+        \caption{HCM}
+        \label{fig:three}
+     \end{minipage}
+    \end{figure}
+  \end{block}
+  \begin{block}{sFCMAの特徴}
+    \begin{center}
+      パラメータ$m$を1に近づけるほどクリスプになり，HCMに近づく
+    \end{center}
+  \end{block}
+\end{frame}
+
+\begin{frame}\frametitle{実験結果}
   \begin{block}{eFCMA}
     \begin{figure}[htbp]
       \begin{minipage}{0.32\hsize}
@@ -219,41 +255,7 @@
   \end{block}
 \end{frame}
 
-\begin{frame}\frametitle{実験結果}
-  \begin{block}{sFCMA}
-    \begin{figure}[htbp]
-      \begin{minipage}{0.32\hsize}
-        \begin{center}
-          \includegraphics[width=40mm]{sFCMA-Em2.pdf}
-        \end{center}
-        \captionsetup{labelformat=empty,labelsep=none}
-        \caption{$m=2.00$}
-        \label{fig:one}
-      \end{minipage}
-      \begin{minipage}{0.32\hsize}
-        \begin{center}
-          \includegraphics[width=40mm]{sFCMA-Em11.pdf}
-        \end{center}
-        \captionsetup{labelformat=empty,labelsep=none}
-        \caption{$m=1.01$}
-        \label{fig:two}
-      \end{minipage}
-     \begin{minipage}{0.32\hsize}
-        \begin{center}
-          \includegraphics[width=40mm]{HCM.pdf}
-        \end{center}
-        \captionsetup{labelformat=empty,labelsep=none}
-        \caption{HCM}
-        \label{fig:three}
-     \end{minipage}
-    \end{figure}
-  \end{block}
-  \begin{block}{sFCMAの特徴}
-    \begin{center}
-      パラメータ$m$を1に近づけるほどクリスプになり，HCMに近づく
-    \end{center}
-  \end{block}
-\end{frame}
+
 
 \begin{frame}\frametitle{実験結果}
   \begin{block}{qFCMA}
@@ -313,23 +315,23 @@
   \end{block}
 \end{frame}
 
-\begin{frame}\frametitle{実験条件}
-  \begin{block}{eFCMA}
-    \begin{center}
-      パラメータ$\lambda$を1から1刻みで100まで変化させる
-    \end{center}
-  \end{block}
-  \begin{block}{sFCMA}
-    \begin{center}
-      パラメータ$m$を1.1から0.1刻みで3.0まで変化させる
-    \end{center}
-  \end{block}
-  \begin{block}{qFCMA}
-    \begin{itemize}
-      \item パラメータ$\lambda$を1から1刻みで100まで変化させる
-      \item パラメータ$m$を1.1から0.1刻みで3.0まで変化させる
-    \end{itemize}
-  \end{block}
+\begin{frame}\frametitle{実験条件} 
+ \begin{block}{sFCMA}
+  \begin{center}
+   パラメータ$m$を1.1から0.1刻みで3.0まで変化させる
+  \end{center}
+ \end{block}
+ \begin{block}{eFCMA}
+  \begin{center}
+   パラメータ$\lambda$を1から1刻みで100まで変化させる
+  \end{center}
+ \end{block}
+ \begin{block}{qFCMA}
+  \begin{itemize}
+   \item パラメータ$\lambda$を1から1刻みで100まで変化させる
+   \item パラメータ$m$を1.1から0.1刻みで3.0まで変化させる
+  \end{itemize}
+ \end{block}
 \end{frame}
 
 \begin{frame}\frametitle{アルゴリズム}
@@ -341,6 +343,18 @@
 \end{frame}
 
 \begin{frame}\frametitle{実験結果}
+  \begin{block}{sFCMA}
+    \begin{figure}[htbp]
+      \begin{center}
+        \includegraphics[height=60mm]{sFCMA_ARI.pdf}
+      \end{center}
+      \captionsetup{labelformat=empty,labelsep=none}
+      \caption{最高ARI:0.73515 ($m=3$)}
+    \end{figure}
+  \end{block}
+\end{frame}
+
+\begin{frame}\frametitle{実験結果}
   \begin{block}{eFCMA}
     \begin{figure}[htbp]
       \begin{center}
@@ -348,18 +362,6 @@
       \end{center}
       \captionsetup{labelformat=empty,labelsep=none}
       \caption{最高ARI:0.29500 ($\lambda=8$)}
-    \end{figure}
-  \end{block}
-\end{frame}
-
-\begin{frame}\frametitle{実験結果}
-  \begin{block}{sFCMA}
-    \begin{figure}[htbp]
-      \begin{center}
-        \includegraphics[height=60mm]{sFCMA_ARI.pdf}
-      \end{center}
-      \captionsetup{labelformat=empty,labelsep=none}
-      \caption{最高ARI:0.73515 ($m=3.0$)}
     \end{figure}
   \end{block}
 \end{frame}
@@ -381,9 +383,10 @@
     \vspace{5mm}
     \begin{table}
       \begin{tabular}{ l || c | c }\hline
-       eFCMA & 0.29500 & $\lambda = 8$\\ \hline  
-       sFCMA & 0.73515 & $m = 3.0$\\ \hline
-       qFCMA & 0.26286 & $\lambda = 80 $\;, \;$m = 1.1$\\  \hline
+       手法名 & ARIの最高値 & パラメータ値\\ \hline \hline
+       sFCMA & $0.73515$ & $m = 3$\\ \hline
+       eFCMA & $0.29500$& $\lambda = 8$\\ \hline  
+       qFCMA & $0.26286$ & $\lambda = 80$, $m = 1.1$\\  \hline
       \end{tabular}
     \end{table}
   \end{block}
@@ -473,6 +476,14 @@
   \end{align*}
 \end{frame}
 
+\begin{frame}\frametitle{sFCMAの更新式}
+  \begin{eqnarray*}
+    &v_{i}&=\frac{\sum_{k=1}^N(u_{i,k})^mx_{k}}{\quad\sum_{k=1}^N(u_{i,k})^{m}},\\
+    &u_{i,k}&=\frac{1}{\sum_{j=1}^c\frac{\alpha_{j}}{\alpha_{i}}\left(\frac{d_{j,k}}{d_{i,k}}\right)^\frac{1}{1-m}},\\
+    &\alpha_{i}&=\frac{1}{\sum_{j=1}^C\left(\sum_{k=1}^N\frac{(u_{j,k})^md_{j,k}}{(u_{i,k})^md_{i,k}}\right)^{\frac{1}{m}}}.\\
+  \end{eqnarray*}
+\end{frame}
+
 \begin{frame}\frametitle{eFCMAの更新式}
   \begin{eqnarray*}
     &v_{i}& =\frac{\sum_{k=1}^Nu_{i,k}x_{k}}{\quad\sum_{k=1}^Nu_{i,k}},\\
@@ -486,14 +497,6 @@
     &v_{i}&=\frac{\sum_{k=1}^N(u_{i,k})^mx_{k}}{\quad\sum_{k=1}^N(u_{i,k})^{m}},\quad\\
     &u_{i,k}&=\frac{\alpha_{i}(1+\lambda(1-m)||x_i-v_k||_2^2)^\frac{1}{1-m}}{\quad\sum_{j=1}^C\alpha_{j}(1+\lambda(1-m)||x_j-v_k||_2^2)^\frac{1}{1-m}},\\
     & \alpha_{i}&=\frac{1}{\sum_{j=1}^C\left(\sum_{k=1}^N\frac{(u_{j,k})^m(1-\lambda(1-m)d_{j,k})}{(u_i,k)^m(1-\lambda(1-m)d_{i,k})}\right)^{\frac{1}{m}}}.\\
-  \end{eqnarray*}
-\end{frame}
-
-\begin{frame}\frametitle{sFCMAの更新式}
-  \begin{eqnarray*}
-    &v_{i}&=\frac{\sum_{k=1}^N(u_{i,k})^mx_{k}}{\quad\sum_{k=1}^N(u_{i,k})^{m}},\\
-    &u_{i,k}&=\frac{1}{\sum_{j=1}^c\frac{\alpha_{j}}{\alpha_{i}}\left(\frac{d_{j,k}}{d_{i,k}}\right)^\frac{1}{1-m}},\\
-    &\alpha_{i}&=\frac{1}{\sum_{j=1}^C\left(\sum_{k=1}^N\frac{(u_{j,k})^md_{j,k}}{(u_{i,k})^md_{i,k}}\right)^{\frac{1}{m}}}.\\
   \end{eqnarray*}
 \end{frame}
 
