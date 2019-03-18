@@ -2,6 +2,7 @@
 \usepackage[dvipdfmx]{graphicx}
 \usepackage[hang,small,bf]{caption}
 \usepackage[subrefformat=parens]{subcaption}
+\usepackage{here}
 %\renewcommand{\figurename}{Fig.}
 
 \title{{\bf クラスタサイズ調整変数を導入した \\ クラスタリング手法の特性比較及び精度評価}
@@ -35,6 +36,9 @@ sFCMA~\cite{sFCMA}, eFCMA~\cite{eFCMA}, qFCMA~\cite{qFCMA}
 
 まず，これらの手法についてそれぞれの特性を把握するため，人工データを用いて実験を行う．
 複数のパラメータで実験を行い，それぞれで算出された分類関数~\cite{cFunc}から比較及び評価を行う．
+分類関数は，各クラスタに対する帰属度を座標空間上に可視化したもので，分類関数を見ることにより，
+データがどのクラスタに属するかということが調べることができるとともに，
+各手法がファジィであるかクリスプであるかを判別することができる．
 
 次に，これらの手法から最も有用なものを発見するために，
 実データを用いてAdjusted Rand Index(ARI)~\cite{ARI}を算出し，
@@ -47,6 +51,7 @@ sFCMA~\cite{sFCMA}, eFCMA~\cite{eFCMA}, qFCMA~\cite{qFCMA}
 平均値($-1$, $-1$)，標準偏差($0.5$, $0.5$)
 及び平均値($1$, $1$)，標準偏差($0.5$, $0.5$)
 のガウスサンプリングで生成したデータを用いた．
+また，初期値として，クラスタ中心にランダムな座標を与え，クラスタサイズ調整変数にクラスタ数の逆数を与えた．
 
 sFCMAの実験結果を図~\ref{fig:sFCMA-Em2},~\ref{fig:sFCMA-Em11}に示す．
 パラメータ$m$を$2.00$から$1.01$に変化させたところ，分類関数は$m$の値が大きいほどファジィになり，小さいほどクリスプになることが分かった．
@@ -54,65 +59,70 @@ sFCMAの実験結果を図~\ref{fig:sFCMA-Em2},~\ref{fig:sFCMA-Em11}に示す．
 次に，eFCMAの実験結果を図~\ref{fig:eFCMA-Lambda1},~\ref{fig:eFCMA-Lambda10}に示す．
 垂直軸は分類関数値を，底面はデータ空間を表す．
 網掛けで示されるのが分類関数であり，各点がデータを表している．
-パラメータ$\lambda$を$1.00$から$10.00$に変化させたところ，分類関数は$\lambda$の値が小さいほどファジィになり，大きいほどクリスプになることが分かった．
+パラメータ$\lambda$を$1$から$10$に変化させたところ，分類関数は$\lambda$の値が小さいほどファジィになり，大きいほどクリスプになることが分かった．
 
 qFCMAの実験結果を図~\ref{fig:qFCMA-Em2-Lambda1},~\ref{fig:qFCMA-Em11-Lambda1},~\ref{fig:qFCMA-Em11-Lambda10}に示す．
-こちらは，パラメータ($m$, $\lambda$)の組み合わせとして，$(2.00, 1.00)$, $(1.01, 1.00)$, $(1.01, 10.00)$の3通りでクラスタリングを行った．
+こちらは，パラメータ($m$, $\lambda$)の組み合わせとして，$(2.00, 1)$, $(1.01, 1)$, $(1.01, 10)$の3通りでクラスタリングを行った．
 図~\ref{fig:qFCMA-Em2-Lambda1}及び図~\ref{fig:qFCMA-Em11-Lambda1}の分類関数より，$m$の値が大きいほどファジィになり，小さいほどクリスプになることが分かった．また，図~\ref{fig:qFCMA-Em11-Lambda1}及び図~\ref{fig:qFCMA-Em11-Lambda10}の分類関数より，$\lambda$の値が小さいほどファジィになり，大きいほどクリスプになることが分かった．
-また，qFCMAにおいて$m-1\rightarrow+0$とするとsFCMAと同じ特性が得られ，$\lambda\rightarrow\infty$とするとeFCMAと同様の特性を示すことがわかった．
+そして，図~\ref{fig:sFCMA}及び図~\ref{fig:qFCMA-Em2-Lambda1},~\ref{fig:qFCMA-Em11-Lambda1}の分類関数よりqFCMAにおいて$m-1\rightarrow+0$とするとsFCMAと同じ特性が得られ，図~\ref{fig:eFCMA}及び図~\ref{fig:qFCMA-Em11-Lambda1},~\ref{fig:qFCMA-Em11-Lambda10}より，$\lambda\rightarrow\infty$とするとeFCMAと同様の特性を示すことがわかった．
 これらの実験結果よりqFCMAはsFCMAとeFCMAの特性を併せ持つと言える．
+
+
 
 \begin{figure}[htbp]
  \centering
- \begin{minipage}{0.43\hsize}
+ \begin{minipage}{0.4\hsize}
   \includegraphics[width=\linewidth]{sFCMA-Em2.pdf}
   \subcaption{$m$=$2.00$}
   \label{fig:sFCMA-Em2}
  \end{minipage}
- \begin{minipage}{0.43\hsize}
+ \begin{minipage}{0.4\hsize}
   \includegraphics[width=\linewidth]{sFCMA-Em11.pdf}
   \subcaption{$m$=$1.01$}
   \label{fig:sFCMA-Em11}
  \end{minipage}
- \vspace*{0.5cm}
+ \vspace*{0.2cm}
  \caption{sFCMAの人工データの実験結果}
+ \label{fig:sFCMA}
 \end{figure}
 
 \begin{figure}[htbp]
  \centering
- \begin{minipage}{0.43\hsize}
+ \begin{minipage}{0.4\hsize}
   \includegraphics[width=\linewidth]{eFCMA-Lambda1.pdf}
-  \subcaption{$\lambda$=$1.00$}
+  \subcaption{$\lambda$=$1$}
   \label{fig:eFCMA-Lambda1}
  \end{minipage}
- \begin{minipage}{0.43\hsize}
+ \begin{minipage}{0.4\hsize}
   \includegraphics[width=\linewidth]{eFCMA-Lambda10.pdf}
-  \subcaption{$\lambda$=$10.00$}
+  \subcaption{$\lambda$=$10$}
   \label{fig:eFCMA-Lambda10}
  \end{minipage}
- \vspace*{0.5cm}
+ \vspace*{0.2cm}
  \caption{eFCMAの人工データの実験結果}
+ \label{fig:eFCMA}
 \end{figure}
 
 \begin{figure}[htbp]
  \centering
- \begin{minipage}{0.43\hsize}
+ \begin{minipage}{0.32\hsize}
   \includegraphics[width=\linewidth]{qFCMA-Em2-Lambda1.pdf}
-  \subcaption{$m=2.00$, $\lambda=1.00$}
+  \subcaption{$m=2.00, \\\lambda=1$}
   \label{fig:qFCMA-Em2-Lambda1}
  \end{minipage}
- \begin{minipage}{0.43\hsize}
+ \begin{minipage}{0.32\hsize}
   \includegraphics[width=\linewidth]{qFCMA-Em11-Lambda1.pdf}
-  \subcaption{$m=1.01$, $\lambda=1.00$}
+  \subcaption{$m=1.01, \\\lambda=1$}
   \label{fig:qFCMA-Em11-Lambda1}
  \end{minipage}
- \begin{minipage}{0.43\hsize}
+ \begin{minipage}{0.32\hsize}
   \includegraphics[width=\linewidth]{qFCMA-Em11-Lambda10.pdf}
-  \subcaption{$m=1.01$, $\lambda=10.00$}
+  \subcaption{$m=1.01, \\\lambda=10$}
   \label{fig:qFCMA-Em11-Lambda10}
  \end{minipage}
- \vspace*{0.5cm}
+ \vspace*{0.2cm}
  \caption{qFCMAの人工データの実験結果}
+ \label{fig:qFCMA}
 \end{figure}
 
 
@@ -123,6 +133,7 @@ qFCMAの実験結果を図~\ref{fig:qFCMA-Em2-Lambda1},~\ref{fig:qFCMA-Em11-Lamb
 被験者の勉強時間や試験結果などの5属性を収録した
 ``User Knowledge Modeling Dasta Set''
 を用いた．
+また，初期値として，それぞれのデータの帰属度に正解の帰属度を与え，クラスタサイズ調整変数にクラスタ数の逆数を与えた．
 
 sFCMA, eFCMA, qFCMAの実データ実験の結果について，
 それぞれ図~\ref{fig:sFCMA_ARI},~\ref{fig:eFCMA_ARI},~\ref{fig:qFCMA_ARI}に示す．
@@ -148,24 +159,24 @@ qFCMAでは$m$の値を$1.1$から$3.0$まで$0.1$刻み，$\lambda$の値を$1$
   \label{fig:qFCMA_ARI}
  \end{minipage}
 \end{figure}
-
+  
 それぞれの手法の最高ARIを表~\ref{tbl:max_ari}に示す．
+最も高いARIを示した手法はsFCMAであり，他の$2$手法と比較してARIに$0.4$以上の差が見られた．
 
+\vspace{0.2cm}
 \begin{table}[htbp]
  \centering
  \caption{各手法のARIの最高値とパラメータ}
-  \begin{center}
-   \begin{tabular}{ c || c | c }\hline
-    手法名 & ARIの最高値 & パラメータ値\\ \hline \hline
-    sFCMA & $0.73515$ & $m = 3$\\ \hline
-    eFCMA & $0.29500$& $\lambda = 8$\\ \hline  
-    qFCMA & $0.26286$ & $\lambda = 80$, $m = 1.1$\\  \hline
-   \end{tabular}
-   \label{tbl:max_ari}
-  \end{center}
+ \begin{center}
+  \begin{tabular}{ c || c | c }\hline
+   手法名 & ARIの最高値 & パラメータ値\\ \hline \hline
+   sFCMA & $0.73515$ & $m = 3$\\ \hline
+   eFCMA & $0.29500$& $\lambda = 8$\\ \hline  
+   qFCMA & $0.26286$ & $\lambda = 80$, $m = 1.1$\\  \hline
+  \end{tabular}
+  \label{tbl:max_ari}
+ \end{center}
 \end{table}
-
-最も高いARIを示した手法はsFCMAであり，他の$2$手法と比較してARIに$0.4$以上の差が見られた．
 
 
 \section{まとめと今後の課題}

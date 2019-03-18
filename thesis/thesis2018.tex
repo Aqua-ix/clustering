@@ -37,10 +37,10 @@
 \newcommand{\namelistlabel}[1]{\mbox{#1}\hfil}
 \newenvironment{namelist}[1]{
 \begin{list}{}
-    {\let\makelabel\namelistlabel
-    \settowidth{\labelwidth}{#1}
-    \setlength{\leftmargin}{1.1\labelwidth}}
-    }{
+ {\let\makelabel\namelistlabel
+ \settowidth{\labelwidth}{#1}
+ \setlength{\leftmargin}{1.1\labelwidth}}
+ }{
 \end{list}}
 
 \usepackage[T1]{fontenc}
@@ -83,15 +83,20 @@
  \section{背景}\label{sec:background}
  
  近年，情報通信社会の発展に伴いデータ量が増大し，日々多様なデータがコンピュータに蓄積されている．
- 検索エンジンなどのインターネット上のサービスでは，蓄積されたビッグデータの解析や分類を行うことで，利用者に適切な情報を素早く送ることを可能にしている．
- ビッグデータを人の手によって分類することには困難が伴うため，計算機を用いて自動的にデータの分類を行うための技術であるクラスタリングが必要となる．
- クラスタリングとは，与えられたデータの個体間に存在する類似性に基づいて，個体をいくつかのクラスタと呼ばれるグループに分割を行う教師なし機械学習の手法である(図~\ref{fig:about_clustering})．
+ 検索エンジンなどのインターネット上のサービスでは，蓄積されたビッグデータの解析や分類を行うことで，
+ 利用者に適切な情報を素早く送ることを可能にしている．
+ ビッグデータを人の手によって分類することには困難が伴うため，
+ 計算機を用いて自動的にデータの分類を行うための技術であるクラスタリングが必要となる．
+ クラスタリングとは，与えられたデータの個体間に存在する類似性に基づいて，
+ 個体をいくつかのクラスタと呼ばれるグループに分割を行う教師なし機械学習の手法である(図~\ref{fig:about_clustering})．
  
  データをクラスタに分類した際に，それぞれのデータが各クラスタに属す度合いを表した値を帰属度と呼ぶ．
  帰属度が0と1のみで表され，
- それぞれのデータが各クラスタに明確に分類されるクラスタリングをハードクラスタリングと呼び，一方で帰属度が0と1の間の値で表され，
+ それぞれのデータが各クラスタに明確に分類されるクラスタリングをハードクラスタリングと呼び，
+ 一方で帰属度が0と1の間の値で表され，
  データが属するクラスタを柔軟に表すことができるクラスタリングをファジィクラスタリングと呼ぶ．
- 現実に存在しているデータには，明確に分類できるものだけでなく本質的に分類できない複雑なものも存在し，そういったデータの分類にはファジィクラスタリングが有効である．
+ 現実に存在しているデータには，明確に分類できるものだけでなく本質的に分類できない複雑なものも存在し，
+ そういったデータの分類にはファジィクラスタリングが有効である．
 
  \section{目的}\label{sec:purpose}
 
@@ -212,7 +217,7 @@
  \end{align}
  次に，クラスタサイズ調整変数$\alpha_{i}$の更新式を以下に示す．
  \begin{align}
- \alpha_{i}=\frac{1}{\sum_{j=1}^C\left(\sum_{k=1}^N\frac{(u_{j,k})^m(1-\lambda(1-m)d_{j,k})}{(u_i,k)^m(1-\lambda(1-m)d_{i,k})}\right)^{\frac{1}{m}}}
+  \alpha_{i}=\frac{1}{\sum_{j=1}^C\left(\sum_{k=1}^N\frac{(u_{j,k})^m(1-\lambda(1-m)d_{j,k})}{(u_i,k)^m(1-\lambda(1-m)d_{i,k})}\right)^{\frac{1}{m}}}
  \end{align}
 
  \section{おわりに}\label{sec:suggest_method_summary}
@@ -236,7 +241,7 @@
  平均値($-1$, $-1$)，標準偏差($0.5$, $0.5$)
  及び平均値($1$, $1$)，標準偏差($0.5$, $0.5$)
  のガウスサンプリングで生成したデータを用いた(図~\ref{fig:artificial_data})．
- \begin{figure}[htbp]
+ \begin{figure}[p]
   \centering
   \includegraphics[width=\linewidth]{2d-dat.pdf}
   \caption{人工データ}
@@ -245,90 +250,107 @@
 
  \section{アルゴリズム}\label{sec:suggest_algorythm}
   \begin{enumerate}
-  \item クラスタ中心をランダムに与える．
-  \item クラスタ中心を用いて帰属度を更新する．
-  \item 帰属度を用いてクラスタ中心及びクラスタサイズ調整変数を更新する．
-  \item 収束すれば終了し，そうでない場合は$2$に戻る．
+   \item クラスタ中心をランダムに与え，クラスタサイズ調整変数をクラスタ数の逆数で初期化する．
+   \item クラスタ中心を用いて帰属度を更新する．
+   \item 帰属度を用いてクラスタ中心及びクラスタサイズ調整変数を更新する．
+   \item 収束すれば終了し，そうでない場合は$2$に戻る．
   \end{enumerate}
 
- \section{分類関数による特性比較}\label{sec:classification_function}
+  \section{分類関数による特性比較}\label{sec:classification_function}
 
-sFCMAの実験結果を図~\ref{fig:sFCMA-Em2},~\ref{fig:sFCMA-Em11}に示す．
-パラメータ$m$を$2.00$から$1.01$に変化させたところ，分類関数は$m$の値が大きいほどファジィになり，小さいほどクリスプになることが分かった．
+  分類関数は，各クラスタに対する帰属度を座標空間上に可視化したもので，分類関数を見ることにより，
+  データがどのクラスタに属するかということが調べることができるとともに，
+  各手法がファジィであるかクリスプであるかを判別することができる．
+  
+  sFCMAの実験結果を図~\ref{fig:sFCMA-Em2},~\ref{fig:sFCMA-Em11}に示す．
+  パラメータ$m$を$2.00$から$1.01$に変化させたところ，分類関数は$m$の値が大きいほどファジィになり，
+  小さいほどクリスプになることが分かった．
 
-次に，eFCMAの実験結果を図~\ref{fig:eFCMA-Lambda1},~\ref{fig:eFCMA-Lambda10}に示す．
-垂直軸は分類関数値を，底面はデータ空間を表す．
-網掛けで示されるのが分類関数であり，各点がデータを表している．
-パラメータ$\lambda$を$1.00$から$10.00$に変化させたところ，分類関数は$\lambda$の値が小さいほどファジィになり，大きいほどクリスプになることが分かった．
+  \begin{figure}[p]
+   \centering
+   \begin{minipage}{0.43\hsize}
+    \includegraphics[width=\linewidth]{sFCMA-Em2.pdf}
+    \subcaption{$m$=$2.00$}
+    \label{fig:sFCMA-Em2}
+   \end{minipage}
+   \begin{minipage}{0.43\hsize}
+    \includegraphics[width=\linewidth]{sFCMA-Em11.pdf}
+    \subcaption{$m$=$1.01$}
+    \label{fig:sFCMA-Em11}
+   \end{minipage}
+   \vspace*{0.5cm}
+   \caption{sFCMAの人工データの実験結果}
+   \label{fig:sFCMA}
+  \end{figure}
+    
+  次に，eFCMAの実験結果を図~\ref{fig:eFCMA-Lambda1},~\ref{fig:eFCMA-Lambda10}に示す．
+  垂直軸は分類関数値を，底面はデータ空間を表す．
+  網掛けで示されるのが分類関数であり，各点がデータを表している．
+  パラメータ$\lambda$を$1$から$10$に変化させたところ，分類関数は$\lambda$の値が小さいほどファジィになり，
+  大きいほどクリスプになることが分かった．
 
-qFCMAの実験結果を図~\ref{fig:qFCMA-Em2-Lambda1},~\ref{fig:qFCMA-Em11-Lambda1},~\ref{fig:qFCMA-Em11-Lambda10}に示す．
-こちらは，パラメータ($m$, $\lambda$)の組み合わせとして，$(2.00, 1.00)$, $(1.01, 1.00)$, $(1.01, 10.00)$の3通りでクラスタリングを行った．
-図~\ref{fig:qFCMA-Em2-Lambda1}及び図~\ref{fig:qFCMA-Em11-Lambda1}の分類関数より，$m$の値が大きいほどファジィになり，小さいほどクリスプになることが分かった．また，図~\ref{fig:qFCMA-Em11-Lambda1}及び図~\ref{fig:qFCMA-Em11-Lambda10}の分類関数より，$\lambda$の値が小さいほどファジィになり，大きいほどクリスプになることが分かった．
-また，qFCMAにおいて$m-1\rightarrow+0$とするとsFCMAと同じ特性が得られ，$\lambda\rightarrow\infty$とするとeFCMAと同様の特性を示すことがわかった．
-これらの実験結果よりqFCMAはsFCMAとeFCMAの特性を併せ持つと言える．
+  \begin{figure}[p]
+   \centering
+   \begin{minipage}{0.43\hsize}
+    \includegraphics[width=\linewidth]{eFCMA-Lambda1.pdf}
+    \subcaption{$\lambda$=$1$}
+    \label{fig:eFCMA-Lambda1}
+   \end{minipage}
+   \begin{minipage}{0.43\hsize}
+    \includegraphics[width=\linewidth]{eFCMA-Lambda10.pdf}
+    \subcaption{$\lambda$=$10$}
+    \label{fig:eFCMA-Lambda10}
+   \end{minipage}
+   \vspace*{0.5cm}
+   \caption{eFCMAの人工データの実験結果}
+   \label{fig:eFCMA}
+  \end{figure}
+  
+  qFCMAの実験結果を
+  図~\ref{fig:qFCMA-Em2-Lambda1},~\ref{fig:qFCMA-Em11-Lambda1},~\ref{fig:qFCMA-Em11-Lambda10}
+  に示す．
+  こちらは，パラメータ($m$, $\lambda$)の組み合わせとして，
+  $(2.00, 1)$, $(1.01, 1)$, $(1.01, 10)$
+  の3通りでクラスタリングを行った．
+  図~\ref{fig:qFCMA-Em2-Lambda1}及び図~\ref{fig:qFCMA-Em11-Lambda1}の分類関数より，
+  $m$の値が大きいほどファジィになり，小さいほどクリスプになることが分かった．
+  また，図~\ref{fig:qFCMA-Em11-Lambda1}及び図~\ref{fig:qFCMA-Em11-Lambda10}の分類関数より，
+  $\lambda$の値が小さいほどファジィになり，大きいほどクリスプになることが分かった．
+  そして，図~\ref{fig:sFCMA}及び図~\ref{fig:qFCMA-Em2-Lambda1},~\ref{fig:qFCMA-Em11-Lambda1}
+  の分類関数よりqFCMAにおいて$m-1\rightarrow+0$とするとsFCMAと同じ特性が得られ，
+  図~\ref{fig:eFCMA}及び図~\ref{fig:qFCMA-Em11-Lambda1},~\ref{fig:qFCMA-Em11-Lambda10}より，
+  $\lambda\rightarrow\infty$とするとeFCMAと同様の特性を示すことがわかった．
+  これらの実験結果よりqFCMAはsFCMAとeFCMAの特性を併せ持つと言える．
 
-\begin{figure}[htbp]
- \centering
- \begin{minipage}{0.43\hsize}
-  \includegraphics[width=\linewidth]{sFCMA-Em2.pdf}
-  \subcaption{$m$=$2.00$}
-  \label{fig:sFCMA-Em2}
- \end{minipage}
- \begin{minipage}{0.43\hsize}
-  \includegraphics[width=\linewidth]{sFCMA-Em11.pdf}
-  \subcaption{$m$=$1.01$}
-  \label{fig:sFCMA-Em11}
- \end{minipage}
- \vspace*{0.5cm}
- \caption{sFCMAの人工データの実験結果}
-\end{figure}
-
-\begin{figure}[htbp]
- \centering
- \begin{minipage}{0.43\hsize}
-  \includegraphics[width=\linewidth]{eFCMA-Lambda1.pdf}
-  \subcaption{$\lambda$=$1.00$}
-  \label{fig:eFCMA-Lambda1}
- \end{minipage}
- \begin{minipage}{0.43\hsize}
-  \includegraphics[width=\linewidth]{eFCMA-Lambda10.pdf}
-  \subcaption{$\lambda$=$10.00$}
-  \label{fig:eFCMA-Lambda10}
- \end{minipage}
- \vspace*{0.5cm}
- \caption{eFCMAの人工データの実験結果}
-\end{figure}
-
-\begin{figure}[htbp]
- \centering
- \begin{minipage}{0.43\hsize}
-  \includegraphics[width=\linewidth]{qFCMA-Em2-Lambda1.pdf}
-  \subcaption{$m=2.00$, $\lambda=1.00$}
-  \label{fig:qFCMA-Em2-Lambda1}
- \end{minipage}
- \begin{minipage}{0.43\hsize}
-  \includegraphics[width=\linewidth]{qFCMA-Em11-Lambda1.pdf}
-  \subcaption{$m=1.01$, $\lambda=1.00$}
-  \label{fig:qFCMA-Em11-Lambda1}
- \end{minipage}
- \begin{minipage}{0.43\hsize}
-  \includegraphics[width=\linewidth]{qFCMA-Em11-Lambda10.pdf}
-  \subcaption{$m=1.01$, $\lambda=10.00$}
-  \label{fig:qFCMA-Em11-Lambda10}
- \end{minipage}
- \vspace*{0.5cm}
- \caption{qFCMAの人工データの実験結果}
-\end{figure}
-
- 
- \section{おわりに}\label{sec:artificial_data_summary}
- 本章では，人工データを用いた実験について述べた．
- まず第\ref{sec:about_artificial_data}節で本実験で用いる人工データについて説明した．
- 次に第~\ref{sec:suggest_algorythm}節でアルゴリズムについて述べた．
- 最後に第\ref{sec:classification_function}節で実験により得られた分類関数を用いて各手法の特性比較を行った．
- 
- 
- 
+  \begin{figure}[p]
+   \centering
+   \begin{minipage}{0.43\hsize}
+    \includegraphics[width=\linewidth]{qFCMA-Em2-Lambda1.pdf}
+    \subcaption{$m=2.00$, $\lambda=1$}
+    \label{fig:qFCMA-Em2-Lambda1}
+   \end{minipage}
+   \begin{minipage}{0.43\hsize}
+    \includegraphics[width=\linewidth]{qFCMA-Em11-Lambda1.pdf}
+    \subcaption{$m=1.01$, $\lambda=1$}
+    \label{fig:qFCMA-Em11-Lambda1}
+   \end{minipage}
+   \begin{minipage}{0.43\hsize}
+    \includegraphics[width=\linewidth]{qFCMA-Em11-Lambda10.pdf}
+    \subcaption{$m=1.01$, $\lambda=10$}
+    \label{fig:qFCMA-Em11-Lambda10}
+   \end{minipage}
+   \vspace*{0.5cm}
+   \caption{qFCMAの人工データの実験結果}
+   \label{fig:qFCMA}
+  \end{figure}
+  
+  \section{おわりに}\label{sec:artificial_data_summary}
+  本章では，人工データを用いた実験について述べた．
+  まず第\ref{sec:about_artificial_data}節で本実験で用いる人工データについて説明した．
+  次に第~\ref{sec:suggest_algorythm}節でアルゴリズムについて述べた．
+  最後に第\ref{sec:classification_function}節で実験により得られた分類関数を用いて各手法の特性比較を行った．
+  
+  
 \chapter{実データによる実験}\label{chap:real_data}
 
  \section{はじめに}\label{sec:real_data_intro}
@@ -347,65 +369,63 @@ qFCMAの実験結果を図~\ref{fig:qFCMA-Em2-Lambda1},~\ref{fig:qFCMA-Em11-Lamb
  
  \section{アルゴリズム}\label{sec:suggest_algorythm} 
   \begin{enumerate}
-  \item 正解帰属度を用いて帰属度を初期化する．
-  \item 帰属度を用いてクラスタ中心及びクラスタサイズ調整変数を更新する．
-  \item 収束すれば終了し，そうでない場合は$2$に戻る．
+   \item 正解帰属度を用いて帰属度を初期化し，クラスタサイズ調整変数をクラスタ数の逆数で初期化する．
+   \item 帰属度を用いてクラスタ中心及びクラスタサイズ調整変数を更新する．
+   \item 収束すれば終了し，そうでない場合は$2$に戻る．
   \end{enumerate}
+  
  \section{ARIによる精度比較}\label{sec:ari_compare}
 
-sFCMA, eFCMA, qFCMAの実データ実験の結果について，
-それぞれ図~\ref{fig:sFCMA_ARI},~\ref{fig:eFCMA_ARI},~\ref{fig:qFCMA_ARI}に示す．
-sFCMAでは$m$の値を$1.1$から$3.0$まで$0.1$刻み，
-eFCMAでは$\lambda$の値を$1$から$100$まで$1$刻み，
-qFCMAでは$m$の値を$1.1$から$3.0$まで$0.1$刻み，$\lambda$の値を$1$から$100$まで$1$刻みで変化させた．
-
-\begin{figure}[htbp]
- \centering
- \begin{minipage}{0.43\hsize}
-  \includegraphics[width=\linewidth]{sFCMA_ARI.pdf}
-  \caption{sFCMAの実データの実験結果}
-  \label{fig:sFCMA_ARI}
- \end{minipage}
- \begin{minipage}{0.43\hsize}
-  \includegraphics[width=\linewidth]{eFCMA_ARI.pdf}
-  \caption{eFCMAの実データの実験結果}
-  \label{fig:eFCMA_ARI}
- \end{minipage}
- \begin{minipage}{0.43\hsize}
-  \includegraphics[width=\linewidth]{qFCMA_ARI.pdf}
-  \caption{qFCMAの実データの実験結果}
-  \label{fig:qFCMA_ARI}
- \end{minipage}
-\end{figure}
-
-それぞれの手法の最高ARIを表~\ref{tbl:max_ari}に示す．
-
-\begin{table}[htbp]
- \centering
- \caption{各手法のARIの最高値とパラメータ}
-  \begin{center}
-   \begin{tabular}{ c || c | c }\hline
-    手法名 & ARIの最高値 & パラメータ値\\ \hline \hline
-    sFCMA & $0.73515$ & $m = 3$\\ \hline
-    eFCMA & $0.29500$& $\lambda = 8$\\ \hline  
-    qFCMA & $0.26286$ & $\lambda = 80$, $m = 1.1$\\  \hline
-   \end{tabular}
-   \label{tbl:max_ari}
-  \end{center}
-\end{table}
-
-最も高いARIを示した手法はsFCMAであり，他の$2$手法と比較してARIに$0.4$以上の差が見られた．
+  sFCMA, eFCMA, qFCMAの実データ実験の結果について，
+  それぞれ図~\ref{fig:sFCMA_ARI},~\ref{fig:eFCMA_ARI},~\ref{fig:qFCMA_ARI}に示す．
+  sFCMAでは$m$の値を$1.1$から$3.0$まで$0.1$刻み，
+  eFCMAでは$\lambda$の値を$1$から$100$まで$1$刻み，
+  qFCMAでは$m$の値を$1.1$から$3.0$まで$0.1$刻み，$\lambda$の値を$1$から$100$まで$1$刻みで変化させた．
+  
+  それぞれの手法の最高ARIを表~\ref{tbl:max_ari}に示す．
+  最も高いARIを示した手法はsFCMAであり，他の$2$手法と比較してARIに$0.4$以上の差が見られた．
  
+  \begin{figure}[h]
+   \centering
+   \begin{minipage}{0.43\hsize}
+    \includegraphics[width=\linewidth]{sFCMA_ARI.pdf}
+    \caption{sFCMAの実データの実験結果}
+    \label{fig:sFCMA_ARI}
+   \end{minipage}
+   \begin{minipage}{0.43\hsize}
+    \includegraphics[width=\linewidth]{eFCMA_ARI.pdf}
+    \caption{eFCMAの実データの実験結果}
+    \label{fig:eFCMA_ARI}
+   \end{minipage}
+   \begin{minipage}{0.43\hsize}
+    \includegraphics[width=\linewidth]{qFCMA_ARI.pdf}
+    \caption{qFCMAの実データの実験結果}
+    \label{fig:qFCMA_ARI}
+   \end{minipage}
+  \end{figure}
 
- \section{おわりに}\label{sec:real_data_summary}
- 本章では，実データを用いた実験について述べた．
- まず第\ref{sec:about_real_data}節で本実験で用いる人工データについて説明した．
- 次に第~\ref{sec:suggest_algorythm}節でアルゴリズムについて述べた．
- 最後に第\ref{sec:ari_compare}節で実験により得られた評価指標を用いて各手法の精度比較を行った．
- 
- 
- 
- 
+  \begin{table}[h]
+   \centering
+   \caption{各手法のARIの最高値とパラメータ}
+   \begin{center}
+    \begin{tabular}{ c || c | c }\hline
+     手法名 & ARIの最高値 & パラメータ値\\ \hline \hline
+     sFCMA & $0.73515$ & $m = 3$\\ \hline
+     eFCMA & $0.29500$& $\lambda = 8$\\ \hline  
+     qFCMA & $0.26286$ & $\lambda = 80$, $m = 1.1$\\  \hline
+    \end{tabular}
+    \label{tbl:max_ari}
+   \end{center}
+  \end{table}
+
+
+  \section{おわりに}\label{sec:real_data_summary}
+  本章では，実データを用いた実験について述べた．
+  まず第\ref{sec:about_real_data}節で本実験で用いる人工データについて説明した．
+  次に第~\ref{sec:suggest_algorythm}節でアルゴリズムについて述べた．
+  最後に第\ref{sec:ari_compare}節で実験により得られた評価指標を用いて各手法の精度比較を行った．
+  
+  
 \chapter{結論}\label{chap:conclusion}
 本文書では，
 第\ref{chap:suggest_method}章では，提案手法について説明した．
@@ -413,6 +433,16 @@ qFCMAでは$m$の値を$1.1$から$3.0$まで$0.1$刻み，$\lambda$の値を$1$
 第\ref{chap:real_data}章では，実データ実験により各手法の精度比較を行った．
 最後に第\ref{chap:conclusion}章では，本文書の結論を述べた．
 また，付録では，プログラムソースを掲載した．
+
+本研究では，既に提案されていた3種のクラスタリング手法の特性と精度について現在に至るまで明らかになっていなかったため，
+人工データを用いた特性比較及び実データを用いた精度比較を行った．
+その結果として，
+sFCMAは$m$が大きくなるとファジィになり，
+eFCMAは$\lambda$が大きくなるほどクリスプになることが分かった．
+また，qFCMAはsFCMAとeFCMAの両方の特性を併せ持つということが分かった．
+精度はsFCMAが最も高評価となった．要因として，この手法の最適化問題にエントロピー項が含まれないということが考えられる．sFCMAの精度には，エントロピー項が含まれるeFCMA, qFCMAの2手法と比較して大きな差が見られた．
+今後の課題は，今回用いなかった他の実データで$3$手法の比較を行い，精度についての裏付けを行うことである．
+
 %
 %
 %
@@ -448,12 +478,12 @@ qFCMAでは$m$の値を$1.1$から$3.0$まで$0.1$刻み，$\lambda$の値を$1$
          pp.~193--218, (1985).
 \end{thebibliography}
 %
-\chapter*{感想}
-\addcontentsline{toc}{chapter}{感想}\label{chap:feel}
-おいしかった．
-\chapter*{謝辞}
-\addcontentsline{toc}{chapter}{謝辞}\label{chap:ack}
-ありがとう．
+% \chapter*{感想}
+% \addcontentsline{toc}{chapter}{感想}\label{chap:feel}
+% おいしかった．
+% \chapter*{謝辞}
+% \addcontentsline{toc}{chapter}{謝辞}\label{chap:ack}
+% ありがとう．
 \appendix
 \pagestyle{headings}
 \addtocontents{toc}{\protect\diamondeleaders\par}
@@ -470,12 +500,33 @@ qFCMAでは$m$の値を$1.1$から$3.0$まで$0.1$刻み，$\lambda$の値を$1$
  \section*{\texttt{matrix.cxx}}
  \addcontentsline{toc}{section}{\texttt{matrix.cxx}}
  \listinginput{1}{src/matrix.cxx}
-  \section*{\texttt{hcm.cxx}}
+ \section*{\texttt{randGaussianMain.cxx}}
+ \addcontentsline{toc}{section}{\texttt{randGaussianMain.cxx}}
+ \listinginput{1}{src/randGaussianMain.cxx}
+ \section*{\texttt{hcm.cxx}}
  \addcontentsline{toc}{section}{\texttt{hcm.cxx}}
  \listinginput{1}{src/hcm.cxx}
  \section*{\texttt{hcm.h}}
  \addcontentsline{toc}{section}{\texttt{hcm.h}}
  \listinginput{1}{src/hcm.h}
+ \section*{\texttt{sfcm.h}}
+ \addcontentsline{toc}{section}{\texttt{sfcm.h}}
+ \listinginput{1}{src/sfcm.h}
+ \section*{\texttt{sfcm.cxx}}
+ \addcontentsline{toc}{section}{\texttt{sfcm.cxx}}
+ \listinginput{1}{src/sfcm.cxx}
+ \section*{\texttt{efcm.h}}
+ \addcontentsline{toc}{section}{\texttt{efcm.h}}
+ \listinginput{1}{src/efcm.h}
+ \section*{\texttt{efcm.cxx}}
+ \addcontentsline{toc}{section}{\texttt{efcm.cxx}}
+ \listinginput{1}{src/efcm.cxx}
+ \section*{\texttt{qfcm.h}}
+ \addcontentsline{toc}{section}{\texttt{qfcm.h}}
+ \listinginput{1}{src/qfcm.h}
+ \section*{\texttt{qfcm.cxx}}
+ \addcontentsline{toc}{section}{\texttt{qfcm.cxx}}
+ \listinginput{1}{src/qfcm.cxx}
  \section*{\texttt{sfcma.h}}
  \addcontentsline{toc}{section}{\texttt{sfcma.h}}
  \listinginput{1}{src/sfcma.h}
@@ -494,5 +545,42 @@ qFCMAでは$m$の値を$1.1$から$3.0$まで$0.1$刻み，$\lambda$の値を$1$
  \section*{\texttt{qfcma.cxx}}
  \addcontentsline{toc}{section}{\texttt{qfcma.cxx}}
  \listinginput{1}{src/qfcma.cxx}
+ \section*{\texttt{sfcm\symbol{95}main\symbol{95}2d-Gaussian-2clusters.cxx}}
+ \addcontentsline{toc}{section}{\texttt{sfcm\symbol{95}main\symbol{95}2d-Gaussian-2clusters.cxx}}
+ \listinginput{1}{src/sfcm_main_2d-Gaussian-2clusters.cxx}
+ \section*{\texttt{efcm\symbol{95}main\symbol{95}2d-Gaussian-2clusters.cxx}}
+ \addcontentsline{toc}{section}{\texttt{efcm\symbol{95}main\symbol{95}2d-Gaussian-2clusters.cxx}}
+ \listinginput{1}{src/efcm_main_2d-Gaussian-2clusters.cxx}
+ \section*{\texttt{qfcm\symbol{95}main\symbol{95}2d-Gaussian-2clusters.cxx}}
+ \addcontentsline{toc}{section}{\texttt{qfcm\symbol{95}main\symbol{95}2d-Gaussian-2clusters.cxx}}
+ \listinginput{1}{src/qfcm_main_2d-Gaussian-2clusters.cxx}
+ \section*{\texttt{sfcma\symbol{95}main\symbol{95}2d-Gaussian-2clusters.cxx}}
+ \addcontentsline{toc}{section}{\texttt{sfcma\symbol{95}main\symbol{95}2d-Gaussian-2clusters.cxx}}
+ \listinginput{1}{src/sfcma_main_2d-Gaussian-2clusters.cxx}
+ \section*{\texttt{efcma\symbol{95}main\symbol{95}2d-Gaussian-2clusters.cxx}}
+ \addcontentsline{toc}{section}{\texttt{efcma\symbol{95}main\symbol{95}2d-Gaussian-2clusters.cxx}}
+ \listinginput{1}{src/efcma_main_2d-Gaussian-2clusters.cxx}
+ \section*{\texttt{qfcma\symbol{95}main\symbol{95}2d-Gaussian-2clusters.cxx}}
+ \addcontentsline{toc}{section}{\texttt{qfcma\symbol{95}main\symbol{95}2d-Gaussian-2clusters.cxx}}
+ \listinginput{1}{src/qfcma_main_2d-Gaussian-2clusters.cxx}
+ \section*{\texttt{sfcm\symbol{95}main\symbol{95}user\symbol{95}knowledge.cxx}}
+ \addcontentsline{toc}{section}{\texttt{sfcm\symbol{95}main\symbol{95}user\symbol{95}knowledge.cxx}}
+ \listinginput{1}{src/sfcm_main_user_knowledge.cxx}
+ \section*{\texttt{efcm\symbol{95}main\symbol{95}user\symbol{95}knowledge.cxx}}
+ \addcontentsline{toc}{section}{\texttt{efcm\symbol{95}main\symbol{95}user\symbol{95}knowledge.cxx}}
+ \listinginput{1}{src/efcm_main_user_knowledge.cxx}
+ \section*{\texttt{qfcm\symbol{95}main\symbol{95}user\symbol{95}knowledge.cxx}}
+ \addcontentsline{toc}{section}{\texttt{qfcm\symbol{95}main\symbol{95}user\symbol{95}knowledge.cxx}}
+ \listinginput{1}{src/qfcm_main_user_knowledge.cxx}
+ \section*{\texttt{sfcma\symbol{95}main\symbol{95}user\symbol{95}knowledge.cxx}}
+ \addcontentsline{toc}{section}{\texttt{sfcma\symbol{95}main\symbol{95}user\symbol{95}knowledge.cxx}}
+ \listinginput{1}{src/sfcma_main_user_knowledge.cxx}
+ \section*{\texttt{efcma\symbol{95}main\symbol{95}user\symbol{95}knowledge.cxx}}
+ \addcontentsline{toc}{section}{\texttt{efcma\symbol{95}main\symbol{95}user\symbol{95}knowledge.cxx}}
+ \listinginput{1}{src/efcma_main_user_knowledge.cxx}
+ \section*{\texttt{qfcma\symbol{95}main\symbol{95}user\symbol{95}knowledge.cxx}}
+ \addcontentsline{toc}{section}{\texttt{qfcma\symbol{95}main\symbol{95}user\symbol{95}knowledge.cxx}}
+ \listinginput{1}{src/qfcma_main_user_knowledge.cxx}
+
 \end{document}
 
