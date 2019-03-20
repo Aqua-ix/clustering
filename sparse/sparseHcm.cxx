@@ -1,6 +1,6 @@
-#include"hcm.h"
+#include"sparseHcm.h"
 
-HCM::HCM(int dimension,
+SparseHcm::SparseHcm(int dimension,
 	 int data_number,
 	 int centers_number):
   Data(data_number, dimension),
@@ -8,6 +8,8 @@ HCM::HCM(int dimension,
   Tmp_Centers(centers_number, dimension),
   Membership(centers_number, data_number),
   Tmp_Membership(centers_number, data_number),
+  Clusters_Size(centers_number),
+  Tmp_Clusters_Size(centers_number),
   Dissimilarities(centers_number, data_number),
   CrispMembership(centers_number, data_number),
   CorrectCrispMembership(centers_number, data_number),
@@ -26,13 +28,17 @@ HCM::HCM(int dimension,
       Membership[i][k]=DBL_MAX;
     }
   }
-  for(int i=0;i<centers_number;i++)
+  for(int i=0;i<centers_number;i++){
     InitializeC[i]=-1;
+  }
+  for(int i=0;i<centers_number;i++){
+    Clusters_Size[i]=DBL_MAX;
+  }
 }
 
-void HCM::revise_dissimilarities(void){
+  void SparseHcm::revise_dissimilarities(void){
 #ifdef CHECK_CLASS
-  std::cout<<"HCM::revise_dissimilarities"<<std::endl;;
+  std::cout<<"SparseHcm::revise_dissimilarities"<<std::endl;
 #endif
   for(int i=0;i<centers_number();i++){
     double centersNormSquare=norm_square(Centers[i]);
@@ -44,9 +50,9 @@ void HCM::revise_dissimilarities(void){
   return;
 }
 
-void HCM::revise_membership(void){
+void SparseHcm::revise_membership(void){
 #ifdef CHECK_CLASS
-  std::cout<<"HCM::revise_membership"<<std::endl;;
+  std::cout<<"SparseHcm::revise_membership"<<std::endl;;
 #endif
   Tmp_Membership=Membership;
   for(int k=0;k<data_number();k++){
@@ -65,9 +71,9 @@ void HCM::revise_membership(void){
   return;
 }
 
-void HCM::revise_centers(void){
+void SparseHcm::revise_centers(void){
 #ifdef CHECK_CLASS
-  std::cout<<"HCM::revise_centers"<<std::endl;;
+  std::cout<<"SparseHcm::revise_centers"<<std::endl;;
 #endif
   Tmp_Centers=Centers;
   for(int i=0;i<centers_number();i++){
@@ -88,7 +94,11 @@ void HCM::revise_centers(void){
   return;
 }
 
-void HCM::set_objective(void){
+void SparseHcm::revise_clusters_size(void){
+  return;
+}
+
+void SparseHcm::set_objective(void){
   Objective=0.0;
   for(int i=0;i<centers_number();i++){
     for(int k=0;k<data_number();k++){
@@ -98,92 +108,104 @@ void HCM::set_objective(void){
   return;
 }
   
-int HCM::dimension(void) const{
+int SparseHcm::dimension(void) const{
   return Data.cols();
 }
 
-int HCM::data_number(void) const{
+int SparseHcm::data_number(void) const{
   return Data.rows();
 }
 
-int HCM::centers_number(void) const{
+int SparseHcm::centers_number(void) const{
   return Membership.rows();
 }
 
-SparseMatrix HCM::data(void) const{
+SparseMatrix SparseHcm::data(void) const{
   return Data;
 }
 
-Matrix HCM::centers(void) const{
+Matrix SparseHcm::centers(void) const{
   return Centers;
 }
 
-Matrix HCM::tmp_centers(void) const{
+Matrix SparseHcm::tmp_centers(void) const{
   return Tmp_Centers;
 }
 
-Matrix HCM::membership(void) const{
+Matrix SparseHcm::membership(void) const{
   return Membership;
 }
 
-Matrix HCM::tmp_membership(void) const{
+Matrix SparseHcm::tmp_membership(void) const{
   return Tmp_Membership;
 }
 
-Matrix HCM::dissimilarities(void) const{
+Vector SparseHcm::clusters_size(void) const{
+  return Clusters_Size;
+}
+
+Vector SparseHcm::tmp_clusters_size(void) const{
+  return Tmp_Clusters_Size;
+}
+
+Matrix SparseHcm::dissimilarities(void) const{
   return Dissimilarities;
 }
 
-Matrix HCM::crispMembership(void) const{
+Matrix SparseHcm::crispMembership(void) const{
   return CrispMembership;
 }
 
-Matrix HCM::correctCrispMembership(void) const{
+Matrix SparseHcm::correctCrispMembership(void) const{
   return CorrectCrispMembership;
 }
 
-Matrix HCM::contingencyTable(void) const{
+Matrix SparseHcm::contingencyTable(void) const{
   return ContingencyTable;
 }
 
-SparseVector &HCM::data(int index1){
+SparseVector &SparseHcm::data(int index1){
   return Data[index1];
 }
 
-Vector &HCM::centers(int index1){
+Vector &SparseHcm::centers(int index1){
   return Centers[index1];
 }
 
-int &HCM::iterates(void){
+double &SparseHcm::clusters_size(int index1){
+  return Clusters_Size[index1];
+}
+
+int &SparseHcm::iterates(void){
   return Iterates;
 }
 
-double HCM::objective(void) const{
+double SparseHcm::objective(void) const{
   return Objective;
 }
 
-double &HCM::centers(int index1, int index2){
+double &SparseHcm::centers(int index1, int index2){
   return Centers[index1][index2];
 }
 
-double &HCM::membership(int row, int col){
+double &SparseHcm::membership(int row, int col){
   return Membership[row][col];
 }
 
-double &HCM::dissimilarities(int index1, int index2){
+double &SparseHcm::dissimilarities(int index1, int index2){
   return Dissimilarities[index1][index2];
 }
 
-double &HCM::crispMembership(int index1, int index2){
+double &SparseHcm::crispMembership(int index1, int index2){
   return CrispMembership[index1][index2];
 }
 
 
-double &HCM::correctCrispMembership(int index1, int index2){
+double &SparseHcm::correctCrispMembership(int index1, int index2){
   return CorrectCrispMembership[index1][index2];
 }
 
-void HCM::set_crispMembership(void){
+void SparseHcm::set_crispMembership(void){
   for(int k=0;k<data_number();k++){
     for(int i=0;i<centers_number();i++){
       CrispMembership[i][k]=0.0;
@@ -201,7 +223,7 @@ void HCM::set_crispMembership(void){
   return;
 }
 
-void HCM::set_contingencyTable(void){
+void SparseHcm::set_contingencyTable(void){
   ContingencyTable.set_sub
     (0,centers_number()-1, 0, centers_number()-1
      ,CrispMembership*transpose(CorrectCrispMembership));
@@ -229,7 +251,7 @@ double combination(int n, int k){
   return boost::math::binomial_coefficient<double>(n, k); 
 }
 
-double HCM::ARI(void) const{
+double SparseHcm::ARI(void) const{
   double Index=0.0;
   for(int i=0;i<ContingencyTable.rows()-1;i++){
     for(int j=0;j<ContingencyTable.cols()-1;j++){
@@ -258,7 +280,7 @@ double HCM::ARI(void) const{
   return (Index-ExpectedIndex)/(MaxIndex-ExpectedIndex);
 }
 
-void HCM::reset(void){
+void SparseHcm::reset(void){
   for(int i=0;i<centers_number();i++){
     for(int k=0;k<data_number();k++){
       Tmp_Membership[i][k]=0.0;
@@ -273,7 +295,7 @@ void HCM::reset(void){
   return;
 }
 
-void HCM::initialize_centers_dissimilarities(int index){
+void SparseHcm::initialize_centers_dissimilarities(int index){
   for(int i=0;i<index+1;i++){
     double centersNormSquare=norm_square(Centers[i]);
     for(int k=0;k<data_number();k++){
@@ -285,7 +307,7 @@ void HCM::initialize_centers_dissimilarities(int index){
   return;
 }
 
-void HCM::initialize_centers(int random_index){
+void SparseHcm::initialize_centers(int random_index){
   //20181212追加初期値としてnanにそうなデータ点を選ばない
   int count=0;
   std::mt19937_64 mt;
@@ -363,7 +385,7 @@ void HCM::initialize_centers(int random_index){
 }
 
 //推薦用人工データ
-void HCM::initialize_membership(std::string file){
+void SparseHcm::initialize_membership(std::string file){
   std::ifstream ifs(file);
   if(!ifs){
     std::cerr<<"correct membership error"<<std::endl;
@@ -387,7 +409,7 @@ void HCM::initialize_membership(std::string file){
   return;
 }
 
-void HCM::initialize_membership2(void){
+void SparseHcm::initialize_membership2(void){
   /*
     std::mt19937_64 mt;
     mt.seed(0);
@@ -417,7 +439,7 @@ void HCM::initialize_membership2(void){
   return;
 }
 
-void HCM::initialize_centers2(int method){
+void SparseHcm::initialize_centers2(int method){
   if(centers_number()<4 || centers_number()>6){
     std::cout<<"centers_number error"<<std::endl;
     exit(1);
@@ -455,7 +477,13 @@ void HCM::initialize_centers2(int method){
   return;
 }
 
-void HCM::ofs_selected_data(std::string text){
+void SparseHcm::initialize_clusters_size(void){
+  for(int i=0;i<centers_number();i++){
+    Clusters_Size[i]=1.0/centers_number();
+  }
+}
+
+void SparseHcm::ofs_selected_data(std::string text){
   std::ofstream ofs(text+"/object.txt",std::ios::app);
   if(!ofs){
     std::cerr<<"ファイルオープン失敗\n";
@@ -477,16 +505,16 @@ void HCM::ofs_selected_data(std::string text){
   return;
 }
 
-void HCM::copydata(const SparseMatrix &arg1){
+void SparseHcm::copydata(const SparseMatrix &arg1){
   Data=arg1;
   return;
 }
 
-Vector HCM::initialize_c(void) const{
+Vector SparseHcm::initialize_c(void) const{
   return InitializeC;
 }
 
-void HCM::print_frobenius_norm(void){
+void SparseHcm::print_frobenius_norm(void){
   std::cout<<"membership_frobenius_norm:"
 	   <<std::setprecision(50)
 	   <<"loop:"<<iterates()

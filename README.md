@@ -42,12 +42,3 @@ To show graph, use [gnuplot](http://www.gnuplot.info/).
 ```
 splot "sFCMA-Emx.000000-2d-Gaussian-2clusters.result_classificationFunction" using 1:2:3 with lines, "sFCMA-Emx.000000-2d-Gaussian-2clusters.result_classificationFunction" using 1:2:4 with lines, "< awk '{if($3>$4){print $1, $2, $3;}}' sFCMA-Emx.000000-2d-Gaussian-2clusters.result_membership", "< awk '{if($4>$3){print $1, $2, $4;}}' sFCMA-Emx.000000-2d-Gaussian-2clusters.result_membership"
 ```
-
-# 進捗
-- 2019/02/06 13:00-15:00 概要書「はじめに」作成
-- 2019/02/13 13:00-16:40 概要書「実験内容」作成
-- 2019/02/20 13:00-16:40 概要書「人工データ実験の結果」作成
-- 2019/02/27 13:00-16:40 概要書「実データ実験の結果」作成
-- 2019/02/28 13:00-16:40 概要書「まとめと今後の課題」作成 第一稿提出
-- 2019/03/06 13:00-16:40 論文構成作成
-- 2019/03/13 13:00-16:40 論文執筆(第4章まで)

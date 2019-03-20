@@ -2,7 +2,7 @@
 #include<fstream>
 #include<cstdlib>
 #include<random>
-#include"hcm.h"
+#include"sparseHcm.h"
 
 #define MAX_ITERATES 100000
 #define DIFF_FOR_STOP 1.0E-10
@@ -47,7 +47,7 @@ int main(void){
     Data[cnt]=dummy;
   }
 
-  HCM test(data_dimension, data_number, centers_number);
+  SparseHcm test(data_dimension, data_number, centers_number);
   test.copydata(Data);
 
   /***Initial Centers Setting***/
