@@ -88,7 +88,9 @@
  ビッグデータを人の手によって分類することには困難が伴うため，
  計算機を用いて自動的にデータの分類を行うための技術であるクラスタリングが必要となる．
  クラスタリングとは，与えられたデータの個体間に存在する類似性に基づいて，
- 個体をいくつかのクラスタと呼ばれるグループに分割を行う教師なし機械学習の手法である(図~\ref{fig:about_clustering})．
+ 個体をいくつかのクラスタと呼ばれるグループに分割を行う教師なし機械学習の手法である．
+ 図~\ref{fig:about_clustering}に示すように，ある一定のルールに従って存在するデータがあったときに，
+ クラスタリングを行うことでそれぞれのデータがどのクラスタに属するかということを示すことができる．
  
  データをクラスタに分類した際に，それぞれのデータが各クラスタに属す度合いを表した値を帰属度と呼ぶ．
  帰属度が0と1のみで表され，
@@ -97,24 +99,6 @@
  データが属するクラスタを柔軟に表すことができるクラスタリングをファジィクラスタリングと呼ぶ．
  現実に存在しているデータには，明確に分類できるものだけでなく本質的に分類できない複雑なものも存在し，
  そういったデータの分類にはファジィクラスタリングが有効である．
-
- \section{目的}\label{sec:purpose}
-
- 既存の手法における課題として，各クラスタのサイズに差がある場合，
- クラスタリングから有意な結果が得られないというものがある．
- ここで，クラスタのサイズとは，クラスタに属するデータの数と，そのクラスタに属するデータ間の類似度に基づくものであり，
- データの数が多い，または類似度が小さいクラスタをサイズが大きいクラスタとし，
- データの数が少ない，または類似度が大きいクラスタをサイズが大きいクラスタとする．
- 現在，各クラスタのサイズを考慮してクラスタリングを行う手法が複数提案されており，
- 本研究はそれらの手法について各手法の特性を把握するとともに，最も有用な手法を発見することを目的とする．
-
- \section{構成}\label{sec:contents}
- 本文書の構成を次に示す．
- 第\ref{chap:suggest_method}章では，提案手法について説明する．
- 第\ref{chap:artificial_data}章では，人工データ実験による各手法の特性比較を行う．
- 第\ref{chap:real_data}章では，実データ実験による各手法の精度比較を行う．
- 最後に第\ref{chap:conclusion}章では，本文書の結論を述べる．
- また，付録では，プログラムソースを掲載している．
 
  \begin{figure}[htbp]
   \centering
@@ -129,6 +113,30 @@
   \caption{クラスタリングについて}
   \label{fig:about_clustering}
  \end{figure}
+
+ \newpage
+ 
+ \section{目的}\label{sec:purpose}
+
+ 既存の手法における課題として，各クラスタのサイズに差がある場合，
+ クラスタリングから有意な結果が得られないというものがある．
+ ここで，クラスタのサイズとは，クラスタに属するデータの数と，そのクラスタに属するデータ間の類似度に基づくものであり，
+ データの数が多い，または類似度が小さいクラスタをサイズが大きいクラスタとし，
+ データの数が少ない，または類似度が大きいクラスタをサイズが大きいクラスタとする．
+ 現在，各クラスタのサイズを考慮してクラスタリングを行う手法が複数提案されており，
+ 本研究はその中でも，
+ Standard Fuzzy $c$-Means with vAriable controlling cluster size~(sFCMA)~\cite{sFCMA},
+ Entropy-regularized Fuzzy $c$-Means vAriable controlling clusters size~(eFCMA)~\cite{eFCMA},
+ $q$-divergence based Fuzzy $c$-Means with vAriable controlling cluster size~(qFCMA)~\cite{qFCMA}
+ の$3$手法について，各手法の特性を把握するとともに，最も有効な手法を発見することを目的とする．
+
+ \section{構成}\label{sec:contents}
+ 本文書の構成を次に示す．
+ 第\ref{chap:suggest_method}章では，提案手法について説明する．
+ 第\ref{chap:artificial_data}章では，人工データ実験による各手法の特性比較を行う．
+ 第\ref{chap:real_data}章では，実データ実験による各手法の精度比較を行う．
+ 最後に第\ref{chap:conclusion}章では，本文書の結論を述べる．
+ また，付録では，プログラムソースを掲載している．
 
 \chapter{提案手法}\label{chap:suggest_method}
 
@@ -232,7 +240,7 @@
  \section{はじめに}\label{sec:artificial_data_intro}
  本章では，人工データを用いた実験について述べる．
  まず第\ref{sec:about_artificial_data}節で本実験で用いる人工データについて説明する．
- 次に第~\ref{sec:suggest_algorythm}節でアルゴリズムについて述べる．
+ 次に第~\ref{sec:artificial_data_algorythm}節でアルゴリズムについて述べる．
  最後に第\ref{sec:classification_function}節で実験により得られた分類関数を用いて各手法の特性比較を行う．
  
  \section{人工データについて}\label{sec:about_artificial_data}
@@ -248,12 +256,12 @@
   \label{fig:artificial_data}
  \end{figure}
 
- \section{アルゴリズム}\label{sec:suggest_algorythm}
+ \section{アルゴリズム}\label{sec:artificial_data_algorythm}
   \begin{enumerate}
-   \item クラスタ中心をランダムに与え，クラスタサイズ調整変数をクラスタ数の逆数で初期化する．
-   \item クラスタ中心を用いて帰属度を更新する．
-   \item 帰属度を用いてクラスタ中心及びクラスタサイズ調整変数を更新する．
-   \item 収束すれば終了し，そうでない場合は$2$に戻る．
+   \item クラスタ中心$v$をランダムに与え，クラスタサイズ調整変数$\alpha$をクラスタ数の逆数で初期化する．
+   \item クラスタ中心$v$を用いて帰属度$u$を更新する．
+   \item 帰属度$u$を用いてクラスタ中心$v$及びクラスタサイズ調整変数$\alpha$を更新する．
+   \item $u, v, \alpha$の変化の合計が$10^{-10}$未満に収束すれば終了し，そうでない場合は$2$に戻る．
   \end{enumerate}
 
   \section{分類関数による特性比較}\label{sec:classification_function}
@@ -347,7 +355,7 @@
   \section{おわりに}\label{sec:artificial_data_summary}
   本章では，人工データを用いた実験について述べた．
   まず第\ref{sec:about_artificial_data}節で本実験で用いる人工データについて説明した．
-  次に第~\ref{sec:suggest_algorythm}節でアルゴリズムについて述べた．
+  次に第~\ref{sec:artificial_data_algorythm}節でアルゴリズムについて述べた．
   最後に第\ref{sec:classification_function}節で実験により得られた分類関数を用いて各手法の特性比較を行った．
   
   
@@ -356,7 +364,7 @@
  \section{はじめに}\label{sec:real_data_intro}
  本章では，実データを用いた実験について述べる．
  まず第\ref{sec:about_real_data}節で本実験で用いる実データについて説明する．
- 次に第~\ref{sec:suggest_algorythm}節でアルゴリズムについて述べる．
+ 次に第~\ref{sec:real_data_algorythm}節でアルゴリズムについて述べる．
  最後に第\ref{sec:ari_compare}節で実験により得られた評価指標を用いて各手法の精度比較を行う．
  
  \section{実データについて}\label{sec:about_real_data}
@@ -367,11 +375,11 @@
  ``User Knowledge Modeling Dasta Set''
  を用いた．
  
- \section{アルゴリズム}\label{sec:suggest_algorythm} 
+ \section{アルゴリズム}\label{sec:real_data_algorythm} 
   \begin{enumerate}
-   \item 正解帰属度を用いて帰属度を初期化し，クラスタサイズ調整変数をクラスタ数の逆数で初期化する．
-   \item 帰属度を用いてクラスタ中心及びクラスタサイズ調整変数を更新する．
-   \item 収束すれば終了し，そうでない場合は$2$に戻る．
+   \item 帰属度$u$を正解帰属度で初期化し，クラスタサイズ調整変数$\alpha$をクラスタ数の逆数で初期化する．
+   \item 帰属度$u$を用いてクラスタ中心$v$及びクラスタサイズ調整変数$\alpha$を更新する．
+   \item $u, v, \alpha$の変化の合計が$10^{-10}$未満に収束すれば終了し，そうでない場合は$2$に戻る．
   \end{enumerate}
   
  \section{ARIによる精度比較}\label{sec:ari_compare}
@@ -422,7 +430,7 @@
   \section{おわりに}\label{sec:real_data_summary}
   本章では，実データを用いた実験について述べた．
   まず第\ref{sec:about_real_data}節で本実験で用いる人工データについて説明した．
-  次に第~\ref{sec:suggest_algorythm}節でアルゴリズムについて述べた．
+  次に第~\ref{sec:real_data_algorythm}節でアルゴリズムについて述べた．
   最後に第\ref{sec:ari_compare}節で実験により得られた評価指標を用いて各手法の精度比較を行った．
   
   
