@@ -25,7 +25,7 @@
 クラスタリングから有意な結果が得られないというものがある．
 そこで，各クラスタのサイズを考慮してクラスタリングを行う手法が複数提案されており，
 本研究はそれらの手法について各手法の特性を把握するとともに，
-最も有用な手法を発見することを目的とする．
+最も有効な手法を発見することを目的とする．
 
 
 \section{実験内容}
@@ -36,14 +36,14 @@ sFCMA~\cite{sFCMA}, eFCMA~\cite{eFCMA}, qFCMA~\cite{qFCMA}
 
 まず，これらの手法についてそれぞれの特性を把握するため，人工データを用いて実験を行う．
 複数のパラメータで実験を行い，それぞれで算出された分類関数~\cite{cFunc}から比較及び評価を行う．
-分類関数は，各クラスタに対する帰属度を座標空間上に可視化したもので，分類関数を見ることにより，
-データがどのクラスタに属するかということが調べることができるとともに，
-各手法がファジィであるかクリスプであるかを判別することができる．
+分類関数は，各クラスタに対する帰属度を座標空間上に可視化したもので，分類関数により，
+データがどのクラスタに属するかということが調べることができ，新たに与えられたデータ点についても，その帰属度を計算することができる．
+また，分類関数の曲面が滑らかであればその手法がファジィであり，平面に近ければクリスプであるということが分かる．
 
 次に，これらの手法から最も有用なものを発見するために，
 実データを用いてAdjusted Rand Index(ARI)~\cite{ARI}を算出しする．
 ARIは，分類結果の精度評価を$-1$から$1$までの範囲で行う指標で，$1$の時に完全一致，$0$の時にランダムであることを表す．
-本研究ではARIの値が最も高いものを有用な手法と評価する．
+本研究ではARIの値が最も高いものを有効な手法と評価する．
 
 
 \section{人工データの実験結果}
@@ -53,18 +53,29 @@ ARIは，分類結果の精度評価を$-1$から$1$までの範囲で行う指�
 及び平均値($1$, $1$)，標準偏差($0.5$, $0.5$)
 のガウスサンプリングで生成したデータを用いた．
 また，初期値として，クラスタ中心にランダムな座標を与え，クラスタサイズ調整変数にクラスタ数の逆数を与えた．
+%スパースデータ用プログラムではクラスタ中心に真値を与える．
 実験結果の図における垂直軸は帰属度を，底面はデータ空間を表す．
 網掛けで示されるのが分類関数であり，各点がデータを表している．
+また，分類関数とデータ点はそれぞれ$2$色に別れており，各色がそれぞれのクラスタに属することを表している．
 
 sFCMAの実験結果を図~\ref{fig:sFCMA-Em2},~\ref{fig:sFCMA-Em11}に示す．
-パラメータ$m$を$2.00$から$1.01$に変化させたところ，分類関数は$m$の値が大きいほどファジィになり，小さいほどクリスプになることが分かった．
+パラメータ$m$を$2.00$から$1.01$に変化させたところ，
+分類関数は$m$の値が大きいほどファジィになり，小さいほどクリスプになることが分かった．
 次に，eFCMAの実験結果を図~\ref{fig:eFCMA-Lambda1},~\ref{fig:eFCMA-Lambda10}に示す．
-パラメータ$\lambda$を$1$から$10$に変化させたところ，分類関数は$\lambda$の値が小さいほどファジィになり，大きいほどクリスプになることが分かった．
+パラメータ$\lambda$を$1$から$10$に変化させたところ，
+分類関数は$\lambda$の値が小さいほどファジィになり，大きいほどクリスプになることが分かった．
 qFCMAの実験結果を図~\ref{fig:qFCMA-Em2-Lambda1},~\ref{fig:qFCMA-Em11-Lambda1},~\ref{fig:qFCMA-Em11-Lambda10}に示す．
-こちらは，パラメータ($m$, $\lambda$)の組み合わせとして，$(2.00, 1)$, $(1.01, 1)$, $(1.01, 10)$の3通りでクラスタリングを行った．
-図~\ref{fig:qFCMA-Em2-Lambda1}及び図~\ref{fig:qFCMA-Em11-Lambda1}の分類関数より，$m$の値が大きいほどファジィになり，小さいほどクリスプになることが分かった．また，図~\ref{fig:qFCMA-Em11-Lambda1}及び図~\ref{fig:qFCMA-Em11-Lambda10}の分類関数より，$\lambda$の値が小さいほどファジィになり，大きいほどクリスプになることが分かった．そして，図~\ref{fig:sFCMA}及び図~\ref{fig:qFCMA-Em2-Lambda1},~\ref{fig:qFCMA-Em11-Lambda1}の分類関数よりqFCMAにおいて$m-1\rightarrow+0$とするとsFCMAと同じ特性が得られ，図~\ref{fig:eFCMA}及び図~\ref{fig:qFCMA-Em11-Lambda1},~\ref{fig:qFCMA-Em11-Lambda10}より，$\lambda\rightarrow\infty$とするとeFCMAと同様の特性を示すことがわかった．
+こちらは，パラメータ($m$, $\lambda$)の組み合わせとして，$(2.00, 1)$, $(1.01, 1)$, $(1.01, 10)$
+の3通りでクラスタリングを行った．
+図~\ref{fig:qFCMA-Em2-Lambda1}及び図~\ref{fig:qFCMA-Em11-Lambda1}の分類関数より，
+$m$の値が大きいほどファジィになり，小さいほどクリスプになることが分かった．
+また，図~\ref{fig:qFCMA-Em11-Lambda1}及び図~\ref{fig:qFCMA-Em11-Lambda10}の分類関数より，
+$\lambda$の値が小さいほどファジィになり，大きいほどクリスプになることが分かった．
+そして，図~\ref{fig:sFCMA}及び図~\ref{fig:qFCMA-Em2-Lambda1},~\ref{fig:qFCMA-Em11-Lambda1}の分類関数より，
+qFCMAにおいて$m-1\rightarrow+0$とするとsFCMAと同じ特性が得られ，
+図~\ref{fig:eFCMA}及び図~\ref{fig:qFCMA-Em11-Lambda1},~\ref{fig:qFCMA-Em11-Lambda10}より，
+$\lambda\rightarrow\infty$とするとeFCMAと同様の特性を示すことがわかった．
 これらの実験結果よりqFCMAはsFCMAとeFCMAの特性を併せ持つと言える．
-
 
 
 \begin{figure}[htbp]
@@ -101,19 +112,21 @@ qFCMAの実験結果を図~\ref{fig:qFCMA-Em2-Lambda1},~\ref{fig:qFCMA-Em11-Lamb
  \label{fig:eFCMA}
 \end{figure}
 
+\newpage
+
 \begin{figure}[htbp]
  \centering
- \begin{minipage}{0.32\hsize}
+ \begin{minipage}{0.4\hsize}
   \includegraphics[width=\linewidth]{qFCMA-Em2-Lambda1.pdf}
   \subcaption{$m=2.00, \lambda=1$}
   \label{fig:qFCMA-Em2-Lambda1}
  \end{minipage}
- \begin{minipage}{0.32\hsize}
+ \begin{minipage}{0.4\hsize}
   \includegraphics[width=\linewidth]{qFCMA-Em11-Lambda1.pdf}
   \subcaption{$m=1.01, \lambda=1$}
   \label{fig:qFCMA-Em11-Lambda1}
  \end{minipage}
- \begin{minipage}{0.32\hsize}
+ \begin{minipage}{0.4\hsize}
   \includegraphics[width=\linewidth]{qFCMA-Em11-Lambda10.pdf}
   \subcaption{$m=1.01, \lambda=10$}
   \label{fig:qFCMA-Em11-Lambda10}
@@ -132,7 +145,6 @@ qFCMAの実験結果を図~\ref{fig:qFCMA-Em2-Lambda1},~\ref{fig:qFCMA-Em11-Lamb
 ``User Knowledge Modeling Dasta Set''
 を用いた．
 また，初期値として，それぞれのデータの帰属度に正解の帰属度を与え，クラスタサイズ調整変数にクラスタ数の逆数を与えた．
-
 sFCMA, eFCMA, qFCMAの実データ実験の結果について，
 それぞれ図~\ref{fig:sFCMA_ARI},~\ref{fig:eFCMA_ARI},~\ref{fig:qFCMA_ARI}に示す．
 sFCMAでは$m$の値を$1.1$から$3.0$まで$0.1$刻み，
