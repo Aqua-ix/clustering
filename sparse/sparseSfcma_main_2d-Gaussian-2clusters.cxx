@@ -14,9 +14,7 @@ int main(void){
   double Em=EM;
   
   std::string filenameData("2d-Gaussian-2clusters-sparse1002.dat");
-#ifdef CHECK_ANSWER
   std::string filenameCorrectCrispMembership("2d-Gaussian-2clusters.correctCrispMembership");
-#endif
 
   std::string::size_type filenameDataDotPosition=filenameData.find_last_of(".");
   if(filenameDataDotPosition==std::string::npos){
@@ -52,27 +50,43 @@ int main(void){
   std::random_device rnd;
   std::mt19937 mt(rnd());
   std::uniform_int_distribution<> randDataNumber(0,test.data_number()-1);
-  for(int i=0;i<test.centers_number();i++){
-    test.centers(i)=test.data()[randDataNumber(mt)];
-    test.clusters_size(i)=1.0/centers_number;
+ 
+  std::ifstream ifs_correctCrispMembership(filenameCorrectCrispMembership);
+  if(!ifs_correctCrispMembership){
+    std::cerr << "File:" << filenameCorrectCrispMembership
+	      << " could not open." << std::endl;
+    exit(1);
   }
+  for(int i=0;i<test.centers_number();i++){
+    for(int k=0;k<test.data_number();k++){
+      ifs_correctCrispMembership >> test.correctCrispMembership(i, k);
+    }
+  }
+  
+  for(int i=0;i<test.centers_number();i++){
+    test.clusters_size(i)=1.0/centers_number;
+    for(int k=0;k<test.data_number();k++){
+      test.membership(i,k)=test.correctCrispMembership(i, k);
+    }
+  }
+
   test.iterates()=0;
   while(1){
-    test.revise_dissimilarities();
-#ifdef VERBOSE
-    std::cout << "d:\n" << test.dissimilarities() << std::endl;
-#endif
-    test.revise_membership();
-#ifdef VERBOSE
-    std::cout << "u:\n" << test.membership() << std::endl;
-#endif
     test.revise_centers();
 #ifdef VERBOSE
     std::cout << "v:\n" << test.centers() << std::endl;
 #endif
+    test.revise_dissimilarities();
+#ifdef VERBOSE
+    std::cout << "d:\n" << test.dissimilarities() << std::endl;
+#endif  
+    test.revise_membership();
+#ifdef VERBOSE
+    std::cout << "u:\n" << test.membership() << std::endl;
+#endif
     test.revise_clusters_size();
 #ifdef VERBOSE
-    std::cout << "a:\n" << test.clusters_size() << std::endl;
+    std::cout << "a:\n" << test.alpha() << std::endl;
 #endif
     
     double diff_u=max_norm(test.tmp_membership()-test.membership());
@@ -95,18 +109,6 @@ int main(void){
 
 #ifdef CHECK_ANSWER
   test.set_crispMembership();
-
-  std::ifstream ifs_correctCrispMembership(filenameCorrectCrispMembership);
-  if(!ifs_correctCrispMembership){
-    std::cerr << "File:" << filenameCorrectCrispMembership
-	      << " could not open." << std::endl;
-    exit(1);
-  }
-  for(int i=0;i<test.centers_number();i++){
-    for(int k=0;k<test.data_number();k++){
-      ifs_correctCrispMembership >> test.correctCrispMembership(i, k);
-    }
-  }
   test.set_contingencyTable();
   std::cout << "Contingency Table:\n" << test.contingencyTable() << std::endl;
   std::cout << "ARI:" << test.ARI() << std::endl;
@@ -125,8 +127,9 @@ int main(void){
   }
 
   for(int k=0;k<test.data_number();k++){
-    for(int ell=0;ell<test.dimension();ell++){
-      ofs_membership << test.data()[k] << "\t";
+    for(int ell=0;ell<test.data()[k].essencialSize();ell++){
+      ofs_membership << test.data()[k].indexIndex(ell) << "\t"
+		     << test.data()[k].elementIndex(ell) << "\t";
     }
     for(int i=0;i<test.centers_number();i++){
       ofs_membership << test.membership()[i][k] << "\t";
