@@ -63,8 +63,3 @@ void SparseSfcma::revise_clusters_size(void){
   }
   return;
 }
-
-void SparseSfcma::set_objective(void){
-  SparseSfcm::set_objective();
-  return;
-}

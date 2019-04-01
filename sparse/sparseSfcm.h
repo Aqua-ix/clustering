@@ -18,7 +18,6 @@ public:
   double &fuzzifierEm(void);
   virtual void revise_membership(void);
   virtual void revise_centers(void);
-  virtual void set_objective(void);
 };
 
 #endif

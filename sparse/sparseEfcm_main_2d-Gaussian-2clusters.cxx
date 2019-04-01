@@ -2,38 +2,35 @@
 #include<fstream>
 #include<cstdlib>
 #include<random>
-#include"sparseSfcma.h"
+#include"sparseEfcm.h"
 
 #define MAX_ITERATES 100000
 #define DIFF_FOR_STOP 1.0E-10
-#define EM 1.01
 
 const int centers_number=2;
 
 int main(void){
-  double Em=EM;
-  
   std::string filenameData("2d-Gaussian-2clusters-sparse1002.dat");
   std::string filenameCorrectCrispMembership("2d-Gaussian-2clusters.correctCrispMembership");
 
   std::string::size_type filenameDataDotPosition=filenameData.find_last_of(".");
   if(filenameDataDotPosition==std::string::npos){
     std::cerr << "File:" << filenameData
-              << " needs \".\" and filename-extention." << std::endl;
+	      << " needs \".\" and filename-extention." << std::endl;
     exit(1);
   }
 
   std::ifstream ifs(filenameData);
   if(!ifs){
     std::cerr << "File:" << filenameData
-              << " could not open." << std::endl;
+	      << " could not open." << std::endl;
     exit(1);
   }
   int data_number, data_dimension;
   ifs >> data_number;
   ifs >> data_dimension;
 	
-  SparseSfcma test(data_dimension, data_number, centers_number, Em);
+  SparseEfcm test(data_dimension, data_number, centers_number, 10.0);
 
   for(int cnt=0;cnt<data_number;cnt++){
     int essencialSize;
@@ -44,13 +41,12 @@ int main(void){
     }
     test.data(cnt)=dummy;
   }
- 
 
   /***Initial Centers Setting***/
   std::random_device rnd;
   std::mt19937 mt(rnd());
   std::uniform_int_distribution<> randDataNumber(0,test.data_number()-1);
- 
+
   std::ifstream ifs_correctCrispMembership(filenameCorrectCrispMembership);
   if(!ifs_correctCrispMembership){
     std::cerr << "File:" << filenameCorrectCrispMembership
@@ -64,7 +60,6 @@ int main(void){
   }
   
   for(int i=0;i<test.centers_number();i++){
-    test.clusters_size(i)=1.0/centers_number;
     for(int k=0;k<test.data_number();k++){
       test.membership(i,k)=test.correctCrispMembership(i, k);
     }
@@ -84,20 +79,14 @@ int main(void){
 #ifdef VERBOSE
     std::cout << "u:\n" << test.membership() << std::endl;
 #endif
-    test.revise_clusters_size();
-#ifdef VERBOSE
-    std::cout << "a:\n" << test.clusters_size() << std::endl;
-#endif
     
     double diff_u=max_norm(test.tmp_membership()-test.membership());
     double diff_v=max_norm(test.tmp_centers()-test.centers());
-    double diff_a=max_norm(test.tmp_clusters_size()-test.clusters_size());
-    double diff=diff_u+diff_v+diff_a;
+    double diff=diff_u+diff_v;
 #ifdef DIFF
     std::cout << "#diff:" << diff << "\t";
     std::cout << "#diff_u:" << diff_u << "\t";
-    std::cout << "#diff_v:" << diff_v << "\t";
-    std::cout << "#diff_a:" << diff_a << "\n";
+    std::cout << "#diff_v:" << diff_v << "\n";
 #endif
     if(diff<DIFF_FOR_STOP)break;
     if(test.iterates()>=MAX_ITERATES)break;
@@ -115,8 +104,7 @@ int main(void){
 #endif
   
   std::string filenameResultMembership
-    =std::string("sFCMA-Em")
-    +std::to_string(test.fuzzifierEm())+std::string("-")
+    =std::string("eFCM-Lambda")+std::to_string(test.fuzzifierLambda())+std::string("-")
     +filenameData.substr(0, filenameDataDotPosition)
     +std::string(".result_membership");
   std::ofstream ofs_membership(filenameResultMembership);
@@ -125,7 +113,7 @@ int main(void){
 	      << "could not open." << std::endl;
     exit(1);
   }
-
+  
   for(int k=0;k<test.data_number();k++){
     for(int ell=0;ell<test.data()[k].essencialSize();ell++){
       ofs_membership << test.data()[k].indexIndex(ell) << "\t"
@@ -137,10 +125,9 @@ int main(void){
     ofs_membership << std::endl;
   }
   ofs_membership.close();
-
+  
   std::string filenameResultCenters
-    =std::string("sFCMA-Em")
-    +std::to_string(test.fuzzifierEm())+std::string("-")
+    =std::string("eFCM-Lambda")+std::to_string(test.fuzzifierLambda())+std::string("-")
     +filenameData.substr(0, filenameDataDotPosition)
     +std::string(".result_centers");
   std::ofstream ofs_centers(filenameResultCenters);

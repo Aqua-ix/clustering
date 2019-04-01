@@ -13,6 +13,5 @@ class SparseSfcma: virtual public SparseHcm, public SparseSfcm{
   virtual void revise_membership(void);
   virtual void revise_centers(void);
   virtual void revise_clusters_size(void);
-  virtual void set_objective(void);
 };
 #endif
