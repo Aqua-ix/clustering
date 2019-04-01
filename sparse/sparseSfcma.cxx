@@ -65,12 +65,6 @@ void SparseSfcma::revise_clusters_size(void){
 }
 
 void SparseSfcma::set_objective(void){
-  Objective=0.0;
-  for(int i=0;i<centers_number();i++){
-    for(int k=0;k<data_number();k++){
-      Objective+=pow(Clusters_Size[i],1.0-FuzzifierEm)*
-        pow(Membership[i][k],FuzzifierEm)*Dissimilarities[i][k];
-    }
-  }
+  SparseSfcm::set_objective();
   return;
 }

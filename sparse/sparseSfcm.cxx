@@ -49,12 +49,30 @@ void SparseSfcm::revise_centers(void){
   Tmp_Centers=Centers;
   for(int i=0;i<centers_number();i++){
     double denominator=0.0;
-    Vector numerator(dimension(), 0.0, "all");
+    Vector numerator(Centers[i].size());
+    for(int ell=0;ell<numerator.size();ell++){
+      numerator[ell]=0.0;
+    }
+    
     for(int k=0;k<data_number();k++){
       denominator+=pow(Membership[i][k], FuzzifierEm);
-      numerator+=pow(Membership[i][k], FuzzifierEm)*Data[k];
+      for(int ell=0;ell<Data[k].essencialSize();ell++){
+        numerator[Data[k].indexIndex(ell)]
+          +=pow(Membership[i][k], FuzzifierEm)*Data[k].elementIndex(ell);
+      }
     }
     Centers[i]=numerator/denominator;
+  }
+  return;
+}
+
+void SparseSfcm::set_objective(void){
+  Objective=0.0;
+  for(int i=0;i<centers_number();i++){
+    for(int k=0;k<data_number();k++){
+      Objective+=pow(Clusters_Size[i],1.0-FuzzifierEm)*
+        pow(Membership[i][k],FuzzifierEm)*Dissimilarities[i][k];
+    }
   }
   return;
 }
