@@ -23,7 +23,7 @@ int main(void){
     exit(1);
   }
 
-  std::ifstream ifs(filenameData);
+  std::ifstream ifs("../dataset/"+filenameData);
   if(!ifs){
     std::cerr << "File:" << filenameData
 	      << " could not open." << std::endl;
@@ -50,7 +50,7 @@ int main(void){
   std::mt19937 mt(rnd());
   std::uniform_int_distribution<> randDataNumber(0,test.data_number()-1);
 
- std::ifstream ifs_correctCrispMembership(filenameCorrectCrispMembership);
+ std::ifstream ifs_correctCrispMembership("../dataset/"+filenameCorrectCrispMembership);
   if(!ifs_correctCrispMembership){
     std::cerr << "File:" << filenameCorrectCrispMembership
 	      << " could not open." << std::endl;
@@ -113,7 +113,7 @@ int main(void){
 #endif
   
   std::string filenameResultMembership
-    =std::string("eFCMA-Lambda")+std::to_string(test.fuzzifierLambda())+std::string("-")
+    =std::string("../result_data/eFCMA-Lambda")+std::to_string(test.fuzzifierLambda())+std::string("-")
     +filenameData.substr(0, filenameDataDotPosition)
     +std::string(".result_membership");
   std::ofstream ofs_membership(filenameResultMembership);
@@ -136,7 +136,7 @@ int main(void){
   ofs_membership.close();
 
   std::string filenameResultCenters
-    =std::string("eFCMA-Lambda")+std::to_string(test.fuzzifierLambda())+std::string("-")
+    =std::string("../result_data/eFCMA-Lambda")+std::to_string(test.fuzzifierLambda())+std::string("-")
     +filenameData.substr(0, filenameDataDotPosition)
     +std::string(".result_centers");
   std::ofstream ofs_centers(filenameResultCenters);
