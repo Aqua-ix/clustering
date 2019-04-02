@@ -59,3 +59,8 @@ g++ -DCHECK_ANSWER -std=c++11 vector.cxx matrix.cxx sparseVector.cxx sparseMatri
 ```
 g++ -DCHECK_ANSWER -std=c++11 vector.cxx matrix.cxx sparseVector.cxx sparseMatrix.cxx sparseHcm.cxx sparseEfcm.cxx sparseEfcma.cxx sparseEfcma_main_2d-Gaussian-2clusters.cxx
 ```
+
+### qFCMA
+```
+g++ -DCHECK_ANSWER -std=c++11 vector.cxx matrix.cxx sparseVector.cxx sparseMatrix.cxx sparseHcm.cxx sparseSfcm.cxx sparseSfcma.cxx sparseEfcm.cxx sparseEfcma.cxx sparseQfcm.cxx sparseQfcma.cxx sparseQfcma_main_2d-Gaussian-2clusters.cxx
+```
