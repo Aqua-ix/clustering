@@ -15,8 +15,8 @@ public:
        int centers_number,
        double fuzzifierEm,
        double fuzzifierLambda);
-  void revise_membership(void);
-  void revise_centers(void);
+  virtual void revise_membership(void);
+  virtual void revise_centers(void);
 };
 
 #endif

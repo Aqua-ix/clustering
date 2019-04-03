@@ -1,4 +1,3 @@
-
 #include"efcm.h"
 
 #ifndef __EFCMA__
@@ -12,7 +11,7 @@ public:
        int centers_number,
        double fuzzifierLambda);
   void revise_membership(void);
-  void revise_alpha(void);
+  void revise_clusters_size(void);
 };
 
 #endif

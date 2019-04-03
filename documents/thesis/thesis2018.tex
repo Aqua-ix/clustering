@@ -198,7 +198,7 @@
  \end{align}
  次に，帰属度$u_{i,k}$の更新式を以下に示す．
  \begin{align}
-  u_{i,k}=\frac{\pi_{i}\exp(-\lambda||x_k-v_i||_2^2)}{\sum_{j=1}^C\alpha_{j}\exp(-\lambda||x_k-v_j||_2^2)}
+  u_{i,k}=\frac{\alpha_{i}\exp(-\lambda||x_k-v_i||_2^2)}{\sum_{j=1}^C\alpha_{j}\exp(-\lambda||x_k-v_j||_2^2)}
  \end{align}
  次に，クラスタサイズ調整変数$\alpha_{i}$の更新式を以下に示す．
  \begin{align}
@@ -258,8 +258,7 @@
 
  \section{アルゴリズム}\label{sec:artificial_data_algorythm}
   \begin{enumerate}
-   \item クラスタ中心$v$をランダムに与え，クラスタサイズ調整変数$\alpha$をクラスタ数の逆数で初期化する．
-   \item クラスタ中心$v$を用いて帰属度$u$を更新する．
+   \item 帰属度$u$を正解帰属度で初期化し，クラスタサイズ調整変数$\alpha$をクラスタ数の逆数で初期化する．
    \item 帰属度$u$を用いてクラスタ中心$v$及びクラスタサイズ調整変数$\alpha$を更新する．
    \item $u, v, \alpha$の変化の合計が$10^{-10}$未満に収束すれば終了し，そうでない場合は$2$に戻る．
   \end{enumerate}
@@ -553,15 +552,6 @@ eFCMAは$\lambda$が大きくなるほどクリスプになることが分かっ
  \section*{\texttt{qfcma.cxx}}
  \addcontentsline{toc}{section}{\texttt{qfcma.cxx}}
  \listinginput{1}{src/qfcma.cxx}
- \section*{\texttt{sfcm\symbol{95}main\symbol{95}2d-Gaussian-2clusters.cxx}}
- \addcontentsline{toc}{section}{\texttt{sfcm\symbol{95}main\symbol{95}2d-Gaussian-2clusters.cxx}}
- \listinginput{1}{src/sfcm_main_2d-Gaussian-2clusters.cxx}
- \section*{\texttt{efcm\symbol{95}main\symbol{95}2d-Gaussian-2clusters.cxx}}
- \addcontentsline{toc}{section}{\texttt{efcm\symbol{95}main\symbol{95}2d-Gaussian-2clusters.cxx}}
- \listinginput{1}{src/efcm_main_2d-Gaussian-2clusters.cxx}
- \section*{\texttt{qfcm\symbol{95}main\symbol{95}2d-Gaussian-2clusters.cxx}}
- \addcontentsline{toc}{section}{\texttt{qfcm\symbol{95}main\symbol{95}2d-Gaussian-2clusters.cxx}}
- \listinginput{1}{src/qfcm_main_2d-Gaussian-2clusters.cxx}
  \section*{\texttt{sfcma\symbol{95}main\symbol{95}2d-Gaussian-2clusters.cxx}}
  \addcontentsline{toc}{section}{\texttt{sfcma\symbol{95}main\symbol{95}2d-Gaussian-2clusters.cxx}}
  \listinginput{1}{src/sfcma_main_2d-Gaussian-2clusters.cxx}
@@ -571,24 +561,15 @@ eFCMAは$\lambda$が大きくなるほどクリスプになることが分かっ
  \section*{\texttt{qfcma\symbol{95}main\symbol{95}2d-Gaussian-2clusters.cxx}}
  \addcontentsline{toc}{section}{\texttt{qfcma\symbol{95}main\symbol{95}2d-Gaussian-2clusters.cxx}}
  \listinginput{1}{src/qfcma_main_2d-Gaussian-2clusters.cxx}
- \section*{\texttt{sfcm\symbol{95}main\symbol{95}user\symbol{95}knowledge.cxx}}
- \addcontentsline{toc}{section}{\texttt{sfcm\symbol{95}main\symbol{95}user\symbol{95}knowledge.cxx}}
- \listinginput{1}{src/sfcm_main_user_knowledge.cxx}
- \section*{\texttt{efcm\symbol{95}main\symbol{95}user\symbol{95}knowledge.cxx}}
- \addcontentsline{toc}{section}{\texttt{efcm\symbol{95}main\symbol{95}user\symbol{95}knowledge.cxx}}
- \listinginput{1}{src/efcm_main_user_knowledge.cxx}
- \section*{\texttt{qfcm\symbol{95}main\symbol{95}user\symbol{95}knowledge.cxx}}
- \addcontentsline{toc}{section}{\texttt{qfcm\symbol{95}main\symbol{95}user\symbol{95}knowledge.cxx}}
- \listinginput{1}{src/qfcm_main_user_knowledge.cxx}
- \section*{\texttt{sfcma\symbol{95}main\symbol{95}user\symbol{95}knowledge.cxx}}
- \addcontentsline{toc}{section}{\texttt{sfcma\symbol{95}main\symbol{95}user\symbol{95}knowledge.cxx}}
- \listinginput{1}{src/sfcma_main_user_knowledge.cxx}
- \section*{\texttt{efcma\symbol{95}main\symbol{95}user\symbol{95}knowledge.cxx}}
- \addcontentsline{toc}{section}{\texttt{efcma\symbol{95}main\symbol{95}user\symbol{95}knowledge.cxx}}
- \listinginput{1}{src/efcma_main_user_knowledge.cxx}
- \section*{\texttt{qfcma\symbol{95}main\symbol{95}user\symbol{95}knowledge.cxx}}
- \addcontentsline{toc}{section}{\texttt{qfcma\symbol{95}main\symbol{95}user\symbol{95}knowledge.cxx}}
- \listinginput{1}{src/qfcma_main_user_knowledge.cxx}
+ \section*{\texttt{sfcma\symbol{95}main\symbol{95}user-knowledge.cxx}}
+ \addcontentsline{toc}{section}{\texttt{sfcma\symbol{95}main\symbol{95}user-knowledge.cxx}}
+ \listinginput{1}{src/sfcma_main_user-knowledge.cxx}
+ \section*{\texttt{efcma\symbol{95}main\symbol{95}user-knowledge.cxx}}
+ \addcontentsline{toc}{section}{\texttt{efcma\symbol{95}main\symbol{95}user-knowledge.cxx}}
+ \listinginput{1}{src/efcma_main_user-knowledge.cxx}
+ \section*{\texttt{qfcma\symbol{95}main\symbol{95}user-knowledge.cxx}}
+ \addcontentsline{toc}{section}{\texttt{qfcma\symbol{95}main\symbol{95}user-knowledge.cxx}}
+ \listinginput{1}{src/qfcma_main_user-knowledge.cxx}
 
 \end{document}
 

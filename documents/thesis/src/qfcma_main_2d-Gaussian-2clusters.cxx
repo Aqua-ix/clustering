@@ -3,11 +3,10 @@
 #include<cstdlib>
 #include<random>
 #include"qfcma.h"
+#include"config.h"
 
 #define MAX_ITERATES 100000
 #define DIFF_FOR_STOP 1.0E-10
-#define EM 2.5
-#define LAMBDA 1
 
 const int centers_number=2;
 
@@ -16,9 +15,7 @@ int main(void){
   double Lambda=LAMBDA;
   
   std::string filenameData("2d-Gaussian-2clusters.dat");
-#ifdef CHECK_ANSWER
   std::string filenameCorrectCrispMembership("2d-Gaussian-2clusters.correctCrispMembership");
-#endif
 
   std::string::size_type filenameDataDotPosition=filenameData.find_last_of(".");
   if(filenameDataDotPosition==std::string::npos){
@@ -27,7 +24,7 @@ int main(void){
     exit(1);
   }
 
-  std::ifstream ifs(filenameData);
+  std::ifstream ifs(DATA_DIR+filenameData);
   if(!ifs){
     std::cerr << "File:" << filenameData
               << " could not open." << std::endl;
@@ -49,32 +46,48 @@ int main(void){
   std::random_device rnd;
   std::mt19937 mt(rnd());
   std::uniform_int_distribution<> randDataNumber(0,test.data_number()-1);
-  for(int i=0;i<test.centers_number();i++){
-    test.centers(i)=test.data()[randDataNumber(mt)];
-    test.alpha(i)=1.0/centers_number;
+
+ std::ifstream ifs_correctCrispMembership(DATA_DIR+filenameCorrectCrispMembership);
+  if(!ifs_correctCrispMembership){
+    std::cerr << "File:" << filenameCorrectCrispMembership
+	      << " could not open." << std::endl;
+    exit(1);
   }
+  for(int i=0;i<test.centers_number();i++){
+    for(int k=0;k<test.data_number();k++){
+      ifs_correctCrispMembership >> test.correctCrispMembership(i, k);
+    }
+  }
+  
+  for(int i=0;i<test.centers_number();i++){
+    test.clusters_size(i)=1.0/centers_number;
+    for(int k=0;k<test.data_number();k++){
+      test.membership(i,k)=test.correctCrispMembership(i, k);
+    }
+  }
+
   test.iterates()=0;
   while(1){
-    test.revise_dissimilarities();
-#ifdef VERBOSE
-    std::cout << "d:\n" << test.dissimilarities() << std::endl;
-#endif
-    test.revise_membership();
-#ifdef VERBOSE
-    std::cout << "u:\n" << test.membership() << std::endl;
-#endif
     test.revise_centers();
 #ifdef VERBOSE
     std::cout << "v:\n" << test.centers() << std::endl;
 #endif
-    test.revise_alpha();
+    test.revise_dissimilarities();
 #ifdef VERBOSE
-    std::cout << "a:\n" << test.alpha() << std::endl;
+    std::cout << "d:\n" << test.dissimilarities() << std::endl;
+#endif  
+    test.revise_membership();
+#ifdef VERBOSE
+    std::cout << "u:\n" << test.membership() << std::endl;
+#endif
+    test.revise_clusters_size();
+#ifdef VERBOSE
+    std::cout << "a:\n" << test.clusters_size() << std::endl;
 #endif
     
     double diff_u=max_norm(test.tmp_membership()-test.membership());
     double diff_v=max_norm(test.tmp_centers()-test.centers());
-    double diff_a=max_norm(test.tmp_alpha()-test.alpha());
+    double diff_a=max_norm(test.tmp_clusters_size()-test.clusters_size());
     double diff=diff_u+diff_v+diff_a;
 #ifdef DIFF
     std::cout << "#diff:" << diff << "\t";
@@ -93,12 +106,6 @@ int main(void){
   
 #ifdef CHECK_ANSWER
   test.set_crispMembership();
-  std::ifstream ifs_correctCrispMembership(filenameCorrectCrispMembership);
-  if(!ifs_correctCrispMembership){
-    std::cerr << "File:" << filenameCorrectCrispMembership
-              << " could not open." << std::endl;
-    exit(1);
-  }
   for(int i=0;i<test.centers_number();i++){
     for(int k=0;k<test.data_number();k++){
       ifs_correctCrispMembership >> test.correctCrispMembership(i, k);
@@ -115,7 +122,7 @@ int main(void){
     +std::string("-")
     +filenameData.substr(0, filenameDataDotPosition)
     +std::string(".result_membership");
-  std::ofstream ofs_membership(filenameResultMembership);
+  std::ofstream ofs_membership(RESULT_DIR+filenameResultMembership);
   if(!ofs_membership){
     std::cerr << "File:" << filenameResultMembership
 	      << "could not open." << std::endl;
@@ -139,7 +146,7 @@ int main(void){
     +std::string("-")
     +filenameData.substr(0, filenameDataDotPosition)
     +std::string(".result_centers");
-  std::ofstream ofs_centers(filenameResultCenters);
+  std::ofstream ofs_centers(RESULT_DIR+filenameResultCenters);
   if(!ofs_centers){
     std::cerr << "File:" << filenameResultCenters
 	      << "could not open." << std::endl;
@@ -168,7 +175,7 @@ int main(void){
     +std::string("-")
     +filenameData.substr(0, filenameDataDotPosition)
     +std::string(".result_classificationFunction");
-  std::ofstream ofs_classificationFunction(filenameClassificationFunction);
+  std::ofstream ofs_classificationFunction(RESULT_DIR+filenameClassificationFunction);
   if(!ofs_classificationFunction){
     std::cerr << "File:" << filenameClassificationFunction
 	      << "could not open." << std::endl;

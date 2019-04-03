@@ -3,21 +3,22 @@
 #include<cstdlib>
 #include<random>
 #include"efcma.h"
+#include"config.h"
 
 #define MAX_ITERATES 100000
 #define DIFF_FOR_STOP 1.0E-10
 
 const int centers_number=4;
 
-
 int main(void){
-
   double max_ARI_Lambda, max_ARI;
+  double
+    start=LAMBDA_START,
+    end=LAMBDA_END,
+    diff=LAMBDA_DIFF;
   
-  std::ofstream outputfile("efcma_user_knowledge_ARI.txt");
-  
-  std::string filenameData("user_knowledge.dat");
-  std::string filenameCorrectCrispMembership("user_knowledge.correctCrispMembership");
+  std::string filenameData("user-knowledge.dat");
+  std::string filenameCorrectCrispMembership("user-knowledge.correctCrispMembership");
   
   std::string::size_type filenameDataDotPosition=filenameData.find_last_of(".");
   if(filenameDataDotPosition==std::string::npos){
@@ -25,9 +26,15 @@ int main(void){
               << " needs \".\" and filename-extention." << std::endl;
     exit(1);
   }
-    
-  for(double Lambda=1;Lambda<=100;Lambda+=1){
-    std::ifstream ifs(filenameData);
+  
+  std::string resultFileName =
+    std::string("eFCMA-")
+    +filenameData.substr(0, filenameDataDotPosition)
+    +std::string(".result_ari");
+  std::ofstream outputfile(RESULT_DIR+resultFileName);
+
+  for(double Lambda=start;Lambda<=end;Lambda+=diff){
+    std::ifstream ifs(DATA_DIR+filenameData);
     if(!ifs){
       std::cerr << "File:" << filenameData
                 << " could not open." << std::endl;
@@ -49,7 +56,7 @@ int main(void){
     std::random_device rnd;
     std::mt19937 mt(rnd());
     std::uniform_int_distribution<> randDataNumber(0,test.data_number()-1);
-    std::ifstream ifs_correctCrispMembership(filenameCorrectCrispMembership);
+    std::ifstream ifs_correctCrispMembership(DATA_DIR+filenameCorrectCrispMembership);
     if(!ifs_correctCrispMembership){
       std::cerr << "File:" << filenameCorrectCrispMembership
                 << " could not open." << std::endl;
@@ -63,7 +70,7 @@ int main(void){
     }
     for(int i=0;i<test.centers_number();i++){
       test.centers(i)=test.data()[randDataNumber(mt)];
-      test.alpha(i)=1.0/centers_number;
+      test.clusters_size(i)=1.0/centers_number;
       for(int k=0;k<test.data_number();k++){
         test.membership(i,k) = test.correctCrispMembership(i,k);
       }
@@ -83,13 +90,13 @@ int main(void){
 #ifdef VERBOSE
       std::cout << "u:\n" << test.membership() << std::endl;
 #endif
-      test.revise_alpha();
+      test.revise_clusters_size();
 #ifdef VERBOSE
-      std::cout << "a:\n" << test.alpha() << std::endl;
+      std::cout << "a:\n" << test.clusters_size() << std::endl;
 #endif
       double diff_u=max_norm(test.tmp_membership()-test.membership());
       double diff_v=max_norm(test.tmp_centers()-test.centers());
-      double diff_a=max_norm(test.tmp_alpha()-test.alpha());
+      double diff_a=max_norm(test.tmp_clusters_size()-test.clusters_size());
       double diff=diff_u+diff_v+diff_a;
 #ifdef DIFF
       std::cout << "#diff:" << diff << "\t";

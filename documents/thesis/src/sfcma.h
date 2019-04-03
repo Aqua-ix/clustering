@@ -11,7 +11,6 @@ class Sfcma: virtual public Hcm, public Sfcm{
         const int &centers_number,
         const double &fuzzifierEm);
   virtual void revise_membership(void);
-  virtual void revise_centers(void);
-  virtual void revise_alpha(void);
+  virtual void revise_clusters_size(void);
 };
 #endif

@@ -14,7 +14,7 @@ public:
         double fuzzifierLambda);
   virtual void revise_membership(void);
   virtual void revise_centers(void);
-  virtual void revise_alpha(void);
+  virtual void revise_clusters_size(void);
 };
 
 #endif

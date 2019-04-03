@@ -9,8 +9,8 @@ Hcm::Hcm(int dimension,
   Tmp_Centers(centers_number, dimension),
   Membership(centers_number, data_number),
   Tmp_Membership(centers_number, data_number),
-  Alpha(centers_number),
-  Tmp_Alpha(centers_number),
+  Clusters_Size(centers_number),
+  Tmp_Clusters_Size(centers_number),
   Dissimilarities(centers_number, data_number),
   CrispMembership(centers_number, data_number),
   CorrectCrispMembership(centers_number, data_number),
@@ -239,14 +239,14 @@ Vector &Hcm::centers(int index1){
   return Centers[index1];
 }
 
-Vector Hcm::alpha(void) const{
-  return Alpha;
+Vector Hcm::clusters_size(void) const{
+  return Clusters_Size;
 }
 
-double &Hcm::alpha(int index1){
-  return Alpha[index1];
+double &Hcm::clusters_size(int index1){
+  return Clusters_Size[index1];
 }
 
-Vector Hcm::tmp_alpha(void) const{
-  return Tmp_Alpha;
+Vector Hcm::tmp_clusters_size(void) const{
+  return Tmp_Clusters_Size;
 }

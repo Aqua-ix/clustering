@@ -3,6 +3,7 @@
 #include<cstdlib>
 #include<random>
 #include"hcm.h"
+#include"config.h"
 
 #define MAX_ITERATES 100000
 #define DIFF_FOR_STOP 1.0E-10
@@ -22,7 +23,7 @@ int main(void){
     exit(1);
   }
 
-  std::ifstream ifs(filenameData);
+  std::ifstream ifs(DATA_DIR+filenameData);
   if(!ifs){
     std::cerr << "File:" << filenameData
 	      << " could not open." << std::endl;
@@ -85,7 +86,7 @@ int main(void){
 #ifdef CHECK_ANSWER
   test.set_crispMembership();
 
-  std::ifstream ifs_correctCrispMembership(filenameCorrectCrispMembership);
+  std::ifstream ifs_correctCrispMembership(DATA_DIR+filenameCorrectCrispMembership);
   if(!ifs_correctCrispMembership){
     std::cerr << "File:" << filenameCorrectCrispMembership
 	      << "could not open." << std::endl;
@@ -105,7 +106,7 @@ int main(void){
     =std::string("HCM-")
     +filenameData.substr(0, filenameDataDotPosition)
     +std::string(".result_membership");
-  std::ofstream ofs_membership(filenameResultMembership);
+  std::ofstream ofs_membership(RESULT_DIR+filenameResultMembership);
   if(!ofs_membership){
     std::cerr << "File:" << filenameResultMembership
 	      << "could not open." << std::endl;
@@ -127,7 +128,7 @@ int main(void){
     =std::string("HCM-")
     +filenameData.substr(0, filenameDataDotPosition)
     +std::string(".result_centers");
-  std::ofstream ofs_centers(filenameResultCenters);
+  std::ofstream ofs_centers(RESULT_DIR+filenameResultCenters);
   if(!ofs_centers){
     std::cerr << "File:" << filenameResultCenters
 	      << "could not open." << std::endl;
@@ -154,7 +155,7 @@ int main(void){
       =std::string("HCM-")
       +filenameData.substr(0, filenameDataDotPosition)
       +std::string(".result_classificationFunction");
-    std::ofstream ofs_classificationFunction(filenameClassificationFunction);
+    std::ofstream ofs_classificationFunction(RESULT_DIR+filenameClassificationFunction);
     if(!ofs_classificationFunction){
       std::cerr << "File:" << filenameClassificationFunction
 		<< "could not open." << std::endl;

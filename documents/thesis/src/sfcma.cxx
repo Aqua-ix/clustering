@@ -28,7 +28,7 @@ void Sfcma::revise_membership(void){
       for(int i=0;i<centers_number();i++){
         double denominator=0.0;
         for(int j=0;j<centers_number();j++){
-          denominator+=Alpha[j]/Alpha[i]
+          denominator+=Clusters_Size[j]/Clusters_Size[i]
             *pow(Dissimilarities[i][k]/Dissimilarities[j][k],
             1.0/(FuzzifierEm-1.0));
         }
@@ -39,13 +39,8 @@ void Sfcma::revise_membership(void){
   return;
 }
 
-void Sfcma::revise_centers(void){
-  Sfcm::revise_centers();
-  return;
-}
-
-void Sfcma::revise_alpha(void){
-  Tmp_Alpha=Alpha;
+void Sfcma::revise_clusters_size(void){
+  Tmp_Clusters_Size=Clusters_Size;
   double denominator=0.0;
   for(int j=0;j<centers_number();j++){
     double tmp1=0.0;
@@ -59,7 +54,7 @@ void Sfcma::revise_alpha(void){
     for(int k=0;k<data_number();k++){
       tmp2+=pow(Membership[i][k],FuzzifierEm)*Dissimilarities[i][k];
     }
-    Alpha[i]=pow(tmp2,1.0/FuzzifierEm)/denominator;
+    Clusters_Size[i]=pow(tmp2,1.0/FuzzifierEm)/denominator;
   }
   return;
 }

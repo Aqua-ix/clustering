@@ -10,7 +10,7 @@ class Hcm{
   Matrix Data, Centers, Tmp_Centers;
   Matrix Membership, Tmp_Membership, Dissimilarities;
   Matrix CrispMembership, CorrectCrispMembership, ContingencyTable;
-  Vector Alpha,Tmp_Alpha;
+  Vector Clusters_Size, Tmp_Clusters_Size;
   int Iterates;
   double Objective;
  public:
@@ -28,9 +28,9 @@ class Hcm{
   Matrix data(void) const;
   Matrix membership(void) const;
   Matrix tmp_membership(void) const;
-  Vector alpha(void) const;
-  double &alpha(int index);
-  Vector tmp_alpha(void) const;
+  Vector clusters_size(void) const;
+  double &clusters_size(int index);
+  Vector tmp_clusters_size(void) const;
   int &iterates(void);
   Matrix dissimilarities(void) const;
   double &data(int index1, int index2); 

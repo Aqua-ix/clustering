@@ -3,6 +3,7 @@
 #include<cstdlib>
 #include<random>
 #include"hcm.h"
+#include"config.h"
 
 #define MAX_ITERATES 100000
 #define DIFF_FOR_STOP 1.0E-10
@@ -22,7 +23,7 @@ int main(void){
     exit(1);
   }
 
-  std::ifstream ifs(filenameData);
+  std::ifstream ifs(DATA_DIR+filenameData);
   if(!ifs){
     std::cerr << "File:" << filenameData
 	      << " could not open." << std::endl;
@@ -85,7 +86,7 @@ int main(void){
 #ifdef CHECK_ANSWER
   test.set_crispMembership();
 
-  std::ifstream ifs_correctCrispMembership(filenameCorrectCrispMembership);
+  std::ifstream ifs_correctCrispMembership(DATA_DIR+filenameCorrectCrispMembership);
   if(!ifs_correctCrispMembership){
     std::cerr << "File:" << filenameCorrectCrispMembership
 	      << "could not open." << std::endl;
@@ -105,7 +106,7 @@ int main(void){
     =std::string("HCM-")
     +filenameData.substr(0, filenameDataDotPosition)
     +std::string(".result_membership");
-  std::ofstream ofs_membership(filenameResultMembership);
+  std::ofstream ofs_membership(RESULT_DIR+filenameResultMembership);
   if(!ofs_membership){
     std::cerr << "File:" << filenameResultMembership
 	      << "could not open." << std::endl;
@@ -127,7 +128,7 @@ int main(void){
     =std::string("HCM-")
     +filenameData.substr(0, filenameDataDotPosition)
     +std::string(".result_centers");
-  std::ofstream ofs_centers(filenameResultCenters);
+  std::ofstream ofs_centers(RESULT_DIR+filenameResultCenters);
   if(!ofs_centers){
     std::cerr << "File:" << filenameResultCenters
 	      << "could not open." << std::endl;
@@ -140,81 +141,6 @@ int main(void){
     ofs_centers << std::endl;
   }
   ofs_centers.close();
-
-#ifdef CLASSIFICATION_FUNCTION
-  //Classification Function
-    if(test.dimension()>2){
-      std::cerr << "Dimension:" << test.dimension()
-		<< "is too high for classification function visualization."
-		<< std::endl;
-      exit(1);
-    }
-    Hcm ClassFunction(test.dimension(), 1, test.centers_number());
-    std::string filenameClassificationFunction
-      =std::string("HCM-")
-      +filenameData.substr(0, filenameDataDotPosition)
-      +std::string(".result_classificationFunction");
-    std::ofstream ofs_classificationFunction(filenameClassificationFunction);
-    if(!ofs_classificationFunction){
-      std::cerr << "File:" << filenameClassificationFunction
-		<< "could not open." << std::endl;
-      exit(1);
-    }
-    for(int i=0;i<test.centers_number();i++){
-	ClassFunction.centers(i)=test.centers(i);
-    }
-    Vector Min(test.dimension(), DBL_MAX, "all");
-    Vector Max(test.dimension(), -DBL_MAX, "all");
-    for(int k=0;k<test.data_number();k++){
-      for(int ell=0;ell<test.dimension();ell++){
-	if(Min[ell]>test.data(k, ell)){
-	  Min[ell]=test.data(k, ell);
-	}
-	if(Max[ell]<test.data(k, ell)){
-	  Max[ell]=test.data(k, ell);
-	}
-      }
-    }
-    Vector Mid=0.5*(Max+Min);
-    Vector Width=Max-Min;
-    Min=Mid-Width;
-    Max=Mid+Width;
-
-    for(double x0=Min[0];x0<=Max[0];x0+=Width[0]/10.0){
-      for(double x1=Min[1];x1<=Max[1];x1+=Width[1]/10.0){
-#ifdef VERBOSE
-	std::cout << "x0:" << x0 << "\t" << "x1:" << x1 << std::endl;
-#endif
-	ClassFunction.data(0,0)=x0;
-	ClassFunction.data(0,1)=x1;
-	while(1){
-	  ClassFunction.revise_dissimilarities();
-	  ClassFunction.revise_membership();
-	  double diff_u=frobenius_norm(ClassFunction.tmp_membership()-ClassFunction.membership());
-#ifdef DIFF
-	  std::cout << "diff_u:" << diff_u << std::endl;
-#endif
-	  if(diff_u<DIFF_FOR_STOP)break;
-	}
-	for(int ell=0;ell<ClassFunction.dimension();ell++){
-	  ofs_classificationFunction << ClassFunction.data()[0][ell] << "\t";
-	}
-	for(int i=0;i<ClassFunction.centers_number();i++){
-	  ofs_classificationFunction << ClassFunction.membership()[i][0] << "\t";
-	}
-	double max=0.0;
-	for(int i=0;i<ClassFunction.centers_number();i++){
-	  if(max<ClassFunction.membership()[i][0]){
-	    max=ClassFunction.membership()[i][0];
-	  }
-	}
-	ofs_classificationFunction << max << "\t";
-	ofs_classificationFunction << std::endl;
-      }
-      ofs_classificationFunction << std::endl;
-    }
-
-#endif
 
   return 0;
 }

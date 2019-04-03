@@ -52,9 +52,10 @@ int main(void){
   std::random_device rnd;
   std::mt19937 mt(rnd());
   std::uniform_int_distribution<> randDataNumber(0,test.data_number()-1);
-  for(int i=0;i<test.centers_number();i++){
+  for(int i=0;i<test.centers_number();i++){ 
     test.centers(i)=test.data()[randDataNumber(mt)];
   }
+  
 #ifdef VERBOSE
   std::cout << "v:\n" << test.centers() << std::endl;
 #endif

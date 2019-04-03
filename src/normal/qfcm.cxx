@@ -10,7 +10,7 @@ Qfcm::Qfcm(int dimension,
   Efcm(dimension, data_number, centers_number,fuzzifierLambda){
 }
 
-void SparseQfcm::revise_membership(void){
+void Qfcm::revise_membership(void){
   Tmp_Membership=Membership;
   for(int k=0;k<data_number();k++){
     int numZeroDissimilarities=0;
