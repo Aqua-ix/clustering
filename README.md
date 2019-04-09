@@ -14,7 +14,7 @@ C++ Programming for Clustering
 ## Require
 [Boost C++ Libraries](https://www.boost.org/)
 
-## Command
+## [Normal](https://github.com/Aqua-ix/clustering/tree/master/src/normal)
 
 ### sFCMA
 ```
@@ -43,7 +43,7 @@ To show graph, use [gnuplot](http://www.gnuplot.info/).
 splot "qFCMA-Emx.000000-Lambdax.000000-2d-Gaussian-2clusters.result_classificationFunction" using 1:2:3 with lines, "qFCMA-Emx.000000-Lambdax.000000-2d-Gaussian-2clusters.result_classificationFunction" using 1:2:4 with lines, "< awk '{if($3>$4){print $1, $2, $3;}}' qFCMA-Emx.000000-Lambdax.000000-2d-Gaussian-2clusters.result_membership", "< awk '{if($4>$3){print $1, $2, $4;}}' qFCMA-Emx.000000-Lambdax.000000-2d-Gaussian-2clusters.result_membership"
 ```
 
-## For sparse data
+## [For sparse](https://github.com/Aqua-ix/clustering/tree/master/src/sparse)
 
 ### HCM
 ```

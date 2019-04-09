@@ -265,9 +265,17 @@
 
   \section{分類関数による特性比較}\label{sec:classification_function}
 
-  分類関数は，各クラスタに対する帰属度を座標空間上に可視化したもので，分類関数を見ることにより，
-  データがどのクラスタに属するかということが調べることができるとともに，
-  各手法がファジィであるかクリスプであるかを判別することができる．
+  分類関数は，各クラスタに対する帰属度を座標空間上に可視化したもので，分類関数により，
+  データがどのクラスタに属するかということを調べることができ，新たに与えられたデータ点についても，
+  その帰属度を計算することができる．
+  分類関数値が，1もしくは0の値に近ければクリスプ，クラスタ数の逆数に近ければファジィという．
+  したがって，究極的にクリスプな状態ではその分類関数値は1もしくは0の値しか取らず，
+  究極的にファジィな状態ではその分類関数はクラスタ数の逆数しか取らない．
+  実験結果の図において，網掛けで示されるのが分類関数であり，各点がデータを表している．
+  また，分類関数とデータ点は$2$色に別れており，
+  各色が人工データの第$1$クラスタと第$2$クラスタに属することを表している．
+  分類関数については緑色が第$1$クラスタ，青色が第$2$クラスタに属することを表しており，
+  データ点については紫色が第$1$クラスタ，黄色が第$2$クラスタに属することを表している．
   
   sFCMAの実験結果を図~\ref{fig:sFCMA-Em2},~\ref{fig:sFCMA-Em11}に示す．
   パラメータ$m$を$2.00$から$1.01$に変化させたところ，分類関数は$m$の値が大きいほどファジィになり，
@@ -291,8 +299,6 @@
   \end{figure}
     
   次に，eFCMAの実験結果を図~\ref{fig:eFCMA-Lambda1},~\ref{fig:eFCMA-Lambda10}に示す．
-  垂直軸は分類関数値を，底面はデータ空間を表す．
-  網掛けで示されるのが分類関数であり，各点がデータを表している．
   パラメータ$\lambda$を$1$から$10$に変化させたところ，分類関数は$\lambda$の値が小さいほどファジィになり，
   大きいほどクリスプになることが分かった．
 
@@ -313,7 +319,7 @@
    \label{fig:eFCMA}
   \end{figure}
   
-  qFCMAの実験結果を
+  次に，qFCMAの実験結果を
   図~\ref{fig:qFCMA-Em2-Lambda1},~\ref{fig:qFCMA-Em11-Lambda1},~\ref{fig:qFCMA-Em11-Lambda10}
   に示す．
   こちらは，パラメータ($m$, $\lambda$)の組み合わせとして，
@@ -392,14 +398,14 @@
   それぞれの手法の最高ARIを表~\ref{tbl:max_ari}に示す．
   最も高いARIを示した手法はsFCMAであり，他の$2$手法と比較してARIに$0.4$以上の差が見られた．
  
-  \begin{figure}[h]
+  \begin{figure}[p]
    \centering
-   \begin{minipage}{0.43\hsize}
+   \begin{minipage}{0.42\hsize}
     \includegraphics[width=\linewidth]{sFCMA_ARI.pdf}
     \caption{sFCMAの実データの実験結果}
     \label{fig:sFCMA_ARI}
    \end{minipage}
-   \begin{minipage}{0.43\hsize}
+   \begin{minipage}{0.44\hsize}
     \includegraphics[width=\linewidth]{eFCMA_ARI.pdf}
     \caption{eFCMAの実データの実験結果}
     \label{fig:eFCMA_ARI}
@@ -411,7 +417,7 @@
    \end{minipage}
   \end{figure}
 
-  \begin{table}[h]
+  \begin{table}[p]
    \centering
    \caption{各手法のARIの最高値とパラメータ}
    \begin{center}
@@ -510,12 +516,12 @@ eFCMAは$\lambda$が大きくなるほどクリスプになることが分かっ
  \section*{\texttt{randGaussianMain.cxx}}
  \addcontentsline{toc}{section}{\texttt{randGaussianMain.cxx}}
  \listinginput{1}{src/randGaussianMain.cxx}
- \section*{\texttt{hcm.cxx}}
- \addcontentsline{toc}{section}{\texttt{hcm.cxx}}
- \listinginput{1}{src/hcm.cxx}
  \section*{\texttt{hcm.h}}
  \addcontentsline{toc}{section}{\texttt{hcm.h}}
  \listinginput{1}{src/hcm.h}
+ \section*{\texttt{hcm.cxx}}
+ \addcontentsline{toc}{section}{\texttt{hcm.cxx}}
+ \listinginput{1}{src/hcm.cxx}
  \section*{\texttt{sfcm.h}}
  \addcontentsline{toc}{section}{\texttt{sfcm.h}}
  \listinginput{1}{src/sfcm.h}
