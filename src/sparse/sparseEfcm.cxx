@@ -55,7 +55,7 @@ void SparseEfcm::revise_centers(void){
       numerator[ell]=0.0;
     }
     for(int k=0;k<data_number();k++){
-      denominator+=pow(Membership[i][k], FuzzifierLambda);
+      denominator+=Membership[i][k];
       for(int ell=0;ell<Data[k].essencialSize();ell++){
         numerator[Data[k].indexIndex(ell)]
           +=Membership[i][k]*Data[k].elementIndex(ell);
