@@ -109,10 +109,10 @@ int main(void){
   std::ofstream ofs_membership(RESULT_DIR+filenameResultMembership);
   if(!ofs_membership){
     std::cerr << "File:" << filenameResultMembership
-	      << "could not open." << std::endl;
+              << "could not open." << std::endl;
     exit(1);
   }
-
+  
   for(int k=0;k<test.data_number();k++){
     for(int ell=0;ell<test.dimension();ell++){
       ofs_membership << test.data()[k][ell] << "\t";
@@ -123,7 +123,7 @@ int main(void){
     ofs_membership << std::endl;
   }
   ofs_membership.close();
-
+  
   std::string filenameResultCenters
     =std::string("HCM-")
     +filenameData.substr(0, filenameDataDotPosition)

@@ -91,9 +91,6 @@ int main(void){
     if(test.iterates()>=MAX_ITERATES)break;
     test.iterates()++;
   }
-#ifdef VERBOSE
-  std::cout << "v:\n" << test.centers() << std::endl;
-#endif
 
 #ifdef CHECK_ANSWER
   test.set_crispMembership();
@@ -107,6 +104,18 @@ int main(void){
   std::cout << "Contingency Table:\n" << test.contingencyTable() << std::endl;
   std::cout << "ARI:" << test.ARI() << std::endl;
 #endif
+
+  
+  std::string filenameResultBin
+    =std::string("sFCM-Em")+std::to_string(test.fuzzifierEm())+std::string("-")
+    +filenameData.substr(0, filenameDataDotPosition)
+    +std::string(".bin");
+   std::ofstream ofs_bin(RESULT_DIR+filenameResultBin, std::ios::binary | std::ios::out);
+  if(!ofs_bin){
+    std::cerr << "File:" << filenameResultBin
+	      << "could not open." << std::endl;
+    exit(1);
+  }
   
   std::string filenameResultMembership
     =std::string("sFCM-Em")+std::to_string(test.fuzzifierEm())+std::string("-")
@@ -125,6 +134,7 @@ int main(void){
     }
     for(int i=0;i<test.centers_number();i++){
       ofs_membership << test.membership()[i][k] << "\t";
+      ofs_bin.write((char*)&test.membership()[i][k],sizeof((char)test.membership()[i][k]));
     }
     ofs_membership << std::endl;
   }
@@ -143,10 +153,13 @@ int main(void){
   for(int i=0;i<test.centers_number();i++){
     for(int ell=0;ell<test.dimension();ell++){
       ofs_centers << test.centers()[i][ell] << "\t";
+      ofs_bin.write((char*)&test.centers()[i][ell],sizeof((char)test.centers()[i][ell]));
     }
     ofs_centers << std::endl;
   }
   ofs_centers.close();
+
+  ofs_bin.close();
 
 #ifdef CLASSIFICATION_FUNCTION
   //Classification Function
@@ -195,33 +208,33 @@ int main(void){
       ClassFunction.data(0,0)=x0;
       ClassFunction.data(0,1)=x1;
       while(1){
-	ClassFunction.revise_dissimilarities();
-	ClassFunction.revise_membership();
-	double diff_u=frobenius_norm(ClassFunction.tmp_membership()-ClassFunction.membership());
+        ClassFunction.revise_dissimilarities();
+        ClassFunction.revise_membership();
+        double diff_u=frobenius_norm(ClassFunction.tmp_membership()-ClassFunction.membership());
 #ifdef DIFF
-	std::cout << "diff_u:" << diff_u << std::endl;
+        std::cout << "diff_u:" << diff_u << std::endl;
 #endif
-	if(diff_u<DIFF_FOR_STOP)break;
+        if(diff_u<DIFF_FOR_STOP)break;
       }
       for(int ell=0;ell<ClassFunction.dimension();ell++){
-	ofs_classificationFunction << ClassFunction.data()[0][ell] << "\t";
+        ofs_classificationFunction << ClassFunction.data()[0][ell] << "\t";
       }
       for(int i=0;i<ClassFunction.centers_number();i++){
-	ofs_classificationFunction << ClassFunction.membership()[i][0] << "\t";
+        ofs_classificationFunction << ClassFunction.membership()[i][0] << "\t";
       }
       double max=0.0;
       for(int i=0;i<ClassFunction.centers_number();i++){
-	if(max<ClassFunction.membership()[i][0]){
-	  max=ClassFunction.membership()[i][0];
-	}
+        if(max<ClassFunction.membership()[i][0]){
+          max=ClassFunction.membership()[i][0];
+        }
       }
       ofs_classificationFunction << max << "\t";
       ofs_classificationFunction << std::endl;
     }
     ofs_classificationFunction << std::endl;
   }
-
+  
 #endif
-
+  
   return 0;
 }

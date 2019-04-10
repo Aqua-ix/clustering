@@ -32,10 +32,18 @@ Hcm::Hcm(int dimension,
 }
 
 void Hcm::revise_dissimilarities(void){
+  // for(int i=0;i<centers_number();i++){
+  //   for(int k=0;k<data_number();k++){
+  //     Dissimilarities[i][k]=norm_square(Data[k]-Centers[i]);
+  //   }}
+  // return;
   for(int i=0;i<centers_number();i++){
+    double centersNormSquare=norm_square(Centers[i]);
     for(int k=0;k<data_number();k++){
-      Dissimilarities[i][k]=norm_square(Data[k]-Centers[i]);
-    }}
+      Dissimilarities[i][k]=norm_square(Data[k])
+        -2.0*(Data[k]*Centers[i])+centersNormSquare;
+    }
+  }
   return;
 }
 

@@ -16,6 +16,11 @@ C++ Programming for Clustering
 
 ## [Normal](https://github.com/Aqua-ix/clustering/tree/master/src/normal)
 
+### HCM
+```
+ g++ -DCLASSIFICATION_FUNCTION -DCHECK_ANSWER -std=c++11 hcm.cxx matrix.cxx vector.cxx hcm_main_2d-Gaussian-2clusters.cxx
+```
+
 ### sFCMA
 ```
 g++ -DCLASSIFICATION_FUNCTION -DCHECK_ANSWER -std=c++11 hcm.cxx efcm.cxx qfcm.cxx sfcm.cxx efcma.cxx qfcma.cxx sfcma.cxx matrix.cxx vector.cxx sfcma_main_2d-Gaussian-2clusters.cxx
@@ -47,7 +52,7 @@ splot "qFCMA-Emx.000000-Lambdax.000000-2d-Gaussian-2clusters.result_classificati
 
 ### HCM
 ```
-g++ -DCHECK_ANSWER -std=c++11 vector.cxx matrix.cxx sparseVector.cxx sparseMatrix.cxx sparseHcm.cxx sparseHcm_main_2d-Gaussian-2clusters-sparse1002.cxx
+g++ -DCHECK_ANSWER -std=c++11 vector.cxx matrix.cxx sparseVector.cxx sparseMatrix.cxx sparseHcm.cxx sparseHcm_main_2d-Gaussian-2clusters.cxx
 ```
 
 ### sFCMA
