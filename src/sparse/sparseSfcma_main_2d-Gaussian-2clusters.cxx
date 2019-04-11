@@ -114,6 +114,17 @@ int main(void){
   std::cout << "ARI:" << test.ARI() << std::endl;
 #endif
   
+  std::string filenameResultBin
+    =std::string("sFCMA-Em")+std::to_string(test.fuzzifierEm())+std::string("-")
+    +filenameData.substr(0, filenameDataDotPosition)
+    +std::string(".bin");
+   std::ofstream ofs_bin(RESULT_DIR+filenameResultBin, std::ios::binary | std::ios::out);
+  if(!ofs_bin){
+    std::cerr << "File:" << filenameResultBin
+	      << "could not open." << std::endl;
+    exit(1);
+  }
+  
   std::string filenameResultMembership
     =std::string("sFCMA-Em")
     +std::to_string(test.fuzzifierEm())+std::string("-")
@@ -133,6 +144,7 @@ int main(void){
     }
     for(int i=0;i<test.centers_number();i++){
       ofs_membership << test.membership()[i][k] << "\t";
+      ofs_bin.write((char*)&test.membership()[i][k],sizeof((char)test.membership()[i][k]));
     }
     ofs_membership << std::endl;
   }
@@ -152,6 +164,9 @@ int main(void){
   for(int i=0;i<test.centers_number();i++){
     for(int ell=0;ell<test.dimension();ell++){
       ofs_centers << test.centers()[i][ell] << "\t";
+    }
+    for(int ell=500;ell<=501;ell+=1){
+      ofs_bin.write((char*)&test.centers()[i][ell],sizeof((char)test.centers()[i][ell]));
     }
     ofs_centers << std::endl;
   }

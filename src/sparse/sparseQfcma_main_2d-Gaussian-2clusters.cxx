@@ -119,7 +119,20 @@ int main(void){
   std::cout << "Contingency Table:\n" << test.contingencyTable() << std::endl;
   std::cout << "ARI:" << test.ARI() << std::endl;
 #endif
-  
+
+  std::string filenameResultBin
+    =std::string("qFCMA-Em")+std::to_string(test.fuzzifierEm())
+    +std::string("-Lambda")+std::to_string(test.fuzzifierLambda())
+    +std::string("-")
+    +filenameData.substr(0, filenameDataDotPosition)
+    +std::string(".bin");
+  std::ofstream ofs_bin(RESULT_DIR+filenameResultBin, std::ios::binary | std::ios::out);
+  if(!ofs_bin){
+    std::cerr << "File:" << filenameResultBin
+              << "could not open." << std::endl;
+    exit(1);
+  }
+   
   std::string filenameResultMembership
     =std::string("qFCMA-Em")+std::to_string(test.fuzzifierEm())
     +std::string("-Lambda")+std::to_string(test.fuzzifierLambda())
@@ -129,17 +142,18 @@ int main(void){
   std::ofstream ofs_membership(RESULT_DIR+filenameResultMembership);
   if(!ofs_membership){
     std::cerr << "File:" << filenameResultMembership
-	      << "could not open." << std::endl;
+              << "could not open." << std::endl;
     exit(1);
   }
 
-   for(int k=0;k<test.data_number();k++){
+  for(int k=0;k<test.data_number();k++){
     for(int ell=0;ell<test.data()[k].essencialSize();ell++){
       ofs_membership << test.data()[k].indexIndex(ell) << "\t"
-		     << test.data()[k].elementIndex(ell) << "\t";
+                     << test.data()[k].elementIndex(ell) << "\t";
     }
     for(int i=0;i<test.centers_number();i++){
       ofs_membership << test.membership()[i][k] << "\t";
+      ofs_bin.write((char*)&test.membership()[i][k],sizeof((char)test.membership()[i][k]));
     }
     ofs_membership << std::endl;
   }
@@ -160,6 +174,9 @@ int main(void){
   for(int i=0;i<test.centers_number();i++){
     for(int ell=0;ell<test.dimension();ell++){
       ofs_centers << test.centers()[i][ell] << "\t";
+    }
+    for(int ell=500;ell<=501;ell+=1){
+      ofs_bin.write((char*)&test.centers()[i][ell],sizeof((char)test.centers()[i][ell]));
     }
     ofs_centers << std::endl;
   }

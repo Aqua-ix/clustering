@@ -167,9 +167,9 @@ int main(void){
   for(int i=0;i<test.centers_number();i++){
     for(int ell=0;ell<test.dimension();ell++){
       ofs_centers << test.centers()[i][ell] << "\t";
-      for(int ell=500;ell<=501;ell+=1){
-        //ofs_bin.write((char*)&test.centers()[i][ell],sizeof(test.centers()[i][ell]));
-      }
+    }
+    for(int ell=500;ell<=501;ell+=1){
+      ofs_bin.write((char*)&test.centers()[i][ell],sizeof(test.centers()[i][ell]));
     }
     ofs_centers << std::endl;
   }
