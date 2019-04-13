@@ -8,7 +8,7 @@
 #define MAX_ITERATES 100000
 #define DIFF_FOR_STOP 1.0E-10
 
-const int centers_number=2;
+const int centers_number=4;
 
 int main(void){
   double max_ARI_Em, max_ARI_Lambda, max_ARI;
@@ -21,8 +21,8 @@ int main(void){
     lambda_end=LAMBDA_END,
     lambda_diff=LAMBDA_DIFF;
   
-  std::string filenameData("ILPD.dat");
-  std::string filenameCorrectCrispMembership("ILPD.correctCrispMembership");
+  std::string filenameData("user-knowledge.dat");
+  std::string filenameCorrectCrispMembership("user-knowledge.correctCrispMembership");
 
   std::string::size_type filenameDataDotPosition=filenameData.find_last_of(".");
   if(filenameDataDotPosition==std::string::npos){
