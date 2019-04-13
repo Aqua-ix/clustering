@@ -153,7 +153,7 @@ int main(void){
     }
     for(int i=0;i<test.centers_number();i++){
       ofs_membership << test.membership()[i][k] << "\t";
-      ofs_bin.write((char*)&test.membership()[i][k],sizeof((char)test.membership()[i][k]));
+      ofs_bin.write((char*)&test.membership()[i][k],sizeof(test.membership()[i][k]));
     }
     ofs_membership << std::endl;
   }
@@ -176,7 +176,7 @@ int main(void){
       ofs_centers << test.centers()[i][ell] << "\t";
     }
     for(int ell=500;ell<=501;ell+=1){
-      ofs_bin.write((char*)&test.centers()[i][ell],sizeof((char)test.centers()[i][ell]));
+      ofs_bin.write((char*)&test.centers()[i][ell],sizeof(test.centers()[i][ell]));
     }
     ofs_centers << std::endl;
   }

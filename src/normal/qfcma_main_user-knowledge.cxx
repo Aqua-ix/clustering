@@ -8,7 +8,7 @@
 #define MAX_ITERATES 100000
 #define DIFF_FOR_STOP 1.0E-10
 
-const int centers_number=4;
+const int centers_number=2;
 
 int main(void){
   double max_ARI_Em, max_ARI_Lambda, max_ARI;
@@ -21,8 +21,8 @@ int main(void){
     lambda_end=LAMBDA_END,
     lambda_diff=LAMBDA_DIFF;
   
-  std::string filenameData("user-knowledge.dat");
-  std::string filenameCorrectCrispMembership("user-knowledge.correctCrispMembership");
+  std::string filenameData("ILPD.dat");
+  std::string filenameCorrectCrispMembership("ILPD.correctCrispMembership");
 
   std::string::size_type filenameDataDotPosition=filenameData.find_last_of(".");
   if(filenameDataDotPosition==std::string::npos){
@@ -59,9 +59,9 @@ int main(void){
       }
   
       /***Initial Centers Setting***/
-      std::random_device rnd;
-      std::mt19937 mt(rnd());
-      std::uniform_int_distribution<> randDataNumber(0,test.data_number()-1);
+      // std::random_device rnd;
+      // std::mt19937 mt(rnd());
+      // std::uniform_int_distribution<> randDataNumber(0,test.data_number()-1);
       std::ifstream ifs_correctCrispMembership(DATA_DIR+filenameCorrectCrispMembership);
       if(!ifs_correctCrispMembership){
         std::cerr << "File:" << filenameCorrectCrispMembership
@@ -97,7 +97,7 @@ int main(void){
 #endif
         test.revise_clusters_size();
 #ifdef VERBOSE
-        std::cout << "a:\n" << test.alpha() << std::endl;
+        std::cout << "a:\n" << test.clusters_size() << std::endl;
 #endif
     
         double diff_u=max_norm(test.tmp_membership()-test.membership());
