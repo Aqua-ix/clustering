@@ -8,14 +8,14 @@ int main(void){
     int pos=0;
     for(int j=0;j<clusterNum;j++){
       if(i==j){
-	for(int k=pos;k<eachDataNum[i];k++){
-	  std::cout << 1 << "\t";
-	}
+        for(int k=pos;k<eachDataNum[i];k++){
+          std::cout << 1 << "\t";
+        }
       }
       else{
-	for(int k=pos;k<eachDataNum[i];k++){
-	  std::cout << 0 << "\t";
-	}
+        for(int k=pos;k<eachDataNum[i];k++){
+          std::cout << 0 << "\t";
+        }
       }
     }
     std::cout << std::endl;

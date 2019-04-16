@@ -1,9 +1,3 @@
 *.log
-*.aux
-*.dvi
-*.nav
 *.out
-*.snm
-*.gz
-*.toc
 core
