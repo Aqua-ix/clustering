@@ -6,7 +6,7 @@
 #include"config.h"
 
 #define MAX_ITERATES 500
-#define DIFF_FOR_STOP 1.0E-5
+#define DIFF_FOR_STOP 1.0E-10
 
 const int centers_number=4;
 
@@ -99,6 +99,7 @@ int main(void){
 #ifdef VERBOSE
         std::cout << "a:\n" << test.clusters_size() << std::endl;
 #endif
+    
         double diff_u=max_norm(test.tmp_membership()-test.membership());
         double diff_v=max_norm(test.tmp_centers()-test.centers());
         double diff_a=max_norm(test.tmp_clusters_size()-test.clusters_size());

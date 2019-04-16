@@ -1,8 +1,8 @@
- #include<iostream>
+#include<iostream>
 #include<fstream>
 #include<cstdlib>
 #include<random>
-#include"sfcma.h"
+#include"sparseEfcma.h"
 #include"config.h"
 
 #define MAX_ITERATES 500
@@ -11,13 +11,13 @@
 const int centers_number=4;
 
 int main(void){
-  double max_ARI_Em, max_ARI;
+  double max_ARI_Lambda, max_ARI;
   double
-    start=EM_START,
-    end=EM_END,
-    diff=EM_DIFF;
-
-  std::string filenameData("user-knowledge.dat");
+    start=LAMBDA_START,
+    end=LAMBDA_END,
+    diff=LAMBDA_DIFF;
+  
+  std::string filenameData("sparse_user-knowledge.dat");
   std::string filenameCorrectCrispMembership("user-knowledge.correctCrispMembership");
 
   std::string::size_type filenameDataDotPosition=filenameData.find_last_of(".");
@@ -26,14 +26,15 @@ int main(void){
               << " needs \".\" and filename-extention." << std::endl;
     exit(1);
   }
-
+  
   std::string resultFileName =
-    std::string("sFCMA-")
+    std::string("eFCMA-")
     +filenameData.substr(0, filenameDataDotPosition)
     +std::string(".result_ari");
   std::ofstream outputfile(RESULT_DIR+resultFileName);
 
-  for(double Em=start;Em<=end;Em+=diff){
+  for(double Lambda=start;Lambda<=end;Lambda+=diff){
+    
     std::ifstream ifs(DATA_DIR+filenameData);
     if(!ifs){
       std::cerr << "File:" << filenameData
@@ -44,18 +45,23 @@ int main(void){
     ifs >> data_number;
     ifs >> data_dimension;
 	
-    Sfcma test(data_dimension, data_number, centers_number, Em);
-
+    SparseEfcma test(data_dimension, data_number, centers_number, Lambda);
+  
     for(int cnt=0;cnt<data_number;cnt++){
-      for(int ell=0;ell<data_dimension;ell++){
-        ifs >> test.data(cnt, ell);
+      int essencialSize;
+      ifs >> essencialSize;
+      SparseVector dummy(data_dimension, essencialSize);
+      for(int ell=0;ell<essencialSize;ell++){
+        ifs >> dummy.indexIndex(ell) >> dummy.elementIndex(ell);
       }
+      test.data(cnt)=dummy;
     }
-
+  
     /***Initial Centers Setting***/
     std::random_device rnd;
     std::mt19937 mt(rnd());
     std::uniform_int_distribution<> randDataNumber(0,test.data_number()-1);
+
     std::ifstream ifs_correctCrispMembership(DATA_DIR+filenameCorrectCrispMembership);
     if(!ifs_correctCrispMembership){
       std::cerr << "File:" << filenameCorrectCrispMembership
@@ -67,8 +73,8 @@ int main(void){
         ifs_correctCrispMembership >> test.correctCrispMembership(i, k);
       }
     }
+  
     for(int i=0;i<test.centers_number();i++){
-      //test.centers(i)=test.data()[randDataNumber(mt)];
       test.clusters_size(i)=1.0/centers_number;
       for(int k=0;k<test.data_number();k++){
         test.membership(i,k)=test.correctCrispMembership(i, k);
@@ -84,7 +90,7 @@ int main(void){
       test.revise_dissimilarities();
 #ifdef VERBOSE
       std::cout << "d:\n" << test.dissimilarities() << std::endl;
-#endif
+#endif  
       test.revise_membership();
 #ifdef VERBOSE
       std::cout << "u:\n" << test.membership() << std::endl;
@@ -101,8 +107,7 @@ int main(void){
 #ifdef DIFF
       std::cout << "#diff:" << diff << "\t";
       std::cout << "#diff_u:" << diff_u << "\t";
-      std::cout << "#diff_v:" << diff_v << "\t";
-      std::cout << "#diff_a:" << diff_a << "\n";
+      std::cout << "#diff_v:" << diff_v << "\n";
 #endif
       if(diff<DIFF_FOR_STOP)break;
       if(test.iterates()>=MAX_ITERATES)break;
@@ -111,26 +116,26 @@ int main(void){
 #ifdef VERBOSE
     std::cout << "v:\n" << test.centers() << std::endl;
 #endif
-
+  
 #ifdef CHECK_ANSWER
     test.set_crispMembership();
     test.set_contingencyTable();
     //std::cout << "Contingency Table:\n" << test.contingencyTable() << std::endl;
-    std::cout << "Em:" << Em  << "\tARI:" << test.ARI() << std::endl;
-    outputfile<<Em<<"\t";
+    std::cout << "Lambda:" << Lambda << "\tARI:" << test.ARI() << std::endl;
+    outputfile<<Lambda<<"\t";
     outputfile<<test.ARI()<<"\t";
     outputfile<<"\n";
 #endif
-
+  
     if(max_ARI<test.ARI()){
-      max_ARI_Em=Em;
+      max_ARI_Lambda=Lambda;
       max_ARI=test.ARI();
     }
   }
   
   outputfile.close();
 
-  std::cout << "max_ARI_Em:" << max_ARI_Em << std::endl;
+  std::cout << "max_ARI_Lambda:" << max_ARI_Lambda << std::endl;
   std::cout << "max_ARI:" << max_ARI << std::endl;
   
   return 0;

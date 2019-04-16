@@ -2,7 +2,7 @@
 #include<fstream>
 #include<cstdlib>
 #include<random>
-#include"qfcma.h"
+#include"sparseQfcma.h"
 #include"config.h"
 
 #define MAX_ITERATES 500
@@ -21,7 +21,7 @@ int main(void){
     lambda_end=LAMBDA_END,
     lambda_diff=LAMBDA_DIFF;
   
-  std::string filenameData("user-knowledge.dat");
+  std::string filenameData("sparse_user-knowledge.dat");
   std::string filenameCorrectCrispMembership("user-knowledge.correctCrispMembership");
 
   std::string::size_type filenameDataDotPosition=filenameData.find_last_of(".");
@@ -30,7 +30,7 @@ int main(void){
               << " needs \".\" and filename-extention." << std::endl;
     exit(1);
   }
-  
+
   std::string resultFileName =
     std::string("qFCMA-")
     +filenameData.substr(0, filenameDataDotPosition)
@@ -39,7 +39,7 @@ int main(void){
   
   for(double Lambda=lambda_start;Lambda<=lambda_end;Lambda+=lambda_diff){
     for(double Em=em_start;Em<=em_end;Em+=em_diff){
-
+  
       std::ifstream ifs(DATA_DIR+filenameData);
       if(!ifs){
         std::cerr << "File:" << filenameData
@@ -50,18 +50,23 @@ int main(void){
       ifs >> data_number;
       ifs >> data_dimension;
 	
-      Qfcma test(data_dimension, data_number, centers_number, Em, Lambda);
+      SparseQfcma test(data_dimension, data_number, centers_number, Em, Lambda);
 
       for(int cnt=0;cnt<data_number;cnt++){
-        for(int ell=0;ell<data_dimension;ell++){
-          ifs >> test.data(cnt, ell);
+        int essencialSize;
+        ifs >> essencialSize;
+        SparseVector dummy(data_dimension, essencialSize);
+        for(int ell=0;ell<essencialSize;ell++){
+          ifs >> dummy.indexIndex(ell) >> dummy.elementIndex(ell);
         }
+        test.data(cnt)=dummy;
       }
-  
+
       /***Initial Centers Setting***/
-      // std::random_device rnd;
-      // std::mt19937 mt(rnd());
-      // std::uniform_int_distribution<> randDataNumber(0,test.data_number()-1);
+      std::random_device rnd;
+      std::mt19937 mt(rnd());
+      std::uniform_int_distribution<> randDataNumber(0,test.data_number()-1);
+
       std::ifstream ifs_correctCrispMembership(DATA_DIR+filenameCorrectCrispMembership);
       if(!ifs_correctCrispMembership){
         std::cerr << "File:" << filenameCorrectCrispMembership
@@ -73,8 +78,8 @@ int main(void){
           ifs_correctCrispMembership >> test.correctCrispMembership(i, k);
         }
       }
+  
       for(int i=0;i<test.centers_number();i++){
-        //test.centers(i)=test.data()[randDataNumber(mt)];
         test.clusters_size(i)=1.0/centers_number;
         for(int k=0;k<test.data_number();k++){
           test.membership(i,k)=test.correctCrispMembership(i, k);
@@ -85,7 +90,7 @@ int main(void){
       while(1){
         test.revise_centers();
 #ifdef VERBOSE
-      std::cout << "v:\n" << test.centers() << std::endl;
+        std::cout << "v:\n" << test.centers() << std::endl;
 #endif
         test.revise_dissimilarities();
 #ifdef VERBOSE
@@ -99,6 +104,7 @@ int main(void){
 #ifdef VERBOSE
         std::cout << "a:\n" << test.clusters_size() << std::endl;
 #endif
+    
         double diff_u=max_norm(test.tmp_membership()-test.membership());
         double diff_v=max_norm(test.tmp_centers()-test.centers());
         double diff_a=max_norm(test.tmp_clusters_size()-test.clusters_size());
@@ -117,6 +123,7 @@ int main(void){
 #ifdef VERBOSE
       std::cout << "v:\n" << test.centers() << std::endl;
 #endif
+
   
 #ifdef CHECK_ANSWER
       test.set_crispMembership();

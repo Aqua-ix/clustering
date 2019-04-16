@@ -1,8 +1,8 @@
- #include<iostream>
+#include<iostream>
 #include<fstream>
 #include<cstdlib>
 #include<random>
-#include"sfcma.h"
+#include"sparseSfcma.h"
 #include"config.h"
 
 #define MAX_ITERATES 500
@@ -17,7 +17,7 @@ int main(void){
     end=EM_END,
     diff=EM_DIFF;
 
-  std::string filenameData("user-knowledge.dat");
+  std::string filenameData("sparse_user-knowledge.dat");
   std::string filenameCorrectCrispMembership("user-knowledge.correctCrispMembership");
 
   std::string::size_type filenameDataDotPosition=filenameData.find_last_of(".");
@@ -34,6 +34,7 @@ int main(void){
   std::ofstream outputfile(RESULT_DIR+resultFileName);
 
   for(double Em=start;Em<=end;Em+=diff){
+
     std::ifstream ifs(DATA_DIR+filenameData);
     if(!ifs){
       std::cerr << "File:" << filenameData
@@ -44,18 +45,24 @@ int main(void){
     ifs >> data_number;
     ifs >> data_dimension;
 	
-    Sfcma test(data_dimension, data_number, centers_number, Em);
+    SparseSfcma test(data_dimension, data_number, centers_number, Em);
 
     for(int cnt=0;cnt<data_number;cnt++){
-      for(int ell=0;ell<data_dimension;ell++){
-        ifs >> test.data(cnt, ell);
+      int essencialSize;
+      ifs >> essencialSize;
+      SparseVector dummy(data_dimension, essencialSize);
+      for(int ell=0;ell<essencialSize;ell++){
+        ifs >> dummy.indexIndex(ell) >> dummy.elementIndex(ell);
       }
+      test.data(cnt)=dummy;
     }
+ 
 
     /***Initial Centers Setting***/
     std::random_device rnd;
     std::mt19937 mt(rnd());
     std::uniform_int_distribution<> randDataNumber(0,test.data_number()-1);
+ 
     std::ifstream ifs_correctCrispMembership(DATA_DIR+filenameCorrectCrispMembership);
     if(!ifs_correctCrispMembership){
       std::cerr << "File:" << filenameCorrectCrispMembership
@@ -67,8 +74,8 @@ int main(void){
         ifs_correctCrispMembership >> test.correctCrispMembership(i, k);
       }
     }
+  
     for(int i=0;i<test.centers_number();i++){
-      //test.centers(i)=test.data()[randDataNumber(mt)];
       test.clusters_size(i)=1.0/centers_number;
       for(int k=0;k<test.data_number();k++){
         test.membership(i,k)=test.correctCrispMembership(i, k);
@@ -84,7 +91,7 @@ int main(void){
       test.revise_dissimilarities();
 #ifdef VERBOSE
       std::cout << "d:\n" << test.dissimilarities() << std::endl;
-#endif
+#endif  
       test.revise_membership();
 #ifdef VERBOSE
       std::cout << "u:\n" << test.membership() << std::endl;

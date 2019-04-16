@@ -5,8 +5,8 @@
 #include"efcma.h"
 #include"config.h"
 
-#define MAX_ITERATES 100000
-#define DIFF_FOR_STOP 1.0E-10
+#define MAX_ITERATES 500
+#define DIFF_FOR_STOP 1.0E-5
 
 const int centers_number=4;
 
