@@ -8,5 +8,5 @@
 #define EM_DIFF 0.1
 
 #define LAMBDA_START 1
-#define LAMBDA_END 100
-#define LAMBDA_DIFF 1
+#define LAMBDA_END 90
+#define LAMBDA_DIFF 3
