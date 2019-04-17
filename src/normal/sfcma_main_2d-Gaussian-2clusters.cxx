@@ -6,7 +6,12 @@
 #include"config.h"
 
 #define MAX_ITERATES 100000
+
+#ifdef BINARY
+#define DIFF_FOR_STOP 1.0E10
+#else
 #define DIFF_FOR_STOP 1.0E-10
+#endif
 
 const int centers_number=2;
 
@@ -40,45 +45,31 @@ int main(void){
       ifs >> test.data(cnt, ell);
     }
   }
-
+ 
   /***Initial Centers Setting***/
-  std::random_device rnd;
-  std::mt19937 mt(rnd());
-  std::uniform_int_distribution<> randDataNumber(0,test.data_number()-1);
-
-  
-  std::ifstream ifs_correctCrispMembership(DATA_DIR+filenameCorrectCrispMembership);
-  if(!ifs_correctCrispMembership){
-    std::cerr << "File:" << filenameCorrectCrispMembership
-	      << " could not open." << std::endl;
-    exit(1);
-  }
   for(int i=0;i<test.centers_number();i++){
-    for(int k=0;k<test.data_number();k++){
-      ifs_correctCrispMembership >> test.correctCrispMembership(i, k);
+    test.clusters_size(i)=1.0/test.centers_number();
+    for(int j=0;j<data_dimension;j++){
+      test.centers(i,j)=pow(-1,i+1);
     }
   }
-  
-  for(int i=0;i<test.centers_number();i++){
-    test.clusters_size(i)=1.0/centers_number;
-    for(int k=0;k<test.data_number();k++){
-      test.membership(i,k)=test.correctCrispMembership(i, k);
-    }
-  }
+#ifdef VERBOSE
+  std::cout << "v:\n" << test.centers() << std::endl;
+#endif
 
   test.iterates()=0;
   while(1){
-    test.revise_centers();
-#ifdef VERBOSE
-    std::cout << "v:\n" << test.centers() << std::endl;
-#endif
     test.revise_dissimilarities();
 #ifdef VERBOSE
     std::cout << "d:\n" << test.dissimilarities() << std::endl;
-#endif  
+#endif
     test.revise_membership();
 #ifdef VERBOSE
     std::cout << "u:\n" << test.membership() << std::endl;
+#endif
+    test.revise_centers();
+#ifdef VERBOSE
+    std::cout << "v:\n" << test.centers() << std::endl;
 #endif
     test.revise_clusters_size();
 #ifdef VERBOSE
@@ -105,17 +96,26 @@ int main(void){
 
 #ifdef CHECK_ANSWER
   test.set_crispMembership();
-
+  
+  std::ifstream ifs_correctCrispMembership(DATA_DIR+filenameCorrectCrispMembership);
+  if(!ifs_correctCrispMembership){
+    std::cerr << "File:" << filenameCorrectCrispMembership
+	      << " could not open." << std::endl;
+    exit(1);
+  }
+  
   for(int i=0;i<test.centers_number();i++){
     for(int k=0;k<test.data_number();k++){
       ifs_correctCrispMembership >> test.correctCrispMembership(i, k);
     }
   }
+  
   test.set_contingencyTable();
   std::cout << "Contingency Table:\n" << test.contingencyTable() << std::endl;
   std::cout << "ARI:" << test.ARI() << std::endl;
 #endif
-  
+
+#ifdef BINARY
   std::string filenameResultBin
     =std::string("sFCMA-Em")+std::to_string(test.fuzzifierEm())+std::string("-")
     +filenameData.substr(0, filenameDataDotPosition)
@@ -126,6 +126,7 @@ int main(void){
               << "could not open." << std::endl;
     exit(1);
   }
+#endif
   
   std::string filenameResultMembership
     =std::string("sFCMA-Em")
@@ -145,7 +146,9 @@ int main(void){
     }
     for(int i=0;i<test.centers_number();i++){
       ofs_membership << test.membership()[i][k] << "\t";
+#ifdef BINARY
       ofs_bin.write((char*)&test.membership()[i][k],sizeof(test.membership()[i][k]));
+#endif
     }
     ofs_membership << std::endl;
   }
@@ -165,11 +168,17 @@ int main(void){
   for(int i=0;i<test.centers_number();i++){
     for(int ell=0;ell<test.dimension();ell++){
       ofs_centers << test.centers()[i][ell] << "\t";
+#ifdef BINARY
       ofs_bin.write((char*)&test.centers()[i][ell],sizeof(test.centers()[i][ell]));
+#endif
     }
     ofs_centers << std::endl;
   }
   ofs_centers.close();
+  
+#ifdef BINARY
+  ofs_bin.close();
+#endif
 
 #ifdef CLASSIFICATION_FUNCTION
   //Classification Function
