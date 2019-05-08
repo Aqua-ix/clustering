@@ -1,4 +1,4 @@
-#include"../header/recom.h"
+#include"recom.h"
 #include"config.h"
 
 //ユーザ数
@@ -7,7 +7,7 @@ const int user_number=return_user_number();
 const int item_number=return_item_number();
 //データの名前
 const std::string data_name=return_data_name();
-//入力するデータの場所
+//入力するデータ
 const std::string InputDataName="sparse_"+data_name
   +"_"+std::to_string(user_number)
   +"_"+std::to_string(item_number)+".txt";

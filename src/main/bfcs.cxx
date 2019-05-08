@@ -1,5 +1,6 @@
-#include"../header/recom.h"
-#include"../header/bfcs.h"
+#include"recom.h"
+#include"bfcs.h"
+#include"config.h"
 
 //収束条件
 #define MAX_ITE 1000
@@ -12,7 +13,7 @@ const int item_number=return_item_number();
 //データの名前
 const std::string data_name=return_data_name();
 //入力するデータの場所
-const std::string InputDataName="data/2018/sparse_"+data_name
+const std::string InputDataName="sparse_"+data_name
   +"_"+std::to_string(user_number)
   +"_"+std::to_string(item_number)+".txt";
 //クラスタリング手法名
@@ -35,7 +36,7 @@ int main(void){
       std::vector<std::string> dir
 	= Mkdir(parameter, clusters_number, dirs);
       //データ入力
-      recom.input(InputDataName);
+      recom.input(DATA_DIR+InputDataName);
       //欠損数
       recom.missing()=KESSON;
       //シード値の初期化

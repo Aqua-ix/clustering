@@ -1,5 +1,7 @@
-#include"../src/recom.h"
-#include"../src/epcs.h"
+#include"recom.h"
+#include"epcs.h"
+#include"config.h"
+
 //実データ
 //収束条件
 #define MAX_ITE 1000
@@ -9,7 +11,7 @@ const int user_number=return_user_number();//ユーザ数
 const int item_number=return_item_number();//アイテム数
 const std::string data_name=return_data_name();//データの名前
 const std::string InputDataName=
-  "data/2018/sparse_"+data_name//入力するデータの場所
+  data_name
   +"_"+std::to_string(user_number)
   +"_"+std::to_string(item_number)+".txt";
 const std::string METHOD_NAME="EPCS";//クラスタリング手法名
@@ -33,7 +35,7 @@ int main(void){
       std::vector<std::string> dir= Mkdir(parameter
 					  , clusters_number, dirs);
       //データ入力
-      recom.input(InputDataName);
+      recom.input(DATA_DIR+InputDataName);
       //欠損数
       recom.missing()=KESSON;
       //欠損数ループ

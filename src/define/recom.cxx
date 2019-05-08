@@ -286,7 +286,7 @@ void Recom::fmeasure(std::string text, int method_number){//fmeasure
 
 void Recom::roc(std::string dir){//ROC
   std::string ROC_STR
-    =RESULT_DIR+dir+"/ROC/"+METHOD_NAME+"ROC"
+    =dir+"/ROC/"+METHOD_NAME+"ROC"
     +std::to_string(Missing)+"_"+std::to_string(Current)+"_"
     +std::to_string(CCurrent)+"sort.txt";
   //ROCでプロットする点の数
@@ -296,7 +296,7 @@ void Recom::roc(std::string dir){//ROC
   Vector True=TP_FN;
   std::ofstream ofs(ROC_STR,std::ios::app);
   if(!ofs)
-    std::cerr<<"ファイルオープン失敗\n";
+    std::cerr<<"error: "<<ROC_STR<<" could not open"<<std::endl;
   else{
     //横軸でソート
     Sort(False,True,max_index);
@@ -326,9 +326,9 @@ void Recom::Sort(Vector &fal, Vector &tru, int index){
 }
 
 void Recom::ofs_objective(std::string dir){
-  std::ofstream ofs(RESULT_DIR+dir+"/object.txt",std::ios::app);
+  std::ofstream ofs(dir+"/object.txt",std::ios::app);
   if(!ofs){
-    std::cerr<<"ファイルオープン失敗\n";
+    std::cerr<<"error: "<<dir<<" could not open"<<std::endl;
     exit(1);
   }
   ofs<<Missing<<"\t"<<SEED<<"\t";
@@ -354,12 +354,12 @@ void Recom::choice_mae_f(std::vector<std::string> dir, int p){
     choiceFmeasure[method][Current]=resultFmeasure[method][obje_index];
     //選ばれたROCをchoiceフォルダに移す
     std::string oldname
-      =RESULT_DIR+dir[method]+"/ROC"+"/"+METHOD_NAME+"ROC"
+      =dir[method]+"/ROC"+"/"+METHOD_NAME+"ROC"
       +std::to_string(Missing)+"_"
       +std::to_string(Current)+"_"
       +std::to_string(obje_index)+"sort.txt";
     std::string newname
-      =RESULT_DIR+dir[method]+"/ROC/choice"+"/"+METHOD_NAME+"ROC"
+      =dir[method]+"/ROC/choice"+"/"+METHOD_NAME+"ROC"
       +std::to_string(Missing)+"_"
       +std::to_string(Current)+"sort.txt";
     Rename(oldname,newname);
@@ -377,7 +377,7 @@ void Recom::save_mae_f(std::vector<std::string> dir){
 
 void Recom::out_mae_f(std::vector<std::string> dir){//ファイル出力ファジイ
   for(int method=0;method<(int)dir.size();method++){
-    std::ofstream ofs(RESULT_DIR+dir[method]
+    std::ofstream ofs(dir[method]
 		      +"/averageMaeFmeasure.txt",std::ios::app);
     double sumMAE=0.0,sumF=0.0;
     for(int i=0;i<MISSINGTRIALS;i++){
@@ -385,7 +385,7 @@ void Recom::out_mae_f(std::vector<std::string> dir){//ファイル出力ファ�
       sumF+=choiceFmeasure[method][i];
     }
     if(!ofs)
-      std::cerr<<"ファイルopen失敗\n";
+      std::cerr<<"error: "<<dir[method]<<" could not open"<<std::endl;
     ofs<<Missing<<"\t"<<std::fixed<<std::setprecision(10)
        <<"\t"<<sumMAE/(double)MISSINGTRIALS
        <<"\t"<<sumF/(double)MISSINGTRIALS<<std::endl;
@@ -400,11 +400,11 @@ void Recom::precision_summury(std::vector<std::string> dir){
     double rocarea=0.0;
     for(int x=0;x<MISSINGTRIALS;x++){
       Vector array1(max,0.0,"all"),array2(max,0.0,"all");
-      std::ifstream ifs(RESULT_DIR+dir[method]+"/ROC/choice/"+METHOD_NAME+"ROC"
+      std::ifstream ifs(dir[method]+"/ROC/choice/"+METHOD_NAME+"ROC"
 			+std::to_string(Missing)
 			+"_"+std::to_string(x)+"sort.txt");
       if(!ifs){
-	std::cerr<<"ファイルinput失敗:trials:"
+        std::cerr<<"ファイルinput失敗:trials:"
 		 <<x<<"miss:"<<Missing<<std::endl;
 	break;
       }
@@ -429,10 +429,10 @@ void Recom::precision_summury(std::vector<std::string> dir){
       sumF+=choiceFmeasure[method][i];
       std::cout<<sumMAE<<std::endl;
     }
-    std::ofstream ofs(RESULT_DIR[method]
+    std::ofstream ofs(dir[method]
 		      +"/averageMaeFmeasureAuc.txt", std::ios::app);
     if(!ofs)
-      std::cerr<<"ファイルopen失敗\n";
+      std::cerr<<"error: "<<dir[method]<<" could not open"<<std::endl;
     std::cout<<"miss:"<<Missing<<"\tMAE="<<sumMAE/(double)MISSINGTRIALS
 	     <<"\tF-measure="<<sumF/(double)MISSINGTRIALS<<"\tROC="
 	     <<rocarea/(double)MISSINGTRIALS<<std::endl;
@@ -1072,7 +1072,7 @@ void Rename(std::string filename, std::string newname){
 std::vector<std::string> MkdirFCCM(std::string method){
   std::vector<std::string> v;
   std::string c_p = current_path();
-  c_p = c_p + "/../../RESULT";
+  c_p = c_p + "/data/result_data";
   mkdir(c_p.c_str(),0755);
   for(int i=0;i<(int)FCCM.size();i++){
     std::string d=
@@ -1087,7 +1087,7 @@ std::vector<std::string> MkdirFCCM(std::string method){
 std::vector<std::string> MkdirFCS(std::string method){
   std::vector<std::string> v;
   std::string c_p = current_path();
-  c_p = c_p + "/../../RESULT";
+  c_p = c_p + "/data/result_data";
   mkdir(c_p.c_str(),0755);
   for(int i=0;i<(int)FCS.size();i++){
     std::string d=
@@ -1110,7 +1110,7 @@ Mkdir(std::vector<double> para, int c, std::vector<std::string> dirs){
     fuzzifier+=f+"_";
   }
   for(int i=0;i<(int)dirs.size();i++){
-    const std::string dir=RESULT_DIR+dirs[i]+"/"+fuzzifier+"C"+std::to_string(c);
+    const std::string dir=dirs[i]+"/"+fuzzifier+"C"+std::to_string(c);
     v.push_back(dir);
     mkdir(dir.c_str(),0755);
     //ROCフォルダ作成
@@ -1127,7 +1127,7 @@ std::vector<std::string>
 Mkdir(std::vector<std::string> methods){
   std::vector<std::string> v;
   std::string c_p = current_path();
-  c_p = c_p + "/../../RESULT";
+  c_p = c_p + "/data/result_data";
   mkdir(c_p.c_str(),0755);
   for(int i=0;i<(int)methods.size();i++){
     std::string d=
