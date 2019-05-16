@@ -1,5 +1,5 @@
-#include"../../src/recom.h"
-#include"../../src/qfcs.h"
+#include"recom.h"
+#include"qfcs.h"
 
 //収束条件
 #define MAX_ITE 1000

@@ -1,5 +1,5 @@
-#include"../../src/recom.h"
-#include"../../src/klfcs.h"
+#include"recom.h"
+#include"klfcs.h"
 
 //収束条件
 #define MAX_ITE 1000

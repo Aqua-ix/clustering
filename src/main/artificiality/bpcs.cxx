@@ -1,5 +1,5 @@
-#include"../../src/recom.h"
-#include"../../src/bpcs.h"
+#include"recom.h"
+#include"bpcs.h"
 
 #define MAX_ITE 1000
 #define DIFF_FOR_STOP 1.0E-10

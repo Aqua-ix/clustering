@@ -1,5 +1,5 @@
-#include"../../src/recom.h"
-#include"../../src/epcs.h"
+#include"recom.h"
+#include"epcs.h"
 //人工データ
 //収束条件
 #define MAX_ITE 1000

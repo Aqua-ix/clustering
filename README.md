@@ -1,5 +1,6 @@
 # Clustering
-Recommendation System using Possibilistic Clustering
+Recommender System using Possibilistic Clustering
+
 可能性クラスタリングを用いた推薦システム
 
 # Algorythm

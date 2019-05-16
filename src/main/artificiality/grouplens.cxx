@@ -1,4 +1,4 @@
-#include"../../src/recom.h"
+#include"recom.h"
 
 //ユーザ数
 const int user_number=return_user_number();
