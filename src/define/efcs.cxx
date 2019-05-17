@@ -7,7 +7,7 @@ EFCS::EFCS(int dimension,
   HCM(dimension, data_number, centers_number),
   HCMA(dimension, data_number, centers_number),
   HCS(dimension, data_number, centers_number),
-  KLFCM(dimension, data_number, centers_number, fuzzifierLambda){
+  EFCM(dimension, data_number, centers_number, fuzzifierLambda){
 }
 
 void EFCS::revise_centers(void){

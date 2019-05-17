@@ -22,30 +22,21 @@ CXX = g++
 CXXFLAGS = -O3 -Wall -Wextra -std=c++17 -I src/header
 FS = -lstdc++fs
 objects = .o/vector.o .o/svector.o .o/matrix.o .o/smatrix.o
-klfcs = $(objects) .o/hcm.o .o/hcma.o .o/hcs.o .o/klfcm.o .o/klfcs.o
 bfcs = $(objects) .o/hcm.o .o/hcma.o .o/hcs.o .o/bfcm.o .o/bfcs.o
+efcs = $(objects) .o/hcm.o .o/hcma.o .o/hcs.o .o/efcm.o .o/efcs.o
 qfcs = $(objects) .o/hcm.o .o/hcma.o .o/hcs.o \
-.o/klfcm.o .o/bfcm.o .o/qfcm.o .o/qfcs.o
-klfccm = $(objects) .o/hcm.o .o/hcma.o .o/hccm.o .o/klfcm.o .o/klfccm.o
-bfccm = $(objects) .o/hcm.o .o/hcma.o .o/hccm.o .o/bfcm.o .o/bfccm.o
-qfccm = $(objects) .o/hcm.o .o/hcma.o .o/hccm.o \
-.o/klfcm.o .o/bfcm.o .o/qfcm.o .o/qfccm.o
-klfccmm = $(klfccm) .o/hccmm.o .o/klfccmm.o
-bfccmm = $(bfccm) .o/hccmm.o .o/bfccmm.o
-qfccmm = $(qfccm) .o/hccmm.o .o/qfccmm.o
-epcs = $(klfcs) .o/pcm.o .o/epcs.o
-erfcm = $(objects) .o/hcm.o .o/hcma.o .o/klfcm.o .o/rfcm.o .o/erfcm.o
-brfcm = $(objects) .o/hcm.o .o/hcma.o .o/bfcm.o .o/rfcm.o .o/brfcm.o
-qrfcm = $(objects) .o/hcm.o .o/hcma.o \
-.o/klfcm.o .o/bfcm.o .o/qfcm.o .o/rfcm.o .o/qrfcm.o
+.o/efcm.o .o/bfcm.o .o/qfcm.o .o/qfcs.o
+bpcs = $(bfcs) .o/pcm.o .o/bpcs.o
+epcs = $(efcs) .o/pcm.o .o/epcs.o
+qpcs = $(qfcs) .o/pcm.o .o/qpcs.o
 
 method_all = $(all) \
-$(klfcs) $(bfcs) $(qfcs) \
+$(bfcs) $(efcs) $(qfcs) \
 $(klfccm) $(bfccm) $(qfccm) \
 $(klfccmm) $(bfccmm) $(qfccmm) \
-$(epcs) $(erfcm) $(brfcm) $(qrfcm) \
+$(bpcs) $(epcs) $(qpcs) $(erfcm) $(brfcm) $(qrfcm) \
 artificiality_grouplens.out \
-artificiality_klfcs.out \
+artificiality_efcs.out \
 artificiality_bfcs.out \
 artificiality_qfcs.out \
 artificiality_klfccm.out \
@@ -53,10 +44,12 @@ artificiality_bfccm.out \
 artificiality_qfccm.out \
 artificiality_klfccmm.out \
 artificiality_qfccmm.out \
+artificiality_bpcs.out \
 artificiality_epcs.out \
+artificiality_qpcs.out \
 grouplens.out \
-klfcs.out \
 bfcs.out \
+efcs.out \
 qfcs.out \
 klfccm.out \
 bfccm.out \
@@ -64,11 +57,13 @@ qfccm.out \
 klfccmm.out \
 bfccmm.out \
 qfccmm.out \
+bpcs.out \
 epcs.out \
+qpcs.out \
 erfcm.out \
 brfcm.out \
 qrfcm.out \
-clustering_artificiality_klfcs.out \
+clustering_artificiality_efcs.out \
 clustering_artificiality_bfcs.out \
 clustering_artificiality_qfcs.out \
 clustering_artificiality_klfccm.out \
@@ -77,8 +72,10 @@ clustering_artificiality_qfccm.out \
 clustering_artificiality_klfccmm.out \
 clustering_artificiality_bfccmm.out \
 clustering_artificiality_qfccmm.out \
+clustering_artificiality_bpcs.out \
 clustering_artificiality_epcs.out \
-clustering_klfcs.out \
+clustering_artificiality_qpcs.out \
+clustering_efcs.out \
 clustering_bfcs.out \
 clustering_qfcs.out \
 clustering_klfccm.out \
@@ -126,13 +123,13 @@ method_all : $(method_all)
 	$(CXX) $(CXXFLAGS) $(MACRO)-c $^ -o $@
 .o/rfcm.o : src/define/rfcm.cxx
 	$(CXX) $(CXXFLAGS) $(MACRO)-c $^ -o $@
-.o/klfcm.o : src/define/klfcm.cxx
-	$(CXX) $(CXXFLAGS) $(MACRO)-c $^ -o $@
-.o/klfcs.o : src/define/klfcs.cxx
-	$(CXX) $(CXXFLAGS) $(MACRO)-c $^ -o $@
 .o/bfcm.o : src/define/bfcm.cxx
 	$(CXX) $(CXXFLAGS) $(MACRO)-c $^ -o $@
 .o/bfcs.o : src/define/bfcs.cxx
+	$(CXX) $(CXXFLAGS) $(MACRO)-c $^ -o $@
+.o/efcm.o : src/define/efcm.cxx
+	$(CXX) $(CXXFLAGS) $(MACRO)-c $^ -o $@
+.o/efcs.o : src/define/efcs.cxx
 	$(CXX) $(CXXFLAGS) $(MACRO)-c $^ -o $@
 .o/qfcm.o : src/define/qfcm.cxx
 	$(CXX) $(CXXFLAGS) $(MACRO)-c $^ -o $@
@@ -150,7 +147,11 @@ method_all : $(method_all)
 	$(CXX) $(CXXFLAGS) $(MACRO)-c $^ -o $@
 .o/qfccmm.o : src/define/qfccmm.cxx
 	$(CXX) $(CXXFLAGS) $(MACRO)-c $^ -o $@
+.o/bpcs.o : src/define/bpcs.cxx
+	$(CXX) $(CXXFLAGS) $(MACRO)-c $^ -o $@
 .o/epcs.o : src/define/epcs.cxx
+	$(CXX) $(CXXFLAGS) $(MACRO)-c $^ -o $@
+.o/qpcs.o : src/define/qpcs.cxx
 	$(CXX) $(CXXFLAGS) $(MACRO)-c $^ -o $@
 .o/erfcm.o : src/define/erfcm.cxx
 	$(CXX) $(CXXFLAGS) $(MACRO)-c $^ -o $@
@@ -164,8 +165,8 @@ artificiality_grouplens.out : $(objects) src/define/recom.cxx \
 src/main/artificiality/grouplens.cxx
 	$(CXX) $(CXXFLAGS)  $^ \
 	-DARTIFICIALITY $(FS) -o $@
-artificiality_klfcs.out : $(klfcs) src/define/recom.cxx \
-src/main/artificiality/klfcs.cxx
+artificiality_efcs.out : $(efcs) src/define/recom.cxx \
+src/main/artificiality/efcs.cxx
 	$(CXX) $(CXXFLAGS) $^ \
 	-DARTIFICIALITY $(FS) -o $@
 artificiality_bfcs.out : $(bfcs) src/define/recom.cxx \
@@ -200,8 +201,16 @@ artificiality_qfccmm.out : $(qfccmm) src/define/recom.cxx \
 src/main/artificiality/qfccmm.cxx
 	$(CXX) $(CXXFLAGS) $^ \
 	-DARTIFICIALITY $(FS) -o $@
+artificiality_bpcs.out : $(bpcs) src/define/recom.cxx \
+src/main/artificiality/bpcs.cxx
+	$(CXX) $(CXXFLAGS) $^ \
+	-DARTIFICIALITY $(FS) -o $@
 artificiality_epcs.out : $(epcs) src/define/recom.cxx \
 src/main/artificiality/epcs.cxx
+	$(CXX) $(CXXFLAGS) $^ \
+	-DARTIFICIALITY $(FS) -o $@
+artificiality_qpcs.out : $(qpcs) src/define/recom.cxx \
+src/main/artificiality/qpcs.cxx
 	$(CXX) $(CXXFLAGS) $^ \
 	-DARTIFICIALITY $(FS) -o $@
 artificiality_erfcm.out : $(erfcm) src/define/recom.cxx \
@@ -224,7 +233,7 @@ grouplens.out : $(objects) src/define/recom.cxx src/main/grouplens.cxx
 bfcs.out : $(bfcs) src/define/recom.cxx src/main/bfcs.cxx
 	$(CXX) $(CXXFLAGS) $^ \
 	$(DATASET)$(MACRO)$(FS) -o $@
-klfcs.out : $(klfcs) src/define/recom.cxx src/main/klfcs.cxx
+efcs.out : $(efcs) src/define/recom.cxx src/main/efcs.cxx
 	$(CXX) $(CXXFLAGS) $^ \
 	$(DATASET)$(MACRO)$(FS) -o $@
 qfcs.out : $(qfcs) src/define/recom.cxx src/main/qfcs.cxx
@@ -248,7 +257,13 @@ bfccmm.out : $(bfccmm) src/define/recom.cxx src/main/bfccmm.cxx
 qfccmm.out : $(qfccmm) src/define/recom.cxx src/main/qfccmm.cxx
 	$(CXX) $(CXXFLAGS) $^ \
 	$(DATASET)$(MACRO)$(FS) -o $@
+bpcs.out : $(bpcs) src/define/recom.cxx src/main/bpcs.cxx
+	$(CXX) $(CXXFLAGS) $^ \
+	$(DATASET)$(MACRO)$(FS) -o $@
 epcs.out : $(epcs) src/define/recom.cxx src/main/epcs.cxx
+	$(CXX) $(CXXFLAGS) $^ \
+	$(DATASET)$(MACRO)$(FS) -o $@
+qpcs.out : $(qpcs) src/define/recom.cxx src/main/qpcs.cxx
 	$(CXX) $(CXXFLAGS) $^ \
 	$(DATASET)$(MACRO)$(FS) -o $@
 brfcm.out : $(brfcm) src/define/recom.cxx src/main/brfcm.cxx
@@ -263,12 +278,12 @@ qrfcm.out : $(qrfcm) src/define/recom.cxx src/main/qrfcm.cxx
 
 
 #クラスタリング人工データ
-clustering_artificiality_klfcs.out : $(klfcs) \
-main_clustering/artificiality/klfcs.cxx
-	$(CXX) $(CXXFLAGS) $^ \
-	$(FS) -o $@
 clustering_artificiality_bfcs.out : $(bfcs) \
 main_clustering/artificiality/bfcs.cxx
+	$(CXX) $(CXXFLAGS) $^ \
+	$(FS) -o $@
+clustering_artificiality_efcs.out : $(efcs) \
+main_clustering/artificiality/efcs.cxx
 	$(CXX) $(CXXFLAGS) $^ \
 	$(FS) -o $@
 clustering_artificiality_qfcs.out : $(qfcs) \
@@ -299,16 +314,24 @@ clustering_artificiality_qfccmm.out : $(qfccmm) \
 main_clustering/artificiality/qfccmm.cxx
 	$(CXX) $(CXXFLAGS) $^ \
 	$(MACRO)$(FS) -o $@
+clustering_artificiality_bpcs.out : $(bpcs) \
+main_clustering/artificiality/bpcs.cxx
+	$(CXX) $(CXXFLAGS) $^ \
+	$(MACRO)$(FS) -o $@
 clustering_artificiality_epcs.out : $(epcs) \
 main_clustering/artificiality/epcs.cxx
 	$(CXX) $(CXXFLAGS) $^ \
 	$(MACRO)$(FS) -o $@
-
-#クラスタリング実データ
-clustering_klfcs.out : $(klfcs) main_clustering/klfcs.cxx
+clustering_artificiality_qpcs.out : $(qpcs) \
+main_clustering/artificiality/qpcs.cxx
 	$(CXX) $(CXXFLAGS) $^ \
 	$(MACRO)$(FS) -o $@
+
+#クラスタリング実データ
 clustering_bfcs.out : $(bfcs) main_clustering/bfcs.cxx
+	$(CXX) $(CXXFLAGS) $^ \
+	$(MACRO)$(FS) -o $@
+clustering_efcs.out : $(efcs) main_clustering/efcs.cxx
 	$(CXX) $(CXXFLAGS) $^ \
 	$(MACRO)$(FS) -o $@
 clustering_qfcs.out : $(qfcs) main_clustering/qfcs.cxx
@@ -334,12 +357,12 @@ clustering_qfccmm.out : $(qfccmm) main_clustering/qfccmm.cxx
 	$(MACRO)$(FS) -o $@
 
 #クラスタリング実データ
-init_centers_clustering_klfcs.out : $(klfcs) \
-main_clustering/initialize_centers/klfcs.cxx
-	$(CXX) $(CXXFLAGS) $^ \
-	$(MACRO)$(FS) -o $@
 init_centers_clustering_bfcs.out : $(bfcs) \
 main_clustering/initialize_centers/bfcs.cxx
+	$(CXX) $(CXXFLAGS) $^ \
+	$(MACRO)$(FS) -o $@
+init_centers_clustering_efcs.out : $(efcs) \
+main_clustering/initialize_centers/efcs.cxx
 	$(CXX) $(CXXFLAGS) $^ \
 	$(MACRO)$(FS) -o $@
 init_centers_clustering_qfcs.out : $(qfcs) \
@@ -372,7 +395,7 @@ main_clustering/initialize_centers/qfccmm.cxx
 	$(MACRO)$(FS) -o $@
 
 100times.out : $(qfccmm) $(qfccm) $(qfcs) $(bfccmm) \
-$(bfccm) $(bfcs) $(klfccmm) $(klfccm) $(klfcs) \
+$(bfccm) $(bfcs) $(klfccmm) $(klfccm) $(efcs) \
 main_clustering/initialize_centers/100times.cxx
 	$(CXX) $(CXXFLAGS) $^ \
 	$(A)$(MACRO)$(FS) -o $@

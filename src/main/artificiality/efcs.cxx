@@ -1,5 +1,6 @@
 #include"recom.h"
-#include"klfcs.h"
+#include"efcs.h"
+#include"config.h"
 
 //収束条件
 #define MAX_ITE 1000
@@ -8,11 +9,10 @@
 const int user_number=return_user_number();//ユーザ数
 const int item_number=return_item_number();//アイテム数
 const std::string data_name=return_data_name();//データの名前
-const std::string InputDataName=
-  "data/2018/sparse_"+data_name//入力するデータの場所
+const std::string InputDataName="sparse_"+data_name//入力するデータ
   +"_"+std::to_string(user_number)+"_"
   +std::to_string(item_number)+".txt";
-const std::string METHOD_NAME="KLFCS";//クラスタリング手法名
+const std::string METHOD_NAME="EFCS";//クラスタリング手法名
 
 int main(void){
   std::vector<std::string> dirs = MkdirFCS(METHOD_NAME);//データ読み込み
@@ -26,12 +26,12 @@ int main(void){
     for(double lambda=1;lambda<=16;lambda*=2){//lambdaの範囲と刻み
       
       auto start=std::chrono::system_clock::now();//時間計測
-      KLFCS test(item_number, user_number, clusters_number, lambda);
+      EFCS test(item_number, user_number, clusters_number, lambda);
       std::vector<double> parameter= {lambda};
       std::vector<std::string> dir =
 	Mkdir(parameter, clusters_number, dirs);//データ読み込み
       
-      recom.input(InputDataName);//データ入力
+      recom.input(DATA_DIR+InputDataName);//データ入力
       //欠損数ループ
       for(recom.missing()=KIZAMI;recom.missing()
 	    <=KESSON;recom.missing()+=KIZAMI){

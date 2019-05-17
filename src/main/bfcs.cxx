@@ -32,8 +32,6 @@ int main(void){
       auto start=std::chrono::system_clock::now();
       BFCS test(item_number, user_number, 
                 clusters_number, m);
-      std::list<Spcm> result;
-      std::list<Spcm>::iterator iter;
       std::vector<double> parameter= {m};
       std::vector<std::string> dir
         = Mkdir(parameter, clusters_number, dirs);
@@ -108,60 +106,49 @@ int main(void){
             if(test.iterates()>=MAX_ITE)break;
             test.iterates()++;
           }
- 
-          bool same=false;
-          for(iter=result.begin();iter!=result.end();iter++){
-            if(frobenius_norm(iter->centers()-test.centers())<1.0E-5){
-              same=true;
-            }
-          }
-          if(same==false){
-            result.insert(result.end(), test);
-          }
-        }
     
-        if(p){
-          //目的関数値の計算
-          test.set_objective();
-          //recomに目的関数値を渡す
-          recom.obje(recom.Ccurrent())=test.objective();
-          //recomに帰属度を渡してクリスプ化
-          recom.crisp(test.membership(),test.centers());
-          //クラスタリング＋ピアソン相関係数の計算
-          //GroupLen Methodで予測
-          recom.reset2();
-          recom.pearsonsim_clustering();
-          recom.pearsonpred2();
-          recom.mae(dir[0], 0);
-          recom.fmeasure(dir[0], 0);
-          recom.roc(dir[0]);
-          recom.ofs_objective(dir[0]);
-          test.ofs_selected_data(dir[0]);
-          InitCentLoopis10=0;
-        }
-      }//initilal setting for clustering
-      recom.choice_mae_f(dir);
-    }
-    //AUC，MAE，F-measureの平均を計算，出力
-    recom.precision_summury(dir);
-    //計測終了
-    auto end=std::chrono::system_clock::now();
-    auto endstart=end-start;
-    std::string time="_"
-      +std::to_string
-      (std::chrono::duration_cast
-       <std::chrono::hours>(endstart).count())
-      +"h"+std::to_string
-      (std::chrono::duration_cast
-       <std::chrono::minutes>(endstart).count()%60)
-      +"m"+std::to_string
-      (std::chrono::duration_cast
-       <std::chrono::seconds>(endstart).count()%60)
-      +"s";
-    //計測時間でリネーム
-    for(int i=0;i<(int)dir.size();i++)
-      rename(dir[i].c_str(), (dir[i]+time).c_str());
-  }//m
-}//number of clusters
-return 0;
+          if(p){
+            //目的関数値の計算
+            test.set_objective();
+            //recomに目的関数値を渡す
+            recom.obje(recom.Ccurrent())=test.objective();
+            //recomに帰属度を渡してクリスプ化
+            recom.crisp(test.membership(),test.centers());
+            //クラスタリング＋ピアソン相関係数の計算
+            //GroupLen Methodで予測
+            recom.reset2();
+            recom.pearsonsim_clustering();
+            recom.pearsonpred2();
+            recom.mae(dir[0], 0);
+            recom.fmeasure(dir[0], 0);
+            recom.roc(dir[0]);
+            recom.ofs_objective(dir[0]);
+            test.ofs_selected_data(dir[0]);
+            InitCentLoopis10=0;
+          }
+        }//initilal setting for clustering
+        recom.choice_mae_f(dir);
+      }
+      //AUC，MAE，F-measureの平均を計算，出力
+      recom.precision_summury(dir);
+      //計測終了
+      auto end=std::chrono::system_clock::now();
+      auto endstart=end-start;
+      std::string time="_"
+        +std::to_string
+        (std::chrono::duration_cast
+         <std::chrono::hours>(endstart).count())
+        +"h"+std::to_string
+        (std::chrono::duration_cast
+         <std::chrono::minutes>(endstart).count()%60)
+        +"m"+std::to_string
+        (std::chrono::duration_cast
+         <std::chrono::seconds>(endstart).count()%60)
+        +"s";
+      //計測時間でリネーム
+      for(int i=0;i<(int)dir.size();i++)
+        rename(dir[i].c_str(), (dir[i]+time).c_str());
+    }//m
+  }//number of clusters
+  return 0;
 }

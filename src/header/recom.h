@@ -10,13 +10,13 @@
 //他は20480欠損させる
 //BEGINは最初の欠損数，ENDは最大の欠損数
 #ifdef BOOK
-#define KESSON 20000
+#define KESSON 34000
 #elif defined SUSHI
 #define KESSON 10000
 #elif defined ARTIFICIALITY
 #define KESSON 7500
 #else
-#define KESSON 100000
+#define KESSON 300000
 #endif
 
 //人工データ欠損数
@@ -106,8 +106,7 @@ protected:
   //行クラスタでフィルタにかけた状態で相関係数計算
   void pearsonsim_clustering(void);
   //PCM用類似度計算
-  void pearsonsim_for_pcm(const Matrix &Membership,
-			  const Vector &Threshold);
+  void pearsonsim_for_pcm(const Matrix &Membership, const Vector &Threshold);
   //予測値計算:FireFly
   void pearsonpred1(void);
   //予測値計算:GroupLens

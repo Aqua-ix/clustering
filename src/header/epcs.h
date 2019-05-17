@@ -1,10 +1,10 @@
 #include"pcm.h"
-#include"klfcs.h"
+#include"efcs.h"
 
 #ifndef __EPCS__
 #define __EPCS__
 
-class EPCS: public KLFCS, public PCM{
+class EPCS: public EFCS, public PCM{
 public:
   EPCS(int dimension,
        int data_number,

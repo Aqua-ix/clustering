@@ -1,4 +1,5 @@
 #include"recom.h"
+#include"config.h"
 
 //ユーザ数
 const int user_number=return_user_number();
@@ -7,7 +8,7 @@ const int item_number=return_item_number();
 //データの名前
 const std::string data_name=return_data_name();
 //入力するデータの場所
-const std::string InputDataName="data/2018/sparse_"+data_name
+const std::string InputDataName="sparse_"+data_name
   +"_"+std::to_string(user_number)
   +"_"+std::to_string(item_number)+".txt";
 
@@ -18,7 +19,7 @@ int main(void){
   //時間計測
   auto start=std::chrono::system_clock::now();
   //データ入力
-  recom.input(InputDataName);
+  recom.input(DATA_DIR+InputDataName);
   //欠損数ループ
   for(recom.missing()=KIZAMI;
       recom.missing()<=KESSON;recom.missing()+=KIZAMI){

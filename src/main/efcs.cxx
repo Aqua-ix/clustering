@@ -17,7 +17,7 @@ const std::string InputDataName="sparse_"+data_name
   +"_"+std::to_string(user_number)
   +"_"+std::to_string(item_number)+".txt";
 //クラスタリング手法名
-const std::string METHOD_NAME="KLFCS";
+const std::string METHOD_NAME="EFCS";
 
 int main(void){
   std::vector<std::string> dirs = MkdirFCS(METHOD_NAME);
@@ -30,7 +30,7 @@ int main(void){
     for(double lambda=128;lambda<=128;lambda*=2){
       //時間計測
       auto start=std::chrono::system_clock::now();
-      KLFCS test(item_number, user_number, clusters_number, lambda);
+      EFCS test(item_number, user_number, clusters_number, lambda);
       std::vector<double> parameter= {lambda};
       std::vector<std::string> dir
 	= Mkdir(parameter, clusters_number, dirs);

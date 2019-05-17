@@ -1,12 +1,13 @@
 #include"recom.h"
 #include"qpcs.h"
+#include"config.h"
 
 #define MAX_ITE 1000
 #define DIFF_FOR_STOP 1.0E-10
 const int user_number=return_user_number();
 const int item_number=return_item_number();
 const std::string data_name=return_data_name();
-const std::string InputDataName="data/2018/sparse_"+data_name
+const std::string InputDataName="sparse_"+data_name
   +"_"+std::to_string(user_number)
   +"_"+std::to_string(item_number)+".txt";
 const std::string METHOD_NAME="QPCS";
@@ -29,7 +30,7 @@ int main(void){
 	std::vector<std::string> dir
 	  = Mkdir(parameter, clusters_number, dirs);
 	
-	recom.input(InputDataName);
+	recom.input(DATA_DIR+InputDataName);
 	for(recom.missing()=KIZAMI;recom.missing()
 	      <=KESSON;recom.missing()+=KIZAMI){
 	  recom.Seed();

@@ -8,9 +8,9 @@ QPCS::QPCS(int dimension,
 	   double alpha): 
   HCM(dimension, data_number, centers_number),
   HCMA(dimension, data_number, centers_number),
+  PCM(dimension, data_number, centers_number, alpha),
   QFCS(dimension, data_number, centers_number
-       , fuzzifierEm, fuzzifierLambda),
-  PCM(dimension, data_number, centers_number, alpha){
+       , fuzzifierEm, fuzzifierLambda){
 }
 
 void QPCS::revise_membership(void){
