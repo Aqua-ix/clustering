@@ -7,7 +7,7 @@ EPCS::EPCS(int dimension,
 	   double alpha): 
   HCM(dimension, data_number, centers_number),
   HCMA(dimension, data_number, centers_number),
-  KLFCS(dimension, data_number, centers_number, fuzzifierLambda),
+  EFCS(dimension, data_number, centers_number, fuzzifierLambda),
   PCM(dimension, data_number, centers_number, alpha){
 }
 
@@ -26,7 +26,7 @@ void EPCS::revise_membership(void){
 }
 
 void EPCS::revise_centers(void){
-  KLFCS::revise_centers();
+  EFCS::revise_centers();
   return;
 }
 

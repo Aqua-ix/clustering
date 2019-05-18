@@ -1,6 +1,6 @@
-#include"klfcm.h"
+#include"efcm.h"
 
-KLFCM::KLFCM(int dimension,
+EFCM::EFCM(int dimension,
 	     int data_number,
 	     int centers_number,
 	     double fuzzifierLambda): 
@@ -9,13 +9,13 @@ KLFCM::KLFCM(int dimension,
   FuzzifierLambda(fuzzifierLambda){
   }
 
-double &KLFCM::fuzzifierLambda(void){
+double &EFCM::fuzzifierLambda(void){
   return FuzzifierLambda;
 }
 
-void KLFCM::revise_membership(void){
+void EFCM::revise_membership(void){
 #ifdef CHECK_CLASS
-  std::cout<<"KLFCM::revise_membershipが呼び出されました"<<std::endl;;
+  std::cout<<"EFCM::revise_membershipが呼び出されました"<<std::endl;;
 #endif
   Tmp_Membership=Membership;
   for(int k=0;k<data_number();k++){
@@ -32,9 +32,9 @@ void KLFCM::revise_membership(void){
   return;
 }
 
-void KLFCM::revise_clusters_size(void){
+void EFCM::revise_clusters_size(void){
 #ifdef CHECK_CLASS
-  std::cout<<"KLFCM::revise_clusters_sizeが呼び出されました"<<std::endl;;
+  std::cout<<"EFCM::revise_clusters_sizeが呼び出されました"<<std::endl;;
 #endif
   Tmp_Clusters_size=Clusters_size;
   for(int i=0;i<centers_number();i++){
@@ -47,7 +47,7 @@ void KLFCM::revise_clusters_size(void){
   return;
 }
 
-void KLFCM::set_objective(void){
+void EFCM::set_objective(void){
   Objective=0.0;
   for(int i=0;i<centers_number();i++){
     for(int k=0;k<data_number();k++){

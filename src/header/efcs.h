@@ -1,12 +1,12 @@
 #include"hcs.h"
-#include"klfcm.h"
+#include"efcm.h"
 
-#ifndef __KLFCS__
-#define __KLFCS__
+#ifndef __EFCS__
+#define __EFCS__
 
-class KLFCS: public HCS, public KLFCM{
+class EFCS: public HCS, public EFCM{
 public:
-  KLFCS(int dimension,
+  EFCS(int dimension,
 	int data_number,
 	int centers_number,
 	double fuzzifierLambda);

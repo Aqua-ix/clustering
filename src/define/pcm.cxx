@@ -1,9 +1,9 @@
 #include"pcm.h"
 
 PCM::PCM(int dimension,
-	 int data_number,
-	 int centers_number,
-	 double alpha): 
+         int data_number,
+         int centers_number,
+         double alpha): 
   HCM(dimension, data_number, centers_number),
   Alpha(alpha),
   Membership_Threshold(data_number),

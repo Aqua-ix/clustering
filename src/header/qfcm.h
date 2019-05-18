@@ -1,10 +1,10 @@
 #include"bfcm.h"
-#include"klfcm.h"
+#include"efcm.h"
 
 #ifndef __QFCM__
 #define __QFCM__
 
-class QFCM: public BFCM, public KLFCM{
+class QFCM: public BFCM, public EFCM{
  public:
   QFCM(int dimension,
        int data_number,

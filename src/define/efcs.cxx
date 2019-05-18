@@ -1,18 +1,18 @@
-#include"klfcs.h"
+#include"efcs.h"
 
-KLFCS::KLFCS(int dimension,
+EFCS::EFCS(int dimension,
 	     int data_number,
 	     int centers_number,
 	     double fuzzifierLambda): 
   HCM(dimension, data_number, centers_number),
   HCMA(dimension, data_number, centers_number),
   HCS(dimension, data_number, centers_number),
-  KLFCM(dimension, data_number, centers_number, fuzzifierLambda){
+  EFCM(dimension, data_number, centers_number, fuzzifierLambda){
 }
 
-void KLFCS::revise_centers(void){
+void EFCS::revise_centers(void){
 #ifdef CHECK_CLASS
-  std::cout<<"KLFCS::revise_centers"<<std::endl;;
+  std::cout<<"EFCS::revise_centers"<<std::endl;;
 #endif
   Tmp_Centers=Centers;
   for(int i=0;i<centers_number();i++){

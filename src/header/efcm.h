@@ -1,14 +1,14 @@
 #include"hcma.h"
 
-#ifndef __KLFCM__
-#define __KLFCM__
+#ifndef __EFCM__
+#define __EFCM__
 
-class KLFCM: virtual public HCMA{
+class EFCM: virtual public HCMA{
 protected:
   //KLダイバージェンス正則化項に付与したパラメータ
   double FuzzifierLambda;
 public:
-  KLFCM(int dimension,
+  EFCM(int dimension,
 	int data_number,
 	int centers_number,
 	double fuzzifierLambda);

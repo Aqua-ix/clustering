@@ -8,7 +8,7 @@ QFCM::QFCM(int dimension,
   HCM(dimension, data_number, centers_number),
   HCMA(dimension, data_number, centers_number),
   BFCM(dimension, data_number, centers_number, fuzzifierEm),
-  KLFCM(dimension, data_number, centers_number, fuzzifierLambda){
+  EFCM(dimension, data_number, centers_number, fuzzifierLambda){
 }
 
 void QFCM::revise_membership(void){

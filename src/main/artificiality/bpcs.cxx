@@ -9,31 +9,29 @@ const int user_number=return_user_number();
 const int item_number=return_item_number();
 const std::string data_name=return_data_name();
 const std::string InputDataName="sparse_"+data_name
-  +"_"+std::to_string(user_number)+"_"
-  +std::to_string(item_number)+".txt";
+  +"_"+std::to_string(user_number)+"_"+std::to_string(item_number)+".txt";
 const std::string METHOD_NAME="BPCS";
 constexpr int clusters_number=1;
 
 int main(void){
   std::vector<std::string> dirs = MkdirFCS(METHOD_NAME);
-  Recom recom(user_number, item_number, clusters_number
-              , clusters_number, KESSON);
+  Recom recom(user_number, item_number, clusters_number, clusters_number, KESSON);
   recom.method_name()=METHOD_NAME;
 
   double alpha=0.03;
   for(double m=1.5;m<=2;m+=0.025){
-	
     auto start=std::chrono::system_clock::now();
     BPCS test(item_number, user_number, clusters_number, m, alpha);
     std::vector<double> parameter= {m};
     std::vector<std::string> dir = Mkdir(parameter, clusters_number, dirs);
+
+	std::list<BPCS> result;
+	std::list<BPCS>::iterator iter;
       
     recom.input(DATA_DIR+InputDataName);
-    for(recom.missing()=KIZAMI;recom.missing()
-          <=KESSON;recom.missing()+=KIZAMI){
+    for(recom.missing()=KIZAMI;recom.missing()<=KESSON;recom.missing()+=KIZAMI){
       recom.Seed();
-      for(recom.current()=0;recom.current()
-            <MISSINGTRIALS;recom.current()++){
+      for(recom.current()=0;recom.current()<MISSINGTRIALS;recom.current()++){
         recom.reset();
         recom.revise_missing_values();
         test.copydata(recom.sparseincompletedata());
@@ -47,13 +45,10 @@ int main(void){
           while(1){
             test.revise_dissimilarities();//hcs
             test.revise_membership();//bpcs
-            test.revise_centers();//bfcs
-	  
+            test.revise_centers();//bfcs	  
 	 
-            double diff_v
-              =max_norm(test.tmp_centers()-test.centers());
-            double diff_u
-              =max_norm(test.tmp_membership()-test.membership());
+            double diff_v=max_norm(test.tmp_centers()-test.centers());
+            double diff_u=max_norm(test.tmp_membership()-test.membership());
             double diff=diff_u+diff_v;
             if(std::isnan(diff)){
               std::cout<<"diff is nan \n"
@@ -67,10 +62,20 @@ int main(void){
             test.iterates()++;
           }
           test.save_membebrship(k);//帰属度保存
+
+          //クラスタ中心のマージ
+          bool same=false;
+          for(iter=result.begin();iter!=result.end();iter++){
+            if(frobenius_norm(iter->centers()-test.centers())<1.0E-5){
+              same=true;
+            }
+          }
+          if(same==false){
+            result.insert(result.end(), test);
+          }
         }
 
-        recom.pearsonsim_for_pcm(test.membership_pcm()
-                                 ,test.membership_threshold());
+        recom.pearsonsim_for_pcm(test.membership_pcm(),test.membership_threshold());
         recom.pearsonpred2();//GroupLens
         recom.mae(dir[0], 0);
         recom.fmeasure(dir[0], 0);
@@ -86,14 +91,11 @@ int main(void){
     auto endstart=end-start;
     std::string time="_"
       +std::to_string
-      (std::chrono::duration_cast
-       <std::chrono::hours>(endstart).count())
+      (std::chrono::duration_cast<std::chrono::hours>(endstart).count())
       +"h"+std::to_string
-      (std::chrono::duration_cast
-       <std::chrono::minutes>(endstart).count()%60)
+      (std::chrono::duration_cast<std::chrono::minutes>(endstart).count()%60)
       +"m"+std::to_string
-      (std::chrono::duration_cast
-       <std::chrono::seconds>(endstart).count()%60)
+      (std::chrono::duration_cast<std::chrono::seconds>(endstart).count()%60)
       +"s";
     //計測時間でリネーム
     for(int i=0;i<(int)dir.size();i++)
