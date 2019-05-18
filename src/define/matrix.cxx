@@ -40,7 +40,7 @@ Matrix::Matrix(const i_list& args) try :
     }
   }
 catch(std::bad_alloc){
-  std::cerr << "Matrix::Matrix(initializer_list<std::initializer_list<double>>&): Out of Memory!" << std::endl;
+  std::cerr << "Matrix::Matrix(initializer_list<std::initializer_list<double>>&) : Out of Memory!"<< std::endl;
   throw;
  }
 
@@ -302,8 +302,7 @@ Matrix operator*(const Matrix &lhs, double rhs){
 }
 
 Vector operator*(const Matrix &lhs, const Vector &rhs){
-  if(lhs.rows()<1 || lhs.cols()<1
-     || rhs.size()<1 || lhs.cols()!=rhs.size()){
+  if(lhs.rows()<1 || lhs.cols()<1 || rhs.size()<1 || lhs.cols()!=rhs.size()){
     std::cout << "operator*(const Matrix &, const Vector):";
     std::cout << "Can't calculate innerproduct ";
     std::cout << "for 0-sized vector ";
@@ -390,8 +389,7 @@ double abssum(const Vector &arg){
 
 double max_norm(const Matrix &arg){
   if(arg.rows()<1){
-    std::cout <<
-      "Can't calculate norm for 0-sized vector" << std::endl;
+    std::cout << "Can't calculate norm for 0-sized vector" << std::endl;
     exit(1);
   }
   double result=abssum(arg[0]);

@@ -38,8 +38,7 @@ void BFCM::revise_membership(void){
 	double denominator=0.0;
 	for(int j=0;j<centers_number();j++){
 	  denominator+=Clusters_size[j]/Clusters_size[i]
-	    *pow(Dissimilarities[j][k]/Dissimilarities[i][k]
-		 , 1.0/(1.0-FuzzifierEm));
+	    *pow(Dissimilarities[j][k]/Dissimilarities[i][k], 1.0/(1.0-FuzzifierEm));
 	}
 	Membership[i][k]=1.0/denominator;
       }

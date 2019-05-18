@@ -1,5 +1,4 @@
 #include"recom.h"
-#include"config.h"
 
 Recom::Recom(int user,
 	     int item,
@@ -67,8 +66,8 @@ int &Recom::missing(void){
 void Recom::input(std::string InputDataName){
   std::ifstream ifs(InputDataName);
   if(!ifs){
-    std::cerr << "error:" << InputDataName
-              <<": could not open." << std::endl;
+    std::cerr << "DirectoryName" <<InputDataName
+	      <<": could not open." << std::endl;
     exit(1);
   }
   for(int cnt=0;cnt<return_user_number();cnt++){
@@ -187,8 +186,7 @@ void Recom::revise_missing_values_new(void){//一行に2要素は必ず残す
 void Recom::mae(std::string text, int method_number){//精度評価 MAE
   double result=0.0;
   for(int m=0;m<Missing;m++){
-    result+=fabs(SparseCorrectData[KessonIndex[m][0]]
-		 .elementIndex(SparseIndex[m])-Prediction[m]);
+    result+=fabs(SparseCorrectData[KessonIndex[m][0]].elementIndex(SparseIndex[m])-Prediction[m]);
   }
   resultMAE[method_number][CCurrent]=result/(double)Missing;
   std::ofstream ofs(text+"/"+METHOD_NAME+"MAE.txt",std::ios::app);
@@ -296,7 +294,7 @@ void Recom::roc(std::string dir){//ROC
   Vector True=TP_FN;
   std::ofstream ofs(ROC_STR,std::ios::app);
   if(!ofs)
-    std::cerr<<"error: "<<ROC_STR<<" could not open"<<std::endl;
+    std::cerr<<"ファイルオープン失敗\n";
   else{
     //横軸でソート
     Sort(False,True,max_index);
@@ -328,7 +326,7 @@ void Recom::Sort(Vector &fal, Vector &tru, int index){
 void Recom::ofs_objective(std::string dir){
   std::ofstream ofs(dir+"/object.txt",std::ios::app);
   if(!ofs){
-    std::cerr<<"error: "<<dir<<" could not open"<<std::endl;
+    std::cerr<<"ファイルオープン失敗\n";
     exit(1);
   }
   ofs<<Missing<<"\t"<<SEED<<"\t";
@@ -377,15 +375,14 @@ void Recom::save_mae_f(std::vector<std::string> dir){
 
 void Recom::out_mae_f(std::vector<std::string> dir){//ファイル出力ファジイ
   for(int method=0;method<(int)dir.size();method++){
-    std::ofstream ofs(dir[method]
-		      +"/averageMaeFmeasure.txt",std::ios::app);
+    std::ofstream ofs(dir[method]+"/averageMaeFmeasure.txt",std::ios::app);
     double sumMAE=0.0,sumF=0.0;
     for(int i=0;i<MISSINGTRIALS;i++){
       sumMAE+=choiceMAE[method][i];
       sumF+=choiceFmeasure[method][i];
     }
     if(!ofs)
-      std::cerr<<"error: "<<dir[method]<<" could not open"<<std::endl;
+      std::cerr<<"ファイルopen失敗\n";
     ofs<<Missing<<"\t"<<std::fixed<<std::setprecision(10)
        <<"\t"<<sumMAE/(double)MISSINGTRIALS
        <<"\t"<<sumF/(double)MISSINGTRIALS<<std::endl;
@@ -394,7 +391,7 @@ void Recom::out_mae_f(std::vector<std::string> dir){//ファイル出力ファ�
   return;
 }
 
-void Recom::precision_summury(std::vector<std::string> dir){
+void Recom::precision_summury(std::vector<std::string> dir){//ファイル出力可能性
   int max=(int)return_max_value()*10;
   for(int method=0;method<(int)dir.size();method++){
     double rocarea=0.0;
@@ -404,7 +401,7 @@ void Recom::precision_summury(std::vector<std::string> dir){
 			+std::to_string(Missing)
 			+"_"+std::to_string(x)+"sort.txt");
       if(!ifs){
-        std::cerr<<"ファイルinput失敗:trials:"
+	std::cerr<<"ファイルinput失敗:trials:"
 		 <<x<<"miss:"<<Missing<<std::endl;
 	break;
       }
@@ -412,6 +409,9 @@ void Recom::precision_summury(std::vector<std::string> dir){
 	ifs>>array1[i]>>array2[i];
       ifs.close();
       for(int i=0;i<max-1;i++){
+	/*~2017/12/25
+	  if((array1[i]<array1[i+1])||(array1[i]!=0)||(array2[i]!=0)){
+	*/
 	if((array1[i]<array1[i+1])){
 	  double low=array1[i+1]-array1[i];
 	  double height=fabs(array2[i+1]-array2[i]);
@@ -429,10 +429,9 @@ void Recom::precision_summury(std::vector<std::string> dir){
       sumF+=choiceFmeasure[method][i];
       std::cout<<sumMAE<<std::endl;
     }
-    std::ofstream ofs(dir[method]
-		      +"/averageMaeFmeasureAuc.txt", std::ios::app);
+    std::ofstream ofs(dir[method]+"/averageMaeFmeasureAuc.txt", std::ios::app);
     if(!ofs)
-      std::cerr<<"error: "<<dir[method]<<" could not open"<<std::endl;
+      std::cerr<<"ファイルopen失敗\n";
     std::cout<<"miss:"<<Missing<<"\tMAE="<<sumMAE/(double)MISSINGTRIALS
 	     <<"\tF-measure="<<sumF/(double)MISSINGTRIALS<<"\tROC="
 	     <<rocarea/(double)MISSINGTRIALS<<std::endl;
@@ -640,8 +639,7 @@ void Recom::pearsonsim(void){
 	if(denominator==0 || std::isnan(denominator))
 	  Similarity[user1][user2]=0.0;
 	else
-	  Similarity[user1][user2]
-	    =numerator/denominator;
+	  Similarity[user1][user2]=numerator/denominator;
       }
     }
   }
@@ -712,8 +710,7 @@ void Recom::pearsonsim_clustering(void){
 	  }
 	}
 	double numerator=psum-(sum1*sum2/hyokasu);
-	double denominator=sqrt((sum1sq-pow(sum1,2.0)/hyokasu)
-				*(sum2sq-pow(sum2,2.0)/hyokasu));
+	double denominator=sqrt((sum1sq-pow(sum1,2.0)/hyokasu)*(sum2sq-pow(sum2,2.0)/hyokasu));
 	if(denominator==0 || std::isnan(denominator))
 	  Similarity[user1][user2]=0.0;
 	else
@@ -725,8 +722,7 @@ void Recom::pearsonsim_clustering(void){
 }
 
 //ピアソン相関係数計算(可能性)
-void Recom::pearsonsim_for_pcm(const Matrix &Membership_PCM
-			       ,const Vector &Threshold){
+void Recom::pearsonsim_for_pcm(const Matrix &Membership_PCM,const Vector &Threshold){
   for(int user1=0;user1<return_user_number();user1++){
     int user1_size/*ユーザ1の既評価数*/
       = SparseIncompleteData[user1].essencialSize();
@@ -778,8 +774,7 @@ void Recom::pearsonsim_for_pcm(const Matrix &Membership_PCM
 	  }//user1_element>0
 	}//ell<user1_size
 	double numerator=psum-(sum1*sum2/hyokasu);
-	double denominator=sqrt((sum1sq-pow(sum1,2.0)/hyokasu)
-				*(sum2sq-pow(sum2,2.0)/hyokasu));
+	double denominator=sqrt((sum1sq-pow(sum1,2.0)/hyokasu)*(sum2sq-pow(sum2,2.0)/hyokasu));
 	if(denominator==0 || std::isnan(denominator))//分母が0かnanなら
 	  Similarity[user1][user2]=0.0;//計算させない
 	else
@@ -840,8 +835,7 @@ void Recom::pearsonpred2(void){//GroupLens(アクティブユーザの欠損値�
 	    =SparseIncompleteData[i].elementIndex(ell);
 	  //ユーザの既評価値が欠損してない、またはインデックスが一致したら計算
 	  if((user_element>0.0)&&(user_index==miss_user_index)){
-	    numerator+=Similarity[KessonIndex[index][0]][i]
-	      *(user_element-user_average(i));
+	    numerator+=Similarity[KessonIndex[index][0]][i]*(user_element-user_average(i));
 	    denominator+=Similarity[KessonIndex[index][0]][i];
 	    break;
 	  }
@@ -851,8 +845,7 @@ void Recom::pearsonpred2(void){//GroupLens(アクティブユーザの欠損値�
     if(denominator==0)//分母０なら
       Prediction[index]=user_average(KessonIndex[index][0]);//予測欠損値は既評価値の平均
     else {//そうでなければ
-      Prediction[index]=user_average(KessonIndex[index][0])
-	+numerator/denominator;//式の通り
+      Prediction[index]=user_average(KessonIndex[index][0])+numerator/denominator;//式の通り
     }
     if(std::isnan(Prediction[index])) Prediction[index]=0.0;//nanの処理
   }
@@ -936,7 +929,7 @@ int return_user_number(){//ユーザ数
 #elif defined ARTIFICIALITY
   return 100;
 #else
-  std::cout<<"error : recom's func return_user_number\n";
+  std::cout<<"error recom's func return_user_number\n";
   exit(1);
 #endif
 }
@@ -959,7 +952,7 @@ int return_item_number(){//アイテム数
 #elif defined ARTIFICIALITY
   return 100;
 #else
-  std::cout<<"error : recom's func return_item_number\n";
+  std::cout<<"error recom's func return_item_number\n";
   exit(1);
 #endif
 }
@@ -1072,7 +1065,7 @@ void Rename(std::string filename, std::string newname){
 std::vector<std::string> MkdirFCCM(std::string method){
   std::vector<std::string> v;
   std::string c_p = current_path();
-  c_p = c_p + "/data/result_data";
+  c_p = c_p + "/../../RESULT";
   mkdir(c_p.c_str(),0755);
   for(int i=0;i<(int)FCCM.size();i++){
     std::string d=
@@ -1087,7 +1080,7 @@ std::vector<std::string> MkdirFCCM(std::string method){
 std::vector<std::string> MkdirFCS(std::string method){
   std::vector<std::string> v;
   std::string c_p = current_path();
-  c_p = c_p + "/data/result_data";
+  c_p = c_p + "/../../RESULT";
   mkdir(c_p.c_str(),0755);
   for(int i=0;i<(int)FCS.size();i++){
     std::string d=
@@ -1127,7 +1120,7 @@ std::vector<std::string>
 Mkdir(std::vector<std::string> methods){
   std::vector<std::string> v;
   std::string c_p = current_path();
-  c_p = c_p + "/data/result_data";
+  c_p = c_p + "/../../RESULT";
   mkdir(c_p.c_str(),0755);
   for(int i=0;i<(int)methods.size();i++){
     std::string d=

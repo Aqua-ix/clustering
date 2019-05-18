@@ -7,7 +7,7 @@ EPCS::EPCS(int dimension,
 	   double alpha): 
   HCM(dimension, data_number, centers_number),
   HCMA(dimension, data_number, centers_number),
-  EFCS(dimension, data_number, centers_number, fuzzifierLambda),
+  KLFCS(dimension, data_number, centers_number, fuzzifierLambda),
   PCM(dimension, data_number, centers_number, alpha){
 }
 
@@ -19,14 +19,14 @@ void EPCS::revise_membership(void){
   for(int i=0;i<centers_number();i++){
     for(int k=0;k<data_number();k++){
       Membership[i][k]=
-	exp(FuzzifierLambda*(Alpha-Dissimilarities[i][k])-1.0);
+	exp(-FuzzifierLambda*Dissimilarities[i][k]);
     }
   }
   return;
 }
 
 void EPCS::revise_centers(void){
-  EFCS::revise_centers();
+  KLFCS::revise_centers();
   return;
 }
 

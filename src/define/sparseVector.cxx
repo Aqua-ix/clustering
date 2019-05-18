@@ -9,8 +9,7 @@ SparseVector::SparseVector(int size, int essencialSize) try :
     Element(new double[EssencialSize]){
   }
 catch(std::bad_alloc){
-  std::cerr <<
-    "SparseVector::SparseVector(int essencialSize): Out of Memory!"
+  std::cerr << "SparseVector::SparseVector(int essencialSize): Out of Memory!"
 	    << std::endl;
   throw;
  }
@@ -27,8 +26,7 @@ SparseVector::SparseVector(const SparseVector &arg) try :
     }
   }
 catch(std::bad_alloc){
-  std::cerr <<
-    "SparseVector::SparseVector(const SparseVector &): Out of Memory!"
+  std::cerr << "SparseVector::SparseVector(const SparseVector &): Out of Memory!"
 	    << std::endl;
   throw;
  }
@@ -127,8 +125,7 @@ SparseVector SparseVector::operator-(void) const{
 }
 
 bool SparseVector::operator==(const SparseVector &rhs) const{
-  if(Size!=rhs.Size||EssencialSize!=rhs.essencialSize())
-    return false;
+  if(Size!=rhs.Size||EssencialSize!=rhs.essencialSize()) return false;
   for(int i=0;i<EssencialSize;i++){
     if(Element[i]!=rhs.elementIndex(i)||Index[i]!=rhs.indexIndex(i))
       return false;
@@ -137,11 +134,9 @@ bool SparseVector::operator==(const SparseVector &rhs) const{
 }
 
 bool SparseVector::operator!=(const SparseVector &rhs) const{
-  if(Size!=rhs.Size||EssencialSize!=rhs.essencialSize())
-    return true;
+  if(Size!=rhs.Size||EssencialSize!=rhs.essencialSize()) return true;
   for(int i=0;i<EssencialSize;i++){
-    if(Element[i]
-       !=rhs.elementIndex(i)||Index[i]!=rhs.indexIndex(i))
+    if(Element[i]!=rhs.elementIndex(i)||Index[i]!=rhs.indexIndex(i))
       return true;
   }
   return false;

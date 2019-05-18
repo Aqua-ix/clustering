@@ -18,8 +18,7 @@ void PCM::initialize_centers_one_cluster(int index){//初期クラスタ中心
   for(int ell=0;ell<dimension();ell++)
     Centers[0][ell]=0.0;
   for(int ell=0;ell<Data[index].essencialSize();ell++)
-    Centers[0][Data[index].indexIndex(ell)]=
-      Data[index].elementIndex(ell);
+    Centers[0][Data[index].indexIndex(ell)]=Data[index].elementIndex(ell);
   return;
 }
 

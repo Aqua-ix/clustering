@@ -13,7 +13,6 @@ class QPCS: public PCM, public QFCS{
        double fuzzifierLambda,
        double alpha);
   virtual void revise_membership(void);
-  virtual void set_objective(void);
 };
 
 #endif

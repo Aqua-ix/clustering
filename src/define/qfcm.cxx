@@ -8,7 +8,7 @@ QFCM::QFCM(int dimension,
   HCM(dimension, data_number, centers_number),
   HCMA(dimension, data_number, centers_number),
   BFCM(dimension, data_number, centers_number, fuzzifierEm),
-  EFCM(dimension, data_number, centers_number, fuzzifierLambda){
+  KLFCM(dimension, data_number, centers_number, fuzzifierLambda){
 }
 
 void QFCM::revise_membership(void){
@@ -21,10 +21,8 @@ void QFCM::revise_membership(void){
       double denominator=0.0;
       for(int j=0;j<centers_number();j++){
         denominator+=(Clusters_size[j]/Clusters_size[i])
-	  *pow((1.0-FuzzifierLambda
-		*(1.0-FuzzifierEm)*Dissimilarities[j][k])
-               /(1.0-FuzzifierLambda
-		 *(1.0-FuzzifierEm)*Dissimilarities[i][k])
+	  *pow((1.0-FuzzifierLambda*(1.0-FuzzifierEm)*Dissimilarities[j][k])
+               /(1.0-FuzzifierLambda*(1.0-FuzzifierEm)*Dissimilarities[i][k])
                ,1.0/(1.0-FuzzifierEm));
       }
       Membership[i][k]=1.0/denominator;
