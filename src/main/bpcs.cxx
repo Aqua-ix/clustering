@@ -1,6 +1,7 @@
 #include"recom.h"
 #include"bpcs.h"
 #include"config.h"
+#include<list>
 
 //実データ
 #define MAX_ITE 1000
@@ -25,6 +26,9 @@ int main(void){
     BPCS test(item_number, user_number, clusters_number, m, alpha);
     std::vector<double> parameter= {m};
     std::vector<std::string> dir = Mkdir(parameter, clusters_number, dirs);
+    
+	std::list<BPCS> result;
+	std::list<BPCS>::iterator iter;
       
     recom.input(DATA_DIR+InputDataName);//データ入力
     recom.missing()=KESSON;//欠損数
@@ -68,8 +72,15 @@ int main(void){
           test.iterates()++;
         }
         test.save_membebrship(k);//帰属度保存
-      }
 
+        //クラスタ中心のマージ
+        for(iter=result.begin();iter!=result.end();iter++){
+          if(frobenius_norm(iter->centers()-test.centers())>=1.0E-5){
+            result.insert(result.end(), test);
+          }
+        }
+      }
+          
       recom.pearsonsim_for_pcm(test.membership_pcm(),test.membership_threshold());
       recom.pearsonpred2();//GroupLens
       recom.mae(dir[0], 0);
