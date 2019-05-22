@@ -24,12 +24,13 @@ int main(void){
   for(double m=1.1;m<=1.1;m+=0.1){
     auto start=std::chrono::system_clock::now();
     BPCS test(item_number, user_number, clusters_number, m, alpha);
-    std::vector<double> parameter= {m};
-    std::vector<std::string> dir = Mkdir(parameter, clusters_number, dirs);
-    
+        
 	std::list<BPCS> result;
 	std::list<BPCS>::iterator iter;
-      
+     
+    std::vector<double> parameter= {m};
+    std::vector<std::string> dir = Mkdir(parameter, clusters_number, dirs);
+ 
     recom.input(DATA_DIR+InputDataName);//データ入力
     recom.missing()=KESSON;//欠損数
     recom.Seed();//シード値の初期化
@@ -71,13 +72,19 @@ int main(void){
           if(test.iterates()>=MAX_ITE)break;
           test.iterates()++;
         }
-        test.save_membebrship(k);//帰属度保存
 
         //クラスタ中心のマージ
+        bool same=false;
+        int cIndex=0;
         for(iter=result.begin();iter!=result.end();iter++){
-          if(frobenius_norm(iter->centers()-test.centers())>=1.0E-5){
-            result.insert(result.end(), test);
+          if(frobenius_norm(iter->centers()-test.centers())<1.0E-5){
+            test.save_membebrship(cIndex);
+            same=true;
           }
+          cIndex++;
+        }
+        if(same==false){
+          test.save_membebrship(k);
         }
       }
           

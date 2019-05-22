@@ -81,6 +81,7 @@ int main(void){
           }
         }
 
+        
         recom.pearsonsim_for_pcm(test.membership_pcm(),test.membership_threshold());
         recom.pearsonpred2();//GroupLens
         recom.mae(dir[0], 0);
