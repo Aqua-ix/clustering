@@ -79,6 +79,7 @@ int main(void){
             result.insert(result.end(), test.centers());
             cluster_count++;
           }
+          std::cout<<"cluster_count: "<<cluster_count<<std::endl;
         }
 
         
