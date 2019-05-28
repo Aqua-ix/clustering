@@ -88,7 +88,8 @@ int main(void){
         }
         
         //TODO: クリスプ化して計算する
-        //recom.crisp(result_membership,result_centers);
+        //recom.crisp(test.membership(),test.centers());
+        
       }
 
       recom.pearsonsim_for_pcm(test.membership_pcm(),test.membership_threshold());
