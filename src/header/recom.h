@@ -119,6 +119,7 @@ protected:
   SparseVector &sparseincompletedata(const int &index);
   //収束した帰属度をクリスプ化
   void crisp(const Matrix &Membership, const Matrix &ItemMembership);
+  void crisp_pcm(const Matrix &Membership, const Matrix &ItemMembership);
 };
 //ユーザ数を返す
 int return_user_number(void);

@@ -885,7 +885,6 @@ SparseVector &Recom::sparseincompletedata(const int &index){
   return SparseIncompleteData[index];
 }
 
-//TODO:クリスプ化
 void Recom::crisp(const Matrix &Membership,
                   const Matrix &ItemMembership){
   for(int k=0;k<return_user_number();k++){
@@ -917,9 +916,9 @@ void Recom::crisp(const Matrix &Membership,
   return;
 }
 
-//TODO:ユーザーをオーバーラップ
-/*
-void Recom::overlap(const Matrix &Membership,
+
+//TODO: PCMでクリスプ化
+void Recom::crisp_pcm(const Matrix &Membership,
                   const Matrix &ItemMembership){
   for(int k=0;k<return_user_number();k++){
     for(int i=0;i<Membership.rows();i++)
@@ -949,7 +948,9 @@ void Recom::overlap(const Matrix &Membership,
   }
   return;
 }
-*/
+
+//TODO: ユーザーをオーバーラップ
+
 
 int return_user_number(){//ユーザ数
 #ifdef MOVIE
