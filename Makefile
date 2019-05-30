@@ -33,12 +33,18 @@ method_all = $(all) \
 $(bfcs) $(efcs) $(qfcs) \
 $(bpcs) $(epcs) $(qpcs) \
 grouplens.out \
-bfcs.out \
-efcs.out \
-qfcs.out \
-bpcs.out \
-epcs.out \
-qpcs.out \
+bfcs_overlap.out \
+efcs_overlap.out \
+qfcs_overlap.out \
+bpcs_overlap.out \
+epcs_overlap.out \
+qpcs_overlap.out \
+bfcs_crisp.out \
+efcs_crisp.out \
+qfcs_crisp.out \
+bpcs_crisp.out \
+epcs_crisp.out \
+qpcs_crisp.out \
 
 ifdef data
 	DATASET=-D$(data) 
@@ -93,26 +99,28 @@ method_all : $(method_all)
 .o/qpcs.o : src/define/qpcs.cxx
 	$(CXX) $(CXXFLAGS) $(MACRO)-c $^ -o $@
 
-#推薦システム(非クリスプ)
+#推薦システム(Grouplens)
 grouplens.out : $(objects) src/define/recom.cxx src/main/grouplens.cxx
 	$(CXX) $(CXXFLAGS) $^ \
 	$(DATASET) $(FS) -o $@
-bfcs.out : $(bfcs) src/define/recom.cxx src/main/bfcs.cxx
+
+#推薦システム(オーバーラップ)
+bfcs_overlap.out : $(bfcs) src/define/recom.cxx src/main_overlap/bfcs.cxx
 	$(CXX) $(CXXFLAGS) $^ \
 	$(DATASET)$(MACRO)$(FS) -o $@
-efcs.out : $(efcs) src/define/recom.cxx src/main/efcs.cxx
+efcs_overlap.out : $(efcs) src/define/recom.cxx src/main_overlap/efcs.cxx
 	$(CXX) $(CXXFLAGS) $^ \
 	$(DATASET)$(MACRO)$(FS) -o $@
-qfcs.out : $(qfcs) src/define/recom.cxx src/main/qfcs.cxx
+qfcs_overlap.out : $(qfcs) src/define/recom.cxx src/main_overlap/qfcs.cxx
 	$(CXX) $(CXXFLAGS) $^ \
 	$(DATASET)$(MACRO)$(FS) -o $@
-bpcs.out : $(bpcs) src/define/recom.cxx src/main/bpcs.cxx
+bpcs_overlap.out : $(bpcs) src/define/recom.cxx src/main_overlap/bpcs.cxx
 	$(CXX) $(CXXFLAGS) $^ \
 	$(DATASET)$(MACRO)$(FS) -o $@
-epcs.out : $(epcs) src/define/recom.cxx src/main/epcs.cxx
+epcs_overlap.out : $(epcs) src/define/recom.cxx src/main_overlap/epcs.cxx
 	$(CXX) $(CXXFLAGS) $^ \
 	$(DATASET)$(MACRO)$(FS) -o $@
-qpcs.out : $(qpcs) src/define/recom.cxx src/main/qpcs.cxx
+qpcs_overlap.out : $(qpcs) src/define/recom.cxx src/main_overlap/qpcs.cxx
 	$(CXX) $(CXXFLAGS) $^ \
 	$(DATASET)$(MACRO)$(FS) -o $@
 

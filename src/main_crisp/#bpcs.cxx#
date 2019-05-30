@@ -92,9 +92,7 @@ int main(void){
         }
       }
 
-      // クラスタ数が求まる
-
-      // TODO: クラスタ数×データ数の行列を生成
+      // TODO: クラスタ
       for(iter=result_centers.begin();iter!=result_centers.end();iter++){
         
       }

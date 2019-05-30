@@ -55,8 +55,9 @@ double mid(Vector x){//ソートして中央値算出
 
  
 void PCM::save_membebrship(int index){//帰属度保存
-  for(int k=0;k<data_number();k++)
+  for(int k=0;k<data_number();k++){
     Membership_PCM[index][k]=Membership[0][k];
+  }
   //帰属度中央値を保存
   Membership_Threshold[index]=mid(Membership_PCM[index]);
   return;

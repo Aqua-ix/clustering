@@ -1,7 +1,6 @@
 #include"recom.h"
 #include"bpcs.h"
 #include"config.h"
-#include<list>
 
 //実データ
 #define MAX_ITE 1000
@@ -24,17 +23,13 @@ int main(void){
   for(double m=1.1;m<=1.1;m+=0.1){
     auto start=std::chrono::system_clock::now();
     BPCS test(item_number, user_number, clusters_number, m, alpha);
-        
-	std::list<Matrix> result_centers;
-    std::list<Matrix> result_membership;
-	std::list<Matrix>::iterator iter;
-
     std::vector<double> parameter= {m};
     std::vector<std::string> dir = Mkdir(parameter, clusters_number, dirs);
- 
+      
     recom.input(DATA_DIR+InputDataName);//データ入力
     recom.missing()=KESSON;//欠損数
     recom.Seed();//シード値の初期化
+
     for(recom.current()=0;recom.current()<MISSINGTRIALS;recom.current()++){
       recom.reset();//初期化
       recom.revise_missing_values_new();//データを欠損
@@ -73,36 +68,10 @@ int main(void){
           if(test.iterates()>=MAX_ITE)break;
           test.iterates()++;
         }
-
-        // TODO: クラスタ中心のマージ
-        // 今までに算出したクラスタ中心から距離が近い(1.0E-3未満)かどうか
-        bool same=false;
-        
-        // クラスタ数のカウント
-        int clusters_count;
-        
-        for(iter=result_centers.begin();iter!=result_centers.end();iter++){
-          if(frobenius_norm(*iter-test.centers())<1.0E-3){
-            same=true;
-          }
-        }
-        if(!same){
-          result_centers.push_back(test.centers());
-          clusters_count++;
-        }
+        test.save_membebrship(k);//帰属度保存
       }
 
-      // クラスタ数が求まる
-
-      // TODO: クラスタ数×データ数の行列を生成
-      for(iter=result_centers.begin();iter!=result_centers.end();iter++){
-        
-      }
-      
-      // TODO: クリスプ化
-      // recom.crisp(test.membership(),test.centers());
-
-      recom.pearsonsim_clustering();
+      recom.pearsonsim_for_pcm(test.membership_pcm(),test.membership_threshold());
       recom.pearsonpred2();//GroupLens
       recom.mae(dir[0], 0);
       recom.fmeasure(dir[0], 0);

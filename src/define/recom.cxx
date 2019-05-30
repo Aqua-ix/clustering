@@ -916,41 +916,8 @@ void Recom::crisp(const Matrix &Membership,
   return;
 }
 
-
-//TODO: PCMでクリスプ化
-void Recom::crisp_pcm(const Matrix &Membership,
-                  const Matrix &ItemMembership){
-  for(int k=0;k<return_user_number();k++){
-    for(int i=0;i<Membership.rows();i++)
-      Mem[i][k]=0.0;
-    double max=-DBL_MAX;
-    int max_index=-1;
-    for(int i=0;i<Membership.rows();i++){
-      if(Membership[i][k]>max){
-        max=Membership[i][k];
-        max_index=i;
-      }
-    }
-    Mem[max_index][k]=1.0;
-  }
-  for(int ell=0;ell<return_item_number();ell++){
-    for(int j=0;j<ItemMembership.rows();j++)
-      ItemMem[j][ell]=0.0;
-    double max=-DBL_MAX;
-    int max_index=-1;
-    for(int j=0;j<ItemMembership.rows();j++){
-      if(ItemMembership[j][ell]>max){
-        max=ItemMembership[j][ell];
-        max_index=j;
-      }
-    }
-    ItemMem[max_index][ell]=1.0;
-  }
-  return;
-}
-
-//TODO: ユーザーをオーバーラップ
-
+// TODO: PCMでクリスプ化
+// TODO: ユーザーをオーバーラップ
 
 int return_user_number(){//ユーザ数
 #ifdef MOVIE
@@ -967,8 +934,11 @@ int return_user_number(){//ユーザ数
   return 1022;//2000;
 #elif defined SUSHI
   return 5000;
-#else //人工データ
+#elif defined ARTIFICIALITY
   return 100;
+#else
+  std::cout<<"error recom's func return_user_number\n";
+  exit(1);
 #endif
 }
 
@@ -987,9 +957,12 @@ int return_item_number(){//アイテム数
   return 835;//517;
 #elif defined SUSHI
   return 100;
-#else //人工データ
+#elif defined ARTIFICIALITY
   return 100;
-#endif  
+#else
+  std::cout<<"error recom's func return_item_number\n";
+  exit(1);
+#endif
 }
 
 double return_threshold(){//しきい値
@@ -1007,8 +980,11 @@ double return_threshold(){//しきい値
   return 3.5;
 #elif defined SUSHI
   return 3.5;
-#else //人工データ
+#elif defined ARTIFICIALITY
   return 3.5;
+#else
+  std::cout<<"error recom's func return_threshold\n";
+  exit(1);
 #endif
 }
 
@@ -1027,8 +1003,11 @@ double return_max_value(){
   return 5.0;
 #elif defined SUSHI
   return 5.0;
-#else //人工データ
+#elif defined ARTIFICIALITY
   return 5.0;
+#else
+  std::cout<<"error recom's func return_max_value\n";
+  exit(1);
 #endif
 }
 
@@ -1047,8 +1026,11 @@ std::string return_data_name(){//データ名
   return "epinions";
 #elif defined SUSHI
   return "sushi";
-#else //人工データ
+#elif defined ARTIFICIALITY
   return "artificiality";
+#else
+  std::cout<<"error recom's func return_data_name\n";
+  exit(1);
 #endif
 }
 
