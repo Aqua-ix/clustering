@@ -28,6 +28,8 @@ int main(void){
 	std::list<Matrix> result_centers;
     std::list<Matrix> result_membership;
 	std::list<Matrix>::iterator iter;
+    // クラスタ数のカウント
+    int clusters_count=0;
 
     std::vector<double> parameter= {m};
     std::vector<std::string> dir = Mkdir(parameter, clusters_number, dirs);
@@ -41,11 +43,11 @@ int main(void){
       test.copydata(recom.sparseincompletedata());//データをtestに渡す
       test.ForSphericalData();//データをスパース化
 
-      for(int k=0;k<user_number;k++){//ユーザ数回クラスタリング
+      for(int k=0;k<user_number;k++){//ユーザ数回ループ
         test.reset();
         test.initialize_centers_one_cluster(k);//初期クラスタ中心//pcm
         test.iterates()=0;
-        while(1){
+        while(1){//クラスタリング
           test.revise_dissimilarities();//hcs
           //std::cout<<"diss:"<< test.dissimilarities() <<std::endl;
           //exit(1);
@@ -72,36 +74,33 @@ int main(void){
           if(diff<DIFF_FOR_STOP)break;
           if(test.iterates()>=MAX_ITE)break;
           test.iterates()++;
-        }
+        }//クラスタリング
 
         // TODO: クラスタ中心のマージ
         // 今までに算出したクラスタ中心から距離が近い(1.0E-3未満)かどうか
         bool same=false;
-        
-        // クラスタ数のカウント
-        int clusters_count;
         
         for(iter=result_centers.begin();iter!=result_centers.end();iter++){
           if(frobenius_norm(*iter-test.centers())<1.0E-3){
             same=true;
           }
         }
+        // 今までに算出したクラスタ中心から距離が近くなければ新たなクラスタ中心としてlist最後尾に追加し、
+        // クラスタ数のカウントをインクリメント
         if(!same){
           result_centers.push_back(test.centers());
           clusters_count++;
+          std::cout<<"clusters : "<<clusters_count<<std::endl;
         }
-      }
-
-      // クラスタ数が求まる
-
-      // TODO: クラスタ数×データ数の行列を生成
-      for(iter=result_centers.begin();iter!=result_centers.end();iter++){
+        //k番目のユーザに関してクラスタ化する
+        for(iter=result_centers.begin();iter!=result_centers.end();iter++){
+          std::cout<<"marged centers : "<<*iter<<std::endl;
+        }
+        // TODO: クリスプ化
+        //recom.crisp(帰属度,中心);
         
-      }
-      
-      // TODO: クリスプ化
-      // recom.crisp(test.membership(),test.centers());
-
+      }//ユーザー数回ループ
+      exit(1);
       recom.pearsonsim_clustering();
       recom.pearsonpred2();//GroupLens
       recom.mae(dir[0], 0);

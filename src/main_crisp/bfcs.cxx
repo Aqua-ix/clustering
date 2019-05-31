@@ -126,9 +126,10 @@ int main(void){
             test.ofs_selected_data(dir[0]);
             InitCentLoopis10=0;
           }
-        }//initilal setting for clustering
+        }
         recom.choice_mae_f(dir);
-      }
+      }//クラスタ数でループ
+      
       //AUC，MAE，F-measureの平均を計算，出力
       recom.precision_summury(dir);
       //計測終了
