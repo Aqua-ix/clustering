@@ -3,6 +3,8 @@
 git pull
 make clean clean.o
 
+emacs ./src/ &
+
 cd ./documents/
 git pull
 cd ./presentation/

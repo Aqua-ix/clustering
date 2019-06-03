@@ -100,7 +100,6 @@ int main(void){
         //recom.crisp(帰属度,中心);
         
       }//ユーザー数回ループ
-      exit(1);
       recom.pearsonsim_clustering();
       recom.pearsonpred2();//GroupLens
       recom.mae(dir[0], 0);
