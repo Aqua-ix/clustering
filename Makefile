@@ -2,8 +2,9 @@
 # $ make (vectorクラス等の中間ファイル作成、-Bで強制コンパイル) 
 # $ make ターゲット(.out)で実行ファイルコンパイル
 # ---推薦システム---
-# 実データ一覧 
-# 名前		:マクロ名	
+# データ一覧 
+# 名前		:マクロ名
+# Artificiality	:ARTIFICIALITY :100ユーザ100アイテム
 # BookCrossing	:BOOK		:1091ユーザ2248アイテム
 # MovieLens1M	:MOVIE		:905ユーザ684アイテム
 # Jester	:JESTER		:2916ユーザ140アイテム
