@@ -37,6 +37,7 @@ int main(void){
     recom.input(DATA_DIR+InputDataName);//データ入力
     recom.missing()=KESSON;//欠損数
     recom.Seed();//シード値の初期化
+    //欠損パターンでループ
     for(recom.current()=0;recom.current()<MISSINGTRIALS;recom.current()++){
       recom.reset();//初期化
       recom.revise_missing_values_new();//データを欠損
@@ -49,16 +50,8 @@ int main(void){
         test.iterates()=0;
         while(1){//クラスタリング
           test.revise_dissimilarities();//hcs
-          //std::cout<<"diss:"<< test.dissimilarities() <<std::endl;
-          //exit(1);
-
           test.revise_membership();//bpcs
-          //std::cout<<"mem:"<< test.membership() <<std::endl;
-          //exit(1);
-
           test.revise_centers();//bfcs
-          //std::cout<<"cen:"<< test.centers() <<std::endl;
-          //exit(1);
 	  
      	  double diff_v=max_norm(test.tmp_centers()-test.centers());
           double diff_u=max_norm(test.tmp_membership()-test.membership());
@@ -75,8 +68,7 @@ int main(void){
           if(test.iterates()>=MAX_ITE)break;
           test.iterates()++;
         }//クラスタリング
-
-        // TODO: クラスタ中心のマージ
+        
         // 今までに算出したクラスタ中心から距離が近い(1.0E-3未満)かどうか
         bool same=false;
         
@@ -85,21 +77,48 @@ int main(void){
             same=true;
           }
         }
-        // 今までに算出したクラスタ中心から距離が近くなければ新たなクラスタ中心としてlist最後尾に追加し、
-        // クラスタ数のカウントをインクリメント
+        // 今までに算出したクラスタ中心から距離が近くなければ新たなクラスタ中心としてlist最後尾に追加
         if(!same){
           result_centers.push_back(test.centers());
-          clusters_count++;
-          std::cout<<"clusters : "<<clusters_count<<std::endl;
         }
-        //k番目のユーザに関してクラスタ化する
-        for(iter=result_centers.begin();iter!=result_centers.end();iter++){
-          std::cout<<"marged centers : "<<*iter<<std::endl;
-        }
-        // TODO: クリスプ化
-        //recom.crisp(帰属度,中心);
-        
       }//ユーザー数回ループ
+
+      for(iter=result_centers.begin();iter!=result_centers.end();iter++){
+        clusters_count++;
+      }
+      std::cout<<"clusters : "<<clusters_count<<std::endl;
+
+      BPCS test2(item_number, user_number, clusters_count, m, alpha);
+      test2.copydata(recom.sparseincompletedata());//データをtestに渡す
+      test2.ForSphericalData();//データをスパース化
+      
+      for(int k=0;k<clusters_count;k++){//ユーザ数回ループ
+        test2.reset();
+        test2.initialize_centers_one_cluster(k);//初期クラスタ中心
+        test2.iterates()=0;
+        while(1){//クラスタリング
+          test2.revise_dissimilarities();//hcs
+          test2.revise_membership();//bpcs
+          test2.revise_centers();//bfcs
+          
+          double diff_v=max_norm(test2.tmp_centers()-test2.centers());
+          double diff_u=max_norm(test2.tmp_membership()-test2.membership());
+          double diff=diff_u+diff_v;
+          if(std::isnan(diff)){
+            std::cout<<"diff is nan \n"
+                     <<"m:"<<m<<"\n"
+                     <<"alpha:"<<alpha<<std::endl;
+            test2.reset();
+            exit(1);
+          }
+	  
+          if(diff<DIFF_FOR_STOP)break;
+          if(test2.iterates()>=MAX_ITE)break;
+          test2.iterates()++;
+        }//クラスタリング
+        test2.save_membership(k);
+      }//ユーザー数回ループ
+       
       recom.pearsonsim_clustering();
       recom.pearsonpred2();//GroupLens
       recom.mae(dir[0], 0);
@@ -107,9 +126,10 @@ int main(void){
       recom.roc(dir[0]);
       recom.obje(recom.Ccurrent())=-1;
       recom.ofs_objective(dir[0]);
-      test.ofs_selected_data(dir[0]);
+      test2.ofs_selected_data(dir[0]);
       recom.choice_mae_f(dir);
-    }
+    }//欠損パターンでループ
+    
     recom.precision_summury(dir);//出力
 
     auto end=std::chrono::system_clock::now();
