@@ -19,7 +19,7 @@
 # $ make ターゲット data=マクロ名 class=1
 
 CXX = g++
-CXXFLAGS = -O3 -Wall -Wextra -std=c++17 -I src/header
+CXXFLAGS = -Wall -Wextra -std=c++17 -I src/header $(GDB)
 FS = -lstdc++fs
 objects = .o/vector.o .o/svector.o .o/matrix.o .o/smatrix.o
 bfcs = $(objects) .o/hcm.o .o/hcma.o .o/hcs.o .o/bfcm.o .o/bfcs.o
@@ -55,6 +55,11 @@ ifdef class
 endif
 ifdef a
 	A=-D$(a) 
+endif
+ifdef gdb
+	GDB=-g3 -O0
+else
+	GDB=-O3
 endif
 
 all : $(objects) 

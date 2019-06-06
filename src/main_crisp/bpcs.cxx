@@ -73,7 +73,7 @@ int main(void){
         bool same=false;
         
         for(iter=result_centers.begin();iter!=result_centers.end();iter++){
-          if(frobenius_norm(*iter-test.centers())<1.0E-3){
+          if(frobenius_norm(*iter-test.centers())<1.0E-03){
             same=true;
           }
         }
@@ -89,6 +89,8 @@ int main(void){
       std::cout<<"clusters : "<<clusters_count<<std::endl;
 
       BPCS test2(item_number, user_number, clusters_count, m, alpha);
+      recom.reset();//初期化
+      recom.revise_missing_values_new();//データを欠損
       test2.copydata(recom.sparseincompletedata());//データをtestに渡す
       test2.ForSphericalData();//データをスパース化
       
@@ -116,7 +118,6 @@ int main(void){
           if(test2.iterates()>=MAX_ITE)break;
           test2.iterates()++;
         }//クラスタリング
-        test2.save_membership(k);
       }//ユーザー数回ループ
        
       recom.pearsonsim_clustering();

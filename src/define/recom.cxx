@@ -4,7 +4,7 @@
 Recom::Recom(int user,
              int item,
              int user_cen,
-             int item_cen, 
+             int item_cen,
              int miss):
   SEED(0),Current(0),CCurrent(0),Missing(0),
   SparseIncompleteData(user, item),
