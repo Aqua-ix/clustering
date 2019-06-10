@@ -912,6 +912,9 @@ void Recom::crisp(const Matrix &Membership,
       }
     }
     ItemMem[max_index][ell]=1.0;
+    for(int j=0;j<ItemMembership.rows();j++){
+      
+    }
   }
   return;
 }
