@@ -68,7 +68,7 @@ int main(void){
           if(test.iterates()>=MAX_ITE)break;
           test.iterates()++;
         }
-        test.save_membebrship(k);//帰属度保存
+        test.save_membership(k);//帰属度保存
       }
 
       recom.pearsonsim_for_pcm(test.membership_pcm(),test.membership_threshold());

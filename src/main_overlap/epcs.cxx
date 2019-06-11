@@ -71,7 +71,7 @@ int main(void){
 	      test.iterates()++;
 	    }
 	    //帰属度保存
-	    test.save_membebrship(k);
+	    test.save_membership(k);
 	  }
 	  //PCM＋ピアソン相関係数の計算
 	  recom.pearsonsim_for_pcm(test.membership_pcm(),
