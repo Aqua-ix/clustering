@@ -912,15 +912,47 @@ void Recom::crisp(const Matrix &Membership,
       }
     }
     ItemMem[max_index][ell]=1.0;
-    for(int j=0;j<ItemMembership.rows();j++){
-      
-    }
   }
   return;
 }
 
-// TODO: PCMでクリスプ化
-// TODO: ユーザーをオーバーラップ
+// オーバーラップ
+void Recom::overlap(const Matrix &Membership,
+                  const Matrix &ItemMembership){
+  for(int k=0;k<return_user_number();k++){
+    for(int i=0;i<Membership.rows();i++)
+      Mem[i][k]=0.0;
+    double max=-DBL_MAX;
+    int max_index=-1;
+    for(int i=0;i<Membership.rows();i++){
+      if(Membership[i][k]>max){
+        max=Membership[i][k];
+        max_index=i;
+      }
+    }
+    Mem[max_index][k]=1.0;
+  }
+  for(int ell=0;ell<return_item_number();ell++){
+    for(int j=0;j<ItemMembership.rows();j++)
+      ItemMem[j][ell]=0.0;
+    double max=-DBL_MAX;
+    int max_index=-1;
+    for(int j=0;j<ItemMembership.rows();j++){
+      if(ItemMembership[j][ell]>max){
+        max=ItemMembership[j][ell];
+        max_index=j;
+      }
+    }
+    ItemMem[max_index][ell]=1.0;
+    for(int j=0;j<ItemMembership.rows();j++){
+      if(ItemMembership[max_index][ell]/ItemMembership[j][ell]==0.8
+         || ItemMembership[j][ell]/ItemMembership[max_index][ell]==0.8){
+        ItemMembership[j][ell]=1.0;
+      }
+    }
+  }
+  return;
+}
 
 int return_user_number(){//ユーザ数
 #ifdef MOVIE
