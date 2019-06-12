@@ -931,6 +931,11 @@ void Recom::overlap(const Matrix &Membership,
       }
     }
     Mem[max_index][k]=1.0;
+    for(int i=0;i<Membership.rows();i++){
+      if(Membership[i][k]>=Membership[max_index][k]*0.8){
+        Mem[i][k]=1.0;
+      }
+    }
   }
   for(int ell=0;ell<return_item_number();ell++){
     for(int j=0;j<ItemMembership.rows();j++)
@@ -945,9 +950,8 @@ void Recom::overlap(const Matrix &Membership,
     }
     ItemMem[max_index][ell]=1.0;
     for(int j=0;j<ItemMembership.rows();j++){
-      if(ItemMembership[max_index][ell]/ItemMembership[j][ell]==0.8
-         || ItemMembership[j][ell]/ItemMembership[max_index][ell]==0.8){
-        ItemMembership[j][ell]=1.0;
+      if(ItemMembership[j][ell]>=ItemMembership[max_index][ell]*0.8){
+        ItemMem[j][ell]=1.0;
       }
     }
   }
