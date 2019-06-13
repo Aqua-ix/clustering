@@ -112,7 +112,7 @@ int main(void){
             test.set_objective();
             //recomに目的関数値を渡す
             recom.obje(recom.Ccurrent())=test.objective();
-            //recomに帰属度を渡してクリスプ化
+            //recomに帰属度を渡してオーバーラップ
             recom.overlap(test.membership(),test.centers());
             //クラスタリング＋ピアソン相関係数の計算
             //GroupLen Methodで予測

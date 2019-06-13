@@ -95,7 +95,7 @@ int main(void){
 	    //recomに目的関数値を渡す
 	    recom.obje(recom.Ccurrent())=test.objective();
 	    //recomに帰属度を渡してクリスプ化
-	    recom.crisp(test.membership(),test.centers());
+	    recom.overlap(test.membership(),test.centers());
 	    
 	    recom.reset2();
 	    //クラスタリング＋ピアソン相関係数の計算

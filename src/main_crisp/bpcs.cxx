@@ -26,7 +26,6 @@ int main(void){
     BPCS test(item_number, user_number, clusters_number, m, alpha);
         
 	std::list<Matrix> result_centers;
-    std::list<Matrix> result_membership;
 	std::list<Matrix>::iterator iter;
     // クラスタ数のカウント
     int clusters_count=0;
@@ -89,37 +88,35 @@ int main(void){
       std::cout<<"clusters : "<<clusters_count<<std::endl;
 
       BPCS test2(item_number, user_number, clusters_count, m, alpha);
-      recom.reset();//初期化
-      recom.revise_missing_values_new();//データを欠損
       test2.copydata(recom.sparseincompletedata());//データをtestに渡す
       test2.ForSphericalData();//データをスパース化
       
-      for(int k=0;k<clusters_count;k++){//ユーザ数回ループ
+      test2.reset();
+      //初期クラスタ中心
+      iter=result_centers.begin();
+      for(int i=0;i<test2.centers_number();i++){
+        for(int ell=0;ell<test2.dimension();ell++){
+         
+        }
+      }
+        
+      test2.revise_dissimilarities();//hcs
+      test2.revise_membership();//bpcs
+      test2.revise_centers();//bfcs
+        
+      double diff_v=max_norm(test2.tmp_centers()-test2.centers());
+      double diff_u=max_norm(test2.tmp_membership()-test2.membership());
+      double diff=diff_u+diff_v;
+      if(std::isnan(diff)){
+        std::cout<<"diff is nan \n"
+                 <<"m:"<<m<<"\n"
+                 <<"alpha:"<<alpha<<std::endl;
         test2.reset();
-        test2.initialize_centers_one_cluster(k);//初期クラスタ中心
-        test2.iterates()=0;
-        while(1){//クラスタリング
-          test2.revise_dissimilarities();//hcs
-          test2.revise_membership();//bpcs
-          test2.revise_centers();//bfcs
-          
-          double diff_v=max_norm(test2.tmp_centers()-test2.centers());
-          double diff_u=max_norm(test2.tmp_membership()-test2.membership());
-          double diff=diff_u+diff_v;
-          if(std::isnan(diff)){
-            std::cout<<"diff is nan \n"
-                     <<"m:"<<m<<"\n"
-                     <<"alpha:"<<alpha<<std::endl;
-            test2.reset();
-            exit(1);
-          }
+        exit(1);
+      }
 	  
-          if(diff<DIFF_FOR_STOP)break;
-          if(test2.iterates()>=MAX_ITE)break;
-          test2.iterates()++;
-        }//クラスタリング
-      }//ユーザー数回ループ
-       
+      recom.crisp(test.membership(),test.centers());
+
       recom.pearsonsim_clustering();
       recom.pearsonpred2();//GroupLens
       recom.mae(dir[0], 0);
@@ -129,6 +126,9 @@ int main(void){
       recom.ofs_objective(dir[0]);
       test2.ofs_selected_data(dir[0]);
       recom.choice_mae_f(dir);
+
+      clusters_count=0;
+
     }//欠損パターンでループ
     
     recom.precision_summury(dir);//出力
