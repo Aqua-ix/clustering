@@ -24,10 +24,9 @@ int main(void){
   for(double m=1.1;m<=1.1;m+=0.1){
     auto start=std::chrono::system_clock::now();
     BPCS test(item_number, user_number, clusters_number, m, alpha);
-        
-	std::list<Matrix> result_centers;
-	std::list<Matrix>::iterator iter;
-    // クラスタ数のカウント
+
+    std::list<Matrix> result_cen;
+    std::list<Matrix>::iterator iter;
     int clusters_count=0;
 
     std::vector<double> parameter= {m};
@@ -68,66 +67,49 @@ int main(void){
           test.iterates()++;
         }//クラスタリング
         
-        // 今までに算出したクラスタ中心から距離が近い(1.0E-3未満)かどうか
-        bool same=false;
-        
-        for(iter=result_centers.begin();iter!=result_centers.end();iter++){
-          if(frobenius_norm(*iter-test.centers())<1.0E-03){
+        // 今までに算出したクラスタ中心(ユーザ)から距離が近い(1.0E-3未満)かどうか
+        bool same=false;      
+        for(iter=result_cen.begin();iter!=result_cen.end();iter++){
+          if(frobenius_norm(*iter-test.centers())<1.0E-3){
             same=true;
           }
         }
-        // 今までに算出したクラスタ中心から距離が近くなければ新たなクラスタ中心としてlist最後尾に追加
+        // 新たなクラスタ中心(ユーザ)をlist最後尾に追加
         if(!same){
-          result_centers.push_back(test.centers());
+          result_cen.push_back(test.centers());
+          clusters_count++;
         }
-      }//ユーザー数回ループ
 
-      for(iter=result_centers.begin();iter!=result_centers.end();iter++){
-        clusters_count++;
-      }
+      }//ユーザー数回ループ
+      
       std::cout<<"clusters : "<<clusters_count<<std::endl;
 
-      BPCS test2(item_number, user_number, clusters_count, m, alpha);
+      BPCS test2(item_number, clusters_count, clusters_number, m, alpha);
       test2.copydata(recom.sparseincompletedata());//データをtestに渡す
       test2.ForSphericalData();//データをスパース化
-      
+        
       test2.reset();
-      //初期クラスタ中心
-      iter=result_centers.begin();
-      for(int i=0;i<test2.centers_number();i++){
-        for(int ell=0;ell<test2.dimension();ell++){
-         
-        }
+      //TODO: クラスタ中心を再設定
+      iter=result_cen.begin();
+      for(int i=0; i<clusters_count; i++){
+        test2.save_centers(i, *iter);
+        iter++;
       }
         
       test2.revise_dissimilarities();//hcs
       test2.revise_membership();//bpcs
-      test2.revise_centers();//bfcs
         
-      double diff_v=max_norm(test2.tmp_centers()-test2.centers());
-      double diff_u=max_norm(test2.tmp_membership()-test2.membership());
-      double diff=diff_u+diff_v;
-      if(std::isnan(diff)){
-        std::cout<<"diff is nan \n"
-                 <<"m:"<<m<<"\n"
-                 <<"alpha:"<<alpha<<std::endl;
-        test2.reset();
-        exit(1);
-      }
-	  
-      recom.crisp(test.membership(),test.centers());
-
+      recom.crisp(test2.membership(),test2.centers());
       recom.pearsonsim_clustering();
+      
       recom.pearsonpred2();//GroupLens
       recom.mae(dir[0], 0);
       recom.fmeasure(dir[0], 0);
       recom.roc(dir[0]);
       recom.obje(recom.Ccurrent())=-1;
       recom.ofs_objective(dir[0]);
-      test2.ofs_selected_data(dir[0]);
+      test.ofs_selected_data(dir[0]);
       recom.choice_mae_f(dir);
-
-      clusters_count=0;
 
     }//欠損パターンでループ
     

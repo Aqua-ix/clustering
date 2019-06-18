@@ -53,12 +53,17 @@ double mid(Vector x){//ソートして中央値算出
     x[x.size()/2];
 }
 
- 
 void PCM::save_membership(int index){//帰属度保存
+  //index:ClusterCenterUser
   for(int k=0;k<data_number();k++){
     Membership_PCM[index][k]=Membership[0][k];
   }
   //帰属度中央値を保存
   Membership_Threshold[index]=mid(Membership_PCM[index]);
+  return;
+}
+
+void PCM::save_centers(int index, Matrix center){
+  Centers[index]=center[index];
   return;
 }

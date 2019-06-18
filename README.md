@@ -11,3 +11,6 @@ Get [Boost C++ Libraries](https://www.boost.org/).
 ```
 make <method>.out
 ```
+
+## emacs Setting
+https://gist.github.com/Aqua-ix/baf18fa1da5006bd2e86d1a53f33510c

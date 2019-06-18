@@ -19,6 +19,7 @@ public:
   Matrix membership_pcm(void);//可能性の帰属度
   Vector membership_threshold(void);//帰属度のしきい値(中央値)
   void save_membership(int index);//帰属度保存
+  void save_centers(int index, Matrix iter);//クラスタ中心の保存
 };
 
 #endif
