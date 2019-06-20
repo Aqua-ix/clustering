@@ -7,11 +7,17 @@ PCM::PCM(int dimension,
   HCM(dimension, data_number, centers_number),
   Alpha(alpha),
   Membership_Threshold(data_number),
-  Membership_PCM(data_number, data_number){
+  Membership_PCM(data_number, data_number),
+  Centers_PCM(data_number,dimension),
+  Clusters_Count(0){
 }
 
 double &PCM::alpha(void){//可能性パラメータ
   return Alpha;
+}
+
+int PCM::clusters_count(void){
+  return Clusters_Count;
 }
 
 void PCM::initialize_centers_one_cluster(int index){//初期クラスタ中心
@@ -31,6 +37,10 @@ void PCM::ofs_membership(void){//帰属度出力
 
 Matrix PCM::membership_pcm(void){//可能性の帰属度
   return Membership_PCM;
+}
+
+Matrix PCM::centers_pcm(void){//可能性のクラスタ中心
+  return Centers_PCM;
 }
 
 Vector PCM::membership_threshold(void){//帰属度しきい値(中央値入れる)
@@ -54,7 +64,6 @@ double mid(Vector x){//ソートして中央値算出
 }
 
 void PCM::save_membership(int index){//帰属度保存
-  //index:ClusterCenterUser
   for(int k=0;k<data_number();k++){
     Membership_PCM[index][k]=Membership[0][k];
   }
@@ -63,7 +72,19 @@ void PCM::save_membership(int index){//帰属度保存
   return;
 }
 
-void PCM::save_centers(int index, Matrix center){
-  Centers[index]=center[index];
+void PCM::marge_centers(){
+  bool same=false;
+  double threshold = 1.0+1.0E-20;
+  for(int i=0;i<Centers_PCM.rows();i++){
+    if(norm_square(Centers[0]-Centers_PCM[i])<threshold){
+      same=true;
+    }
+  }
+  if(same==false){
+    Centers_PCM[Clusters_Count]=Centers[0];
+    Membership_PCM[Clusters_Count]=Membership[0];
+    Clusters_Count++;
+  }
   return;
 }
+

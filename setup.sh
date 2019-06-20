@@ -2,10 +2,11 @@
 
 git pull
 make clean clean.o
+cd src
+gtags -v
+emacs . &
 
-emacs ./src/ &
-
-cd ./documents/
+cd ../documents/
 git pull
 cd ./presentation/
 make clean

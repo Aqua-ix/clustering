@@ -57,7 +57,7 @@ ifdef a
 	A=-D$(a) 
 endif
 ifdef gdb
-	GDB=-g3 -O0
+	GDB=-g -O0
 else
 	GDB=-O3
 endif

@@ -15,6 +15,10 @@ const std::string InputDataName="sparse_"+data_name
 const std::string METHOD_NAME="BPCS";
 constexpr int clusters_number=1;
 
+// const int user_number=2;
+// const int item_number=1002;
+// const std::string InputDataName="sparse_2d-Gaussian-2clusters.dat";
+
 int main(void){
   std::vector<std::string> dirs = MkdirFCS(METHOD_NAME);
   Recom recom(user_number, item_number, clusters_number, clusters_number, KESSON);
@@ -25,13 +29,9 @@ int main(void){
     auto start=std::chrono::system_clock::now();
     BPCS test(item_number, user_number, clusters_number, m, alpha);
 
-    std::list<Matrix> result_cen;
-    std::list<Matrix>::iterator iter;
-    int clusters_count=0;
-
     std::vector<double> parameter= {m};
     std::vector<std::string> dir = Mkdir(parameter, clusters_number, dirs);
- 
+
     recom.input(DATA_DIR+InputDataName);//データ入力
     recom.missing()=KESSON;//欠損数
     recom.Seed();//シード値の初期化
@@ -66,40 +66,12 @@ int main(void){
           if(test.iterates()>=MAX_ITE)break;
           test.iterates()++;
         }//クラスタリング
-        
-        // 今までに算出したクラスタ中心(ユーザ)から距離が近い(1.0E-3未満)かどうか
-        bool same=false;      
-        for(iter=result_cen.begin();iter!=result_cen.end();iter++){
-          if(frobenius_norm(*iter-test.centers())<1.0E-3){
-            same=true;
-          }
-        }
-        // 新たなクラスタ中心(ユーザ)をlist最後尾に追加
-        if(!same){
-          result_cen.push_back(test.centers());
-          clusters_count++;
-        }
-
+        test.marge_centers();
       }//ユーザー数回ループ
-      
-      std::cout<<"clusters : "<<clusters_count<<std::endl;
+      std::cout<<"Clusters Count: "<<test.clusters_count()<<std::endl;
 
-      BPCS test2(item_number, clusters_count, clusters_number, m, alpha);
-      test2.copydata(recom.sparseincompletedata());//データをtestに渡す
-      test2.ForSphericalData();//データをスパース化
-        
-      test2.reset();
-      //TODO: クラスタ中心を再設定
-      iter=result_cen.begin();
-      for(int i=0; i<clusters_count; i++){
-        test2.save_centers(i, *iter);
-        iter++;
-      }
-        
-      test2.revise_dissimilarities();//hcs
-      test2.revise_membership();//bpcs
-        
-      recom.crisp(test2.membership(),test2.centers());
+      //TODO: recomで保持している中心と帰属度配列の要素数をクラスタ数に合わせる
+      recom.crisp(test.membership_pcm(),test.centers_pcm());
       recom.pearsonsim_clustering();
       
       recom.pearsonpred2();//GroupLens

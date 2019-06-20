@@ -36,7 +36,9 @@ SparseMatrix::~SparseMatrix(void){
 
 //コピー代入
 SparseMatrix &SparseMatrix::operator=(const SparseMatrix &arg){
-  if(this==&arg)	return *this;
+  if(this==&arg){
+    return *this;
+  }
   //Rows=arg.Rows;ここではRowsを更新してはいけない
   if(this->Rows != arg.Rows || this->Cols != arg.Cols){
     Rows=arg.Rows;
