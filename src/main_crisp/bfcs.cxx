@@ -1,10 +1,5 @@
 #include"recom.h"
 #include"bfcs.h"
-#include"config.h"
-
-//収束条件
-#define MAX_ITE 1000
-#define DIFF_FOR_STOP 1.0E-10
 
 //ユーザ数
 const int user_number=return_user_number();
@@ -27,7 +22,7 @@ int main(void){
     Recom recom(user_number, item_number,
                 clusters_number, clusters_number, KESSON);
     recom.method_name()=METHOD_NAME;
-    for(double m=1.0004;m<=1.0004;m+=0.0003){
+    for(double m=M_START;m<=M_END;m+=M_DIFF){
       //時間計測
       auto start=std::chrono::system_clock::now();
       BFCS test(item_number, user_number, 

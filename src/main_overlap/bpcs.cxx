@@ -1,10 +1,5 @@
 #include"recom.h"
 #include"bpcs.h"
-#include"config.h"
-
-//実データ
-#define MAX_ITE 1000
-#define DIFF_FOR_STOP 1.0E-10
 
 const int user_number=return_user_number();
 const int item_number=return_item_number();
@@ -19,8 +14,8 @@ int main(void){
   Recom recom(user_number, item_number, clusters_number, clusters_number, KESSON);
   recom.method_name()=METHOD_NAME;
 
-  double alpha=0.03;
-  for(double m=1.1;m<=1.1;m+=0.1){
+  double alpha=ALPHA;
+  for(double m=M_START;m<=M_END;m+=M_DIFF){
     auto start=std::chrono::system_clock::now();
     BPCS test(item_number, user_number, clusters_number, m, alpha);
     std::vector<double> parameter= {m};

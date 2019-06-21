@@ -16,7 +16,7 @@ public:
       int centers_number,
       double alpha);
   double &alpha(void);
-  int clusters_count(void);//クラスタ数カウント
+  int &clusters_count(void);//クラスタ数カウント
   void initialize_centers_one_cluster(int);
   void ofs_membership(void);
   Matrix membership_pcm(void);//可能性の帰属度

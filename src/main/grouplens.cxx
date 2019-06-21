@@ -1,5 +1,4 @@
 #include"recom.h"
-#include"config.h"
 
 //ユーザ数
 const int user_number=return_user_number();

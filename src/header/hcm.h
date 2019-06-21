@@ -82,7 +82,7 @@ public:
   //Adjusted Rand Indexの計算
   double ARI(void) const;
   //各変数の初期化
-  void reset(void);
+  virtual void reset(void);
   //k-means++っぽく初期クラスタ中心を決定
   virtual void initialize_centers_dissimilarities(int index);
   void initialize_centers(int random_index);

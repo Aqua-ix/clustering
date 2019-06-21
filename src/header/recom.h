@@ -18,9 +18,33 @@
 #else
 #define KESSON 300000
 #endif
-
-//人工データ欠損数
 #define KIZAMI 500
+
+//収束条件
+#define MAX_ITE 1000
+#define DIFF_FOR_STOP 1.0E-10
+
+//パラメータ
+#define ALPHA 0.03
+#ifdef ARTIFICIALITY
+#define M_START 1.1
+#define M_END 2.0
+#define M_DIFF 0.1
+#define LAMBDA_START 2
+#define LAMBDA_END 256
+#define LAMBDA_DIFF 2
+#else
+#define M_START 1.1
+#define M_END 1.5
+#define M_DIFF 0.1
+#define LAMBDA_START 10
+#define LAMBDA_END 100000
+#define LAMBDA_DIFF 10
+#endif
+
+//データディレクトリ
+#define DATA_DIR "data/dataset/"
+#define RESULT_DIR "data/result_data/"
 
 #ifndef __RECOM__
 #define __RECOM__

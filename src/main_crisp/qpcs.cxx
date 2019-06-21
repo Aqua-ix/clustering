@@ -1,9 +1,6 @@
-#include"recom.h"
+y#include"recom.h"
 #include"qpcs.h"
-#include"config.h"
 
-#define MAX_ITE 1000
-#define DIFF_FOR_STOP 1.0E-10
 const int user_number=return_user_number();
 const int item_number=return_item_number();
 const std::string data_name=return_data_name();
@@ -17,9 +14,9 @@ int main(void){
   Recom recom(user_number, item_number,clusters_number, clusters_number, KESSON);
   recom.method_name()=METHOD_NAME;
 
-  double alpha=0.03;
-  for(double lambda=100; lambda<=100; lambda*=10){
-    for(double m=1.2; m<=1.2; m+=0.1){
+  double alpha=ALPHA;
+  for(double m=M_START;m<=M_END;m+=M_DIFF){
+    for(double lambda=LAMBDA_START;lambda<=LAMBDA_END;lambda*=LAMBDA_DIFF){
       auto start=std::chrono::system_clock::now();
       QPCS test(item_number, user_number, clusters_number, m, lambda ,alpha);
       std::vector<double> parameter= {lambda, m};

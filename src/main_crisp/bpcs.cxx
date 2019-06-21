@@ -1,18 +1,12 @@
 #include"recom.h"
 #include"bpcs.h"
-#include"config.h"
-#include<list>
 
-//実データ
-#define MAX_ITE 1000
-#define DIFF_FOR_STOP 1.0E-10
-
-const int user_number=return_user_number();
-const int item_number=return_item_number();
-const std::string data_name=return_data_name();
-const std::string InputDataName="sparse_"+data_name
+const int user_number=return_user_number();//ユーザ数
+const int item_number=return_item_number();//アイテム数
+const std::string data_name=return_data_name();//データの名前
+const std::string InputDataName="sparse_"+data_name//入力するデータの場所
   +"_"+std::to_string(user_number)+"_"+std::to_string(item_number)+".txt";
-const std::string METHOD_NAME="BPCS";
+const std::string METHOD_NAME="BPCS";//クラスタリング手法名
 constexpr int clusters_number=1;
 
 // const int user_number=2;
@@ -21,11 +15,11 @@ constexpr int clusters_number=1;
 
 int main(void){
   std::vector<std::string> dirs = MkdirFCS(METHOD_NAME);
-  Recom recom(user_number, item_number, clusters_number, clusters_number, KESSON);
+  Recom recom(user_number, item_number, user_number, item_number, KESSON);
   recom.method_name()=METHOD_NAME;
-
-  double alpha=0.03;
-  for(double m=1.1;m<=1.1;m+=0.1){
+  
+  double alpha=ALPHA;
+  for(double m=M_START;m<=M_END;m+=M_DIFF){
     auto start=std::chrono::system_clock::now();
     BPCS test(item_number, user_number, clusters_number, m, alpha);
 
@@ -41,7 +35,7 @@ int main(void){
       recom.revise_missing_values_new();//データを欠損
       test.copydata(recom.sparseincompletedata());//データをtestに渡す
       test.ForSphericalData();//データをスパース化
-
+      test.clusters_count()=0;
       for(int k=0;k<user_number;k++){//ユーザ数回ループ
         test.reset();
         test.initialize_centers_one_cluster(k);//初期クラスタ中心//pcm
@@ -82,7 +76,6 @@ int main(void){
       recom.ofs_objective(dir[0]);
       test.ofs_selected_data(dir[0]);
       recom.choice_mae_f(dir);
-
     }//欠損パターンでループ
     
     recom.precision_summury(dir);//出力
@@ -99,8 +92,7 @@ int main(void){
       +"s";
     //計測時間でリネーム
     for(int i=0;i<(int)dir.size();i++)
-      rename(dir[i].c_str(), (dir[i]+time).c_str());
-    
+      rename(dir[i].c_str(), (dir[i]+time).c_str()); 
   }
   return 0;
 }
