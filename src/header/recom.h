@@ -130,6 +130,7 @@ protected:
   //行クラスタでフィルタにかけた状態で相関係数計算
   void pearsonsim_clustering(void);
   //PCM用類似度計算
+  void pearsonsim_for_pcm(const int clusters_number);
   void pearsonsim_for_pcm(const Matrix &Membership, const Vector &Threshold);
   //予測値計算:FireFly
   void pearsonpred1(void);
@@ -143,6 +144,8 @@ protected:
   SparseVector &sparseincompletedata(const int &index);
   //収束した帰属度をクリスプ化
   void crisp(const Matrix &Membership, const Matrix &ItemMembership);
+  void crisp(const Matrix &Membership, const Matrix &ItemMembership, const int clusters_number);
+  //収束した帰属度を元にオーバーラップ
   void overlap(const Matrix &Membership, const Matrix &ItemMembership);
 };
 //ユーザ数を返す

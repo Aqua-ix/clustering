@@ -1,6 +1,5 @@
 #include"recom.h"
 
-
 Recom::Recom(int user,
              int item,
              int user_cen,
@@ -727,6 +726,80 @@ void Recom::pearsonsim_clustering(void){
   return;
 }
 
+void Recom::pearsonsim_for_pcm(const int clusters_number){
+  for(int user1=0;user1<return_user_number();user1++){
+    int user1_size/*ユーザ1の既評価数*/
+      =SparseIncompleteData[user1].essencialSize();
+    // CLUSTERING_PEAR
+    int tmpcenternum=0;
+    for(int i=0;i<clusters_number;i++)//帰属度行列の行
+      if(Mem[i][user1]==1.0)
+        tmpcenternum=i;
+    for(int user2=0;user2<return_user_number();user2++){
+      double psum=0.0,sum1=0.0,sum2=0.0,sum1sq=0.0,sum2sq=0.0;
+      double hyokasu=0.0;
+      /*ユーザ2がユーザ1である，または
+        ユーザ1が属すユーザクラスタに属さないユーザであった場合
+        ユーザ2とユーザ1の類似度を0にすることで計算させない*/
+      if(user1==user2 || Mem[tmpcenternum][user2]==0)
+        Similarity[user1][user2]=0.0;
+      else{	
+        int user2_size/*ユーザ2の既評価数*/
+          =SparseIncompleteData[user2].essencialSize();
+        /*現在のユーザ2の既評価値インデックス*/
+        int user2_ell=0;
+        for(int ell=0;ell<user1_size;ell++){
+          /*ユーザ2の既評価値インデックスがユーザ2の
+            既評価数を上回ったらbreak*/
+          if(user2_size<user2_ell)
+            break;
+          /*ユーザ1の現在の既評価値*/
+          double user1_element
+            =SparseIncompleteData[user1]
+            .elementIndex(ell);
+          /*ユーザ1の現在の既評価値が欠損されてなければ計算*/
+          if(user1_element>0){
+            int user1_index/*ユーザ1の現在の評価値インデックスのインデックス*/
+              =SparseIncompleteData[user1].indexIndex(ell);
+            while(1){
+              if(user2_size==user2_ell)break;
+              int user2_index/*ユーザ2の現在の評価値インデックスのインデックス*/
+                =SparseIncompleteData[user2].indexIndex(user2_ell);
+              /*ユーザ2の方が上回ったらbreak*/
+              if(user1_index<user2_index)
+                break;
+              /*現在のユーザの既評価値*/
+              double user2_element
+                =SparseIncompleteData[user2].elementIndex(user2_ell);
+              /*インデックスが揃った場合とユーザ既評価値が
+                欠損されてなければ計算*/
+              if((user1_index==user2_index)&&(user2_element>0)){
+                hyokasu+=1.0;
+                psum+=user1_element*user2_element;
+                sum1+=user1_element;
+                sum2+=user2_element;
+                sum1sq+=pow(user1_element,2.0);
+                sum2sq+=pow(user2_element,2.0);
+                user2_ell++;
+                break;
+              }
+              /*現在のユーザの既評価値インデックスインクリメント*/
+              user2_ell++;
+            }
+          }
+        }
+        double numerator=psum-(sum1*sum2/hyokasu);
+        double denominator=sqrt((sum1sq-pow(sum1,2.0)/hyokasu)*(sum2sq-pow(sum2,2.0)/hyokasu));
+        if(denominator==0 || std::isnan(denominator))
+          Similarity[user1][user2]=0.0;
+        else
+          Similarity[user1][user2]=numerator/denominator;
+      }
+    }
+  }
+  return;
+}
+
 //ピアソン相関係数計算(可能性)
 void Recom::pearsonsim_for_pcm(const Matrix &Membership_PCM,const Vector &Threshold){
   for(int user1=0;user1<return_user_number();user1++){
@@ -917,7 +990,40 @@ void Recom::crisp(const Matrix &Membership,
   return;
 }
 
-// オーバーラップ
+
+void Recom::crisp(const Matrix &Membership,
+                  const Matrix &ItemMembership,
+                  int clusters_number){
+  if(clusters_number==0)clusters_number=1;
+  for(int k=0;k<return_user_number();k++){
+    for(int i=0;i<clusters_number;i++)
+      Mem[i][k]=0.0;
+    double max=-DBL_MAX;
+    int max_index=-1;
+    for(int i=0;i<clusters_number;i++){
+      if(Membership[i][k]>max){
+        max=Membership[i][k];
+        max_index=i;
+      }
+    }
+    Mem[max_index][k]=1.0;
+  }
+  for(int ell=0;ell<return_item_number();ell++){
+    for(int j=0;j<clusters_number;j++)
+      ItemMem[j][ell]=0.0;
+    double max=-DBL_MAX;
+    int max_index=-1;
+    for(int j=0;j<clusters_number;j++){
+      if(ItemMembership[j][ell]>max){
+        max=ItemMembership[j][ell];
+        max_index=j;
+      }
+    }
+    ItemMem[max_index][ell]=1.0;
+  }
+  return;
+}
+
 void Recom::overlap(const Matrix &Membership,
                   const Matrix &ItemMembership){
   for(int k=0;k<return_user_number();k++){

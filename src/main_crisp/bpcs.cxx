@@ -65,8 +65,8 @@ int main(void){
       std::cout<<"Clusters Count: "<<test.clusters_count()<<std::endl;
 
       //TODO: recomで保持している中心と帰属度配列の要素数をクラスタ数に合わせる
-      recom.crisp(test.membership_pcm(),test.centers_pcm());
-      recom.pearsonsim_clustering();
+      recom.crisp(test.membership_pcm(),test.centers_pcm(), test.clusters_count());
+      recom.pearsonsim_for_pcm(test.clusters_count());
       
       recom.pearsonpred2();//GroupLens
       recom.mae(dir[0], 0);
