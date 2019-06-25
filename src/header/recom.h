@@ -1,28 +1,37 @@
 #include"sparseMatrix.h"
 #include"matrix.h"
+
 //欠損のさせ方を何通りにするか
 #define MISSINGTRIALS 5
 //クラスタリングの初期値を何通りにするか
 #define CLUSTERINGTRIALS 10
 //pearson, eicf, co-clustering
 #define METHOD_NUMBER 2
-//BookCrossingは10240欠損させる
-//他は20480欠損させる
-//BEGINは最初の欠損数，ENDは最大の欠損数
-#ifdef BOOK
-#define KESSON 34000
-#elif defined SUSHI
-#define KESSON 10000
-#elif defined ARTIFICIALITY
+//欠損数
+#ifdef ARTIFICIALITY
 #define KESSON 7500
-#else
+#elif defined BOOK
+#define KESSON 30000
+#elif defined MOVIE
+#define KESSON 100000
+#elif defined LIBIMSETI
 #define KESSON 300000
+#else
+#define KESSON 0
 #endif
-#define KIZAMI 500
 
 //収束条件
 #define MAX_ITE 1000
 #define DIFF_FOR_STOP 1.0E-10
+
+//ファジィクラスタリング用クラスタ数設定値
+#ifdef ARTIFICIALITY
+#define C_START 5
+#define C_END 5
+#else
+#define C_START 1
+#define C_END 10
+#endif
 
 //パラメータ
 #define ALPHA 0.03
@@ -45,6 +54,7 @@
 //データディレクトリ
 #define DATA_DIR "data/dataset/"
 #define RESULT_DIR "data/result_data/"
+
 
 #ifndef __RECOM__
 #define __RECOM__
@@ -144,7 +154,7 @@ protected:
   SparseVector &sparseincompletedata(const int &index);
   //収束した帰属度をクリスプ化
   void crisp(const Matrix &Membership, const Matrix &ItemMembership);
-  void crisp(const Matrix &Membership, const Matrix &ItemMembership, const int clusters_number);
+  void crisp(const Matrix &Membership, const int clusters_number);
   //収束した帰属度を元にオーバーラップ
   void overlap(const Matrix &Membership, const Matrix &ItemMembership);
 };

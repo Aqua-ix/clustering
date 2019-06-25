@@ -18,43 +18,52 @@ int main(void){
   for(double m=M_START;m<=M_END;m+=M_DIFF){
     for(double lambda=LAMBDA_START;lambda<=LAMBDA_END;lambda*=LAMBDA_DIFF){
       auto start=std::chrono::system_clock::now();
-      QPCS test(item_number, user_number, clusters_number, m, lambda ,alpha);
-      std::vector<double> parameter= {lambda, m};
-      std::vector<std::string> dir= Mkdir(parameter, clusters_number, dirs);
-      recom.input(DATA_DIR+InputDataName);	
-      recom.missing()=KESSON;
-      recom.Seed();
+      QPCS test(item_number, user_number, clusters_number, m, lambda, alpha);
+
+      std::vector<double> parameter= {m, lambda};
+      std::vector<std::string> dir = Mkdir(parameter, clusters_number, dirs);
+
+      recom.input(DATA_DIR+InputDataName);//データ入力
+      recom.missing()=KESSON;//欠損数
+      recom.Seed();//シード値の初期化
+    
+      //欠損パターン
       for(recom.current()=0;recom.current()<MISSINGTRIALS;recom.current()++){
-        recom.reset();
+        recom.reset();//初期化
         recom.revise_missing_values_new();//データを欠損
-        test.copydata(recom.sparseincompletedata());
-        test.ForSphericalData();	
-	    
-        for(int k=0;k<user_number;k++){//ユーザ数回クラスタリング
+        test.copydata(recom.sparseincompletedata());//データをtestに渡す
+        test.ForSphericalData();//データをスパース化
+        test.clusters_count()=1;
+        for(int k=0;k<user_number;k++){//ユーザ数回ループ
           test.reset();
-          test.initialize_centers_one_cluster(k);//初期クラスタ中心
+          test.initialize_centers_one_cluster(k);//初期クラスタ中心//pcm
           test.iterates()=0;
-          while(1){
-            test.revise_dissimilarities();
-            test.revise_membership();
-            test.revise_centers();
+          while(1){//クラスタリング
+            test.revise_dissimilarities();//hcs
+            test.revise_membership();//bpcs
+            test.revise_centers();//bfcs
+	  
             double diff_v=max_norm(test.tmp_centers()-test.centers());
             double diff_u=max_norm(test.tmp_membership()-test.membership());
             double diff=diff_u+diff_v;
             if(std::isnan(diff)){
-              std::cout<<"diff is nan \t"<<m<<"\t"
-                       <<lambda<<"\tC:"<<clusters_number<<std::endl;
+              std::cout<<"diff is nan \n"
+                       <<"m:"<<m<<"\n"
+                       <<"lambda:"<<lambda<<std::endl;
               test.reset();
               exit(1);
-            }		
+            }
+	  
             if(diff<DIFF_FOR_STOP)break;
             if(test.iterates()>=MAX_ITE)break;
             test.iterates()++;
-          }
-          test.save_membership(k);//帰属度保存
-        }
-	    
-        recom.pearsonsim_for_pcm(test.membership_pcm(),test.membership_threshold());
+          }//クラスタリング
+          test.marge_centers();
+        }//ユーザー数回ループ
+        std::cout<<"Clusters Count: "<<test.clusters_count()<<std::endl;
+        recom.crisp(test.membership_pcm(), test.clusters_count());
+        recom.pearsonsim_for_pcm(test.clusters_count());
+      
         recom.pearsonpred2();//GroupLens
         recom.mae(dir[0], 0);
         recom.fmeasure(dir[0], 0);
@@ -63,10 +72,9 @@ int main(void){
         recom.ofs_objective(dir[0]);
         test.ofs_selected_data(dir[0]);
         recom.choice_mae_f(dir);
-      }
-      recom.precision_summury(dir);
-	  
-      //計測終了
+      }//欠損パターン
+      recom.precision_summury(dir);//出力
+
       auto end=std::chrono::system_clock::now();
       auto endstart=end-start;
       std::string time="_"
@@ -79,10 +87,9 @@ int main(void){
         +"s";
       //計測時間でリネーム
       for(int i=0;i<(int)dir.size();i++)
-        rename(dir[i].c_str(), (dir[i]+time).c_str());
-	
-    }//m
-  }//lambda
+        rename(dir[i].c_str(), (dir[i]+time).c_str()); 
+    }//パラメータlambda
+  }//パラメータm
    
   return 0;
 }

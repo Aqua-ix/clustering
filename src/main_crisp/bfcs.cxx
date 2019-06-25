@@ -16,13 +16,15 @@ const std::string METHOD_NAME="BFCS";
 
 int main(void){
   std::vector<std::string> dirs = MkdirFCS(METHOD_NAME);
-  //クラスタ数でループ
-  for(int clusters_number=5;clusters_number<=5;clusters_number++){
+  //クラスタ数
+  for(int clusters_number=C_START;clusters_number<=C_END;clusters_number++){
     //Recomクラスの生成
     Recom recom(user_number, item_number,
                 clusters_number, clusters_number, KESSON);
     recom.method_name()=METHOD_NAME;
+    //パラメータm
     for(double m=M_START;m<=M_END;m+=M_DIFF){
+      std::cout<<"m: "<<m<<std::endl;
       //時間計測
       auto start=std::chrono::system_clock::now();
       BFCS test(item_number, user_number, 
@@ -36,9 +38,9 @@ int main(void){
       recom.missing()=KESSON;
       //シード値の初期化
       recom.Seed();
-      //欠損のさせ方ループ
-      for(recom.current()=0;recom.current()
-            <MISSINGTRIALS;recom.current()++){
+      //欠損パターン
+      for(recom.current()=0;recom.current()<MISSINGTRIALS;recom.current()++){
+        std::cout<<"missing pattern: "<<recom.current()<<std::endl;
         //初期化
         recom.reset();
         //データを欠損
@@ -123,10 +125,10 @@ int main(void){
           }
         }
         recom.choice_mae_f(dir);
-      }//クラスタ数でループ
-      
+      }//欠損パターン
       //AUC，MAE，F-measureの平均を計算，出力
       recom.precision_summury(dir);
+      
       //計測終了
       auto end=std::chrono::system_clock::now();
       auto endstart=end-start;
@@ -144,7 +146,7 @@ int main(void){
       //計測時間でリネーム
       for(int i=0;i<(int)dir.size();i++)
         rename(dir[i].c_str(), (dir[i]+time).c_str());
-    }//m
-  }//number of clusters
+    }//パラメータm
+  }//クラスタ数
   return 0;
 }

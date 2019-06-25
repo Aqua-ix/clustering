@@ -9,7 +9,7 @@ PCM::PCM(int dimension,
   Membership_Threshold(data_number),
   Membership_PCM(data_number, data_number),
   Centers_PCM(data_number,dimension),
-  Clusters_Count(0){
+  Clusters_Count(1){
 }
 
 double &PCM::alpha(void){//可能性パラメータ
@@ -74,15 +74,15 @@ void PCM::save_membership(int index){//帰属度保存
 
 void PCM::marge_centers(){
   bool same=false;
-  double threshold = 1.0;
+  double threshold = 1;
   for(int i=0;i<Centers_PCM.rows();i++){
-    if(norm_square(Centers[0]-Centers_PCM[i])<threshold){
+    if(squared_norm(Centers[0]-Centers_PCM[i])<=threshold){
       same=true;
     }
   }
   if(same==false){
-    Centers_PCM[Clusters_Count]=Centers[0];
-    Membership_PCM[Clusters_Count]=Membership[0];
+    Centers_PCM[Clusters_Count-1]=Centers[0];
+    Membership_PCM[Clusters_Count-1]=Membership[0];
     Clusters_Count++;
   }
   return;

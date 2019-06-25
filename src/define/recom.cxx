@@ -66,7 +66,7 @@ int &Recom::missing(void){
 void Recom::input(std::string InputDataName){
   std::ifstream ifs(InputDataName);
   if(!ifs){
-    std::cerr << "DirectoryName" <<InputDataName
+    std::cerr << "DirectoryName : " <<InputDataName
               <<": could not open." << std::endl;
     exit(1);
   }
@@ -405,8 +405,7 @@ void Recom::precision_summury(std::vector<std::string> dir){//ファイル出力
                         +std::to_string(Missing)
                         +"_"+std::to_string(x)+"sort.txt");
       if(!ifs){
-        std::cerr<<"file input failed :trials:"
-                 <<x<<"miss:"<<Missing<<std::endl;
+        std::cerr<<"precision_summury: file input failed"<<std::endl;
         break;
       }
       for(int i=0;i<max;i++)
@@ -436,7 +435,7 @@ void Recom::precision_summury(std::vector<std::string> dir){//ファイル出力
     }
     std::ofstream ofs(dir[method]+"/averageMaeFmeasureAuc.txt", std::ios::app);
     if(!ofs)
-      std::cerr << "precision_summury : file could not open" << std::endl;
+      std::cerr << "precision_summury: file could not open" << std::endl;
     std::cout<<"miss:"<<Missing<<"\tMAE="<<sumMAE/(double)MISSINGTRIALS
              <<"\tF-measure="<<sumF/(double)MISSINGTRIALS<<"\tROC="
              <<rocarea/(double)MISSINGTRIALS<<std::endl;
@@ -990,14 +989,11 @@ void Recom::crisp(const Matrix &Membership,
   return;
 }
 
-
-void Recom::crisp(const Matrix &Membership,
-                  const Matrix &ItemMembership,
-                  int clusters_number){
-  if(clusters_number==0)clusters_number=1;
+void Recom::crisp(const Matrix &Membership, int clusters_number){
   for(int k=0;k<return_user_number();k++){
-    for(int i=0;i<clusters_number;i++)
+    for(int i=0;i<clusters_number;i++){
       Mem[i][k]=0.0;
+    }
     double max=-DBL_MAX;
     int max_index=-1;
     for(int i=0;i<clusters_number;i++){
@@ -1008,20 +1004,6 @@ void Recom::crisp(const Matrix &Membership,
     }
     Mem[max_index][k]=1.0;
   }
-  for(int ell=0;ell<return_item_number();ell++){
-    for(int j=0;j<clusters_number;j++)
-      ItemMem[j][ell]=0.0;
-    double max=-DBL_MAX;
-    int max_index=-1;
-    for(int j=0;j<clusters_number;j++){
-      if(ItemMembership[j][ell]>max){
-        max=ItemMembership[j][ell];
-        max_index=j;
-      }
-    }
-    ItemMem[max_index][ell]=1.0;
-  }
-  return;
 }
 
 void Recom::overlap(const Matrix &Membership,
