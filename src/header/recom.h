@@ -9,15 +9,18 @@
 #define METHOD_NUMBER 2
 //欠損数
 #ifdef ARTIFICIALITY
-#define KESSON 7500
+#define MISSING 7500
+#define MISSING_DIFF 500
+#elif defined TEST
+#define MISSING 0
 #elif defined BOOK
-#define KESSON 30000
+#define MISSING 30000
 #elif defined MOVIE
-#define KESSON 100000
+#define MISSING 100000
 #elif defined LIBIMSETI
-#define KESSON 300000
+#define MISSING 300000
 #else
-#define KESSON 0
+#define MISSING 0
 #endif
 
 //収束条件
@@ -28,6 +31,9 @@
 #ifdef ARTIFICIALITY
 #define C_START 5
 #define C_END 5
+#elif defined TEST
+#define C_START 2
+#define C_END 2
 #else
 #define C_START 1
 #define C_END 10
@@ -35,7 +41,7 @@
 
 //パラメータ
 #define ALPHA 0.03
-#ifdef ARTIFICIALITY
+#if defined(ARTIFICIALITY) || defined(TEST)
 #define M_START 1.1
 #define M_END 2.0
 #define M_DIFF 0.1
@@ -128,6 +134,7 @@ protected:
   //maeとfmeasure出力:人工データ用
   void save_mae_f(std::vector<std::string>);
   void out_mae_f(std::vector<std::string>);
+  void out_mem(std::vector<std::string>);
   //AUCの計算，text1に読み込むROCファイル，text2に平均AUCを保存
   void precision_summury(std::vector<std::string>);
   //クラスタリングのみで予測値計算
@@ -154,9 +161,10 @@ protected:
   SparseVector &sparseincompletedata(const int &index);
   //収束した帰属度をクリスプ化
   void crisp(const Matrix &Membership, const Matrix &ItemMembership);
+  void crisp(const Matrix &Membership);
   void crisp(const Matrix &Membership, const int clusters_number);
   //収束した帰属度を元にオーバーラップ
-  void overlap(const Matrix &Membership, const Matrix &ItemMembership);
+  void overlap(const Matrix &Membership);
 };
 //ユーザ数を返す
 int return_user_number(void);

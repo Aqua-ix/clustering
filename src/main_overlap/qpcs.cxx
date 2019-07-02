@@ -13,7 +13,7 @@ constexpr int clusters_number=1;//クラスタ数1
 
 int main(void){
   std::vector<std::string> dirs = MkdirFCS(METHOD_NAME);
-  Recom recom(user_number, item_number,clusters_number, clusters_number, KESSON);
+  Recom recom(user_number, item_number,clusters_number, clusters_number, MISSING);
   recom.method_name()=METHOD_NAME;
 
   double alpha=ALPHA;
@@ -24,7 +24,7 @@ int main(void){
       std::vector<double> parameter= {lambda, m};
       std::vector<std::string> dir= Mkdir(parameter, clusters_number, dirs);
       recom.input(DATA_DIR+InputDataName);	
-      recom.missing()=KESSON;
+      recom.missing()=MISSING;
       recom.Seed();
       for(recom.current()=0;recom.current()<MISSINGTRIALS;recom.current()++){
         recom.reset();

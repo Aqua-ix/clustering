@@ -12,7 +12,7 @@ constexpr int clusters_number=1;
 
 int main(void){
   std::vector<std::string> dirs = MkdirFCS(METHOD_NAME);
-  Recom recom(user_number, item_number, user_number, item_number, KESSON);
+  Recom recom(user_number, item_number, user_number, item_number, MISSING);
   recom.method_name()=METHOD_NAME;
   
   double alpha=ALPHA;
@@ -26,7 +26,7 @@ int main(void){
     std::vector<std::string> dir = Mkdir(parameter, clusters_number, dirs);
 
     recom.input(DATA_DIR+InputDataName);//データ入力
-    recom.missing()=KESSON;//欠損数
+    recom.missing()=MISSING;//欠損数
     recom.Seed();//シード値の初期化
     //欠損パターン
     for(recom.current()=0;recom.current()<MISSINGTRIALS;recom.current()++){
@@ -35,10 +35,10 @@ int main(void){
       recom.revise_missing_values_new();//データを欠損
       test.copydata(recom.sparseincompletedata());//データをtestに渡す
       test.ForSphericalData();//データをスパース化
-      test.clusters_count()=1;
+      test.clusters_count()=1;//クラスタ数カウント
       for(int k=0;k<user_number;k++){//ユーザ数回ループ
         test.reset();
-        test.initialize_centers_one_cluster(k);//初期クラスタ中心//pcm
+        test.initialize_centers_one_cluster(k);//初期クラスタ中心
         test.iterates()=0;
         while(1){//クラスタリング
           test.revise_dissimilarities();//hcs
@@ -61,7 +61,7 @@ int main(void){
         }//クラスタリング
         test.marge_centers();
       }//ユーザー数回ループ
-      std::cout<<"Clusters Count: "<<test.clusters_count()<<std::endl;
+      //std::cout<<"Clusters Count: "<<test.clusters_count()<<std::endl;
       recom.crisp(test.membership_pcm(), test.clusters_count());
       recom.pearsonsim_for_pcm(test.clusters_count());
       

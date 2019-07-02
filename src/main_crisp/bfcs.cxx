@@ -18,9 +18,10 @@ int main(void){
   std::vector<std::string> dirs = MkdirFCS(METHOD_NAME);
   //クラスタ数
   for(int clusters_number=C_START;clusters_number<=C_END;clusters_number++){
+    std::cout<<"clusters number: "<<clusters_number<<std::endl;
     //Recomクラスの生成
     Recom recom(user_number, item_number,
-                clusters_number, clusters_number, KESSON);
+                clusters_number, clusters_number, MISSING);
     recom.method_name()=METHOD_NAME;
     //パラメータm
     for(double m=M_START;m<=M_END;m+=M_DIFF){
@@ -35,7 +36,7 @@ int main(void){
       //データ入力
       recom.input(DATA_DIR+InputDataName);
       //欠損数
-      recom.missing()=KESSON;
+      recom.missing()=MISSING;
       //シード値の初期化
       recom.Seed();
       //欠損パターン
@@ -51,10 +52,10 @@ int main(void){
         test.ForSphericalData();	
         //選んだデータがNanになったときシード値変更変数
         int ForBadChoiceData=0, InitCentLoopis10=0;;
-        //クラスタリングの初期値の与え方ループ
+        //初期値パターン
         for(recom.Ccurrent()=0;recom.Ccurrent()
               <CLUSTERINGTRIALS;recom.Ccurrent()++){
-          std::cout<<"initial setting for clustering:"
+          std::cout<<"initial setting for clustering: "
                    <<recom.Ccurrent()<<std::endl;
           test.reset();
           //初期クラスタサイズ調整変数の設定
@@ -110,7 +111,7 @@ int main(void){
             //recomに目的関数値を渡す
             recom.obje(recom.Ccurrent())=test.objective();
             //recomに帰属度を渡してクリスプ化
-            recom.crisp(test.membership(),test.centers());
+            recom.crisp(test.membership());
             //クラスタリング＋ピアソン相関係数の計算
             //GroupLen Methodで予測
             recom.reset2();
@@ -123,7 +124,7 @@ int main(void){
             test.ofs_selected_data(dir[0]);
             InitCentLoopis10=0;
           }
-        }
+        }//初期値パターン
         recom.choice_mae_f(dir);
       }//欠損パターン
       //AUC，MAE，F-measureの平均を計算，出力

@@ -17,14 +17,17 @@ const std::string METHOD_NAME="QFCS";
 int main(void){
   std::vector<std::string> dirs = MkdirFCS(METHOD_NAME);
   //クラスタ数でループ
-  for(int clusters_number=35;
-      clusters_number<=35;clusters_number++){
+  for(int clusters_number=C_START;clusters_number<=C_END;clusters_number++){
+    std::cout<<"clusters number: "<<clusters_number<<std::endl;
     //Recomクラスの生成
     Recom recom(user_number, item_number,
-                clusters_number, clusters_number, KESSON);
+                clusters_number, clusters_number, MISSING);
     recom.method_name()=METHOD_NAME;
+    //パラメータm
     for(double m=M_START;m<=M_END;m+=M_DIFF){
+      //パラメータlambda
       for(double lambda=LAMBDA_START;lambda<=LAMBDA_END;lambda*=LAMBDA_DIFF){
+        std::cout<<"m: "<<m<<"\tlambda: "<<lambda<<std::endl;
         //時間計測
         auto start=std::chrono::system_clock::now();
         QFCS test(item_number, user_number, 
@@ -35,12 +38,13 @@ int main(void){
         //データ入力
         recom.input(DATA_DIR+InputDataName);
         //欠損数
-        recom.missing()=KESSON;
+        recom.missing()=MISSING;
         //シード値の初期化
         recom.Seed();
-        //欠損のさせ方ループ
+        //欠損パターン
         for(recom.current()=0;recom.current()
               <MISSINGTRIALS;recom.current()++){
+          std::cout<<"missing pattern: "<<recom.current()<<std::endl;
           //初期化
           recom.reset();
           //データを欠損
@@ -53,7 +57,7 @@ int main(void){
           //クラスタリングの初期値の与え方ループ
           for(recom.Ccurrent()=0;recom.Ccurrent()
                 <CLUSTERINGTRIALS;recom.Ccurrent()++){
-            std::cout<<"initial setting for clustering:"
+            std::cout<<"initial setting for clustering: "
                      <<recom.Ccurrent()<<std::endl;
             test.reset();
             //初期クラスタサイズ調整変数の設定
@@ -94,7 +98,7 @@ int main(void){
               //recomに目的関数値を渡す
               recom.obje(recom.Ccurrent())=test.objective();
               //recomに帰属度を渡してオーバーラップ
-              recom.overlap(test.membership(),test.centers());
+              recom.overlap(test.membership());
               //クラスタリング＋ピアソン相関係数の計算
               //GroupLen Methodで予測
               recom.reset2();
@@ -105,10 +109,12 @@ int main(void){
               recom.roc(dir[0]);
               recom.ofs_objective(dir[0]);
               test.ofs_selected_data(dir[0]);
+            } else {
+              break;
             }
-          }//initilal setting for clustering
+          }//初期値パターン
           recom.choice_mae_f(dir);
-        }
+        }//欠損パターン
         //AUC，MAE，F-measureの平均を計算，出力
         recom.precision_summury(dir);
         //計測終了
@@ -128,8 +134,8 @@ int main(void){
         //計測時間でリネーム
         for(int i=0;i<(int)dir.size();i++)
           rename(dir[i].c_str(), (dir[i]+time).c_str());
-      }//lambda
-    }//m
-  }//number of clusters
+      }//パラメータlambda
+    }//パラメータm
+  }//クラスタ数
   return 0;
 }

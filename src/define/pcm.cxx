@@ -74,7 +74,7 @@ void PCM::save_membership(int index){//帰属度保存
 
 void PCM::marge_centers(){
   bool same=false;
-  double threshold = 1;
+  double threshold = THRESHOLD;
   for(int i=0;i<Centers_PCM.rows();i++){
     if(squared_norm(Centers[0]-Centers_PCM[i])<=threshold){
       same=true;

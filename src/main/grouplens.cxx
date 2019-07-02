@@ -14,13 +14,13 @@ const std::string InputDataName="sparse_"+data_name
 int main(void){
   std::vector<std::string> dirs = Mkdir({"FIREFLY", "GROUPLENS"});
   //Recomクラスの生成
-  Recom recom(user_number, item_number, 0, 0, KESSON);
+  Recom recom(user_number, item_number, 0, 0, MISSING);
   //時間計測
   auto start=std::chrono::system_clock::now();
   //データ入力
   recom.input(DATA_DIR+InputDataName);
   //欠損数
-  recom.missing()=KESSON;
+  recom.missing()=MISSING;
   //シード値の初期化
   recom.Seed();
   //欠損のさせ方ループ

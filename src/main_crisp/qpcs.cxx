@@ -1,4 +1,4 @@
-y#include"recom.h"
+#include"recom.h"
 #include"qpcs.h"
 
 const int user_number=return_user_number();
@@ -11,12 +11,13 @@ constexpr int clusters_number=1;//クラスタ数1
 
 int main(void){
   std::vector<std::string> dirs = MkdirFCS(METHOD_NAME);
-  Recom recom(user_number, item_number,clusters_number, clusters_number, KESSON);
+  Recom recom(user_number, item_number, user_number, item_number, MISSING);
   recom.method_name()=METHOD_NAME;
 
   double alpha=ALPHA;
   for(double m=M_START;m<=M_END;m+=M_DIFF){
     for(double lambda=LAMBDA_START;lambda<=LAMBDA_END;lambda*=LAMBDA_DIFF){
+      std::cout<<"m: "<<m<<"\tlambda: "<<lambda<<std::endl;
       auto start=std::chrono::system_clock::now();
       QPCS test(item_number, user_number, clusters_number, m, lambda, alpha);
 
@@ -24,11 +25,11 @@ int main(void){
       std::vector<std::string> dir = Mkdir(parameter, clusters_number, dirs);
 
       recom.input(DATA_DIR+InputDataName);//データ入力
-      recom.missing()=KESSON;//欠損数
+      recom.missing()=MISSING;//欠損数
       recom.Seed();//シード値の初期化
-    
       //欠損パターン
       for(recom.current()=0;recom.current()<MISSINGTRIALS;recom.current()++){
+        std::cout<<"missing pattern: "<<recom.current()<<std::endl;
         recom.reset();//初期化
         recom.revise_missing_values_new();//データを欠損
         test.copydata(recom.sparseincompletedata());//データをtestに渡す
@@ -60,7 +61,7 @@ int main(void){
           }//クラスタリング
           test.marge_centers();
         }//ユーザー数回ループ
-        std::cout<<"Clusters Count: "<<test.clusters_count()<<std::endl;
+        //std::cout<<"clusters count: "<<test.clusters_count()<<std::endl;
         recom.crisp(test.membership_pcm(), test.clusters_count());
         recom.pearsonsim_for_pcm(test.clusters_count());
       

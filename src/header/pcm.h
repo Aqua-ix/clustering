@@ -1,5 +1,13 @@
 #include"hcm.h"
 
+#ifdef ARTIFICIALITY
+#define THRESHOLD 1
+#elif defined TEST
+#define THRESHOLD 1.0E-05
+#else
+#define THRESHOLD 1
+#endif
+
 #ifndef __PCM__
 #define __PCM__
 

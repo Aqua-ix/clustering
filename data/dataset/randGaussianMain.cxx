@@ -8,7 +8,7 @@ int main(void){
 
   const int dimension=2, eachDataNum=50, clusterNum=2;
   const double means[clusterNum][dimension]={
-    {-1,-1},{1,1}};
+    {-0.7,-0.7},{0.7,0.7}};
   const double stddevs[clusterNum][dimension]={
     {0.5,0.5},{0.5,0.5}};
 
@@ -17,7 +17,7 @@ int main(void){
   for(int i=0;i<clusterNum;i++){
     for(int k=0;k<eachDataNum;k++){
       for(int ell=0;ell<dimension;ell++){
-	std::cout << normDist(mt)*stddevs[i][ell]+means[i][ell] << "\t";
+        std::cout << normDist(mt)*stddevs[i][ell]+means[i][ell] << "\t";
       }
       std::cout << std::endl;
     }

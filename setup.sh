@@ -1,5 +1,6 @@
 #!/bin/sh
 
+ulimit -c unlimited
 git pull
 make clean clean.o
 cd src

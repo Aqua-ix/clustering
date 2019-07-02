@@ -11,7 +11,7 @@ constexpr int clusters_number=1;
 
 int main(void){
   std::vector<std::string> dirs = MkdirFCS(METHOD_NAME);
-  Recom recom(user_number, item_number, clusters_number, clusters_number, KESSON);
+  Recom recom(user_number, item_number, clusters_number, clusters_number, MISSING);
   recom.method_name()=METHOD_NAME;
 
   double alpha=ALPHA;
@@ -22,7 +22,7 @@ int main(void){
     std::vector<std::string> dir = Mkdir(parameter, clusters_number, dirs);
       
     recom.input(DATA_DIR+InputDataName);//データ入力
-    recom.missing()=KESSON;//欠損数
+    recom.missing()=MISSING;//欠損数
     recom.Seed();//シード値の初期化
 
     for(recom.current()=0;recom.current()<MISSINGTRIALS;recom.current()++){

@@ -395,7 +395,7 @@ void Recom::out_mae_f(std::vector<std::string> dir){//ファイル出力ファ�
   return;
 }
 
-void Recom::precision_summury(std::vector<std::string> dir){//ファイル出力可能性
+void Recom::precision_summury(std::vector<std::string> dir){//ファイル出力
   int max=(int)return_max_value()*10;
   for(int method=0;method<(int)dir.size();method++){
     double rocarea=0.0;
@@ -430,14 +430,14 @@ void Recom::precision_summury(std::vector<std::string> dir){//ファイル出力
     for(int i=0;i<MISSINGTRIALS;i++){
       sumMAE+=choiceMAE[method][i];
       sumF+=choiceFmeasure[method][i];
-      std::cerr<<"sumMAE"<<i<<": ";
-      std::cout<<sumMAE<<std::endl;
+      // std::cout<<"sumMAE"<<i<<": "
+      //          <<sumMAE<<std::endl;
     }
     std::ofstream ofs(dir[method]+"/averageMaeFmeasureAuc.txt", std::ios::app);
     if(!ofs)
       std::cerr << "precision_summury: file could not open" << std::endl;
     std::cout<<"miss:"<<Missing<<"\tMAE="<<sumMAE/(double)MISSINGTRIALS
-             <<"\tF-measure="<<sumF/(double)MISSINGTRIALS<<"\tROC="
+             <<"\tF-measure="<<sumF/(double)MISSINGTRIALS<<"\tAUC="
              <<rocarea/(double)MISSINGTRIALS<<std::endl;
     ofs<<Missing<<"\t"<<std::fixed<<std::setprecision(10)
        <<"\t"<<sumMAE/(double)MISSINGTRIALS
@@ -445,6 +445,18 @@ void Recom::precision_summury(std::vector<std::string> dir){//ファイル出力
        <<"\t"<<rocarea/(double)MISSINGTRIALS<<std::endl;
   }
   return;
+}
+
+void Recom::out_mem(std::vector<std::string> dir){
+  for(int method=0;method<(int)dir.size();method++){
+    std::ofstream ofs_membership(dir[method]+"/result_membership.txt");
+    for(int i=0;i<Mem.rows();i++){
+      for(int k=0;k<Mem.cols();k++){
+        ofs_membership<<Mem[i][k]<<"\t";
+      }
+      ofs_membership << std::endl;
+    }
+  }
 }
 
 void Recom::revise_prediction(void){//クラスタリングのみで予測値計算
@@ -989,6 +1001,23 @@ void Recom::crisp(const Matrix &Membership,
   return;
 }
 
+void Recom::crisp(const Matrix &Membership){
+  for(int k=0;k<return_user_number();k++){
+    for(int i=0;i<Membership.rows();i++)
+      Mem[i][k]=0.0;
+    double max=-DBL_MAX;
+    int max_index=-1;
+    for(int i=0;i<Membership.rows();i++){
+      if(Membership[i][k]>max){
+        max=Membership[i][k];
+        max_index=i;
+      }
+    }
+    Mem[max_index][k]=1.0;
+  }
+  return;
+}
+
 void Recom::crisp(const Matrix &Membership, int clusters_number){
   for(int k=0;k<return_user_number();k++){
     for(int i=0;i<clusters_number;i++){
@@ -1006,8 +1035,7 @@ void Recom::crisp(const Matrix &Membership, int clusters_number){
   }
 }
 
-void Recom::overlap(const Matrix &Membership,
-                  const Matrix &ItemMembership){
+void Recom::overlap(const Matrix &Membership){
   for(int k=0;k<return_user_number();k++){
     for(int i=0;i<Membership.rows();i++)
       Mem[i][k]=0.0;
@@ -1023,24 +1051,6 @@ void Recom::overlap(const Matrix &Membership,
     for(int i=0;i<Membership.rows();i++){
       if(Membership[i][k]>=Membership[max_index][k]*0.8){
         Mem[i][k]=1.0;
-      }
-    }
-  }
-  for(int ell=0;ell<return_item_number();ell++){
-    for(int j=0;j<ItemMembership.rows();j++)
-      ItemMem[j][ell]=0.0;
-    double max=-DBL_MAX;
-    int max_index=-1;
-    for(int j=0;j<ItemMembership.rows();j++){
-      if(ItemMembership[j][ell]>max){
-        max=ItemMembership[j][ell];
-        max_index=j;
-      }
-    }
-    ItemMem[max_index][ell]=1.0;
-    for(int j=0;j<ItemMembership.rows();j++){
-      if(ItemMembership[j][ell]>=ItemMembership[max_index][ell]*0.8){
-        ItemMem[j][ell]=1.0;
       }
     }
   }
@@ -1063,6 +1073,8 @@ int return_user_number(){//ユーザ数
 #elif defined SUSHI
   return 5000;
 #elif defined ARTIFICIALITY
+  return 100;
+#elif defined TEST
   return 100;
 #else
   std::cout<<"error recom's func return_user_number\n";
@@ -1087,6 +1099,8 @@ int return_item_number(){//アイテム数
   return 100;
 #elif defined ARTIFICIALITY
   return 100;
+#elif defined TEST
+  return 1002;
 #else
   std::cout<<"error recom's func return_item_number\n";
   exit(1);
@@ -1109,6 +1123,8 @@ double return_threshold(){//しきい値
 #elif defined SUSHI
   return 3.5;
 #elif defined ARTIFICIALITY
+  return 3.5;
+#elif defined TEST
   return 3.5;
 #else
   std::cout<<"error recom's func return_threshold\n";
@@ -1133,6 +1149,8 @@ double return_max_value(){
   return 5.0;
 #elif defined ARTIFICIALITY
   return 5.0;
+#elif defined TEST
+  return 5.0;
 #else
   std::cout<<"error recom's func return_max_value\n";
   exit(1);
@@ -1156,6 +1174,8 @@ std::string return_data_name(){//データ名
   return "sushi";
 #elif defined ARTIFICIALITY
   return "artificiality";
+#elif defined TEST
+  return "artificiality_overlap";
 #else
   std::cout<<"error recom's func return_data_name\n";
   exit(1);
@@ -1173,9 +1193,9 @@ void Rename(std::string filename, std::string newname){
   if(!access(filename.c_str(),0)){ //If the file exists
     //Successfully deleted
     if(!rename(filename.c_str(),newname.c_str())){
-      std::cout<<"roctxtFile successfully  renamed"
-               <<std::endl ;
-      std::cout<<newname<<std::endl;
+      // std::cout<<"roctxtFile successfully  renamed"
+      //          <<std::endl ;
+      // std::cout<<newname<<std::endl;
     }
     else//Cannot rename: file not open or insufficient permissions
       {
@@ -1205,7 +1225,7 @@ std::vector<std::string> MkdirFCCM(std::string method){
   for(int i=0;i<(int)FCCM.size();i++){
     std::string d=
       dir+method+"_"+FCCM[i]
-      +"_"+return_data_name()+std::to_string(KESSON);
+      +"_"+return_data_name()+std::to_string(MISSING);
     mkdir(d.c_str(),0755);
     v.push_back(d);
   }
@@ -1219,7 +1239,7 @@ std::vector<std::string> MkdirFCS(std::string method){
   for(int i=0;i<(int)FCS.size();i++){
     std::string d=
       dir+method+"_"+FCS[i]
-      +"_"+return_data_name()+std::to_string(KESSON);
+      +"_"+return_data_name()+std::to_string(MISSING);
     mkdir(d.c_str(),0755);
     v.push_back(d);
   }
@@ -1258,7 +1278,7 @@ Mkdir(std::vector<std::string> methods){
   for(int i=0;i<(int)methods.size();i++){
     std::string d=
       dir+methods[i]
-      +"_"+return_data_name()+std::to_string(KESSON);
+      +"_"+return_data_name()+std::to_string(MISSING);
     mkdir(d.c_str(),0755);
     //ROCフォルダ作成
     const std::string roc=d+"/ROC";
