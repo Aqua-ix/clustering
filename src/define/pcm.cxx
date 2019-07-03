@@ -9,7 +9,8 @@ PCM::PCM(int dimension,
   Membership_Threshold(data_number),
   Membership_PCM(data_number, data_number),
   Centers_PCM(data_number,dimension),
-  Clusters_Count(1){
+  Clusters_Count(1)
+  {
 }
 
 double &PCM::alpha(void){//可能性パラメータ
@@ -25,13 +26,6 @@ void PCM::initialize_centers_one_cluster(int index){//初期クラスタ中心
     Centers[0][ell]=0.0;
   for(int ell=0;ell<Data[index].essencialSize();ell++)
     Centers[0][Data[index].indexIndex(ell)]=Data[index].elementIndex(ell);
-  return;
-}
-
-void PCM::ofs_membership(void){//帰属度出力
-  std::ofstream ofs("membership.txt");
-  for(int k=0;k<data_number();k++)
-    ofs<<Membership[0][k]<<" ";
   return;
 }
 
@@ -74,16 +68,28 @@ void PCM::save_membership(int index){//帰属度保存
 
 void PCM::marge_centers(){
   bool same=false;
-  double threshold = THRESHOLD;
+  double threshold=THRESHOLD;
   for(int i=0;i<Centers_PCM.rows();i++){
     if(squared_norm(Centers[0]-Centers_PCM[i])<=threshold){
       same=true;
+      break;
     }
   }
   if(same==false){
     Centers_PCM[Clusters_Count-1]=Centers[0];
     Membership_PCM[Clusters_Count-1]=Membership[0];
-    Clusters_Count++;
+    if(Clusters_Count!=Centers_PCM.rows()){
+      Clusters_Count++;
+    }
+  }
+  return;
+}
+
+void PCM::centers_pcm_reset(void){
+  for(int i=0;i<data_number();i++){
+    for(int j=0;j<dimension();j++){
+      Centers_PCM[i][j]=0.0;
+    }
   }
   return;
 }

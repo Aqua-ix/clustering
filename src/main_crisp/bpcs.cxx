@@ -7,7 +7,7 @@ const std::string data_name=return_data_name();//データの名前
 const std::string InputDataName="sparse_"+data_name//入力するデータの場所
 +"_"+std::to_string(user_number)+"_"+std::to_string(item_number)+".txt";
 
-const std::string METHOD_NAME="BPCS";//クラスタリング手法名
+const std::string METHOD_NAME="BPCS_CLISP";//クラスタリング手法名
 constexpr int clusters_number=1;
 
 int main(void){
@@ -35,6 +35,7 @@ int main(void){
       recom.revise_missing_values_new();//データを欠損
       test.copydata(recom.sparseincompletedata());//データをtestに渡す
       test.ForSphericalData();//データをスパース化
+      test.centers_pcm_reset();//PCM用クラスタ中心の初期化
       test.clusters_count()=1;//クラスタ数カウント
       for(int k=0;k<user_number;k++){//ユーザ数回ループ
         test.reset();
@@ -61,7 +62,7 @@ int main(void){
         }//クラスタリング
         test.marge_centers();
       }//ユーザー数回ループ
-      //std::cout<<"Clusters Count: "<<test.clusters_count()<<std::endl;
+      std::cout<<"clusters count: "<<test.clusters_count()<<std::endl;
       recom.crisp(test.membership_pcm(), test.clusters_count());
       recom.pearsonsim_for_pcm(test.clusters_count());
       

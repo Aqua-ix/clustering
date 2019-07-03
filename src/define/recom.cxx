@@ -375,7 +375,7 @@ void Recom::save_mae_f(std::vector<std::string> dir){
   return;
 }
 
-void Recom::out_mae_f(std::vector<std::string> dir){//ファイル出力ファジイ
+void Recom::out_mae_f(std::vector<std::string> dir){
   for(int method=0;method<(int)dir.size();method++){
     std::ofstream ofs(dir[method]+"/averageMaeFmeasure.txt",std::ios::app);
     double sumMAE=0.0,sumF=0.0;
@@ -395,7 +395,7 @@ void Recom::out_mae_f(std::vector<std::string> dir){//ファイル出力ファ�
   return;
 }
 
-void Recom::precision_summury(std::vector<std::string> dir){//ファイル出力
+void Recom::precision_summury(std::vector<std::string> dir){
   int max=(int)return_max_value()*10;
   for(int method=0;method<(int)dir.size();method++){
     double rocarea=0.0;
@@ -450,9 +450,10 @@ void Recom::precision_summury(std::vector<std::string> dir){//ファイル出力
 void Recom::out_mem(std::vector<std::string> dir){
   for(int method=0;method<(int)dir.size();method++){
     std::ofstream ofs_membership(dir[method]+"/result_membership.txt");
-    for(int i=0;i<Mem.rows();i++){
-      for(int k=0;k<Mem.cols();k++){
-        ofs_membership<<Mem[i][k]<<"\t";
+    
+    for(int k=0;k<Mem.cols();k++){
+        for(int i=0;i<Mem.rows();i++){
+          ofs_membership<<Mem[i][k]<<"\t";
       }
       ofs_membership << std::endl;
     }
@@ -1175,7 +1176,7 @@ std::string return_data_name(){//データ名
 #elif defined ARTIFICIALITY
   return "artificiality";
 #elif defined TEST
-  return "artificiality_overlap";
+  return "artificiality_pcmtest";
 #else
   std::cout<<"error recom's func return_data_name\n";
   exit(1);
@@ -1225,7 +1226,7 @@ std::vector<std::string> MkdirFCCM(std::string method){
   for(int i=0;i<(int)FCCM.size();i++){
     std::string d=
       dir+method+"_"+FCCM[i]
-      +"_"+return_data_name()+std::to_string(MISSING);
+      +"_"+return_data_name()+"_"+std::to_string(MISSING);
     mkdir(d.c_str(),0755);
     v.push_back(d);
   }
@@ -1239,7 +1240,7 @@ std::vector<std::string> MkdirFCS(std::string method){
   for(int i=0;i<(int)FCS.size();i++){
     std::string d=
       dir+method+"_"+FCS[i]
-      +"_"+return_data_name()+std::to_string(MISSING);
+      +"_"+return_data_name()+"_"+std::to_string(MISSING);
     mkdir(d.c_str(),0755);
     v.push_back(d);
   }

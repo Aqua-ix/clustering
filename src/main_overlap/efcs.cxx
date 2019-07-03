@@ -12,7 +12,7 @@ const std::string InputDataName="sparse_"+data_name
   +"_"+std::to_string(user_number)
   +"_"+std::to_string(item_number)+".txt";
 //クラスタリング手法名
-const std::string METHOD_NAME="EFCS";
+const std::string METHOD_NAME="EFCS_OVERLAP";
 
 int main(void){
   std::vector<std::string> dirs = MkdirFCS(METHOD_NAME);

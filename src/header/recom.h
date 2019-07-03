@@ -1,18 +1,21 @@
 #include"sparseMatrix.h"
 #include"matrix.h"
 
+#ifndef __RECOM__
+#define __RECOM__
+
 //欠損のさせ方を何通りにするか
 #define MISSINGTRIALS 5
 //クラスタリングの初期値を何通りにするか
 #define CLUSTERINGTRIALS 10
 //pearson, eicf, co-clustering
 #define METHOD_NUMBER 2
+
 //欠損数
 #ifdef ARTIFICIALITY
 #define MISSING 7500
+#define MISSING_MIN 1500
 #define MISSING_DIFF 500
-#elif defined TEST
-#define MISSING 0
 #elif defined BOOK
 #define MISSING 30000
 #elif defined MOVIE
@@ -22,10 +25,6 @@
 #else
 #define MISSING 0
 #endif
-
-//収束条件
-#define MAX_ITE 1000
-#define DIFF_FOR_STOP 1.0E-10
 
 //ファジィクラスタリング用クラスタ数設定値
 #ifdef ARTIFICIALITY
@@ -41,12 +40,19 @@
 
 //パラメータ
 #define ALPHA 0.03
-#if defined(ARTIFICIALITY) || defined(TEST)
+#ifdef ARTIFICIALITY
 #define M_START 1.1
-#define M_END 2.0
+#define M_END 10.0
 #define M_DIFF 0.1
 #define LAMBDA_START 2
 #define LAMBDA_END 256
+#define LAMBDA_DIFF 2
+#elif defined TEST
+#define M_START 1.1
+#define M_END 10.0
+#define M_DIFF 0.1
+#define LAMBDA_START 2
+#define LAMBDA_END 1000
 #define LAMBDA_DIFF 2
 #else
 #define M_START 1.1
@@ -57,13 +63,13 @@
 #define LAMBDA_DIFF 10
 #endif
 
+//収束条件
+#define MAX_ITE 1000
+#define DIFF_FOR_STOP 1.0E-10
+
 //データディレクトリ
 #define DATA_DIR "data/dataset/"
 #define RESULT_DIR "data/result_data/"
-
-
-#ifndef __RECOM__
-#define __RECOM__
 
 class Recom{
 protected:

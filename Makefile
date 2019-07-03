@@ -13,7 +13,7 @@
 # Sushi		:SUSHI		:5000ユーザ100アイテム
 # 実データの場合:
 # $ make ターゲット data=マクロ名
-# 例(klfcsをBookCrossingに適用する場合):w
+# 例(klfcsをBookCrossingに適用する場合):
 # $ make rklfcs.out data=BOOK
 # クラスの呼び出し等デバグしたいとき
 # $ make ターゲット data=マクロ名 class=1
@@ -57,7 +57,7 @@ ifdef a
 	A=-D$(a) 
 endif
 ifdef gdb
-	GDB=-g -O0
+	GDB=-g3 -O0
 else
 	GDB=-O3
 endif
@@ -83,7 +83,7 @@ method_all : $(method_all)
 .o/hcs.o : src/define/hcs.cxx
 	$(CXX) $(CXXFLAGS) $(MACRO)-c $^ -o $@
 .o/pcm.o : src/define/pcm.cxx
-	$(CXX) $(CXXFLAGS) $(MACRO)-c $^ -o $@
+	$(CXX) $(CXXFLAGS) $(MACRO)-c $(DATASET) $^ -o $@
 .o/rfcm.o : src/define/rfcm.cxx
 	$(CXX) $(CXXFLAGS) $(MACRO)-c $^ -o $@
 .o/bfcm.o : src/define/bfcm.cxx

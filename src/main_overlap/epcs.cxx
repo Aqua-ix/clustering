@@ -6,7 +6,7 @@ const int item_number=return_item_number();//アイテム数
 const std::string data_name=return_data_name();//データの名前
 const std::string InputDataName="sparse_"+data_name//入力するデータの場所
   +"_"+std::to_string(user_number)+"_"+std::to_string(item_number)+".txt";
-const std::string METHOD_NAME="EPCS";//クラスタリング手法名
+const std::string METHOD_NAME="EPCS_OVERLAP";//クラスタリング手法名
 constexpr int clusters_number=1;
 
 int main(void){

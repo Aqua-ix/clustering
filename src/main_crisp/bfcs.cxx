@@ -12,7 +12,7 @@ const std::string InputDataName="sparse_"+data_name
   +"_"+std::to_string(user_number)
   +"_"+std::to_string(item_number)+".txt";
 //クラスタリング手法名
-const std::string METHOD_NAME="BFCS";
+const std::string METHOD_NAME="BFCS_CLISP";
 
 int main(void){
   std::vector<std::string> dirs = MkdirFCS(METHOD_NAME);
@@ -51,7 +51,7 @@ int main(void){
         test.copydata(recom.sparseincompletedata());
         test.ForSphericalData();	
         //選んだデータがNanになったときシード値変更変数
-        int ForBadChoiceData=0, InitCentLoopis10=0;;
+        int ForBadChoiceData=0, InitCentLoopis10=0;
         //初期値パターン
         for(recom.Ccurrent()=0;recom.Ccurrent()
               <CLUSTERINGTRIALS;recom.Ccurrent()++){

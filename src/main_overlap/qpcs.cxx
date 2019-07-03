@@ -8,7 +8,7 @@ const int item_number=return_item_number();
 const std::string data_name=return_data_name();
 const std::string InputDataName="sparse_"+data_name
   +"_"+std::to_string(user_number)+"_"+std::to_string(item_number)+".txt";
-const std::string METHOD_NAME="QPCS";
+const std::string METHOD_NAME="QPCS_OVERLAP";
 constexpr int clusters_number=1;//クラスタ数1
 
 int main(void){
