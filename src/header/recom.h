@@ -13,17 +13,25 @@
 
 //欠損数
 #ifdef ARTIFICIALITY
-#define MISSING 7500
 #define MISSING_MIN 1500
+#define MISSING_MAX 7500
 #define MISSING_DIFF 500
 #elif defined BOOK
-#define MISSING 30000
+#define MISSING_MIN 30000
+#define MISSING_MAX 30000
+#define MISSING_DIFF 30000
 #elif defined MOVIE
-#define MISSING 100000
+#define MISSING_MIN 100000
+#define MISSING_MAX 100000
+#define MISSING_DIFF 100000
 #elif defined LIBIMSETI
-#define MISSING 300000
+#define MISSING_MIN 300000
+#define MISSING_MAX 300000
+#define MISSING_DIFF 300000
 #else
-#define MISSING 0
+#define MISSING_MIN 0
+#define MISSING_MAX 0
+#define MISSING_DIFF 1
 #endif
 
 //ファジィクラスタリング用クラスタ数設定値
@@ -42,10 +50,10 @@
 #define ALPHA 0.03
 #ifdef ARTIFICIALITY
 #define M_START 1.1
-#define M_END 10.0
+#define M_END 2.0
 #define M_DIFF 0.1
 #define LAMBDA_START 2
-#define LAMBDA_END 256
+#define LAMBDA_END 1024
 #define LAMBDA_DIFF 2
 #elif defined TEST
 #define M_START 1.1
@@ -76,8 +84,8 @@ protected:
   std::string METHOD_NAME;
   //欠損のさせ方を決めるシード値
   int SEED;
-  //欠損のさせ方ループ数，クラスタリング初期値ループ数，現在の欠損数
-  int Current, CCurrent, Missing;
+  //欠損のさせ方ループ数,クラスタリング初期値ループ数,欠損値ループ数,現在の欠損数
+  int Current, CCurrent, MCurrent, Missing;
   //欠損後データ
   SparseMatrix SparseIncompleteData;
   //欠損前データ
@@ -91,6 +99,7 @@ protected:
   //MAE, F-measure, AUC
   Matrix resultMAE, resultFmeasure;
   Matrix choiceMAE, choiceFmeasure;
+  Vector MinMAE;
   //予測評価値
   Vector Prediction;
   //欠損させた箇所のスパースデータの列番号
@@ -115,6 +124,7 @@ protected:
   double &obje(int index);
   int &current(void);//欠損のさせ方番号
   int &Ccurrent(void);//クラスタリングの初期値番号
+  int &Mcurrent(void);//欠損数インデックス
   int &missing(void); //現在の欠損数
   void input(std::string);//データ入力
   void Seed(void);//欠損のさせ方の初期化
@@ -141,6 +151,8 @@ protected:
   void save_mae_f(std::vector<std::string>);
   void out_mae_f(std::vector<std::string>);
   void out_mem(std::vector<std::string>);
+  void out_min_mae(std::vector<std::string>);
+  void out_min_mae(std::vector<std::string>, int clusters_number);
   //AUCの計算，text1に読み込むROCファイル，text2に平均AUCを保存
   void precision_summury(std::vector<std::string>);
   //クラスタリングのみで予測値計算
@@ -184,14 +196,10 @@ double return_max_value(void);
 std::string return_data_name(void);
 //textを改行する
 void FILE_ENDL(std::string text);
-//何通りかの初期値を与えた場合，目的関数最大時のROCのを選ぶ
+//何通りかの初期値を与えた場合，目的関数最大時のROCを選ぶ
 void Rename(std::string filename, std::string newname);
-std::vector<std::string> MkdirFCCM(std::string);
 std::vector<std::string> MkdirFCS(std::string);
 std::vector<std::string>
 Mkdir(std::vector<double> para, int c, std::vector<std::string> dirs);
 std::vector<std::string> Mkdir(std::vector<std::string> methods);
-const std::vector<std::string> FCCM = {"PEAR", "CO"};
-const std::vector<std::string> FCS = {"PEAR"};
-
 #endif
