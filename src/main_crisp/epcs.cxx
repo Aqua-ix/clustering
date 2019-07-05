@@ -26,6 +26,8 @@ int main(void){
   for(double lambda=LAMBDA_START;lambda<=LAMBDA_END;lambda*=LAMBDA_DIFF){
     std::cout<<"lambda: "<<lambda<<std::endl;
     EPCS test(item_number, user_number, clusters_number, lambda, alpha);
+    //マージのしきい値設定
+    test.centers_threshold()=CENTERS_THRESHOLD;
 
     std::vector<double> parameter= {lambda};
     std::vector<std::string> dir = Mkdir(parameter, clusters_number, dirs);
@@ -94,8 +96,8 @@ int main(void){
       recom.precision_summury(dir);
       recom.Mcurrent()++;
     }//欠損数
+    //欠損数ごとの最小MAEを出力する
+    recom.out_min_mae(dirs);
   }//パラメータlambda
-  //欠損数ごとの最小MAEを出力する
-  recom.out_min_mae(dirs);
   return 0;
 }

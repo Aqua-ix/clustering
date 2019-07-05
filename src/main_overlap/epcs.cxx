@@ -86,8 +86,8 @@ int main(void){
       recom.precision_summury(dir);
       recom.Mcurrent()++;
     }//欠損数
+    //欠損数ごとの最小MAEを出力する
+    recom.out_min_mae(dirs);
   }//パラメータlambda
-  //欠損数ごとの最小MAEを出力する
-  recom.out_min_mae(dirs);
   return 0;
 }

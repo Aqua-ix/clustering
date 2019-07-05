@@ -46,12 +46,21 @@
 #define C_END 10
 #endif
 
+//可能性クラスタリング用クラスタ中心しきい値
+#ifdef ARTIFICIALITY
+#define CENTERS_THRESHOLD 1.0
+#elif defined TEST
+#define CENTERS_THRESHOLD 1.0E-05
+#else
+#define CENTERS_THRESHOLD 1.0
+#endif
+
 //パラメータ
 #define ALPHA 0.03
 #ifdef ARTIFICIALITY
 #define M_START 1.1
-#define M_END 2.0
-#define M_DIFF 0.1
+#define M_END 3.1
+#define M_DIFF 0.2
 #define LAMBDA_START 2
 #define LAMBDA_END 1024
 #define LAMBDA_DIFF 2
@@ -60,7 +69,7 @@
 #define M_END 10.0
 #define M_DIFF 0.1
 #define LAMBDA_START 2
-#define LAMBDA_END 1000
+#define LAMBDA_END 1024
 #define LAMBDA_DIFF 2
 #else
 #define M_START 1.1

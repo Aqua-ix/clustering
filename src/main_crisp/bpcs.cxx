@@ -25,6 +25,8 @@ int main(void){
   for(double m=M_START;m<=M_END;m+=M_DIFF){
     std::cout<<"m: "<<m<<std::endl;
     BPCS test(item_number, user_number, clusters_number, m, alpha);
+    //マージのしきい値設定
+    test.centers_threshold()=CENTERS_THRESHOLD;
 
     std::vector<double> parameter= {m};
     std::vector<std::string> dir = Mkdir(parameter, clusters_number, dirs);
@@ -93,8 +95,8 @@ int main(void){
       recom.precision_summury(dir);
       recom.Mcurrent()++;
     }//欠損数
+    //欠損数ごとの最小MAEを出力する
+    recom.out_min_mae(dirs);
   }//パラメータm
-  //欠損数ごとの最小MAEを出力する
-  recom.out_min_mae(dirs);
   return 0;
 }

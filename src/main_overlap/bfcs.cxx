@@ -130,9 +130,9 @@ int main(void){
         recom.precision_summury(dir);
         recom.Mcurrent()++;
       }//欠損数
+      //欠損数ごとの最小MAEを出力する
+      recom.out_min_mae(dirs, clusters_number);
     }//パラメータm
-    //欠損数ごとの最小MAEを出力する
-    recom.out_min_mae(dirs, clusters_number);
   }//クラスタ数
   return 0;
 }

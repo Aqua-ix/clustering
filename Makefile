@@ -83,7 +83,7 @@ method_all : $(method_all)
 .o/hcs.o : src/define/hcs.cxx
 	$(CXX) $(CXXFLAGS) $(MACRO)-c $^ -o $@
 .o/pcm.o : src/define/pcm.cxx
-	$(CXX) $(CXXFLAGS) $(MACRO)-c $(DATASET) $^ -o $@
+	$(CXX) $(CXXFLAGS) $(MACRO)-c $^ -o $@
 .o/rfcm.o : src/define/rfcm.cxx
 	$(CXX) $(CXXFLAGS) $(MACRO)-c $^ -o $@
 .o/bfcm.o : src/define/bfcm.cxx
