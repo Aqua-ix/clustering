@@ -404,7 +404,7 @@ void Recom::out_mae_f(std::vector<std::string> dir){
 
 void Recom::out_min_mae(std::vector<std::string> dirs){
   for(int i=0; i<(int)dirs.size(); i++){
-    std::ofstream ofs(dirs[0]+"/minimalMAE.txt", std::ios::out);
+    std::ofstream ofs(dirs[0]+"/"+METHOD_NAME+"_minimalMAE.txt", std::ios::out);
     if(!ofs){
       std::cerr << "out_min_mae: file could not open" << std::endl;
     }
@@ -418,7 +418,7 @@ void Recom::out_min_mae(std::vector<std::string> dirs){
 
 void Recom::out_min_mae(std::vector<std::string> dirs, int clusters_number){
   for(int i=0; i<(int)dirs.size(); i++){
-    std::ofstream ofs(dirs[0]+"/minimalMAE_C"+std::to_string(clusters_number)+".txt", std::ios::out);
+    std::ofstream ofs(dirs[0]+"/"+METHOD_NAME+"_minimalMAE_C"+std::to_string(clusters_number)+".txt", std::ios::out);
     if(!ofs){
       std::cerr << "out_main_mae: file could not open" << std::endl;
     }

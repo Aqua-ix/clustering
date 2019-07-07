@@ -10,11 +10,14 @@ const std::string data_name=return_data_name();
 const std::string InputDataName="sparse_"+data_name
   +"_"+std::to_string(user_number)
   +"_"+std::to_string(item_number)+".txt";
+//手法名
+const std::string METHOD_NAME="GROUPLENS";
 
 int main(void){
-  std::vector<std::string> dirs = Mkdir({"FIREFLY", "GROUPLENS"});
+  std::vector<std::string> dirs = Mkdir({METHOD_NAME});
   //Recomクラスの生成
   Recom recom(user_number, item_number, 0, 0, MISSING_MAX);
+  recom.method_name()=METHOD_NAME;
   //データ入力
   recom.input(DATA_DIR+InputDataName);
   //欠損数
@@ -30,18 +33,13 @@ int main(void){
       recom.reset();
       //データを欠損
       recom.revise_missing_values_new();
-      //FIREFLY Methodで予測
+      //GloupLens Methodで予測
       recom.reset2();
       recom.pearsonsim();
-      recom.pearsonpred1();
+      recom.pearsonpred2();
       recom.mae(dirs[0], 0);
       recom.fmeasure(dirs[0], 0);
       recom.roc(dirs[0]);
-      recom.reset2();
-      recom.pearsonpred2();
-      recom.mae(dirs[1], 1);
-      recom.fmeasure(dirs[1], 1);
-      recom.roc(dirs[1]);
       recom.choice_mae_f(dirs, 0);
     }
     //AUC，MAE，F-measureの平均を計算，出力
