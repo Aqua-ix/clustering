@@ -5,7 +5,7 @@ Recom::Recom(int user,
              int user_cen,
              int item_cen,
              int miss):
-  SEED(0),Current(0),CCurrent(0),MCurrent(0),Missing(0),
+  Seed(0),Current(0),CCurrent(0),MCurrent(0),Missing(0),
   SparseIncompleteData(user, item),
   SparseCorrectData(user, item),
   NormalizedData(user, item),
@@ -89,8 +89,8 @@ void Recom::input(std::string InputDataName){
   ifs.close();
 }
 
-void Recom::Seed(void){//シード値
-  SEED=0;
+void Recom::seed(void){//シード値
+  Seed=0;
   return;
 }
 
@@ -119,7 +119,7 @@ void Recom::revise_missing_values(void){//欠損作り方
   for(int m=0; m<Missing;){
     /****乱数生成****/
     std::mt19937_64 mt;
-    mt.seed(SEED);
+    mt.seed(Seed);
     std::uniform_int_distribution<>
       randRow(0,return_user_number()-1);
     //ランダムに行番号生成
@@ -147,7 +147,7 @@ void Recom::revise_missing_values(void){//欠損作り方
       SparseIndex[m]=tmpcol;
       m++;
     }
-    SEED++;
+    Seed++;
   }
   return;
 }
@@ -157,7 +157,7 @@ void Recom::revise_missing_values_new(void){//一行に2要素は必ず残す
   for(int m=0; m<Missing;){
     /****乱数生成****/
     std::mt19937_64 mt;
-    mt.seed(SEED);
+    mt.seed(Seed);
     std::uniform_int_distribution<>
       randRow(0,return_user_number()-1);
     //ランダムに行番号生成
@@ -185,7 +185,7 @@ void Recom::revise_missing_values_new(void){//一行に2要素は必ず残す
       SparseIndex[m]=tmpcol;
       m++;
     }
-    SEED++;
+    Seed++;
   }
   return;
 }
@@ -198,7 +198,7 @@ void Recom::mae(std::string text, int method_number){//精度評価 MAE
   resultMAE[method_number][CCurrent]=result/(double)Missing;
   std::ofstream ofs(text+"/"+METHOD_NAME+"_MAE.txt",std::ios::app);
   ofs<<Missing<<"\t"
-    //<<SEED<<"\t"
+    //<<Seed<<"\t"
      <<Current<<"\t"
     //<<CCurrent<<"\t"
      <<std::fixed<<std::setprecision(10)
@@ -246,7 +246,7 @@ void Recom::fmeasure(std::string text, int method_number){//fmeasure
       if(std::isnan(resultFmeasure[method_number][CCurrent]))
         resultFmeasure[method_number][CCurrent]=0.0;
       ofs<<Missing<<"\t"
-        //<<SEED<<"\t"
+        //<<Seed<<"\t"
          <<current()<<"\t"
         //<<Ccurrent()<<"\t"
          <<TP<<" "
@@ -338,7 +338,7 @@ void Recom::ofs_objective(std::string dir){
     std::cerr << "ofs_objective : file could not open"<<std::endl;
     exit(1);
   }
-  ofs<<Missing<<"\t"<<SEED<<"\t";
+  ofs<<Missing<<"\t"<<Seed<<"\t";
   return;
 }
 

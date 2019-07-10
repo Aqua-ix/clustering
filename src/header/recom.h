@@ -5,9 +5,9 @@
 #define __RECOM__
 
 //欠損のさせ方を何通りにするか
-#define MISSINGTRIALS 5
+#define MISSINGTRIALS 100
 //クラスタリングの初期値を何通りにするか
-#define CLUSTERINGTRIALS 10
+#define CLUSTERINGTRIALS 100
 //pearson, eicf, co-clustering
 #define METHOD_NUMBER 2
 
@@ -92,7 +92,7 @@ class Recom{
 protected:
   std::string METHOD_NAME;
   //欠損のさせ方を決めるシード値
-  int SEED;
+  int Seed;
   //欠損のさせ方ループ数,クラスタリング初期値ループ数,欠損値ループ数,現在の欠損数
   int Current, CCurrent, MCurrent, Missing;
   //欠損後データ
@@ -136,7 +136,7 @@ protected:
   int &Mcurrent(void);//欠損数インデックス
   int &missing(void); //現在の欠損数
   void input(std::string);//データ入力
-  void Seed(void);//欠損のさせ方の初期化
+  void seed(void);//欠損のさせ方の初期化
   //初期化
   void reset(void);
   void reset2(void);

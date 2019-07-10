@@ -25,7 +25,7 @@ int main(void){
   for(recom.missing()=MISSING_MIN;
       recom.missing()<=MISSING_MAX;recom.missing()+=MISSING_DIFF){
     //シード値の初期化
-    recom.Seed();
+    recom.seed();
     //欠損のさせ方ループ
     for(recom.current()=0;recom.current()
           <MISSINGTRIALS;recom.current()++){
