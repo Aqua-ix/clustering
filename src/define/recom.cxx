@@ -19,6 +19,8 @@ Recom::Recom(int user,
   choiceFmeasure(METHOD_NUMBER, MISSINGTRIALS),
   MinMAE(MISSING_MAX/MISSING_DIFF
          -MISSING_MIN/MISSING_DIFF+1,DBL_MAX,"all"),
+  MinMAEParam(MISSING_MAX/MISSING_DIFF
+              -MISSING_MIN/MISSING_DIFF+1,2,0),
   Prediction(miss),
   SparseIndex(miss),
   TP_FN((int)return_max_value()*10),
@@ -89,7 +91,8 @@ void Recom::input(std::string InputDataName){
   ifs.close();
 }
 
-void Recom::seed(void){//シード値
+//シード値の初期化
+void Recom::seed(void){
   Seed=0;
   return;
 }
@@ -114,7 +117,8 @@ void Recom::reset2(){
   return;
 }
 
-void Recom::revise_missing_values(void){//欠損作り方
+//欠損の作り方
+void Recom::revise_missing_values(void){
   int tmprow,tmpcol;
   for(int m=0; m<Missing;){
     /****乱数生成****/
@@ -152,7 +156,8 @@ void Recom::revise_missing_values(void){//欠損作り方
   return;
 }
 
-void Recom::revise_missing_values_new(void){//一行に2要素は必ず残す
+//一行に2要素は必ず残す
+void Recom::revise_missing_values_new(void){
   int tmprow,tmpcol;
   for(int m=0; m<Missing;){
     /****乱数生成****/
@@ -190,7 +195,8 @@ void Recom::revise_missing_values_new(void){//一行に2要素は必ず残す
   return;
 }
 
-void Recom::mae(std::string text, int method_number){//精度評価 MAE
+//精度評価 MAE
+void Recom::mae(std::string text, int method_number){
   double result=0.0;
   for(int m=0;m<Missing;m++){
     result+=fabs(SparseCorrectData[KessonIndex[m][0]].elementIndex(SparseIndex[m])-Prediction[m]);
@@ -207,7 +213,8 @@ void Recom::mae(std::string text, int method_number){//精度評価 MAE
   return;
 }
 
-void Recom::fmeasure(std::string text, int method_number){//fmeasure
+//fmeasure
+void Recom::fmeasure(std::string text, int method_number){
   std::ofstream ofs(text+"/"+METHOD_NAME+"_Fmeasure.txt" ,std::ios::app);
   for(int index=1;index<(int)return_max_value()*10;index++){
     double TP=0.0,FP=0.0,FN=0.0,TN=0.0;
@@ -289,7 +296,8 @@ void Recom::fmeasure(std::string text, int method_number){//fmeasure
   return;
 }
 
-void Recom::roc(std::string dir){//ROC
+//ROC
+void Recom::roc(std::string dir){
   std::string ROC_STR
     =dir+"/ROC/"+METHOD_NAME+"_ROC_"
     +std::to_string(Missing)+"_"+std::to_string(Current)+"_"
@@ -416,20 +424,45 @@ void Recom::out_min_mae(std::vector<std::string> dirs){
   }
 }
 
-void Recom::out_min_mae(std::vector<std::string> dirs, int clusters_number){
+void Recom::out_min_mae(std::vector<std::string> dirs,
+                        std::vector<double> param){
   for(int i=0; i<(int)dirs.size(); i++){
-    std::ofstream ofs(dirs[0]+"/"+METHOD_NAME+"_minimalMAE_C"+std::to_string(clusters_number)+".txt", std::ios::out);
+    std::ofstream ofs(dirs[0]+"/"+METHOD_NAME+"_minimalMAE.txt",
+                      std::ios::out);
     if(!ofs){
       std::cerr << "out_main_mae: file could not open" << std::endl;
     }
     int missing_index=0;
     for(int missing=MISSING_MIN;missing<=MISSING_MAX;
         missing+=MISSING_DIFF){
-      ofs<<missing<<"\t"<<MinMAE[missing_index++]<<std::endl;
+      ofs<<missing<<"\t"<<MinMAE[missing_index]<<"\t";
+      for(int i=0; i<(int)param.size(); i++){
+        ofs<<MinMAEParam[missing_index][i]<<"\t";
+      }
+      missing_index++;
+      ofs<<std::endl;
     }
   }
 }
 
+void Recom::save_min_mae(std::vector<std::string> dir,
+                         std::vector<double> param){
+  for(int method=0;method<(int)dir.size();method++){
+    double sumMAE=0.0;
+    for(int i=0;i<MISSINGTRIALS;i++){
+      sumMAE+=choiceMAE[method][i];
+    }
+    double averageMAE = sumMAE/(double)MISSINGTRIALS;
+    
+    if(averageMAE<MinMAE[MCurrent]){
+      MinMAE[MCurrent]=averageMAE;
+      for(int i=0; i<(int)param.size(); i++){
+        MinMAEParam[MCurrent][i]=param[i];
+      }
+    }
+  }
+  return;
+}
 
 void Recom::precision_summury(std::vector<std::string> dir){
   int max=(int)return_max_value()*10;
@@ -476,10 +509,6 @@ void Recom::precision_summury(std::vector<std::string> dir){
     double averageMAE = sumMAE/(double)MISSINGTRIALS;
     double averageF = sumF/(double)MISSINGTRIALS;
     double AUC = rocarea/(double)MISSINGTRIALS;
-    
-    if(averageMAE<MinMAE[MCurrent]){
-      MinMAE[MCurrent]=averageMAE;
-    }
     
     std::cout<<"miss:"<<Missing<<"\tMAE="<<averageMAE
              <<"\tF-measure="<<averageF<<"\tAUC="<<AUC<<std::endl;
@@ -1273,12 +1302,12 @@ std::vector<std::string> MkdirFCS(std::string method){
 }
 
 std::vector<std::string>
-Mkdir(std::vector<double> para, int c, std::vector<std::string> dirs){
+Mkdir(std::vector<double> param, int c, std::vector<std::string> dirs){
   std::vector<std::string> v;
   std::string fuzzifier="";
-  for(int i=0;i<(int)para.size();i++){
+  for(int i=0;i<(int)param.size();i++){
     std::ostringstream oss;
-    oss<<std::setprecision(5)<<para[i];
+    oss<<std::setprecision(5)<<param[i];
     std::string f(oss.str());
     fuzzifier+=f+"_";
   }

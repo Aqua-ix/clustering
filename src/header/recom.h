@@ -108,7 +108,10 @@ protected:
   //MAE, F-measure, AUC
   Matrix resultMAE, resultFmeasure;
   Matrix choiceMAE, choiceFmeasure;
+  //欠損数ごとの最小MAE
   Vector MinMAE;
+  //MAE最小時ファジィ化パラメータ
+  Matrix MinMAEParam;
   //予測評価値
   Vector Prediction;
   //欠損させた箇所のスパースデータの列番号
@@ -134,7 +137,7 @@ protected:
   int &current(void);//欠損のさせ方番号
   int &Ccurrent(void);//クラスタリングの初期値番号
   int &Mcurrent(void);//欠損数インデックス
-  int &missing(void); //現在の欠損数
+  int &missing(void);//現在の欠損数
   void input(std::string);//データ入力
   void seed(void);//欠損のさせ方の初期化
   //初期化
@@ -161,7 +164,10 @@ protected:
   void out_mae_f(std::vector<std::string>);
   void out_mem(std::vector<std::string>);
   void out_min_mae(std::vector<std::string>);
-  void out_min_mae(std::vector<std::string>, int clusters_number);
+  void out_min_mae(std::vector<std::string>,
+                   std::vector<double> param);
+  void save_min_mae(std::vector<std::string> dir,
+                    std::vector<double> param);
   //AUCの計算，text1に読み込むROCファイル，text2に平均AUCを保存
   void precision_summury(std::vector<std::string>);
   //クラスタリングのみで予測値計算
@@ -175,7 +181,8 @@ protected:
   void pearsonsim_clustering(void);
   //PCM用類似度計算
   void pearsonsim_for_pcm(const int clusters_number);
-  void pearsonsim_for_pcm(const Matrix &Membership, const Vector &Threshold);
+  void pearsonsim_for_pcm(const Matrix &Membership,
+                          const Vector &Threshold);
   //予測値計算:FireFly
   void pearsonpred1(void);
   //予測値計算:GroupLens
@@ -209,6 +216,6 @@ void FILE_ENDL(std::string text);
 void Rename(std::string filename, std::string newname);
 std::vector<std::string> MkdirFCS(std::string);
 std::vector<std::string>
-Mkdir(std::vector<double> para, int c, std::vector<std::string> dirs);
+Mkdir(std::vector<double> param, int c, std::vector<std::string> dirs);
 std::vector<std::string> Mkdir(std::vector<std::string> methods);
 #endif

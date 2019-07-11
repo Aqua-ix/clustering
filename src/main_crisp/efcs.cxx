@@ -125,13 +125,15 @@ int main(void){
           }//初期値パターン
           recom.choice_mae_f(dir);
         }//欠損パターン
+         //最小MAEを計算
+        recom.save_min_mae(dir, parameter);
         //AUC，MAE，F-measureの平均を計算，出力
         recom.precision_summury(dir);
         recom.Mcurrent()++;
       }//欠損数
+      //欠損数ごとの最小MAEを出力する
+      recom.out_min_mae(dirs, parameter);
     }//パラメータlambda
-    //欠損数ごとの最小MAEを出力する
-    recom.out_min_mae(dirs, clusters_number);
   }//クラスタ数
   return 0;
 }
