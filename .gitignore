@@ -1,6 +1,6 @@
 *.log
 *.out
 core
-.o/
-*FCS_*/
-*PCS_*/
+.o/*
+data/result_data/*
+!data/result_data/minimalMAE/*
