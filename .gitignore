@@ -3,4 +3,4 @@
 core
 .o/*
 data/result_data/*
-!data/result_data/minimalMAE/*
+!data/result_data/minimalMAE/
