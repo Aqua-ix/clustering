@@ -5,9 +5,9 @@
 #define __RECOM__
 
 //欠損のさせ方を何通りにするか
-#define MISSINGTRIALS 100
+#define MISSINGTRIALS 2
 //クラスタリングの初期値を何通りにするか
-#define CLUSTERINGTRIALS 100
+#define CLUSTERINGTRIALS 2
 //pearson, eicf, co-clustering
 #define METHOD_NUMBER 2
 
@@ -217,5 +217,6 @@ void Rename(std::string filename, std::string newname);
 std::vector<std::string> MkdirFCS(std::string);
 std::vector<std::string>
 Mkdir(std::vector<double> param, int c, std::vector<std::string> dirs);
+std::vector<std::string> Mkdir(int missing, std::vector<std::string> dirs);
 std::vector<std::string> Mkdir(std::vector<std::string> methods);
 #endif

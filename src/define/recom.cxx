@@ -1326,6 +1326,23 @@ Mkdir(std::vector<double> param, int c, std::vector<std::string> dirs){
 }
 
 std::vector<std::string>
+Mkdir(int missing, std::vector<std::string> dirs){
+  std::vector<std::string> v;  
+  for(int i=0;i<(int)dirs.size();i++){
+    const std::string dir=dirs[i]+"/missing_pattern_"+std::to_string(missing);
+    v.push_back(dir);
+    mkdir(dir.c_str(),0755);
+    //ROCフォルダ作成
+    const std::string roc=dir+"/ROC";
+    mkdir(roc.c_str(),0755);
+    //選ばれるROCファイルをまとめるフォルダ作成
+    const std::string choice=roc+"/choice";
+    mkdir(choice.c_str(),0755);
+  }
+  return v;
+}
+
+std::vector<std::string>
 Mkdir(std::vector<std::string> methods){
   std::vector<std::string> v;
   std::string dir = RESULT_DIR;
