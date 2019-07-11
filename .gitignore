@@ -2,3 +2,5 @@
 *.out
 core
 .o/
+*FCS_*/
+*PCS_*/
