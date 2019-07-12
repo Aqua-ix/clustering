@@ -25,6 +25,7 @@ int main(void){
   //欠損パターン
   for(recom.current()=0;recom.current()<MISSINGTRIALS;recom.current()++){
     std::cout<<"missing pattern: "<<recom.current()<<std::endl;
+    //missing_pattern_xのフォルダ作成
     std::vector<std::string> dir = Mkdir(recom.current(), dirs);
    
     double alpha=ALPHA;
@@ -86,23 +87,32 @@ int main(void){
         
         recom.pearsonsim_for_pcm(test.clusters_count());
         recom.pearsonpred2();
-        recom.mae(dir[0], 0);
-        recom.fmeasure(dir[0], 0);
+
+        //パラメータ、欠損数、MAE
+        recom.mae(dir[0], 0, parameter);
+        //パラメータ、欠損数、TP、FP、FN、TN、F-measure
+        recom.fmeasure(dir[0], 0, parameter);
+        //BPCS_CLISP_ROC_パラメータ_欠損数_sort.txt
         recom.roc(dir[0]);
         recom.obje(recom.Ccurrent())=-1;
         recom.ofs_objective(dir[0]);
         test.ofs_selected_data(dir[0]);
-        recom.choice_mae_f(dir);
-
-        //最小MAEを計算
-        recom.save_min_mae(dir, parameter);
-        //AUC，MAE，F-measureの平均を計算，出力
-        recom.precision_summury(dir);
+        recom.choice_mae_f(dir, parameter);
         recom.Mcurrent()++;
       }//欠損数
-      //欠損数ごとの最小MAEを出力する
-      recom.out_min_mae(dirs, parameter);
+      
+      //欠損数ごとのMAEが今までのMAEより小さければ保存する
+      recom.save_min_mae_m(dir, parameter);
+      
     }//パラメータm
+    
+    //TODO: minimalMAE.txtファイル出力
+    recom.out_min_mae_m(dirs);
+    
+    //TODO: 今までに保存したminimalMAEを欠損数ごとに読み込んでrecom.current()で平均する
+    //AUC，MAE，F-measureの平均を計算，出力
+    recom.precision_summary_m(dir);
+    
   }//欠損パターン
   return 0;
 }

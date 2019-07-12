@@ -17,6 +17,10 @@ Recom::Recom(int user,
   resultFmeasure(METHOD_NUMBER,CLUSTERINGTRIALS),
   choiceMAE(METHOD_NUMBER, MISSINGTRIALS),
   choiceFmeasure(METHOD_NUMBER, MISSINGTRIALS),
+  choiceMAE_M(METHOD_NUMBER, MISSING_MAX/MISSING_DIFF
+            -MISSING_MIN/MISSING_DIFF+1),
+  choiceFmeasure_M(METHOD_NUMBER, MISSING_MAX/MISSING_DIFF
+                 -MISSING_MIN/MISSING_DIFF+1),
   MinMAE(MISSING_MAX/MISSING_DIFF
          -MISSING_MIN/MISSING_DIFF+1,DBL_MAX,"all"),
   MinMAEParam(MISSING_MAX/MISSING_DIFF
@@ -213,6 +217,25 @@ void Recom::mae(std::string text, int method_number){
   return;
 }
 
+//精度評価 MAE
+void Recom::mae(std::string text, int method_number, std::vector<double> param){
+  double result=0.0;
+  for(int m=0;m<Missing;m++){
+    result+=fabs(SparseCorrectData[KessonIndex[m][0]].elementIndex(SparseIndex[m])-Prediction[m]);
+  }
+  resultMAE[method_number][CCurrent]=result/(double)Missing;
+  std::ofstream ofs(text+"/"+METHOD_NAME+"_MAE.txt",std::ios::app);
+  for(int i=0; i<(int)param.size(); i++){
+    ofs<<param[i]<<"\t";
+  }
+  ofs<<Missing<<"\t"
+     <<std::fixed<<std::setprecision(10)
+     <<resultMAE[method_number][CCurrent]<<std::endl;
+  ofs.close();
+  return;
+}
+
+
 //fmeasure
 void Recom::fmeasure(std::string text, int method_number){
   std::ofstream ofs(text+"/"+METHOD_NAME+"_Fmeasure.txt" ,std::ios::app);
@@ -296,6 +319,90 @@ void Recom::fmeasure(std::string text, int method_number){
   return;
 }
 
+
+//fmeasure
+void Recom::fmeasure(std::string text, int method_number, std::vector<double> param){
+  std::ofstream ofs(text+"/"+METHOD_NAME+"_Fmeasure.txt" ,std::ios::app);
+  for(int index=1;index<(int)return_max_value()*10;index++){
+    double TP=0.0,FP=0.0,FN=0.0,TN=0.0;
+    //閾値の設定
+    double siki=(double)index/10.0;
+    for(int m=0;m<Missing;m++){
+      //正解値が閾値以上かつ，予測値が閾値以上の場合
+      if((siki<=SparseCorrectData[KessonIndex[m][0]]
+          .elementIndex(SparseIndex[m]))
+         &&(siki<=Prediction[m]))
+        TP+=1.0;
+      //正解値が閾値を下回ったかつ，予測値が閾値上回った場合
+      else if((siki>SparseCorrectData[KessonIndex[m][0]]
+               .elementIndex(SparseIndex[m]))
+              &&(siki<=Prediction[m]))
+        FP+=1.0;
+      //正解値が閾値上回ったかつ，予測値が閾値を下回った場合
+      else if((siki<=SparseCorrectData[KessonIndex[m][0]]
+               .elementIndex(SparseIndex[m]))
+              &&(siki>Prediction[m]))
+        FN+=1.0;
+      //それ以外
+      else if((siki>SparseCorrectData[KessonIndex[m][0]]
+               .elementIndex(SparseIndex[m]))
+              &&(siki>Prediction[m]))
+        TN+=1.0;
+      else
+        continue;
+    }
+    //閾値がF-measureで設定した閾値だった場合
+    if(siki==return_threshold()){
+      double Precision=TP/(TP+FP);
+      double Recall=TP/(TP+FN);
+      resultFmeasure[method_number][CCurrent]
+        =(2.0*Recall*Precision)/(Recall+Precision);
+      if(std::isnan(resultFmeasure[method_number][CCurrent]))
+        resultFmeasure[method_number][CCurrent]=0.0;
+      for(int i=0; i<(int)param.size(); i++){
+        ofs<<param[i]<<"\t";
+      }
+      ofs<<Missing<<"\t"
+         <<TP<<" "
+         <<FP<<" "
+         <<FN<<" "
+         <<TN<<" "
+         <<std::fixed<<std::setprecision(10)
+         <<resultFmeasure[method_number][CCurrent]
+         <<std::endl;
+    }
+    /*~2017/12/25
+    //0で割る場合，無理やり回避
+    if((TP+FN)==0||(FP+TN)==0){
+    TP_FN[index]=0.0;
+    FP_TN[index]=0.0;
+    }
+    */
+    if(TP+TN==Missing){
+      TP_FN[index]=1.0;
+      FP_TN[index]=1.0;
+    }
+    //Recall，Falloutの計算
+    else{
+      TP_FN[index]=TP/(TP+FN);
+      FP_TN[index]=FP/(FP+TN);
+      if((TP+FN)==0||(FP+TN)==0){
+        TP_FN[index]=1.0;
+        FP_TN[index]=1.0;
+      }
+      //~2017/12/25
+      /*
+        if(TP_FN[index]==0||FP_TN[index]==0){
+        TP_FN[index]=0;
+        FP_TN[index]=0;
+        }
+      */
+    }
+  }
+  ofs.close();
+  return;
+}
+
 //ROC
 void Recom::roc(std::string dir){
   std::string ROC_STR
@@ -310,6 +417,37 @@ void Recom::roc(std::string dir){
   std::ofstream ofs(ROC_STR,std::ios::app);
   if(!ofs){
     std::cerr << ROC_STR <<" could not open "<<std::endl;
+    exit(1);
+  }
+  else{
+    //横軸でソート
+    Sort(False,True,max_index);
+    for(int i=0;i<max_index;i++)
+      ofs<<std::fixed<<std::setprecision(10)
+         <<False[i]<<"\t"<<True[i]<<std::endl;
+  }
+  ofs.close();
+  return;
+}
+
+//ROC
+void Recom::roc(std::string dir, std::vector<double> param){
+  std::string param_str="";
+  for(int i=0; i<(int)param.size(); i++){
+    param_str+=std::to_string(param[i])+"_";
+  }
+  std::string roc_str
+    =dir+"/ROC/"+METHOD_NAME+"_ROC_"+param_str
+    +std::to_string(Missing)+"_"
+    +std::to_string(CCurrent)+"_sort.txt";
+  //ROCでプロットする点の数
+  int max_index=(int)return_max_value()*10;
+  //一旦保存
+  Vector False=FP_TN;
+  Vector True=TP_FN;
+  std::ofstream ofs(roc_str,std::ios::app);
+  if(!ofs){
+    std::cerr << roc_str <<" could not open "<<std::endl;
     exit(1);
   }
   else{
@@ -382,6 +520,30 @@ void Recom::choice_mae_f(std::vector<std::string> dir, int p){
   return;
 }
 
+void Recom::choice_mae_f(std::vector<std::string> dir, std::vector<double> param, int p){
+  int obje_index=0;
+  if(p==1)
+    obje_index=min_objective_index();
+  for(int method=0;method<(int)dir.size();method++){
+    choiceMAE_M[method][MCurrent]=resultMAE[method][obje_index];
+    choiceFmeasure_M[method][MCurrent]=resultFmeasure[method][obje_index];
+    //選ばれたROCをchoiceフォルダに移す
+    std::string param_str="";
+    for(int i=0; i<(int)param.size(); i++){
+      param_str+=std::to_string(param[i])+"_";
+    }
+    std::string oldname
+      =dir[method]+"/ROC"+"/"+METHOD_NAME+"_ROC_"
+      +param_str+std::to_string(Missing)+"_"
+      +std::to_string(obje_index)+"_sort.txt";
+    std::string newname
+      =dir[method]+"/ROC/choice"+"/"+METHOD_NAME+"_ROC_"
+      +param_str+std::to_string(Missing)+"_sort.txt";
+    Rename(oldname,newname);
+  }
+  return;
+}
+
 void Recom::save_mae_f(std::vector<std::string> dir){
   for(int method=0;method<(int)dir.size();method++){
     choiceMAE[method][Current]=resultMAE[method][0];
@@ -445,6 +607,29 @@ void Recom::out_min_mae(std::vector<std::string> dirs,
   }
 }
 
+
+void Recom::out_min_mae_m(std::vector<std::string> dirs){
+  for(int i=0; i<(int)dirs.size(); i++){
+    std::ofstream ofs(dirs[0]+"/"+METHOD_NAME+"_minimalMAE.txt",
+                      std::ios::out);
+    if(!ofs){
+      std::cerr << "out_main_mae: file could not open" << std::endl;
+    }
+    int missing_index=0;
+    for(int missing=MISSING_MIN;missing<=MISSING_MAX;
+        missing+=MISSING_DIFF){
+      ofs<<missing<<"\t"<<MinMAE[missing_index]<<"\t";
+      for(int i=0; i<MinMAEParam[missing_index].size(); i++){
+        if(MinMAEParam[missing_index][i]!=0){
+          ofs<<MinMAEParam[missing_index][i]<<"\t";
+        }
+      }
+      missing_index++;
+      ofs<<std::endl;
+    }
+  }
+}
+
 void Recom::save_min_mae(std::vector<std::string> dir,
                          std::vector<double> param){
   for(int method=0;method<(int)dir.size();method++){
@@ -463,6 +648,22 @@ void Recom::save_min_mae(std::vector<std::string> dir,
   }
   return;
 }
+
+void Recom::save_min_mae_m(std::vector<std::string> dir,
+                         std::vector<double> param){
+  for(int method=0;method<(int)dir.size();method++){
+    for(int i=0;i<MCurrent;i++){
+      if(choiceMAE_M[method][i]<MinMAE[MCurrent]){
+        MinMAE[MCurrent]=choiceMAE_M[method][i];
+        for(int i=0; i<(int)param.size(); i++){
+          MinMAEParam[MCurrent][i]=param[i];
+        }
+      }
+    }
+  }
+  return;
+}
+
 
 void Recom::precision_summury(std::vector<std::string> dir){
   int max=(int)return_max_value()*10;
@@ -493,6 +694,63 @@ void Recom::precision_summury(std::vector<std::string> dir){
         }
         if(array2[i]==1.0)
           break;
+      }
+    }
+    double sumMAE=0.0,sumF=0.0;
+    for(int i=0;i<MISSINGTRIALS;i++){
+      sumMAE+=choiceMAE[method][i];
+      sumF+=choiceFmeasure[method][i];
+      // std::cout<<"sumMAE"<<i<<": "
+      //          <<sumMAE<<std::endl;
+    }
+    std::ofstream ofs(dir[method]+"/average_MaeFmeasureAuc.txt", std::ios::app);
+    if(!ofs){
+      std::cerr << "precision_summury: file could not open" << std::endl;
+    }
+    double averageMAE = sumMAE/(double)MISSINGTRIALS;
+    double averageF = sumF/(double)MISSINGTRIALS;
+    double AUC = rocarea/(double)MISSINGTRIALS;
+    
+    std::cout<<"miss:"<<Missing<<"\tMAE="<<averageMAE
+             <<"\tF-measure="<<averageF<<"\tAUC="<<AUC<<std::endl;
+    ofs<<Missing<<"\t"<<std::fixed<<std::setprecision(10)<<averageMAE
+       <<"\t"<<averageF<<"\t"<<AUC<<std::endl;
+  }
+  return;
+}
+
+void Recom::precision_summary_m(std::vector<std::string> dir,
+                                bool param2_flag){
+  int max=(int)return_max_value()*10;
+  for(int method=0;method<(int)dir.size();method++){
+    double rocarea=0.0;
+    if(!param2_flag){
+      for(int x=0;x<Current;x++){
+        Vector array1(max,0.0,"all"),array2(max,0.0,"all");
+        std::ifstream ifs(dir[method]+"/ROC/choice/"+METHOD_NAME
+                          +"_ROC_"+std::to_string(Missing)
+                          +"_"+std::to_string(x)+"_sort.txt");
+        if(!ifs){
+          std::cerr<<"precision_summury: file input failed"<<std::endl;
+          break;
+        }
+        for(int i=0;i<max;i++)
+          ifs>>array1[i]>>array2[i];
+        ifs.close();
+        for(int i=0;i<max-1;i++){
+          /*~2017/12/25
+            if((array1[i]<array1[i+1])||(array1[i]!=0)||(array2[i]!=0)){
+          */
+          if((array1[i]<array1[i+1])){
+            double low=array1[i+1]-array1[i];
+            double height=fabs(array2[i+1]-array2[i]);
+            double squarearea=low*array2[i];
+            double triangle=(low*height)/2.0;
+            rocarea+=squarearea+triangle;
+          }
+          if(array2[i]==1.0)
+            break;
+        }
       }
     }
     double sumMAE=0.0,sumF=0.0;

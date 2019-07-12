@@ -42,6 +42,8 @@ int main(void){
       recom.roc(dirs[0]);
       recom.choice_mae_f(dirs, 0);
     }
+    //最小MAEを計算
+    recom.save_min_mae(dirs,{});
     //AUC，MAE，F-measureの平均を計算，出力
     recom.precision_summury(dirs);
     recom.Mcurrent()++;

@@ -5,9 +5,9 @@
 #define __RECOM__
 
 //欠損のさせ方を何通りにするか
-#define MISSINGTRIALS 2
+#define MISSINGTRIALS 50
 //クラスタリングの初期値を何通りにするか
-#define CLUSTERINGTRIALS 2
+#define CLUSTERINGTRIALS 50
 //pearson, eicf, co-clustering
 #define METHOD_NUMBER 2
 
@@ -108,6 +108,7 @@ protected:
   //MAE, F-measure, AUC
   Matrix resultMAE, resultFmeasure;
   Matrix choiceMAE, choiceFmeasure;
+  Matrix choiceMAE_M, choiceFmeasure_M;
   //欠損数ごとの最小MAE
   Vector MinMAE;
   //MAE最小時ファジィ化パラメータ
@@ -148,10 +149,13 @@ protected:
   void revise_missing_values(void);
   //MAEの計算，textに保存
   void mae(std::string, int);
+  void mae(std::string, int, std::vector<double>);
   //F-measureの計算，textに保存，indexはROC用ループ添字
   void fmeasure(std::string, int);
+  void fmeasure(std::string, int, std::vector<double>);
   //ROCで必要な値をtextに保存
   void roc(std::string);
+  void roc(std::string, std::vector<double>);
   //ROCの横軸の値で小さい順にソート
   void Sort(Vector &fal, Vector &tru, int index);
   //Seedとか保存
@@ -159,17 +163,24 @@ protected:
   //選ばれたクラスタリング初期値によるMAE,Fmeasureの欠損させ方数平均
   int min_objective_index(void);
   void choice_mae_f(std::vector<std::string>, int p=1);
+  void choice_mae_f(std::vector<std::string>,
+                    std::vector<double>, int p=1);
   //maeとfmeasure出力:人工データ用
   void save_mae_f(std::vector<std::string>);
   void out_mae_f(std::vector<std::string>);
   void out_mem(std::vector<std::string>);
   void out_min_mae(std::vector<std::string>);
   void out_min_mae(std::vector<std::string>,
-                   std::vector<double> param);
-  void save_min_mae(std::vector<std::string> dir,
-                    std::vector<double> param);
+                   std::vector<double>);
+  void out_min_mae_m(std::vector<std::string>);
+  void save_min_mae(std::vector<std::string>,
+                    std::vector<double>);
+  void save_min_mae_m(std::vector<std::string>,
+                    std::vector<double>);
   //AUCの計算，text1に読み込むROCファイル，text2に平均AUCを保存
   void precision_summury(std::vector<std::string>);
+  void precision_summary_m(std::vector<std::string>,
+                           bool param2_flag=false);
   //クラスタリングのみで予測値計算
   void revise_prediction(void);
   //Efficient Incremental Collaborative Filtering system
