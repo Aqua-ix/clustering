@@ -14,24 +14,21 @@ const std::string InputDataName="sparse_"+data_name
 const std::string METHOD_NAME="GROUPLENS";
 
 int main(void){
-  std::vector<std::string> dirs = MkdirFCS({METHOD_NAME});
+  std::vector<std::string> dirs = Mkdir({METHOD_NAME});
   //Recomクラスの生成
   Recom recom(user_number, item_number, 0, 0, MISSING_MAX);
   recom.method_name()=METHOD_NAME;
   //データ入力
   recom.input(DATA_DIR+InputDataName);
-  //シード値の初期化
-  recom.seed();
-  //欠損パターン
-  for(recom.current()=0;recom.current()
-        <MISSINGTRIALS;recom.current()++){
-    std::cout<<"missing pattern: "<<recom.current()<<std::endl;
-    //missing_pattern_xのフォルダ作成
-    std::vector<std::string> dir = Mkdir(recom.current(), dirs);
-    //欠損数
-    recom.Mcurrent()=0;
-    for(recom.missing()=MISSING_MIN;
-        recom.missing()<=MISSING_MAX;recom.missing()+=MISSING_DIFF){
+  //欠損数
+  recom.Mcurrent()=0;
+  for(recom.missing()=MISSING_MIN;
+      recom.missing()<=MISSING_MAX;recom.missing()+=MISSING_DIFF){
+    //シード値の初期化
+    recom.seed();
+    //欠損のさせ方ループ
+    for(recom.current()=0;recom.current()
+          <MISSINGTRIALS;recom.current()++){
       //初期化
       recom.reset();
       //データを欠損
@@ -40,20 +37,18 @@ int main(void){
       recom.reset2();
       recom.pearsonsim();
       recom.pearsonpred2();
-      recom.mae(dir[0], 0, {});
-      recom.fmeasure(dir[0], 0, {});
-      recom.roc(dir[0], {});
-      recom.choice_mae_f(dir, {}, 0);
-      recom.Mcurrent()++;
-    }//欠損数
-    
+      recom.mae(dirs[0], 0);
+      recom.fmeasure(dirs[0], 0);
+      recom.roc(dirs[0]);
+      recom.choice_mae_f(dirs, 0);
+    }
     //最小MAEを計算
-    recom.save_min_mae2(dir,{});
-    //欠損数ごとの最小MAEを出力する
-    recom.out_min_mae2(dirs);
+    recom.save_min_mae(dirs,{});
     //AUC，MAE，F-measureの平均を計算，出力
-    recom.precision_summary2(dirs,0,0);
-   
-  }//欠損パターン
+    recom.precision_summary(dirs);
+    recom.Mcurrent()++;
+  }
+  //欠損数ごとの最小MAEを出力する
+  recom.out_min_mae(dirs);
   return 0;
 }
