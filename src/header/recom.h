@@ -31,8 +31,8 @@
 #define MISSING_MAX 300000
 #define MISSING_DIFF 300000
 #else
-#define MISSING_MIN 0
-#define MISSING_MAX 0
+#define MISSING_MIN 10
+#define MISSING_MAX 20
 #define MISSING_DIFF 1
 #endif
 
@@ -68,7 +68,7 @@
 #define LAMBDA_DIFF 2
 #elif defined TEST
 #define M_START 1.1
-#define M_END 10.0
+#define M_END 2.1
 #define M_DIFF 0.1
 #define LAMBDA_START 2
 #define LAMBDA_END 1024

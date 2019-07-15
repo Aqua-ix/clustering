@@ -218,10 +218,12 @@ void Recom::mae(std::string text, int method_number){
 }
 
 //精度評価 MAE
-void Recom::mae(std::string text, int method_number, std::vector<double> param){
+void Recom::mae(std::string text, int method_number,
+                std::vector<double> param){
   double result=0.0;
   for(int m=0;m<Missing;m++){
-    result+=fabs(SparseCorrectData[KessonIndex[m][0]].elementIndex(SparseIndex[m])-Prediction[m]);
+    result+=fabs(SparseCorrectData[KessonIndex[m][0]]
+                 .elementIndex(SparseIndex[m])-Prediction[m]);
   }
   resultMAE[method_number][CCurrent]=result/(double)Missing;
   std::ofstream ofs(text+"/"+METHOD_NAME+"_MAE.txt",std::ios::app);
@@ -238,7 +240,8 @@ void Recom::mae(std::string text, int method_number, std::vector<double> param){
 
 //fmeasure
 void Recom::fmeasure(std::string text, int method_number){
-  std::ofstream ofs(text+"/"+METHOD_NAME+"_Fmeasure.txt" ,std::ios::app);
+  std::ofstream ofs(text+"/"+METHOD_NAME+"_Fmeasure.txt",
+                    std::ios::app);
   for(int index=1;index<(int)return_max_value()*10;index++){
     double TP=0.0,FP=0.0,FN=0.0,TN=0.0;
     //閾値の設定
@@ -321,8 +324,10 @@ void Recom::fmeasure(std::string text, int method_number){
 
 
 //fmeasure
-void Recom::fmeasure(std::string text, int method_number, std::vector<double> param){
-  std::ofstream ofs(text+"/"+METHOD_NAME+"_Fmeasure.txt" ,std::ios::app);
+void Recom::fmeasure(std::string text, int method_number,
+                     std::vector<double> param){
+  std::ofstream ofs(text+"/"+METHOD_NAME+"_Fmeasure.txt",
+                    std::ios::app);
   for(int index=1;index<(int)return_max_value()*10;index++){
     double TP=0.0,FP=0.0,FN=0.0,TN=0.0;
     //閾値の設定
@@ -520,7 +525,8 @@ void Recom::choice_mae_f(std::vector<std::string> dir, int p){
   return;
 }
 
-void Recom::choice_mae_f(std::vector<std::string> dir, std::vector<double> param, int p){
+void Recom::choice_mae_f(std::vector<std::string> dir,
+                         std::vector<double> param, int p){
   int obje_index=0;
   if(p==1)
     obje_index=min_objective_index();
@@ -554,7 +560,8 @@ void Recom::save_mae_f(std::vector<std::string> dir){
 
 void Recom::out_mae_f(std::vector<std::string> dir){
   for(int method=0;method<(int)dir.size();method++){
-    std::ofstream ofs(dir[method]+"/average_MaeFmeasure.txt",std::ios::app);
+    std::ofstream ofs(dir[method]+"/average_MaeFmeasure.txt",
+                      std::ios::app);
     double sumMAE=0.0,sumF=0.0;
     for(int i=0;i<MISSINGTRIALS;i++){
       sumMAE+=choiceMAE[method][i];
@@ -608,7 +615,8 @@ void Recom::save_min_mae2(std::vector<std::string> dir,
 
 void Recom::out_min_mae(std::vector<std::string> dirs){
   for(int i=0; i<(int)dirs.size(); i++){
-    std::ofstream ofs(dirs[0]+"/"+METHOD_NAME+"_minimalMAE.txt", std::ios::out);
+    std::ofstream ofs(dirs[0]+"/"+METHOD_NAME+"_minimalMAE.txt",
+                      std::ios::out);
     if(!ofs){
       std::cerr << "out_min_mae: file could not open" << std::endl;
     }
@@ -647,7 +655,7 @@ void Recom::out_min_mae2(std::vector<std::string> dirs){
                       +"/"+METHOD_NAME+"_minimalMAE.txt",
                       std::ios::out);
     if(!ofs){
-      std::cerr << "out_main_mae: file could not open" << std::endl;
+      std::cerr << "out_min_mae: file could not open" << std::endl;
     }
     int missing_index=0;
     for(int missing=MISSING_MIN;
@@ -696,7 +704,8 @@ void Recom::precision_summary(std::vector<std::string> dir){
       // std::cout<<"sumMAE"<<i<<": "
       //          <<sumMAE<<std::endl;
     }
-    std::ofstream ofs(dir[method]+"/average_MaeFmeasureAuc.txt", std::ios::app);
+    std::ofstream ofs(dir[method]+"/average_MaeFmeasureAuc.txt",
+                      std::ios::app);
     if(!ofs){
       std::cerr << "precision_summary: file could not open" << std::endl;
     }
@@ -781,7 +790,9 @@ void Recom::precision_summary2(std::vector<std::string> dir,
     // }
 
     //平均MAE出力
-    std::ofstream ofs_mae(dir[method]+"/averageMAE.txt", std::ios::out);
+    std::ofstream ofs_mae(dir[method]+"/missing_pattern"
+                          +std::to_string(Current)+"/averageMAE.txt",
+                          std::ios::app);
     if(!ofs_mae){
       std::cerr << "precision_summary: MAE file could not open" << std::endl;
     }
@@ -1217,12 +1228,14 @@ void Recom::pearsonsim_for_pcm(const Matrix &Membership_PCM,const Vector &Thresh
                 user2_ell++;
                 break;
               }
-              user2_ell++;/*現在のユーザの既評価値インデックスインクリメント*/
+              /*現在のユーザの既評価値インデックスインクリメント*/
+              user2_ell++;
             }//while(1)
           }//user1_element>0
         }//ell<user1_size
         double numerator=psum-(sum1*sum2/hyokasu);
-        double denominator=sqrt((sum1sq-pow(sum1,2.0)/hyokasu)*(sum2sq-pow(sum2,2.0)/hyokasu));
+        double denominator=sqrt((sum1sq-pow(sum1,2.0)/hyokasu)
+                                *(sum2sq-pow(sum2,2.0)/hyokasu));
         if(denominator==0 || std::isnan(denominator))//分母が0かnanなら
           Similarity[user1][user2]=0.0;//計算させない
         else
@@ -1283,7 +1296,8 @@ void Recom::pearsonpred2(void){//GroupLens(アクティブユーザの欠損値�
             =SparseIncompleteData[i].elementIndex(ell);
           //ユーザの既評価値が欠損してない、またはインデックスが一致したら計算
           if((user_element>0.0)&&(user_index==miss_user_index)){
-            numerator+=Similarity[KessonIndex[index][0]][i]*(user_element-user_average(i));
+            numerator+=Similarity[KessonIndex[index][0]][i]
+              *(user_element-user_average(i));
             denominator+=Similarity[KessonIndex[index][0]][i];
             break;
           }
@@ -1291,9 +1305,11 @@ void Recom::pearsonpred2(void){//GroupLens(アクティブユーザの欠損値�
       }
     }
     if(denominator==0)//分母０なら
-      Prediction[index]=user_average(KessonIndex[index][0]);//予測欠損値は既評価値の平均
+      //予測欠損値は既評価値の平均
+      Prediction[index]=user_average(KessonIndex[index][0]);
     else {//そうでなければ
-      Prediction[index]=user_average(KessonIndex[index][0])+numerator/denominator;//式の通り
+      Prediction[index]=user_average(KessonIndex[index][0])
+        +numerator/denominator;//式の通り
     }
     if(std::isnan(Prediction[index])) Prediction[index]=0.0;//nanの処理
   }
