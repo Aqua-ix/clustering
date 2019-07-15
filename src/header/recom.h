@@ -1,13 +1,15 @@
 #include"sparseMatrix.h"
 #include"matrix.h"
+#include<stdarg.h>
+#include<list>
 
 #ifndef __RECOM__
 #define __RECOM__
 
-//欠損のさせ方を何通りにするか
-#define MISSINGTRIALS 50
-//クラスタリングの初期値を何通りにするか
-#define CLUSTERINGTRIALS 50
+//欠損パターン
+#define MISSINGTRIALS 10000
+//クラスタリングの初期値
+#define CLUSTERINGTRIALS 10
 //pearson, eicf, co-clustering
 #define METHOD_NUMBER 2
 
@@ -135,12 +137,18 @@ protected:
   Matrix kessonindex(void) const;
   double similarity(int, int);
   double &obje(int index);
-  int &current(void);//欠損のさせ方番号
-  int &Ccurrent(void);//クラスタリングの初期値番号
-  int &Mcurrent(void);//欠損数インデックス
-  int &missing(void);//現在の欠損数
-  void input(std::string);//データ入力
-  void seed(void);//欠損のさせ方の初期化
+  //欠損パターン番号
+  int &current(void);
+  //クラスタリングの初期値パターン番号
+  int &Ccurrent(void);
+  //欠損数インデックス
+  int &Mcurrent(void);
+  //現在の欠損数
+  int &missing(void);
+  //データ入力
+  void input(std::string);
+  //欠損パターン初期化
+  void seed(void);
   //初期化
   void reset(void);
   void reset2(void);
@@ -167,20 +175,26 @@ protected:
                     std::vector<double>, int p=1);
   //maeとfmeasure出力:人工データ用
   void save_mae_f(std::vector<std::string>);
+  //MAEを出力
   void out_mae_f(std::vector<std::string>);
+  //帰属度を出力
   void out_mem(std::vector<std::string>);
+  //最小MAEを保存
+  void save_min_mae(std::vector<std::string>,
+                    std::vector<double>);
+  //最小MAEを保存(パラメータ毎)
+  void save_min_mae2(std::vector<std::string>,
+                    std::vector<double>);
+  //最小MAEを出力
   void out_min_mae(std::vector<std::string>);
   void out_min_mae(std::vector<std::string>,
                    std::vector<double>);
-  void out_min_mae_m(std::vector<std::string>);
-  void save_min_mae(std::vector<std::string>,
-                    std::vector<double>);
-  void save_min_mae_m(std::vector<std::string>,
-                    std::vector<double>);
+  //最小MAEを出力(パラメータ毎)
+  void out_min_mae2(std::vector<std::string>);
   //AUCの計算，text1に読み込むROCファイル，text2に平均AUCを保存
-  void precision_summury(std::vector<std::string>);
-  void precision_summary_m(std::vector<std::string>,
-                           bool param2_flag=false);
+  void precision_summary(std::vector<std::string>);
+  void precision_summary2(std::vector<std::string>,
+                          int param_num, double params, ...);
   //クラスタリングのみで予測値計算
   void revise_prediction(void);
   //Efficient Incremental Collaborative Filtering system
@@ -208,7 +222,7 @@ protected:
   void crisp(const Matrix &Membership, const Matrix &ItemMembership);
   void crisp(const Matrix &Membership);
   void crisp(const Matrix &Membership, const int clusters_number);
-  //収束した帰属度を元にオーバーラップ
+  //収束した帰属度をオーバーラップ
   void overlap(const Matrix &Membership);
 };
 //ユーザ数を返す

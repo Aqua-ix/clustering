@@ -9,7 +9,7 @@ const int item_number=return_item_number();
 const std::string data_name=return_data_name();
 //入力するデータ
 const std::string InputDataName="sparse_"+data_name
-  +"_"+std::to_string(user_number)+"_"+std::to_string(item_number)+".txt";
++"_"+std::to_string(user_number)+"_"+std::to_string(item_number)+".txt";
 //クラスタリング手法名
 const std::string METHOD_NAME="BPCS_CLISP";
 //クラスタ数
@@ -19,32 +19,29 @@ int main(void){
   Recom recom(user_number, item_number, user_number, item_number, MISSING_MAX);
   std::vector<std::string> dirs = MkdirFCS(METHOD_NAME);
   recom.method_name()=METHOD_NAME;
+  
+  double alpha=ALPHA;
+  //パラメータm
+  for(double m=M_START;m<=M_END;m+=M_DIFF){
+    std::cout<<"m: "<<m<<std::endl;
+    BPCS test(item_number, user_number, clusters_number, m, alpha);
+    //マージのしきい値設定
+    test.centers_threshold()=CENTERS_THRESHOLD;
 
-  //シード値の初期化
-  recom.seed();    
-  //欠損パターン
-  for(recom.current()=0;recom.current()<MISSINGTRIALS;recom.current()++){
-    std::cout<<"missing pattern: "<<recom.current()<<std::endl;
-    //missing_pattern_xのフォルダ作成
-    std::vector<std::string> dir = Mkdir(recom.current(), dirs);
-   
-    double alpha=ALPHA;
-    //パラメータm
-    for(double m=M_START;m<=M_END;m+=M_DIFF){
-      std::cout<<"m: "<<m<<std::endl;
-      BPCS test(item_number, user_number, clusters_number, m, alpha);
-      //マージのしきい値設定
-      test.centers_threshold()=CENTERS_THRESHOLD;
-
-      std::vector<double> parameter= {m};
+    std::vector<double> parameter= {m};
+    std::vector<std::string> dir = Mkdir(parameter, clusters_number, dirs);
     
-      //データ入力
-      recom.input(DATA_DIR+InputDataName);
-      //欠損数
-      recom.Mcurrent()=0;
-      for(recom.missing()=MISSING_MIN;
-          recom.missing()<=MISSING_MAX;recom.missing()+=MISSING_DIFF){
-        
+    //データ入力
+    recom.input(DATA_DIR+InputDataName);
+    //欠損数
+    recom.Mcurrent()=0;
+    for(recom.missing()=MISSING_MIN;
+        recom.missing()<=MISSING_MAX;recom.missing()+=MISSING_DIFF){
+      //シード値の初期化
+      recom.seed();
+      //欠損パターン
+      for(recom.current()=0;recom.current()<MISSINGTRIALS;recom.current()++){
+        std::cout<<"missing pattern: "<<recom.current()<<std::endl;
         //初期化
         recom.reset();
         //データを欠損
@@ -87,32 +84,22 @@ int main(void){
         
         recom.pearsonsim_for_pcm(test.clusters_count());
         recom.pearsonpred2();
-
-        //パラメータ、欠損数、MAE
-        recom.mae(dir[0], 0, parameter);
-        //パラメータ、欠損数、TP、FP、FN、TN、F-measure
-        recom.fmeasure(dir[0], 0, parameter);
-        //BPCS_CLISP_ROC_パラメータ_欠損数_sort.txt
+        recom.mae(dir[0], 0);
+        recom.fmeasure(dir[0], 0);
         recom.roc(dir[0]);
         recom.obje(recom.Ccurrent())=-1;
         recom.ofs_objective(dir[0]);
         test.ofs_selected_data(dir[0]);
-        recom.choice_mae_f(dir, parameter);
-        recom.Mcurrent()++;
-      }//欠損数
-      
-      //欠損数ごとのMAEが今までのMAEより小さければ保存する
-      recom.save_min_mae_m(dir, parameter);
-      
-    }//パラメータm
-    
-    //TODO: minimalMAE.txtファイル出力
-    recom.out_min_mae_m(dirs);
-    
-    //TODO: 今までに保存したminimalMAEを欠損数ごとに読み込んでrecom.current()で平均する
-    //AUC，MAE，F-measureの平均を計算，出力
-    recom.precision_summary_m(dir);
-    
-  }//欠損パターン
+        recom.choice_mae_f(dir);
+      }//欠損パターン
+      //最小MAEを計算
+      recom.save_min_mae(dir, parameter);
+      //AUC，MAE，F-measureの平均を計算，出力
+      recom.precision_summary(dir);
+      recom.Mcurrent()++;
+    }//欠損数
+    //欠損数ごとの最小MAEを出力する
+    recom.out_min_mae(dirs, parameter);
+  }//パラメータm
   return 0;
 }

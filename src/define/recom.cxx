@@ -572,6 +572,40 @@ void Recom::out_mae_f(std::vector<std::string> dir){
   return;
 }
 
+void Recom::save_min_mae(std::vector<std::string> dir,
+                         std::vector<double> param){
+  for(int method=0;method<(int)dir.size();method++){
+    double sumMAE=0.0;
+    for(int i=0;i<MISSINGTRIALS;i++){
+      sumMAE+=choiceMAE[method][i];
+    }
+    double averageMAE = sumMAE/(double)MISSINGTRIALS;
+    
+    if(averageMAE<MinMAE[MCurrent]){
+      MinMAE[MCurrent]=averageMAE;
+      for(int i=0; i<(int)param.size(); i++){
+        MinMAEParam[MCurrent][i]=param[i];
+      }
+    }
+  }
+  return;
+}
+
+void Recom::save_min_mae2(std::vector<std::string> dir,
+                         std::vector<double> param){
+  for(int method=0;method<(int)dir.size();method++){
+    for(int i=0;i<MCurrent;i++){
+      if(choiceMAE_M[method][i]<MinMAE[i]){
+        MinMAE[i]=choiceMAE_M[method][i];
+        for(int j=0; j<(int)param.size(); j++){
+          MinMAEParam[i][j]=param[j];
+        }
+      }
+    }
+  }
+  return;
+}
+
 void Recom::out_min_mae(std::vector<std::string> dirs){
   for(int i=0; i<(int)dirs.size(); i++){
     std::ofstream ofs(dirs[0]+"/"+METHOD_NAME+"_minimalMAE.txt", std::ios::out);
@@ -592,7 +626,7 @@ void Recom::out_min_mae(std::vector<std::string> dirs,
     std::ofstream ofs(dirs[0]+"/"+METHOD_NAME+"_minimalMAE.txt",
                       std::ios::out);
     if(!ofs){
-      std::cerr << "out_main_mae: file could not open" << std::endl;
+      std::cerr << "out_min_mae: file could not open" << std::endl;
     }
     int missing_index=0;
     for(int missing=MISSING_MIN;missing<=MISSING_MAX;
@@ -607,65 +641,24 @@ void Recom::out_min_mae(std::vector<std::string> dirs,
   }
 }
 
-
-void Recom::out_min_mae_m(std::vector<std::string> dirs){
+void Recom::out_min_mae2(std::vector<std::string> dirs){
   for(int i=0; i<(int)dirs.size(); i++){
-    std::ofstream ofs(dirs[0]+"/"+METHOD_NAME+"_minimalMAE.txt",
+    std::ofstream ofs(dirs[i]+"/missing_pattern"+std::to_string(Current)
+                      +"/"+METHOD_NAME+"_minimalMAE.txt",
                       std::ios::out);
     if(!ofs){
       std::cerr << "out_main_mae: file could not open" << std::endl;
     }
     int missing_index=0;
-    for(int missing=MISSING_MIN;missing<=MISSING_MAX;
+    for(int missing=MISSING_MIN;
+        missing<=MISSING_MAX;
         missing+=MISSING_DIFF){
-      ofs<<missing<<"\t"<<MinMAE[missing_index]<<"\t";
-      for(int i=0; i<MinMAEParam[missing_index].size(); i++){
-        if(MinMAEParam[missing_index][i]!=0){
-          ofs<<MinMAEParam[missing_index][i]<<"\t";
-        }
-      }
-      missing_index++;
-      ofs<<std::endl;
+      ofs<<missing<<"\t"<<MinMAE[missing_index++]<<std::endl;
     }
   }
 }
 
-void Recom::save_min_mae(std::vector<std::string> dir,
-                         std::vector<double> param){
-  for(int method=0;method<(int)dir.size();method++){
-    double sumMAE=0.0;
-    for(int i=0;i<MISSINGTRIALS;i++){
-      sumMAE+=choiceMAE[method][i];
-    }
-    double averageMAE = sumMAE/(double)MISSINGTRIALS;
-    
-    if(averageMAE<MinMAE[MCurrent]){
-      MinMAE[MCurrent]=averageMAE;
-      for(int i=0; i<(int)param.size(); i++){
-        MinMAEParam[MCurrent][i]=param[i];
-      }
-    }
-  }
-  return;
-}
-
-void Recom::save_min_mae_m(std::vector<std::string> dir,
-                         std::vector<double> param){
-  for(int method=0;method<(int)dir.size();method++){
-    for(int i=0;i<MCurrent;i++){
-      if(choiceMAE_M[method][i]<MinMAE[MCurrent]){
-        MinMAE[MCurrent]=choiceMAE_M[method][i];
-        for(int i=0; i<(int)param.size(); i++){
-          MinMAEParam[MCurrent][i]=param[i];
-        }
-      }
-    }
-  }
-  return;
-}
-
-
-void Recom::precision_summury(std::vector<std::string> dir){
+void Recom::precision_summary(std::vector<std::string> dir){
   int max=(int)return_max_value()*10;
   for(int method=0;method<(int)dir.size();method++){
     double rocarea=0.0;
@@ -675,7 +668,7 @@ void Recom::precision_summury(std::vector<std::string> dir){
                         +std::to_string(Missing)
                         +"_"+std::to_string(x)+"_sort.txt");
       if(!ifs){
-        std::cerr<<"precision_summury: file input failed"<<std::endl;
+        std::cerr<<"precision_summary: file input failed"<<std::endl;
         break;
       }
       for(int i=0;i<max;i++)
@@ -705,7 +698,7 @@ void Recom::precision_summury(std::vector<std::string> dir){
     }
     std::ofstream ofs(dir[method]+"/average_MaeFmeasureAuc.txt", std::ios::app);
     if(!ofs){
-      std::cerr << "precision_summury: file could not open" << std::endl;
+      std::cerr << "precision_summary: file could not open" << std::endl;
     }
     double averageMAE = sumMAE/(double)MISSINGTRIALS;
     double averageF = sumF/(double)MISSINGTRIALS;
@@ -719,59 +712,94 @@ void Recom::precision_summury(std::vector<std::string> dir){
   return;
 }
 
-void Recom::precision_summary_m(std::vector<std::string> dir,
-                                bool param2_flag){
-  int max=(int)return_max_value()*10;
+void Recom::precision_summary2(std::vector<std::string> dir,
+                               int param_num, double params, ...){
+
+  //パラメータ設定
+  std::vector< std::vector<double> >
+    param(param_num,std::vector<double>(3,0) );
+  
+  va_list arg;
+  va_start(arg,params);
+
+  for(int pnum=0;pnum<param_num;pnum++){
+    for(int parg=0;parg<3;parg++){
+      param[pnum][parg]=va_arg(arg, double);
+    }
+  }
+ 
   for(int method=0;method<(int)dir.size();method++){
-    double rocarea=0.0;
-    if(!param2_flag){
-      for(int x=0;x<Current;x++){
-        Vector array1(max,0.0,"all"),array2(max,0.0,"all");
-        std::ifstream ifs(dir[method]+"/ROC/choice/"+METHOD_NAME
-                          +"_ROC_"+std::to_string(Missing)
-                          +"_"+std::to_string(x)+"_sort.txt");
-        if(!ifs){
-          std::cerr<<"precision_summury: file input failed"<<std::endl;
-          break;
-        }
-        for(int i=0;i<max;i++)
-          ifs>>array1[i]>>array2[i];
-        ifs.close();
-        for(int i=0;i<max-1;i++){
-          /*~2017/12/25
-            if((array1[i]<array1[i+1])||(array1[i]!=0)||(array2[i]!=0)){
-          */
-          if((array1[i]<array1[i+1])){
-            double low=array1[i+1]-array1[i];
-            double height=fabs(array2[i+1]-array2[i]);
-            double squarearea=low*array2[i];
-            double triangle=(low*height)/2.0;
-            rocarea+=squarearea+triangle;
-          }
-          if(array2[i]==1.0)
-            break;
-        }
+    //MAE
+    std::vector<double> sumMAE(MCurrent, 0.0);
+    double tmp=0, mae=0;
+    
+    for(int mt=0;mt<Current+1;mt++){
+      std::ifstream ifs(dir[method]+"/missing_pattern"
+                        +std::to_string(mt)
+                        +"/"+METHOD_NAME
+                        +"_minimalMAE.txt");
+      if(!ifs){
+        std::cerr<<"precision_summary: MAE file input failed"<<std::endl;
+        break;
+      }
+      for(int miss=0;miss<(int)sumMAE.size();miss++){
+        ifs>>tmp>>mae;
+        sumMAE[miss]+=mae;
       }
     }
-    double sumMAE=0.0,sumF=0.0;
-    for(int i=0;i<MISSINGTRIALS;i++){
-      sumMAE+=choiceMAE[method][i];
-      sumF+=choiceFmeasure[method][i];
-      // std::cout<<"sumMAE"<<i<<": "
-      //          <<sumMAE<<std::endl;
+
+    // //AUC
+    // int max=(int)return_max_value()*10;
+    // double rocarea=0.0;
+    // for(int mt=0;mt<Current+1;mt++){
+    //   for(double p1=param[0][0]; p1<param[0][1]; p1+=param[0][2]){
+    //     for(double p2=param[1][0]; p2<param[1][1]; p2+=param[1][2]){
+    //       Vector array1(max,0.0,"all"),array2(max,0.0,"all");
+    //       std::ifstream ifs(dir[method]+"/ROC/choice/"+METHOD_NAME
+    //                         +"_ROC_"+std::to_string(Missing)
+    //                         +"_"+std::to_string(mt)+"_sort.txt");
+    //       if(!ifs){
+    //         std::cerr<<"precision_summary: ROC file input failed"<<std::endl;
+    //         break;
+    //       }
+    //       for(int i=0;i<max;i++)
+    //         ifs>>array1[i]>>array2[i];
+    //       ifs.close();
+    //       for(int i=0;i<max-1;i++){
+    //         if((array1[i]<array1[i+1])){
+    //           double low=array1[i+1]-array1[i];
+    //           double height=fabs(array2[i+1]-array2[i]);
+    //           double squarearea=low*array2[i];
+    //           double triangle=(low*height)/2.0;
+    //           rocarea+=squarearea+triangle;
+    //         }
+    //         if(array2[i]==1.0)
+    //           break;
+    //       }
+    //     }
+    //   }
+    // }
+
+    //平均MAE出力
+    std::ofstream ofs_mae(dir[method]+"/averageMAE.txt", std::ios::out);
+    if(!ofs_mae){
+      std::cerr << "precision_summary: MAE file could not open" << std::endl;
     }
-    std::ofstream ofs(dir[method]+"/average_MaeFmeasureAuc.txt", std::ios::app);
-    if(!ofs){
-      std::cerr << "precision_summury: file could not open" << std::endl;
+    std::vector<double> aveMAE(MCurrent, 0.0);
+    double missing=MISSING_MIN;
+    for(int miss=0;miss<(int)sumMAE.size();miss++){
+      aveMAE[miss]=sumMAE[miss]/(Current+1);
+      ofs_mae<<missing<<"\t"<<aveMAE[miss]<<std::endl;
+      missing+=MISSING_DIFF;
     }
-    double averageMAE = sumMAE/(double)MISSINGTRIALS;
-    double averageF = sumF/(double)MISSINGTRIALS;
-    double AUC = rocarea/(double)MISSINGTRIALS;
+
+    // //平均AUC出力
+    // std::ofstream ofs_auc(dir[method]+"/aveMAE.txt", std::ios::app);
+    // if(!ofs_auc){
+    //   std::cerr << "precision_summary: MAE file could not open" << std::endl;
+    // }
+    // double AUC = rocarea/(double)Current;
     
-    std::cout<<"miss:"<<Missing<<"\tMAE="<<averageMAE
-             <<"\tF-measure="<<averageF<<"\tAUC="<<AUC<<std::endl;
-    ofs<<Missing<<"\t"<<std::fixed<<std::setprecision(10)<<averageMAE
-       <<"\t"<<averageF<<"\t"<<AUC<<std::endl;
   }
   return;
 }
@@ -1587,7 +1615,7 @@ std::vector<std::string>
 Mkdir(int missing, std::vector<std::string> dirs){
   std::vector<std::string> v;  
   for(int i=0;i<(int)dirs.size();i++){
-    const std::string dir=dirs[i]+"/missing_pattern_"+std::to_string(missing);
+    const std::string dir=dirs[i]+"/missing_pattern"+std::to_string(missing);
     v.push_back(dir);
     mkdir(dir.c_str(),0755);
     //ROCフォルダ作成

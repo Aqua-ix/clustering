@@ -7,10 +7,11 @@ const int user_number=return_user_number();
 const int item_number=return_item_number();
 //データの名前
 const std::string data_name=return_data_name();
-//入力するデータの場所
+//入力するデータ
 const std::string InputDataName="sparse_"+data_name
   +"_"+std::to_string(user_number)
   +"_"+std::to_string(item_number)+".txt";
+
 //クラスタリング手法名
 const std::string METHOD_NAME="BFCS_OVERLAP";
 int main(void){
@@ -129,7 +130,7 @@ int main(void){
         //最小MAEを計算
         recom.save_min_mae(dir, parameter);
         //AUC，MAE，F-measureの平均を計算，出力
-        recom.precision_summury(dir);
+        recom.precision_summary(dir);
         recom.Mcurrent()++;
       }//欠損数
       //欠損数ごとの最小MAEを出力する
