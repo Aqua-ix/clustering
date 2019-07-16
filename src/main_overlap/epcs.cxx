@@ -78,18 +78,18 @@ int main(void){
         }//ユーザー数回ループ
         recom.pearsonsim_for_pcm(test.membership_pcm(),test.membership_threshold());
         recom.pearsonpred2();
-        recom.mae(dir[0], 0);
-        recom.fmeasure(dir[0], 0);
-        recom.roc(dir[0]);
+        recom.mae(dir[0], 0, parameter);
+        recom.fmeasure(dir[0], 0, parameter);
+        recom.roc(dir[0],parameter);
         recom.obje(recom.Ccurrent())=-1;
         recom.ofs_objective(dir[0]);
         test.ofs_selected_data(dir[0]);
-        recom.choice_mae_f(dir);
+        recom.choice_mae_f(dir, parameter);
         recom.Mcurrent()++;
       }//欠損数
       //欠損数ごとのMAEが今までのMAEより小さければ保存する
       recom.save_min_mae2(dir, parameter);
-    }//パラメータm
+    }//パラメータlambda
     
     //最小MAE出力
     recom.out_min_mae2(dirs);
@@ -100,3 +100,4 @@ int main(void){
   }//欠損パターン
   return 0;
 }
+

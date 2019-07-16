@@ -98,7 +98,7 @@ int main(void){
       }//欠損数
       //欠損数ごとのMAEが今までのMAEより小さければ保存する
       recom.save_min_mae2(dir, parameter);
-    }//パラメータm
+    }//パラメータlambda
     
     //最小MAE出力
     recom.out_min_mae2(dirs);

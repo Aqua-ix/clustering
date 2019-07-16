@@ -25,6 +25,8 @@ int main(void){
   //欠損パターン
   for(recom.current()=0;recom.current()<MISSINGTRIALS;recom.current()++){
     std::cout<<"missing pattern: "<<recom.current()<<std::endl;
+    //missing_pattern_xのフォルダ作成
+    std::vector<std::string> dir = Mkdir(recom.current(), dirs);
 
     double alpha=ALPHA;
     for(double m=M_START;m<=M_END;m+=M_DIFF){
@@ -74,13 +76,14 @@ int main(void){
         }//ユーザー数回ループ
         recom.pearsonsim_for_pcm(test.membership_pcm(),test.membership_threshold());
         recom.pearsonpred2();
-        recom.mae(dir[0], 0);
-        recom.fmeasure(dir[0], 0);
-        recom.roc(dir[0]);
+ 
+        recom.mae(dir[0], 0, parameter);
+        recom.fmeasure(dir[0], 0, parameter);
+        recom.roc(dir[0],parameter);
         recom.obje(recom.Ccurrent())=-1;
         recom.ofs_objective(dir[0]);
         test.ofs_selected_data(dir[0]);
-        recom.choice_mae_f(dir);
+        recom.choice_mae_f(dir, parameter);
         recom.Mcurrent()++;
       }//欠損数
       //欠損数ごとのMAEが今までのMAEより小さければ保存する
