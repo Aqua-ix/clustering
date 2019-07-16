@@ -20,26 +20,30 @@ int main(void){
   Recom recom(user_number, item_number,clusters_number, clusters_number, MISSING_MAX);
   recom.method_name()=METHOD_NAME;
 
-  double alpha=ALPHA;
-  //パラメータm
-  for(double m=M_START;m<=M_END;m+=M_DIFF){
-    //パラメータlambda
-    for(double lambda=LAMBDA_START;lambda<=LAMBDA_END;lambda*=LAMBDA_DIFF){
-      QPCS test(item_number, user_number, clusters_number, m, lambda ,alpha);
-      std::vector<double> parameter= {lambda, m};
-      std::vector<std::string> dir= Mkdir(parameter, clusters_number, dirs);
+  //シード値の初期化
+  recom.seed();
+  //欠損パターン
+  for(recom.current()=0;recom.current()<MISSINGTRIALS;recom.current()++){
+    std::cout<<"missing pattern: "<<recom.current()<<std::endl;
+          
+    //missing_pattern_xのフォルダ作成
+    std::vector<std::string> dir = Mkdir(recom.current(), dirs);
 
-      //データ入力
-      recom.input(DATA_DIR+InputDataName);	
-      //欠損数
-      recom.Mcurrent()=0;
-      for(recom.missing()=MISSING_MIN;
-          recom.missing()<=MISSING_MAX;recom.missing()+=MISSING_DIFF){
-        //シード値の初期化
-        recom.seed();
-        //欠損パターン
-        for(recom.current()=0;recom.current()<MISSINGTRIALS;recom.current()++){
-          std::cout<<"missing pattern: "<<recom.current()<<std::endl;
+    double alpha=ALPHA;
+    //パラメータm
+    for(double m=M_START;m<=M_END;m+=M_DIFF){
+      //パラメータlambda
+      for(double lambda=LAMBDA_START;lambda<=LAMBDA_END;lambda*=LAMBDA_DIFF){
+        QPCS test(item_number, user_number, clusters_number, m, lambda ,alpha);
+        std::vector<double> parameter= {lambda, m};
+
+        //データ入力
+        recom.input(DATA_DIR+InputDataName);	
+        //欠損数
+        recom.Mcurrent()=0;
+        for(recom.missing()=MISSING_MIN;
+            recom.missing()<=MISSING_MAX;recom.missing()+=MISSING_DIFF){
+       
           //初期化
           recom.reset();
           //データを欠損
@@ -83,16 +87,21 @@ int main(void){
           recom.ofs_objective(dir[0]);
           test.ofs_selected_data(dir[0]);
           recom.choice_mae_f(dir);
-        }//欠損パターン
-        //最小MAEを計算
-        recom.save_min_mae(dir, parameter);
-        //AUC，MAE，F-measureの平均を計算，出力
-        recom.precision_summary(dir);
-        recom.Mcurrent()++;
-      }//欠損数
-      //欠損数ごとの最小MAEを出力する
-      recom.out_min_mae(dirs, parameter);
+          recom.Mcurrent()++;
+        }//欠損数
+        //欠損数ごとのMAEが今までのMAEより小さければ保存する
+        recom.save_min_mae2(dir, parameter);
+      }//パラメータlambda
     }//パラメータm
-  }//パラメータlambda
+    
+    //最小MAE出力
+    recom.out_min_mae2(dirs);
+    
+    //AUC，MAE，F-measureの平均を計算，出力
+    recom.precision_summary2(dirs, 2,
+                             M_START, M_END, M_DIFF,
+                             LAMBDA_START, LAMBDA_END, LAMBDA_DIFF);
+    
+  }//欠損パターン
   return 0;
 }
