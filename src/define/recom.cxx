@@ -791,7 +791,7 @@ void Recom::precision_summary2(std::vector<std::string> dir,
 
     //平均MAE出力
     std::ofstream ofs_mae(dir[method]+"/missing_pattern"
-                          +std::to_string(Current)+"/averageMAE.txt",
+                          +std::to_string(Current)+"/"+METHOD_NAME+"averageMAE.txt",
                           std::ios::app);
     if(!ofs_mae){
       std::cerr << "precision_summary: MAE file could not open" << std::endl;

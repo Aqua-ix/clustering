@@ -1,4 +1,3 @@
-set title "overlap" font "Arial,15"
 set key left font "Arial,15"
 set xlabel "Number of Missing Values" font "Arial,15"
 set ylabel "MAE" font "Arial,15"
