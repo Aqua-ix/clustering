@@ -7,7 +7,11 @@
 #define __RECOM__
 
 //欠損パターン
+#ifdef TEST
+#define MISSINGTRIALS 5
+#else
 #define MISSINGTRIALS 10000
+#endif
 //クラスタリングの初期値
 #define CLUSTERINGTRIALS 10
 //pearson, eicf, co-clustering
@@ -224,6 +228,7 @@ protected:
   void crisp(const Matrix &Membership, const int clusters_number);
   //収束した帰属度をオーバーラップ
   void overlap(const Matrix &Membership);
+  void overlap(const Matrix &Membership, int clusters_number);
 };
 //ユーザ数を返す
 int return_user_number(void);

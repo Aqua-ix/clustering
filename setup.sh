@@ -3,6 +3,7 @@
 ulimit -c unlimited
 git pull
 make clean clean.o
+rm -rf core
 cd src
 gtags -v
 emacs . &

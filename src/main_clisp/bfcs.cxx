@@ -1,5 +1,5 @@
 #include"recom.h"
-#include"efcs.h"
+#include"bfcs.h"
 
 //ユーザ数
 const int user_number=return_user_number();
@@ -12,34 +12,37 @@ const std::string InputDataName="sparse_"+data_name
   +"_"+std::to_string(user_number)
   +"_"+std::to_string(item_number)+".txt";
 //クラスタリング手法名
-const std::string METHOD_NAME="EFCS_CLISP";
+const std::string METHOD_NAME="BFCS_CLISP";
 
 int main(void){
   std::vector<std::string> dirs = MkdirFCS(METHOD_NAME);
-  //クラスタ数でループ
+  //クラスタ数
   for(int clusters_number=C_START;clusters_number<=C_END;clusters_number++){
     std::cout<<"clusters number: "<<clusters_number<<std::endl;
     //Recomクラスの生成
     Recom recom(user_number, item_number,
                 clusters_number, clusters_number, MISSING_MAX);
     recom.method_name()=METHOD_NAME;
-    for(double lambda=LAMBDA_START;lambda<=LAMBDA_END;lambda*=LAMBDA_DIFF){
-      std::cout<<"lambda: "<<lambda<<std::endl;
-      EFCS test(item_number, user_number, clusters_number, lambda);
-      std::vector<double> parameter= {lambda};
-      std::vector<std::string> dir
-        = Mkdir(parameter, clusters_number, dirs);
-      //データ入力
-      recom.input(DATA_DIR+InputDataName);
-      //欠損数
-      recom.Mcurrent()=0;
-      for(recom.missing()=MISSING_MIN;
-          recom.missing()<=MISSING_MAX;recom.missing()+=MISSING_DIFF){
-        //シード値の初期化
-        recom.seed();
-        //欠損パターン
-        for(recom.current()=0;recom.current()<MISSINGTRIALS;recom.current()++){
-          std::cout<<"missing pattern: "<<recom.current()<<std::endl;
+
+    //シード値の初期化
+    recom.seed();    
+    //欠損パターン
+    for(recom.current()=0;recom.current()<MISSINGTRIALS;recom.current()++){
+      std::cout<<"missing pattern: "<<recom.current()<<std::endl;
+      //missing_pattern_xのフォルダ作成
+      std::vector<std::string> dir = Mkdir(recom.current(), dirs);
+      //パラメータm
+      for(double m=M_START;m<=M_END;m+=M_DIFF){
+        std::cout<<"m: "<<m<<std::endl;
+        BFCS test(item_number, user_number, 
+                  clusters_number, m);
+        std::vector<double> parameter= {m};
+        //データ入力
+        recom.input(DATA_DIR+InputDataName);
+        //欠損数
+        recom.Mcurrent()=0;
+        for(recom.missing()=MISSING_MIN;
+            recom.missing()<=MISSING_MAX;recom.missing()+=MISSING_DIFF){
           //初期化
           recom.reset();
           //データを欠損
@@ -53,8 +56,6 @@ int main(void){
           //初期値パターン
           for(recom.Ccurrent()=0;recom.Ccurrent()
                 <CLUSTERINGTRIALS;recom.Ccurrent()++){
-            std::cout<<"initial setting for clustering: "
-                     <<recom.Ccurrent()<<std::endl;
             test.reset();
             //初期クラスタサイズ調整変数の設定
             test.initialize_clustersize();
@@ -115,25 +116,25 @@ int main(void){
               //クラスタリング＋ピアソン相関係数の計算
               recom.pearsonsim_clustering();
               recom.pearsonpred2();
-              recom.mae(dir[0], 0);
-              recom.fmeasure(dir[0], 0);
-              recom.roc(dir[0]);
+              recom.mae(dir[0], 0, parameter);
+              recom.fmeasure(dir[0], 0, parameter);
+              recom.roc(dir[0], parameter);
               recom.ofs_objective(dir[0]);
               test.ofs_selected_data(dir[0]);
               InitCentLoopis10=0;
             }
           }//初期値パターン
-          recom.choice_mae_f(dir);
-        }//欠損パターン
-         //最小MAEを計算
-        recom.save_min_mae(dir, parameter);
-        //AUC，MAE，F-measureの平均を計算，出力
-        recom.precision_summary(dir);
-        recom.Mcurrent()++;
-      }//欠損数
-      //欠損数ごとの最小MAEを出力する
-      recom.out_min_mae(dirs, parameter);
-    }//パラメータlambda
+          recom.choice_mae_f(dir, parameter);
+          recom.Mcurrent()++;         
+        }//欠損数
+        //欠損数ごとのMAEが今までのMAEより小さければ保存する
+        recom.save_min_mae2(dir, parameter);
+      }//パラメータm
+      //最小MAE出力
+      recom.out_min_mae2(dirs);
+      //AUC，MAEの平均を計算，出力
+      recom.precision_summary2(dirs, 1, M_START, M_END, M_DIFF);
+    }//欠損パターン
   }//クラスタ数
   return 0;
 }

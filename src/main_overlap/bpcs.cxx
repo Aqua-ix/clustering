@@ -17,7 +17,7 @@ constexpr int clusters_number=1;
 
 int main(void){
   std::vector<std::string> dirs = MkdirFCS(METHOD_NAME);
-  Recom recom(user_number, item_number, clusters_number, clusters_number, MISSING_MAX);
+  Recom recom(user_number, item_number, user_number, item_number, MISSING_MAX);
   recom.method_name()=METHOD_NAME;
 
   //シード値の初期化
@@ -30,9 +30,13 @@ int main(void){
 
     double alpha=ALPHA;
     for(double m=M_START;m<=M_END;m+=M_DIFF){
+      std::cout<<"m: "<<m<<std::endl;
       BPCS test(item_number, user_number, clusters_number, m, alpha);
+      //マージのしきい値設定
+      test.centers_threshold()=CENTERS_THRESHOLD;
+      
       std::vector<double> parameter= {m};
-
+      
       //データ入力
       recom.input(DATA_DIR+InputDataName);
       //欠損数
@@ -48,6 +52,10 @@ int main(void){
         test.copydata(recom.sparseincompletedata());
         //データをスパース化
         test.ForSphericalData();
+        //PCM用クラスタ中心の初期化
+        test.centers_pcm_reset();
+        //クラスタ数カウント
+        test.clusters_count()=1;
         //ユーザ数回ループ
         for(int k=0;k<user_number;k++){
           test.reset();
@@ -71,10 +79,12 @@ int main(void){
             if(test.iterates()>=MAX_ITE)break;
             test.iterates()++;
           }
-          //帰属度保存
-          test.save_membership(k);
+          //クラスタ中心のマージ
+          test.marge_centers();
         }//ユーザー数回ループ
-        recom.pearsonsim_for_pcm(test.membership_pcm(),test.membership_threshold());
+        recom.overlap(test.membership_pcm(), test.clusters_count());
+        
+        recom.pearsonsim_for_pcm(test.clusters_count());
         recom.pearsonpred2();
  
         recom.mae(dir[0], 0, parameter);

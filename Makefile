@@ -40,12 +40,12 @@ qfcs_overlap.out \
 bpcs_overlap.out \
 epcs_overlap.out \
 qpcs_overlap.out \
-bfcs_crisp.out \
-efcs_crisp.out \
-qfcs_crisp.out \
-bpcs_crisp.out \
-epcs_crisp.out \
-qpcs_crisp.out \
+bfcs_clisp.out \
+efcs_clisp.out \
+qfcs_clisp.out \
+bpcs_clisp.out \
+epcs_clisp.out \
+qpcs_clisp.out \
 
 ifdef data
 	DATASET=-D$(data) 
@@ -131,22 +131,22 @@ qpcs_overlap.out : $(qpcs) src/define/recom.cxx src/main_overlap/qpcs.cxx
 	$(DATASET)$(MACRO)$(FS) -o $@
 
 #推薦システム(クリスプ)
-bfcs_crisp.out : $(bfcs) src/define/recom.cxx src/main_crisp/bfcs.cxx
+bfcs_clisp.out : $(bfcs) src/define/recom.cxx src/main_clisp/bfcs.cxx
 	$(CXX) $(CXXFLAGS) $^ \
 	$(DATASET)$(MACRO)$(FS) -o $@
-efcs_crisp.out : $(efcs) src/define/recom.cxx src/main_crisp/efcs.cxx
+efcs_clisp.out : $(efcs) src/define/recom.cxx src/main_clisp/efcs.cxx
 	$(CXX) $(CXXFLAGS) $^ \
 	$(DATASET)$(MACRO)$(FS) -o $@
-qfcs_crisp.out : $(qfcs) src/define/recom.cxx src/main_crisp/qfcs.cxx
+qfcs_clisp.out : $(qfcs) src/define/recom.cxx src/main_clisp/qfcs.cxx
 	$(CXX) $(CXXFLAGS) $^ \
 	$(DATASET)$(MACRO)$(FS) -o $@
-bpcs_crisp.out : $(bpcs) src/define/recom.cxx src/main_crisp/bpcs.cxx
+bpcs_clisp.out : $(bpcs) src/define/recom.cxx src/main_clisp/bpcs.cxx
 	$(CXX) $(CXXFLAGS) $^ \
 	$(DATASET)$(MACRO)$(FS) -o $@
-epcs_crisp.out : $(epcs) src/define/recom.cxx src/main_crisp/epcs.cxx
+epcs_clisp.out : $(epcs) src/define/recom.cxx src/main_clisp/epcs.cxx
 	$(CXX) $(CXXFLAGS) $^ \
 	$(DATASET)$(MACRO)$(FS) -o $@
-qpcs_crisp.out : $(qpcs) src/define/recom.cxx src/main_crisp/qpcs.cxx
+qpcs_clisp.out : $(qpcs) src/define/recom.cxx src/main_clisp/qpcs.cxx
 	$(CXX) $(CXXFLAGS) $^ \
 	$(DATASET)$(MACRO)$(FS) -o $@
 

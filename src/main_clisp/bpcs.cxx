@@ -44,7 +44,6 @@ int main(void){
       recom.Mcurrent()=0;
       for(recom.missing()=MISSING_MIN;
           recom.missing()<=MISSING_MAX;recom.missing()+=MISSING_DIFF){
-        std::cout<<"miss: "<<recom.missing()<<std::endl;
         //初期化
         recom.reset();
         //データを欠損

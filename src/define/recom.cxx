@@ -791,7 +791,7 @@ void Recom::precision_summary2(std::vector<std::string> dir,
 
     //平均MAE出力
     std::ofstream ofs_mae(dir[method]+"/missing_pattern"
-                          +std::to_string(Current)+"/"+METHOD_NAME+"averageMAE.txt",
+                          +std::to_string(Current)+"/"+METHOD_NAME+"_averageMAE.txt",
                           std::ios::app);
     if(!ofs_mae){
       std::cerr << "precision_summary: MAE file could not open" << std::endl;
@@ -1377,8 +1377,9 @@ void Recom::crisp(const Matrix &Membership,
 
 void Recom::crisp(const Matrix &Membership){
   for(int k=0;k<return_user_number();k++){
-    for(int i=0;i<Membership.rows();i++)
+    for(int i=0;i<Membership.rows();i++){
       Mem[i][k]=0.0;
+    }
     double max=-DBL_MAX;
     int max_index=-1;
     for(int i=0;i<Membership.rows();i++){
@@ -1411,8 +1412,9 @@ void Recom::crisp(const Matrix &Membership, int clusters_number){
 
 void Recom::overlap(const Matrix &Membership){
   for(int k=0;k<return_user_number();k++){
-    for(int i=0;i<Membership.rows();i++)
+    for(int i=0;i<Membership.rows();i++){
       Mem[i][k]=0.0;
+    }
     double max=-DBL_MAX;
     int max_index=-1;
     for(int i=0;i<Membership.rows();i++){
@@ -1423,6 +1425,29 @@ void Recom::overlap(const Matrix &Membership){
     }
     Mem[max_index][k]=1.0;
     for(int i=0;i<Membership.rows();i++){
+      if(Membership[i][k]>=Membership[max_index][k]*0.8){
+        Mem[i][k]=1.0;
+      }
+    }
+  }
+  return;
+}
+
+void Recom::overlap(const Matrix &Membership, int clusters_number){
+  for(int k=0;k<return_user_number();k++){
+    for(int i=0;i<clusters_number;i++){
+      Mem[i][k]=0.0;
+    }
+    double max=-DBL_MAX;
+    int max_index=-1;
+    for(int i=0;i<clusters_number;i++){
+      if(Membership[i][k]>max){
+        max=Membership[i][k];
+        max_index=i;
+      }
+    }
+    Mem[max_index][k]=1.0;
+    for(int i=0;i<clusters_number;i++){
       if(Membership[i][k]>=Membership[max_index][k]*0.8){
         Mem[i][k]=1.0;
       }
@@ -1549,7 +1574,7 @@ std::string return_data_name(){//データ名
 #elif defined ARTIFICIALITY
   return "artificiality";
 #elif defined TEST
-  return "artificiality_pcmtest";
+  return "artificiality_overlap";
 #else
   std::cout<<"error recom's func return_data_name\n";
   exit(1);
