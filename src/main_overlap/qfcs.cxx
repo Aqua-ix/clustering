@@ -74,9 +74,9 @@ int main(void){
                   test.reset();
                   recom.obje(recom.Ccurrent())=DBL_MAX;
                   recom.pearsonpred2();
-                  recom.mae(dir[0], 0);
-                  recom.fmeasure(dir[0], 0);
-                  recom.roc(dir[0]);
+                  recom.mae(dir[0], 0, parameter);
+                  recom.fmeasure(dir[0], 0, parameter);
+                  recom.roc(dir[0], parameter);
                   recom.ofs_objective(dir[0]);
                   test.ofs_selected_data(dir[0]);
                   InitCentLoopis10=0;
