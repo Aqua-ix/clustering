@@ -59,8 +59,6 @@ int main(void){
             //初期値パターン
             for(recom.Ccurrent()=0;recom.Ccurrent()
                   <CLUSTERINGTRIALS;recom.Ccurrent()++){
-              std::cout<<"initial setting for clustering: "
-                       <<recom.Ccurrent()<<std::endl;
               test.reset();
               //初期クラスタサイズ調整変数の設定
               test.initialize_clustersize();
