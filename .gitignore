@@ -4,3 +4,6 @@ core
 .o/*
 data/result_data/*
 !data/result_data/MAE/
+GPATH
+GTAGS
+GRTAGS
