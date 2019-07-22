@@ -1,0 +1,1858 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="600"
+   height="480"
+   viewBox="0 0 600 480"
+   version="1.1"
+   id="svg543"
+   sodipodi:docname="fcs.svg"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)">
+  <metadata
+     id="metadata549">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs547">
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Lend-3"
+       style="overflow:visible"
+       inkscape:isstock="true">
+      <path
+         inkscape:connector-curvature="0"
+         id="path1404-6"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.00000003pt;stroke-opacity:1"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Lend-5"
+       style="overflow:visible"
+       inkscape:isstock="true">
+      <path
+         inkscape:connector-curvature="0"
+         id="path1404-3"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.00000003pt;stroke-opacity:1"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Lend-5-6"
+       style="overflow:visible"
+       inkscape:isstock="true">
+      <path
+         inkscape:connector-curvature="0"
+         id="path1404-3-2"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.00000003pt;stroke-opacity:1"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lstart"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Lstart"
+       style="overflow:visible"
+       inkscape:isstock="true">
+      <path
+         inkscape:connector-curvature="0"
+         id="path1208"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.00000003pt;stroke-opacity:1"
+         transform="matrix(0.8,0,0,0.8,10,0)" />
+    </marker>
+    <marker
+       inkscape:isstock="true"
+       style="overflow:visible"
+       id="marker1534"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow1Lend">
+      <path
+         transform="matrix(-0.8,0,0,-0.8,-10,0)"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1.00000003pt;stroke-opacity:1"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         id="path1532"
+         inkscape:connector-curvature="0" />
+    </marker>
+  </defs>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1126"
+     inkscape:window-height="1066"
+     id="namedview545"
+     showgrid="false"
+     inkscape:zoom="1.3906433"
+     inkscape:cx="307.70903"
+     inkscape:cy="258.30434"
+     inkscape:window-x="198"
+     inkscape:window-y="45"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg543" />
+  <title
+     id="title2">Gnuplot</title>
+  <desc
+     id="desc4">Produced by GNUPLOT 5.2 patchlevel 2 </desc>
+  <g
+     id="gnuplot_canvas"
+     transform="matrix(0.55620035,0,0,0.55620035,131.75737,104.43222)">
+    <rect
+       x="0"
+       y="0"
+       width="600"
+       height="480"
+       id="rect6"
+       style="fill:none" />
+    <defs
+       id="defs34">
+      <circle
+         id="gpDot"
+         r="0.5"
+         cx="0"
+         cy="0"
+         style="stroke-width:0.5" />
+      <path
+         id="gpPt0"
+         d="M -1,0 H 1 M 0,-1 v 2"
+         inkscape:connector-curvature="0"
+         style="stroke:currentColor;stroke-width:0.222" />
+      <path
+         id="gpPt1"
+         d="M -1,-1 1,1 M 1,-1 -1,1"
+         inkscape:connector-curvature="0"
+         style="stroke:currentColor;stroke-width:0.222" />
+      <path
+         id="gpPt2"
+         d="M -1,0 H 1 M 0,-1 v 2 m -1,-2 2,2 m -2,0 2,-2"
+         inkscape:connector-curvature="0"
+         style="stroke:currentColor;stroke-width:0.222" />
+      <rect
+         id="gpPt3"
+         x="-1"
+         y="-1"
+         width="2"
+         height="2"
+         style="stroke:currentColor;stroke-width:0.222" />
+      <rect
+         id="gpPt4"
+         x="-1"
+         y="-1"
+         width="2"
+         height="2"
+         style="fill:currentColor;stroke:currentColor;stroke-width:0.222" />
+      <circle
+         id="gpPt5"
+         cx="0"
+         cy="0"
+         r="1"
+         style="stroke:currentColor;stroke-width:0.222" />
+      <use
+         xlink:href="#gpPt5"
+         id="gpPt6"
+         style="fill:currentColor;stroke:none"
+         x="0"
+         y="0"
+         width="100%"
+         height="100%" />
+      <path
+         id="gpPt7"
+         d="m 0,-1.33 -1.33,2 h 2.66 z"
+         inkscape:connector-curvature="0"
+         style="stroke:currentColor;stroke-width:0.222" />
+      <use
+         xlink:href="#gpPt7"
+         id="gpPt8"
+         style="fill:currentColor;stroke:none"
+         x="0"
+         y="0"
+         width="100%"
+         height="100%" />
+      <use
+         xlink:href="#gpPt7"
+         id="gpPt9"
+         transform="scale(-1)"
+         style="stroke:currentColor"
+         x="0"
+         y="0"
+         width="100%"
+         height="100%" />
+      <use
+         xlink:href="#gpPt9"
+         id="gpPt10"
+         style="fill:currentColor;stroke:none"
+         x="0"
+         y="0"
+         width="100%"
+         height="100%" />
+      <use
+         xlink:href="#gpPt3"
+         id="gpPt11"
+         transform="rotate(45)"
+         style="stroke:currentColor"
+         x="0"
+         y="0"
+         width="100%"
+         height="100%" />
+      <use
+         xlink:href="#gpPt11"
+         id="gpPt12"
+         style="fill:currentColor;stroke:none"
+         x="0"
+         y="0"
+         width="100%"
+         height="100%" />
+      <path
+         id="gpPt13"
+         d="M 0,1.33 1.265,0.411 0.782,-1.067 -0.782,-1.076 -1.265,0.411 Z"
+         inkscape:connector-curvature="0"
+         style="stroke:currentColor;stroke-width:0.222" />
+      <use
+         xlink:href="#gpPt13"
+         id="gpPt14"
+         style="fill:currentColor;stroke:none"
+         x="0"
+         y="0"
+         width="100%"
+         height="100%" />
+      <filter
+         id="textbox"
+         filterUnits="objectBoundingBox"
+         x="0"
+         y="0"
+         height="1"
+         width="1">
+        <feFlood
+           flood-color="white"
+           flood-opacity="1"
+           result="bgnd"
+           id="feFlood24" />
+        <feComposite
+           in="SourceGraphic"
+           in2="bgnd"
+           operator="atop"
+           id="feComposite26" />
+      </filter>
+      <filter
+         id="greybox"
+         filterUnits="objectBoundingBox"
+         x="0"
+         y="0"
+         height="1"
+         width="1">
+        <feFlood
+           flood-color="lightgrey"
+           flood-opacity="1"
+           result="grey"
+           id="feFlood29" />
+        <feComposite
+           in="SourceGraphic"
+           in2="grey"
+           operator="atop"
+           id="feComposite31" />
+      </filter>
+    </defs>
+    <g
+       id="g36"
+       style="color:#ffffff;fill:none;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter" />
+    <g
+       id="g46"
+       style="color:#000000;fill:none;stroke:currentColor;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter">
+      <path
+         d="m 71.9,422.4 h 9 m 494.1,0 h -9"
+         id="path38"
+         inkscape:connector-curvature="0"
+         style="stroke:#000000" />
+      <g
+         transform="translate(63.6,426.3)"
+         font-size="12.00"
+         id="g44"
+         style="font-size:12px;font-family:Arial;text-anchor:end;fill:#000000;stroke:none">
+        <text
+           id="text42">
+          <tspan
+             id="tspan40"
+             style="font-family:Arial">0</tspan>
+        </text>
+      </g>
+    </g>
+    <g
+       id="g56"
+       style="color:#000000;fill:none;stroke:currentColor;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter">
+      <path
+         d="m 71.9,364.6 h 9 m 494.1,0 h -9"
+         id="path48"
+         inkscape:connector-curvature="0"
+         style="stroke:#000000" />
+      <g
+         transform="translate(63.6,368.5)"
+         font-size="12.00"
+         id="g54"
+         style="font-size:12px;font-family:Arial;text-anchor:end;fill:#000000;stroke:none">
+        <text
+           id="text52">
+          <tspan
+             id="tspan50"
+             style="font-family:Arial">0.1</tspan>
+        </text>
+      </g>
+    </g>
+    <g
+       id="g66"
+       style="color:#000000;fill:none;stroke:currentColor;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter">
+      <path
+         d="m 71.9,306.9 h 9 m 494.1,0 h -9"
+         id="path58"
+         inkscape:connector-curvature="0"
+         style="stroke:#000000" />
+      <g
+         transform="translate(63.6,310.8)"
+         font-size="12.00"
+         id="g64"
+         style="font-size:12px;font-family:Arial;text-anchor:end;fill:#000000;stroke:none">
+        <text
+           id="text62">
+          <tspan
+             id="tspan60"
+             style="font-family:Arial">0.2</tspan>
+        </text>
+      </g>
+    </g>
+    <g
+       id="g76"
+       style="color:#000000;fill:none;stroke:currentColor;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter">
+      <path
+         d="m 71.9,249.1 h 9 m 494.1,0 h -9"
+         id="path68"
+         inkscape:connector-curvature="0"
+         style="stroke:#000000" />
+      <g
+         transform="translate(63.6,253)"
+         font-size="12.00"
+         id="g74"
+         style="font-size:12px;font-family:Arial;text-anchor:end;fill:#000000;stroke:none">
+        <text
+           id="text72">
+          <tspan
+             id="tspan70"
+             style="font-family:Arial">0.3</tspan>
+        </text>
+      </g>
+    </g>
+    <g
+       id="g86"
+       style="color:#000000;fill:none;stroke:currentColor;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter">
+      <path
+         d="m 71.9,191.4 h 9 m 494.1,0 h -9"
+         id="path78"
+         inkscape:connector-curvature="0"
+         style="stroke:#000000" />
+      <g
+         transform="translate(63.6,195.3)"
+         font-size="12.00"
+         id="g84"
+         style="font-size:12px;font-family:Arial;text-anchor:end;fill:#000000;stroke:none">
+        <text
+           id="text82">
+          <tspan
+             id="tspan80"
+             style="font-family:Arial">0.4</tspan>
+        </text>
+      </g>
+    </g>
+    <g
+       id="g96"
+       style="color:#000000;fill:none;stroke:currentColor;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter">
+      <path
+         d="m 71.9,133.6 h 9 m 494.1,0 h -9"
+         id="path88"
+         inkscape:connector-curvature="0"
+         style="stroke:#000000" />
+      <g
+         transform="translate(63.6,137.5)"
+         font-size="12.00"
+         id="g94"
+         style="font-size:12px;font-family:Arial;text-anchor:end;fill:#000000;stroke:none">
+        <text
+           id="text92">
+          <tspan
+             id="tspan90"
+             style="font-family:Arial">0.5</tspan>
+        </text>
+      </g>
+    </g>
+    <g
+       id="g106"
+       style="color:#000000;fill:none;stroke:currentColor;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter">
+      <path
+         d="m 71.9,75.9 h 9 m 494.1,0 h -9"
+         id="path98"
+         inkscape:connector-curvature="0"
+         style="stroke:#000000" />
+      <g
+         transform="translate(63.6,79.8)"
+         font-size="12.00"
+         id="g104"
+         style="font-size:12px;font-family:Arial;text-anchor:end;fill:#000000;stroke:none">
+        <text
+           id="text102">
+          <tspan
+             id="tspan100"
+             style="font-family:Arial">0.6</tspan>
+        </text>
+      </g>
+    </g>
+    <g
+       id="g116"
+       style="color:#000000;fill:none;stroke:currentColor;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter">
+      <path
+         d="m 71.9,18.1 h 9 m 494.1,0 h -9"
+         id="path108"
+         inkscape:connector-curvature="0"
+         style="stroke:#000000" />
+      <g
+         transform="translate(63.6,22)"
+         font-size="12.00"
+         id="g114"
+         style="font-size:12px;font-family:Arial;text-anchor:end;fill:#000000;stroke:none">
+        <text
+           id="text112">
+          <tspan
+             id="tspan110"
+             style="font-family:Arial">0.7</tspan>
+        </text>
+      </g>
+    </g>
+    <g
+       id="g126"
+       style="color:#000000;fill:none;stroke:currentColor;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter">
+      <path
+         d="m 71.9,422.4 v -9 m 0,-395.3 v 9"
+         id="path118"
+         inkscape:connector-curvature="0"
+         style="stroke:#000000" />
+      <g
+         transform="translate(71.9,444.3)"
+         font-size="12.00"
+         id="g124"
+         style="font-size:12px;font-family:Arial;text-anchor:middle;fill:#000000;stroke:none">
+        <text
+           id="text122">
+          <tspan
+             id="tspan120"
+             style="font-family:Arial">1500</tspan>
+        </text>
+      </g>
+    </g>
+    <g
+       id="g136"
+       style="color:#000000;fill:none;stroke:currentColor;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter">
+      <path
+         d="m 113.8,422.4 v -9 m 0,-395.3 v 9"
+         id="path128"
+         inkscape:connector-curvature="0"
+         style="stroke:#000000" />
+      <g
+         transform="translate(113.8,444.3)"
+         font-size="12.00"
+         id="g134"
+         style="font-size:12px;font-family:Arial;text-anchor:middle;fill:#000000;stroke:none">
+        <text
+           id="text132">
+          <tspan
+             id="tspan130"
+             style="font-family:Arial">2000</tspan>
+        </text>
+      </g>
+    </g>
+    <g
+       id="g146"
+       style="color:#000000;fill:none;stroke:currentColor;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter">
+      <path
+         d="m 155.8,422.4 v -9 m 0,-395.3 v 9"
+         id="path138"
+         inkscape:connector-curvature="0"
+         style="stroke:#000000" />
+      <g
+         transform="translate(155.8,444.3)"
+         font-size="12.00"
+         id="g144"
+         style="font-size:12px;font-family:Arial;text-anchor:middle;fill:#000000;stroke:none">
+        <text
+           id="text142">
+          <tspan
+             id="tspan140"
+             style="font-family:Arial">2500</tspan>
+        </text>
+      </g>
+    </g>
+    <g
+       id="g156"
+       style="color:#000000;fill:none;stroke:currentColor;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter">
+      <path
+         d="m 197.7,422.4 v -9 m 0,-395.3 v 9"
+         id="path148"
+         inkscape:connector-curvature="0"
+         style="stroke:#000000" />
+      <g
+         transform="translate(197.7,444.3)"
+         font-size="12.00"
+         id="g154"
+         style="font-size:12px;font-family:Arial;text-anchor:middle;fill:#000000;stroke:none">
+        <text
+           id="text152">
+          <tspan
+             id="tspan150"
+             style="font-family:Arial">3000</tspan>
+        </text>
+      </g>
+    </g>
+    <g
+       id="g166"
+       style="color:#000000;fill:none;stroke:currentColor;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter">
+      <path
+         d="m 239.6,422.4 v -9 m 0,-395.3 v 9"
+         id="path158"
+         inkscape:connector-curvature="0"
+         style="stroke:#000000" />
+      <g
+         transform="translate(239.6,444.3)"
+         font-size="12.00"
+         id="g164"
+         style="font-size:12px;font-family:Arial;text-anchor:middle;fill:#000000;stroke:none">
+        <text
+           id="text162">
+          <tspan
+             id="tspan160"
+             style="font-family:Arial">3500</tspan>
+        </text>
+      </g>
+    </g>
+    <g
+       id="g176"
+       style="color:#000000;fill:none;stroke:currentColor;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter">
+      <path
+         d="m 281.5,422.4 v -9 m 0,-395.3 v 9"
+         id="path168"
+         inkscape:connector-curvature="0"
+         style="stroke:#000000" />
+      <g
+         transform="translate(281.5,444.3)"
+         font-size="12.00"
+         id="g174"
+         style="font-size:12px;font-family:Arial;text-anchor:middle;fill:#000000;stroke:none">
+        <text
+           id="text172">
+          <tspan
+             id="tspan170"
+             style="font-family:Arial">4000</tspan>
+        </text>
+      </g>
+    </g>
+    <g
+       id="g186"
+       style="color:#000000;fill:none;stroke:currentColor;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter">
+      <path
+         d="m 323.5,422.4 v -9 m 0,-395.3 v 9"
+         id="path178"
+         inkscape:connector-curvature="0"
+         style="stroke:#000000" />
+      <g
+         transform="translate(323.5,444.3)"
+         font-size="12.00"
+         id="g184"
+         style="font-size:12px;font-family:Arial;text-anchor:middle;fill:#000000;stroke:none">
+        <text
+           id="text182">
+          <tspan
+             id="tspan180"
+             style="font-family:Arial">4500</tspan>
+        </text>
+      </g>
+    </g>
+    <g
+       id="g196"
+       style="color:#000000;fill:none;stroke:currentColor;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter">
+      <path
+         d="m 365.4,422.4 v -9 m 0,-395.3 v 9"
+         id="path188"
+         inkscape:connector-curvature="0"
+         style="stroke:#000000" />
+      <g
+         transform="translate(365.4,444.3)"
+         font-size="12.00"
+         id="g194"
+         style="font-size:12px;font-family:Arial;text-anchor:middle;fill:#000000;stroke:none">
+        <text
+           id="text192">
+          <tspan
+             id="tspan190"
+             style="font-family:Arial">5000</tspan>
+        </text>
+      </g>
+    </g>
+    <g
+       id="g206"
+       style="color:#000000;fill:none;stroke:currentColor;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter">
+      <path
+         d="m 407.3,422.4 v -9 m 0,-395.3 v 9"
+         id="path198"
+         inkscape:connector-curvature="0"
+         style="stroke:#000000" />
+      <g
+         transform="translate(407.3,444.3)"
+         font-size="12.00"
+         id="g204"
+         style="font-size:12px;font-family:Arial;text-anchor:middle;fill:#000000;stroke:none">
+        <text
+           id="text202">
+          <tspan
+             id="tspan200"
+             style="font-family:Arial">5500</tspan>
+        </text>
+      </g>
+    </g>
+    <g
+       id="g216"
+       style="color:#000000;fill:none;stroke:currentColor;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter">
+      <path
+         d="m 449.2,422.4 v -9 m 0,-395.3 v 9"
+         id="path208"
+         inkscape:connector-curvature="0"
+         style="stroke:#000000" />
+      <g
+         transform="translate(449.2,444.3)"
+         font-size="12.00"
+         id="g214"
+         style="font-size:12px;font-family:Arial;text-anchor:middle;fill:#000000;stroke:none">
+        <text
+           id="text212">
+          <tspan
+             id="tspan210"
+             style="font-family:Arial">6000</tspan>
+        </text>
+      </g>
+    </g>
+    <g
+       id="g226"
+       style="color:#000000;fill:none;stroke:currentColor;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter">
+      <path
+         d="m 491.2,422.4 v -9 m 0,-395.3 v 9"
+         id="path218"
+         inkscape:connector-curvature="0"
+         style="stroke:#000000" />
+      <g
+         transform="translate(491.2,444.3)"
+         font-size="12.00"
+         id="g224"
+         style="font-size:12px;font-family:Arial;text-anchor:middle;fill:#000000;stroke:none">
+        <text
+           id="text222">
+          <tspan
+             id="tspan220"
+             style="font-family:Arial">6500</tspan>
+        </text>
+      </g>
+    </g>
+    <g
+       id="g236"
+       style="color:#000000;fill:none;stroke:currentColor;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter">
+      <path
+         d="m 533.1,422.4 v -9 m 0,-395.3 v 9"
+         id="path228"
+         inkscape:connector-curvature="0"
+         style="stroke:#000000" />
+      <g
+         transform="translate(533.1,444.3)"
+         font-size="12.00"
+         id="g234"
+         style="font-size:12px;font-family:Arial;text-anchor:middle;fill:#000000;stroke:none">
+        <text
+           id="text232">
+          <tspan
+             id="tspan230"
+             style="font-family:Arial">7000</tspan>
+        </text>
+      </g>
+    </g>
+    <g
+       id="g246"
+       style="color:#000000;fill:none;stroke:currentColor;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter">
+      <path
+         d="m 575,422.4 v -9 m 0,-395.3 v 9"
+         id="path238"
+         inkscape:connector-curvature="0"
+         style="stroke:#000000" />
+      <g
+         transform="translate(575,444.3)"
+         font-size="12.00"
+         id="g244"
+         style="font-size:12px;font-family:Arial;text-anchor:middle;fill:#000000;stroke:none">
+        <text
+           id="text242">
+          <tspan
+             id="tspan240"
+             style="font-family:Arial">7500</tspan>
+        </text>
+      </g>
+    </g>
+    <g
+       id="g248"
+       style="color:#000000;fill:none;stroke:currentColor;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter" />
+    <g
+       id="g252"
+       style="color:#000000;fill:none;stroke:currentColor;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter">
+      <path
+         d="M 71.9,18.1 V 422.4 H 575 V 18.1 Z"
+         id="path250"
+         inkscape:connector-curvature="0"
+         style="stroke:#000000" />
+    </g>
+    <g
+       id="g260"
+       style="color:#000000;fill:none;stroke:currentColor;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter">
+      <g
+         transform="rotate(-90,118.75,101.55)"
+         font-size="15.00"
+         id="g258"
+         style="font-size:15px;font-family:Arial;text-anchor:middle;fill:#000000;stroke:none">
+        <text
+           id="text256">
+          <tspan
+             id="tspan254"
+             style="font-family:Arial">MAE</tspan>
+        </text>
+      </g>
+    </g>
+    <g
+       id="g268"
+       style="color:#000000;fill:none;stroke:currentColor;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter">
+      <g
+         transform="translate(323.4,472.3)"
+         font-size="15.00"
+         id="g266"
+         style="font-size:15px;font-family:Arial;text-anchor:middle;fill:#000000;stroke:none">
+        <text
+           id="text264">
+          <tspan
+             id="tspan262"
+             style="font-family:Arial">欠損数</tspan>
+        </text>
+      </g>
+    </g>
+    <g
+       id="g270"
+       style="color:#000000;fill:none;stroke:currentColor;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter" />
+    <g
+       id="gnuplot_plot_1">
+      <title
+         id="title272">BFCS(Clisp)</title>
+      <g
+         id="g280"
+         style="color:#000000;fill:none;stroke:currentColor;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter">
+        <g
+           transform="translate(216.7,43.3)"
+           font-size="15.00"
+           id="g278"
+           style="font-size:15px;font-family:Arial;text-anchor:end;fill:#000000;stroke:none">
+          <text
+             id="text276">
+            <tspan
+               id="tspan274"
+               style="font-family:Arial">BFCS(Clisp)</tspan>
+          </text>
+        </g>
+      </g>
+      <g
+         id="g312"
+         style="color:#000000;fill:none;stroke:currentColor;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter">
+        <path
+           d="m 227.2,38.4 h 51 m -206.3,359.1 41.9,-5.9 42,-4.2 41.9,-5.7 41.9,-3.9 41.9,-15.6 42,3.5 41.9,-20.9 41.9,-41.4 41.9,-21.6 42,-45.8 41.9,-73 41.9,-85"
+           id="path282"
+           inkscape:connector-curvature="0"
+           style="stroke:#9400d3" />
+        <use
+           xlink:href="#gpPt0"
+           transform="matrix(4.5,0,0,4.5,71.9,397.5)"
+           id="use284"
+           style="color:#9400d3"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt0"
+           transform="matrix(4.5,0,0,4.5,113.8,391.6)"
+           id="use286"
+           style="color:#9400d3"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt0"
+           transform="matrix(4.5,0,0,4.5,155.8,387.4)"
+           id="use288"
+           style="color:#9400d3"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt0"
+           transform="matrix(4.5,0,0,4.5,197.7,381.7)"
+           id="use290"
+           style="color:#9400d3"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt0"
+           transform="matrix(4.5,0,0,4.5,239.6,377.8)"
+           id="use292"
+           style="color:#9400d3"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt0"
+           transform="matrix(4.5,0,0,4.5,281.5,362.2)"
+           id="use294"
+           style="color:#9400d3"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt0"
+           transform="matrix(4.5,0,0,4.5,323.5,365.7)"
+           id="use296"
+           style="color:#9400d3"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt0"
+           transform="matrix(4.5,0,0,4.5,365.4,344.8)"
+           id="use298"
+           style="color:#9400d3"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt0"
+           transform="matrix(4.5,0,0,4.5,407.3,303.4)"
+           id="use300"
+           style="color:#9400d3"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt0"
+           transform="matrix(4.5,0,0,4.5,449.2,281.8)"
+           id="use302"
+           style="color:#9400d3"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt0"
+           transform="matrix(4.5,0,0,4.5,491.2,236)"
+           id="use304"
+           style="color:#9400d3"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt0"
+           transform="matrix(4.5,0,0,4.5,533.1,163)"
+           id="use306"
+           style="color:#9400d3"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt0"
+           transform="matrix(4.5,0,0,4.5,575,78)"
+           id="use308"
+           style="color:#9400d3"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt0"
+           transform="matrix(4.5,0,0,4.5,252.7,38.4)"
+           id="use310"
+           style="color:#9400d3"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+      </g>
+    </g>
+    <g
+       id="gnuplot_plot_2">
+      <title
+         id="title315">EFCS(Clisp)</title>
+      <g
+         id="g323"
+         style="color:#000000;fill:none;stroke:currentColor;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter">
+        <g
+           transform="translate(216.7,65.8)"
+           font-size="15.00"
+           id="g321"
+           style="font-size:15px;font-family:Arial;text-anchor:end;fill:#000000;stroke:none">
+          <text
+             id="text319">
+            <tspan
+               id="tspan317"
+               style="font-family:Arial">EFCS(Clisp)</tspan>
+          </text>
+        </g>
+      </g>
+      <g
+         id="g355"
+         style="color:#000000;fill:none;stroke:currentColor;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter">
+        <path
+           d="m 227.2,60.9 h 51 m -206.3,336.8 41.9,-2.4 42,-8.4 41.9,-3.3 41.9,-5.9 41.9,-4.9 42,-5.4 41.9,-16.9 41.9,-18.6 41.9,-32.4 42,-36 41.9,-79.9 41.9,-80.5"
+           id="path325"
+           inkscape:connector-curvature="0"
+           style="stroke:#009e73" />
+        <use
+           xlink:href="#gpPt1"
+           transform="matrix(4.5,0,0,4.5,71.9,397.7)"
+           id="use327"
+           style="color:#009e73"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt1"
+           transform="matrix(4.5,0,0,4.5,113.8,395.3)"
+           id="use329"
+           style="color:#009e73"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt1"
+           transform="matrix(4.5,0,0,4.5,155.8,386.9)"
+           id="use331"
+           style="color:#009e73"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt1"
+           transform="matrix(4.5,0,0,4.5,197.7,383.6)"
+           id="use333"
+           style="color:#009e73"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt1"
+           transform="matrix(4.5,0,0,4.5,239.6,377.7)"
+           id="use335"
+           style="color:#009e73"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt1"
+           transform="matrix(4.5,0,0,4.5,281.5,372.8)"
+           id="use337"
+           style="color:#009e73"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt1"
+           transform="matrix(4.5,0,0,4.5,323.5,367.4)"
+           id="use339"
+           style="color:#009e73"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt1"
+           transform="matrix(4.5,0,0,4.5,365.4,350.5)"
+           id="use341"
+           style="color:#009e73"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt1"
+           transform="matrix(4.5,0,0,4.5,407.3,331.9)"
+           id="use343"
+           style="color:#009e73"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt1"
+           transform="matrix(4.5,0,0,4.5,449.2,299.5)"
+           id="use345"
+           style="color:#009e73"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt1"
+           transform="matrix(4.5,0,0,4.5,491.2,263.5)"
+           id="use347"
+           style="color:#009e73"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt1"
+           transform="matrix(4.5,0,0,4.5,533.1,183.6)"
+           id="use349"
+           style="color:#009e73"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt1"
+           transform="matrix(4.5,0,0,4.5,575,103.1)"
+           id="use351"
+           style="color:#009e73"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt1"
+           transform="matrix(4.5,0,0,4.5,252.7,60.9)"
+           id="use353"
+           style="color:#009e73"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+      </g>
+    </g>
+    <g
+       id="gnuplot_plot_3">
+      <title
+         id="title358">QFCS(Clisp)</title>
+      <g
+         id="g366"
+         style="color:#000000;fill:none;stroke:currentColor;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter">
+        <g
+           transform="translate(216.7,88.3)"
+           font-size="15.00"
+           id="g364"
+           style="font-size:15px;font-family:Arial;text-anchor:end;fill:#000000;stroke:none">
+          <text
+             id="text362">
+            <tspan
+               id="tspan360"
+               style="font-family:Arial">QFCS(Clisp)</tspan>
+          </text>
+        </g>
+      </g>
+      <g
+         id="g398"
+         style="color:#000000;fill:none;stroke:currentColor;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter">
+        <path
+           d="m 227.2,83.4 h 51 m -206.3,316.3 41.9,-6.2 42,-5.4 41.9,-4.2 41.9,-6.5 41.9,-5.4 42,-3.6 41.9,-19.5 41.9,-9.9 41.9,-54.2 42,-41.6 41.9,-64.8 41.9,-97"
+           id="path368"
+           inkscape:connector-curvature="0"
+           style="stroke:#56b4e9" />
+        <use
+           xlink:href="#gpPt2"
+           transform="matrix(4.5,0,0,4.5,71.9,399.7)"
+           id="use370"
+           style="color:#56b4e9"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt2"
+           transform="matrix(4.5,0,0,4.5,113.8,393.5)"
+           id="use372"
+           style="color:#56b4e9"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt2"
+           transform="matrix(4.5,0,0,4.5,155.8,388.1)"
+           id="use374"
+           style="color:#56b4e9"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt2"
+           transform="matrix(4.5,0,0,4.5,197.7,383.9)"
+           id="use376"
+           style="color:#56b4e9"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt2"
+           transform="matrix(4.5,0,0,4.5,239.6,377.4)"
+           id="use378"
+           style="color:#56b4e9"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt2"
+           transform="matrix(4.5,0,0,4.5,281.5,372)"
+           id="use380"
+           style="color:#56b4e9"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt2"
+           transform="matrix(4.5,0,0,4.5,323.5,368.4)"
+           id="use382"
+           style="color:#56b4e9"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt2"
+           transform="matrix(4.5,0,0,4.5,365.4,348.9)"
+           id="use384"
+           style="color:#56b4e9"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt2"
+           transform="matrix(4.5,0,0,4.5,407.3,339)"
+           id="use386"
+           style="color:#56b4e9"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt2"
+           transform="matrix(4.5,0,0,4.5,449.2,284.8)"
+           id="use388"
+           style="color:#56b4e9"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt2"
+           transform="matrix(4.5,0,0,4.5,491.2,243.2)"
+           id="use390"
+           style="color:#56b4e9"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt2"
+           transform="matrix(4.5,0,0,4.5,533.1,178.4)"
+           id="use392"
+           style="color:#56b4e9"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt2"
+           transform="matrix(4.5,0,0,4.5,575,81.4)"
+           id="use394"
+           style="color:#56b4e9"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt2"
+           transform="matrix(4.5,0,0,4.5,252.7,83.4)"
+           id="use396"
+           style="color:#56b4e9"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+      </g>
+    </g>
+    <g
+       id="gnuplot_plot_4">
+      <title
+         id="title401">BFCS(Overlap)</title>
+      <g
+         id="g409"
+         style="color:#000000;fill:none;stroke:currentColor;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter">
+        <g
+           transform="translate(216.7,110.8)"
+           font-size="15.00"
+           id="g407"
+           style="font-size:15px;font-family:Arial;text-anchor:end;fill:#000000;stroke:none">
+          <text
+             id="text405">
+            <tspan
+               id="tspan403"
+               style="font-family:Arial">BFCS(Overlap)</tspan>
+          </text>
+        </g>
+      </g>
+      <g
+         id="g441"
+         style="color:#000000;fill:none;stroke:currentColor;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter">
+        <path
+           d="m 227.2,105.9 h 51 m -206.3,291.6 41.9,-5.9 42,-4.1 41.9,-5.8 41.9,-3.9 41.9,-16 42,3.9 41.9,-21.2 41.9,-43 41.9,-20.5 42,-45.7 L 533.1,163 575,78"
+           id="path411"
+           inkscape:connector-curvature="0"
+           style="stroke:#e69f00" />
+        <use
+           xlink:href="#gpPt3"
+           transform="matrix(4.5,0,0,4.5,71.9,397.5)"
+           id="use413"
+           style="color:#e69f00"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt3"
+           transform="matrix(4.5,0,0,4.5,113.8,391.6)"
+           id="use415"
+           style="color:#e69f00"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt3"
+           transform="matrix(4.5,0,0,4.5,155.8,387.5)"
+           id="use417"
+           style="color:#e69f00"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt3"
+           transform="matrix(4.5,0,0,4.5,197.7,381.7)"
+           id="use419"
+           style="color:#e69f00"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt3"
+           transform="matrix(4.5,0,0,4.5,239.6,377.8)"
+           id="use421"
+           style="color:#e69f00"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt3"
+           transform="matrix(4.5,0,0,4.5,281.5,361.8)"
+           id="use423"
+           style="color:#e69f00"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt3"
+           transform="matrix(4.5,0,0,4.5,323.5,365.7)"
+           id="use425"
+           style="color:#e69f00"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt3"
+           transform="matrix(4.5,0,0,4.5,365.4,344.5)"
+           id="use427"
+           style="color:#e69f00"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt3"
+           transform="matrix(4.5,0,0,4.5,407.3,301.5)"
+           id="use429"
+           style="color:#e69f00"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt3"
+           transform="matrix(4.5,0,0,4.5,449.2,281)"
+           id="use431"
+           style="color:#e69f00"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt3"
+           transform="matrix(4.5,0,0,4.5,491.2,235.3)"
+           id="use433"
+           style="color:#e69f00"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt3"
+           transform="matrix(4.5,0,0,4.5,533.1,163)"
+           id="use435"
+           style="color:#e69f00"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt3"
+           transform="matrix(4.5,0,0,4.5,575,78)"
+           id="use437"
+           style="color:#e69f00"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt3"
+           transform="matrix(4.5,0,0,4.5,252.7,105.9)"
+           id="use439"
+           style="color:#e69f00"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+      </g>
+    </g>
+    <g
+       id="gnuplot_plot_5">
+      <title
+         id="title444">EFCS(Overlap)</title>
+      <g
+         id="g452"
+         style="color:#000000;fill:none;stroke:currentColor;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter">
+        <g
+           transform="translate(216.7,133.3)"
+           font-size="15.00"
+           id="g450"
+           style="font-size:15px;font-family:Arial;text-anchor:end;fill:#000000;stroke:none">
+          <text
+             id="text448">
+            <tspan
+               id="tspan446"
+               style="font-family:Arial">EFCS(Overlap)</tspan>
+          </text>
+        </g>
+      </g>
+      <g
+         id="g484"
+         style="color:#000000;fill:none;stroke:currentColor;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter">
+        <path
+           d="m 227.2,128.4 h 51 m -206.3,269.3 41.9,-2.4 42,-8.4 41.9,-3.3 41.9,-5.9 41.9,-4.9 42,-5.4 41.9,-17 41.9,-21.7 41.9,-29.2 42,-36 41.9,-79.9 41.9,-80.5"
+           id="path454"
+           inkscape:connector-curvature="0"
+           style="stroke:#f0e442" />
+        <use
+           xlink:href="#gpPt4"
+           transform="matrix(4.5,0,0,4.5,71.9,397.7)"
+           id="use456"
+           style="color:#f0e442"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt4"
+           transform="matrix(4.5,0,0,4.5,113.8,395.3)"
+           id="use458"
+           style="color:#f0e442"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt4"
+           transform="matrix(4.5,0,0,4.5,155.8,386.9)"
+           id="use460"
+           style="color:#f0e442"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt4"
+           transform="matrix(4.5,0,0,4.5,197.7,383.6)"
+           id="use462"
+           style="color:#f0e442"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt4"
+           transform="matrix(4.5,0,0,4.5,239.6,377.7)"
+           id="use464"
+           style="color:#f0e442"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt4"
+           transform="matrix(4.5,0,0,4.5,281.5,372.8)"
+           id="use466"
+           style="color:#f0e442"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt4"
+           transform="matrix(4.5,0,0,4.5,323.5,367.4)"
+           id="use468"
+           style="color:#f0e442"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt4"
+           transform="matrix(4.5,0,0,4.5,365.4,350.4)"
+           id="use470"
+           style="color:#f0e442"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt4"
+           transform="matrix(4.5,0,0,4.5,407.3,328.7)"
+           id="use472"
+           style="color:#f0e442"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt4"
+           transform="matrix(4.5,0,0,4.5,449.2,299.5)"
+           id="use474"
+           style="color:#f0e442"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt4"
+           transform="matrix(4.5,0,0,4.5,491.2,263.5)"
+           id="use476"
+           style="color:#f0e442"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt4"
+           transform="matrix(4.5,0,0,4.5,533.1,183.6)"
+           id="use478"
+           style="color:#f0e442"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt4"
+           transform="matrix(4.5,0,0,4.5,575,103.1)"
+           id="use480"
+           style="color:#f0e442"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt4"
+           transform="matrix(4.5,0,0,4.5,252.7,128.4)"
+           id="use482"
+           style="color:#f0e442"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+      </g>
+    </g>
+    <g
+       id="gnuplot_plot_6">
+      <title
+         id="title487">QFCS(Overlap)</title>
+      <g
+         id="g495"
+         style="color:#000000;fill:none;stroke:currentColor;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter">
+        <g
+           transform="translate(216.7,155.8)"
+           font-size="15.00"
+           id="g493"
+           style="font-size:15px;font-family:Arial;text-anchor:end;fill:#000000;stroke:none">
+          <text
+             id="text491">
+            <tspan
+               id="tspan489"
+               style="font-family:Arial">QFCS(Overlap)</tspan>
+          </text>
+        </g>
+      </g>
+      <g
+         id="g527"
+         style="color:#000000;fill:none;stroke:currentColor;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter">
+        <path
+           d="m 227.2,150.9 h 51 m -206.3,248.8 41.9,-6.2 42,-5.4 41.9,-4.2 41.9,-6.7 41.9,-5.2 42,-3.7 41.9,-17.1 41.9,-12.2 41.9,-53.7 42,-42 41.9,-69 41.9,-92.9"
+           id="path497"
+           inkscape:connector-curvature="0"
+           style="stroke:#0072b2" />
+        <use
+           xlink:href="#gpPt5"
+           transform="matrix(4.5,0,0,4.5,71.9,399.7)"
+           id="use499"
+           style="color:#0072b2"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt5"
+           transform="matrix(4.5,0,0,4.5,113.8,393.5)"
+           id="use501"
+           style="color:#0072b2"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt5"
+           transform="matrix(4.5,0,0,4.5,155.8,388.1)"
+           id="use503"
+           style="color:#0072b2"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt5"
+           transform="matrix(4.5,0,0,4.5,197.7,383.9)"
+           id="use505"
+           style="color:#0072b2"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt5"
+           transform="matrix(4.5,0,0,4.5,239.6,377.2)"
+           id="use507"
+           style="color:#0072b2"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt5"
+           transform="matrix(4.5,0,0,4.5,281.5,372)"
+           id="use509"
+           style="color:#0072b2"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt5"
+           transform="matrix(4.5,0,0,4.5,323.5,368.3)"
+           id="use511"
+           style="color:#0072b2"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt5"
+           transform="matrix(4.5,0,0,4.5,365.4,351.2)"
+           id="use513"
+           style="color:#0072b2"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt5"
+           transform="matrix(4.5,0,0,4.5,407.3,339)"
+           id="use515"
+           style="color:#0072b2"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt5"
+           transform="matrix(4.5,0,0,4.5,449.2,285.3)"
+           id="use517"
+           style="color:#0072b2"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt5"
+           transform="matrix(4.5,0,0,4.5,491.2,243.3)"
+           id="use519"
+           style="color:#0072b2"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt5"
+           transform="matrix(4.5,0,0,4.5,533.1,174.3)"
+           id="use521"
+           style="color:#0072b2"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt5"
+           transform="matrix(4.5,0,0,4.5,575,81.4)"
+           id="use523"
+           style="color:#0072b2"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+        <use
+           xlink:href="#gpPt5"
+           transform="matrix(4.5,0,0,4.5,252.7,150.9)"
+           id="use525"
+           style="color:#0072b2"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+      </g>
+    </g>
+    <g
+       id="g530"
+       style="color:#ffffff;fill:none;stroke:#0072b2;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter" />
+    <g
+       id="g532"
+       style="color:#000000;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter" />
+    <g
+       id="g534"
+       style="color:#000000;fill:none;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter" />
+    <g
+       id="g538"
+       style="color:#000000;fill:none;stroke:currentColor;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter">
+      <path
+         d="M 71.9,18.1 V 422.4 H 575 V 18.1 Z"
+         id="path536"
+         inkscape:connector-curvature="0"
+         style="stroke:#000000" />
+    </g>
+    <g
+       id="g540"
+       style="color:#000000;fill:none;stroke:currentColor;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter" />
+  </g>
+  <path
+     style="fill:none;stroke:#000000;stroke-width:0.74862665;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Lend-3)"
+     d="m 144.83416,327.31534 24.41112,-0.56984"
+     id="path594-7"
+     inkscape:connector-curvature="0" />
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.14919424px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.38618955"
+     x="141.83537"
+     y="308.22736"
+     id="text4667"><tspan
+       sodipodi:role="line"
+       x="141.83537"
+       y="308.22736"
+       id="tspan4669"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.1491828px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;writing-mode:lr-tb;text-anchor:end;stroke-width:0.38618955">BFCS(Clisp)</tspan><tspan
+       sodipodi:role="line"
+       x="141.83537"
+       y="315.28296"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.1491828px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;writing-mode:lr-tb;text-anchor:end;stroke-width:0.38618955"
+       id="tspan573">EFCS(Clisp)</tspan><tspan
+       sodipodi:role="line"
+       x="141.83537"
+       y="322.33856"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.1491828px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;writing-mode:lr-tb;text-anchor:end;stroke-width:0.38618955"
+       id="tspan575">QFCS(Clisp)</tspan><tspan
+       sodipodi:role="line"
+       x="141.83537"
+       y="329.39417"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.1491828px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;writing-mode:lr-tb;text-anchor:end;stroke-width:0.38618955"
+       id="tspan571">BFCS(Overlap)</tspan><tspan
+       sodipodi:role="line"
+       x="141.83537"
+       y="336.44974"
+       id="tspan4673"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.1491828px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;writing-mode:lr-tb;text-anchor:end;stroke-width:0.38618955">EFCS(Overlap)</tspan><tspan
+       sodipodi:role="line"
+       x="141.83537"
+       y="343.50534"
+       id="tspan4677"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.1491828px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;writing-mode:lr-tb;text-anchor:end;stroke-width:0.38618955">QFCS(Overlap)</tspan></text>
+  <path
+     style="fill:none;stroke:#000000;stroke-width:0.74986923;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Lend-5)"
+     d="m 478.56769,150.88859 -24.49222,-0.56984"
+     id="path594-5"
+     inkscape:connector-curvature="0" />
+  <path
+     style="fill:none;stroke:#000000;stroke-width:0.80244488;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Lend-5-6)"
+     d="m 481.65556,164.85886 -27.58009,-0.57949"
+     id="path594-5-9"
+     inkscape:connector-curvature="0" />
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.1491828px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:end;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:end;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.63875073"
+     x="484.66251"
+     y="166.46391"
+     id="text5263"><tspan
+       sodipodi:role="line"
+       id="tspan5261"
+       x="484.66251"
+       y="166.46391"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.1491828px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;stroke-width:0.63875073">EFCS(Clisp)</tspan><tspan
+       sodipodi:role="line"
+       x="484.66251"
+       y="173.5195"
+       id="tspan652"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.1491828px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;stroke-width:0.63875073">EFCS(Overlap)</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.1491828px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.38618955"
+     x="482.96384"
+     y="131.50653"
+     id="text4667-3"><tspan
+       sodipodi:role="line"
+       x="482.96384"
+       y="131.50653"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.1491828px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;stroke-width:0.38618955"
+       id="tspan573-7">BFCS(Clisp)</tspan><tspan
+       sodipodi:role="line"
+       x="482.96384"
+       y="138.56212"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.1491828px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;stroke-width:0.38618955"
+       id="tspan575-5">QFCS(Clisp)</tspan><tspan
+       sodipodi:role="line"
+       x="482.96384"
+       y="145.61771"
+       id="tspan4673-5"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.1491828px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;stroke-width:0.38618955">BFCS(Overlap)</tspan><tspan
+       sodipodi:role="line"
+       x="482.96384"
+       y="152.67329"
+       id="tspan4677-6"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.1491828px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;stroke-width:0.38618955">QFCS(Overlap)</tspan></text>
+  <path
+     style="fill:none;stroke:#000000;stroke-width:0.84561235px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-start:url(#Arrow1Lstart);marker-end:url(#marker1534)"
+     d="M 62.865279,132.85599 62.257207,321.35855"
+     id="path371"
+     inkscape:connector-curvature="0" />
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-weight:normal;font-size:33.82449341px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.84561235"
+     x="48.27153"
+     y="339.60074"
+     id="text1598"><tspan
+       sodipodi:role="line"
+       x="48.27153"
+       y="339.60074"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:11.27483082px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;stroke-width:0.84561235"
+       id="tspan1618">高精度</tspan></text>
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-weight:normal;font-size:33.82449341px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.84561235"
+     x="46.150337"
+     y="125.58141"
+     id="text1598-1"><tspan
+       sodipodi:role="line"
+       id="tspan1596-9"
+       x="46.150337"
+       y="125.58141"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:11.27483082px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;stroke-width:0.84561235">低精度</tspan></text>
+</svg>
