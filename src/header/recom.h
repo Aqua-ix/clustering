@@ -227,8 +227,8 @@ protected:
   void crisp(const Matrix &Membership);
   void crisp(const Matrix &Membership, const int clusters_number);
   //収束した帰属度をオーバーラップ
-  void overlap(const Matrix &Membership);
-  void overlap(const Matrix &Membership, int clusters_number);
+  void overlap(const Matrix &Membership, double threshold);
+  void overlap(const Matrix &Membership, double threshold, int clusters_number);
 };
 //ユーザ数を返す
 int return_user_number(void);
@@ -247,6 +247,7 @@ void Rename(std::string filename, std::string newname);
 std::vector<std::string> MkdirFCS(std::string);
 std::vector<std::string>
 Mkdir(std::vector<double> param, int c, std::vector<std::string> dirs);
-std::vector<std::string> Mkdir(int missing, std::vector<std::string> dirs);
+std::vector<std::string>
+Mkdir(int missing, int c, std::vector<std::string> dirs);
 std::vector<std::string> Mkdir(std::vector<std::string> methods);
 #endif

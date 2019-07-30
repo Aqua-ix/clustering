@@ -30,7 +30,7 @@ int main(void){
     for(recom.current()=0;recom.current()<MISSINGTRIALS;recom.current()++){
       std::cout<<"missing pattern: "<<recom.current()<<std::endl;
       //missing_pattern_xのフォルダ作成
-      std::vector<std::string> dir = Mkdir(recom.current(), dirs);
+      std::vector<std::string> dir = Mkdir(recom.current(), clusters_number, dirs);
       //パラメータm
       for(double m=M_START;m<=M_END;m+=M_DIFF){
         std::cout<<"m: "<<m<<std::endl;

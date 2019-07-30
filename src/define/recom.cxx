@@ -1410,7 +1410,7 @@ void Recom::crisp(const Matrix &Membership, int clusters_number){
   }
 }
 
-void Recom::overlap(const Matrix &Membership){
+void Recom::overlap(const Matrix &Membership, double threshold){
   for(int k=0;k<return_user_number();k++){
     for(int i=0;i<Membership.rows();i++){
       Mem[i][k]=0.0;
@@ -1433,7 +1433,7 @@ void Recom::overlap(const Matrix &Membership){
   return;
 }
 
-void Recom::overlap(const Matrix &Membership, int clusters_number){
+void Recom::overlap(const Matrix &Membership, double threshold, int clusters_number){
   for(int k=0;k<return_user_number();k++){
     for(int i=0;i<clusters_number;i++){
       Mem[i][k]=0.0;
@@ -1653,7 +1653,7 @@ Mkdir(std::vector<double> param, int c, std::vector<std::string> dirs){
 }
 
 std::vector<std::string>
-Mkdir(int missing, std::vector<std::string> dirs){
+Mkdir(int missing, int c, std::vector<std::string> dirs){
   std::vector<std::string> v;  
   for(int i=0;i<(int)dirs.size();i++){
     const std::string dir=dirs[i]+"/missing_pattern"+std::to_string(missing);
