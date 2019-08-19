@@ -6,6 +6,7 @@ Recom::Recom(int user,
              int item_cen,
              int miss):
   Seed(0),Current(0),CCurrent(0),MCurrent(0),Missing(0),
+  OverlapThreshold(0),
   SparseIncompleteData(user, item),
   SparseCorrectData(user, item),
   NormalizedData(user, item),
@@ -74,6 +75,10 @@ int &Recom::Mcurrent(void){
 
 int &Recom::missing(void){
   return Missing;
+}
+
+double &Recom::overlap_threshold(void){
+  return OverlapThreshold;
 }
 
 void Recom::input(std::string InputDataName){
@@ -1410,7 +1415,7 @@ void Recom::crisp(const Matrix &Membership, int clusters_number){
   }
 }
 
-void Recom::overlap(const Matrix &Membership, double threshold){
+void Recom::overlap(const Matrix &Membership){
   for(int k=0;k<return_user_number();k++){
     for(int i=0;i<Membership.rows();i++){
       Mem[i][k]=0.0;
@@ -1425,7 +1430,7 @@ void Recom::overlap(const Matrix &Membership, double threshold){
     }
     Mem[max_index][k]=1.0;
     for(int i=0;i<Membership.rows();i++){
-      if(Membership[i][k]>=Membership[max_index][k]*0.8){
+      if(Membership[i][k]>=Membership[max_index][k]*OverlapThreshold){
         Mem[i][k]=1.0;
       }
     }
@@ -1433,7 +1438,7 @@ void Recom::overlap(const Matrix &Membership, double threshold){
   return;
 }
 
-void Recom::overlap(const Matrix &Membership, double threshold, int clusters_number){
+void Recom::overlap(const Matrix &Membership, int clusters_number){
   for(int k=0;k<return_user_number();k++){
     for(int i=0;i<clusters_number;i++){
       Mem[i][k]=0.0;
@@ -1448,7 +1453,7 @@ void Recom::overlap(const Matrix &Membership, double threshold, int clusters_num
     }
     Mem[max_index][k]=1.0;
     for(int i=0;i<clusters_number;i++){
-      if(Membership[i][k]>=Membership[max_index][k]*0.8){
+      if(Membership[i][k]>=Membership[max_index][k]*OverlapThreshold){
         Mem[i][k]=1.0;
       }
     }
@@ -1653,10 +1658,30 @@ Mkdir(std::vector<double> param, int c, std::vector<std::string> dirs){
 }
 
 std::vector<std::string>
+Mkdir(int missing, std::vector<std::string> dirs){
+  std::vector<std::string> v;  
+  for(int i=0;i<(int)dirs.size();i++){
+    const std::string dir=
+      dirs[i]+"/missing_pattern"+std::to_string(missing);
+    v.push_back(dir);
+    mkdir(dir.c_str(),0755);
+    //ROCフォルダ作成
+    const std::string roc=dir+"/ROC";
+    mkdir(roc.c_str(),0755);
+    //選ばれるROCファイルをまとめるフォルダ作成
+    const std::string choice=roc+"/choice";
+    mkdir(choice.c_str(),0755);
+  }
+  return v;
+}
+
+std::vector<std::string>
 Mkdir(int missing, int c, std::vector<std::string> dirs){
   std::vector<std::string> v;  
   for(int i=0;i<(int)dirs.size();i++){
-    const std::string dir=dirs[i]+"/missing_pattern"+std::to_string(missing);
+    const std::string dir=
+      dirs[i]+"/clusters_number"+std::to_string(c)
+      +"/missing_pattern"+std::to_string(missing);
     v.push_back(dir);
     mkdir(dir.c_str(),0755);
     //ROCフォルダ作成

@@ -52,13 +52,28 @@
 #define C_END 10
 #endif
 
-//可能性クラスタリング用クラスタ中心しきい値
+//可能性クラスタリング用クラスタ中心閾値
 #ifdef ARTIFICIALITY
 #define CENTERS_THRESHOLD 1.0
 #elif defined TEST
 #define CENTERS_THRESHOLD 1.0E-05
 #else
 #define CENTERS_THRESHOLD 1.0
+#endif
+
+//オーバーラップ閾値
+#ifdef ARTIFICIALITY
+#define OT_START 1.0
+#define OT_END 0.1
+#define OT_DIFF 0.1
+#elif defined TEST
+#define OT_START 1.0
+#define OT_END 0.1
+#define OT_DIFF 0.1
+#else
+#define OT_START 1.0
+#define OT_END 0.1
+#define OT_DIFF 0.1
 #endif
 
 //パラメータ
@@ -101,6 +116,8 @@ protected:
   int Seed;
   //欠損のさせ方ループ数,クラスタリング初期値ループ数,欠損値ループ数,現在の欠損数
   int Current, CCurrent, MCurrent, Missing;
+  //オーバーラップ閾値
+  double OverlapThreshold;
   //欠損後データ
   SparseMatrix SparseIncompleteData;
   //欠損前データ
@@ -149,6 +166,8 @@ protected:
   int &Mcurrent(void);
   //現在の欠損数
   int &missing(void);
+  //オーバーラップ閾値
+  double &overlap_threshold(void);
   //データ入力
   void input(std::string);
   //欠損パターン初期化
@@ -227,8 +246,8 @@ protected:
   void crisp(const Matrix &Membership);
   void crisp(const Matrix &Membership, const int clusters_number);
   //収束した帰属度をオーバーラップ
-  void overlap(const Matrix &Membership, double threshold);
-  void overlap(const Matrix &Membership, double threshold, int clusters_number);
+  void overlap(const Matrix &Membership);
+  void overlap(const Matrix &Membership,int clusters_number);
 };
 //ユーザ数を返す
 int return_user_number(void);
@@ -247,6 +266,8 @@ void Rename(std::string filename, std::string newname);
 std::vector<std::string> MkdirFCS(std::string);
 std::vector<std::string>
 Mkdir(std::vector<double> param, int c, std::vector<std::string> dirs);
+std::vector<std::string>
+Mkdir(int missing, std::vector<std::string> dirs);
 std::vector<std::string>
 Mkdir(int missing, int c, std::vector<std::string> dirs);
 std::vector<std::string> Mkdir(std::vector<std::string> methods);
