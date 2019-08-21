@@ -214,6 +214,7 @@ protected:
                    std::vector<double>);
   //最小MAEを出力(パラメータ毎)
   void out_min_mae2(std::vector<std::string>);
+  void out_min_mae3(std::vector<std::string>);
   //AUCの計算，text1に読み込むROCファイル，text2に平均AUCを保存
   void precision_summary(std::vector<std::string>);
   void precision_summary2(std::vector<std::string>,
@@ -270,5 +271,7 @@ std::vector<std::string>
 Mkdir(int missing, std::vector<std::string> dirs);
 std::vector<std::string>
 Mkdir(int missing, int c, std::vector<std::string> dirs);
+std::vector<std::string>
+Mkdir(int missing, double threshold, int c, std::vector<std::string> dirs);
 std::vector<std::string> Mkdir(std::vector<std::string> methods);
 #endif

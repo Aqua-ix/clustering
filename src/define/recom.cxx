@@ -671,6 +671,25 @@ void Recom::out_min_mae2(std::vector<std::string> dirs){
   }
 }
 
+void Recom::out_min_mae3(std::vector<std::string> dirs){
+  for(int i=0; i<(int)dirs.size(); i++){
+    std::ofstream ofs(dirs[i]
+                      +"/overlap_threshold"+std::to_string(OverlapThreshold)
+                      +"/missing_pattern"+std::to_string(Current)
+                      +"/"+METHOD_NAME+"_minimalMAE.txt",
+                      std::ios::out);
+    if(!ofs){
+      std::cerr << "out_min_mae: file could not open" << std::endl;
+    }
+    int missing_index=0;
+    for(int missing=MISSING_MIN;
+        missing<=MISSING_MAX;
+        missing+=MISSING_DIFF){
+      ofs<<missing<<"\t"<<MinMAE[missing_index++]<<std::endl;
+    }
+  }
+}
+
 void Recom::precision_summary(std::vector<std::string> dir){
   int max=(int)return_max_value()*10;
   for(int method=0;method<(int)dir.size();method++){
@@ -1681,6 +1700,27 @@ Mkdir(int missing, int c, std::vector<std::string> dirs){
   for(int i=0;i<(int)dirs.size();i++){
     const std::string dir=
       dirs[i]+"/clusters_number"+std::to_string(c)
+      +"/missing_pattern"+std::to_string(missing);
+    v.push_back(dir);
+    mkdir(dir.c_str(),0755);
+    //ROCフォルダ作成
+    const std::string roc=dir+"/ROC";
+    mkdir(roc.c_str(),0755);
+    //選ばれるROCファイルをまとめるフォルダ作成
+    const std::string choice=roc+"/choice";
+    mkdir(choice.c_str(),0755);
+  }
+  return v;
+}
+
+
+std::vector<std::string>
+Mkdir(int missing, int c, double threshold, std::vector<std::string> dirs){
+  std::vector<std::string> v;  
+  for(int i=0;i<(int)dirs.size();i++){
+    const std::string dir=
+      dirs[i]+"/clusters_number"+std::to_string(c)
+      +"/overlap_threshold"+std::to_string(threshold)
       +"/missing_pattern"+std::to_string(missing);
     v.push_back(dir);
     mkdir(dir.c_str(),0755);
