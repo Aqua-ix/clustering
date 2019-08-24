@@ -23,10 +23,12 @@ int main(void){
     Recom recom(user_number, item_number,
                 clusters_number, clusters_number, MISSING_MAX);
     recom.method_name()=METHOD_NAME;
+    recom.clusters_num()=clusters_number;
     //オーバーラップ閾値
     for(recom.overlap_threshold()=OT_START;
-        recom.overlap_threshold()<=OT_END;
+        recom.overlap_threshold()>=OT_END;
         recom.overlap_threshold()-=OT_DIFF){
+      std::cout<<"overlap threshold: "<<recom.overlap_threshold()<<std::endl;
       //シード値の初期化
       recom.seed();    
       //欠損パターン
@@ -34,7 +36,9 @@ int main(void){
         std::cout<<"missing pattern: "<<recom.current()<<std::endl;
         //missing_pattern_xのフォルダ作成
         std::vector<std::string> dir =
-          Mkdir(recom.current(), clusters_number, dirs);
+          Mkdir(recom.clusters_num(),
+                recom.overlap_threshold(),
+                recom.current(), dirs);
         //パラメータm
         for(double m=M_START;m<=M_END;m+=M_DIFF){
           std::cout<<"m: "<<m<<std::endl;
@@ -135,9 +139,9 @@ int main(void){
           recom.save_min_mae2(dir, parameter);
         }//パラメータm
         //最小MAE出力
-        recom.out_min_mae2(dirs);
+        recom.out_min_mae3(dirs);
         //AUC，MAEの平均を計算，出力
-        recom.precision_summary2(dirs, 1, M_START, M_END, M_DIFF);
+        recom.precision_summary3(dirs, 1, M_START, M_END, M_DIFF);
       }//欠損パターン
     }//オーバーラップ閾値
   }//クラスタ数

@@ -45,8 +45,8 @@
 #define C_START 5
 #define C_END 5
 #elif defined TEST
-#define C_START 2
-#define C_END 2
+#define C_START 1
+#define C_END 10
 #else
 #define C_START 1
 #define C_END 10
@@ -68,8 +68,8 @@
 #define OT_DIFF 0.1
 #elif defined TEST
 #define OT_START 1.0
-#define OT_END 0.1
-#define OT_DIFF 0.1
+#define OT_END 0.0
+#define OT_DIFF 0.2
 #else
 #define OT_START 1.0
 #define OT_END 0.1
@@ -115,7 +115,7 @@ protected:
   //欠損のさせ方を決めるシード値
   int Seed;
   //欠損のさせ方ループ数,クラスタリング初期値ループ数,欠損値ループ数,現在の欠損数
-  int Current, CCurrent, MCurrent, Missing;
+  int Current, CCurrent, MCurrent, Missing, ClustersNum;
   //オーバーラップ閾値
   double OverlapThreshold;
   //欠損後データ
@@ -166,6 +166,8 @@ protected:
   int &Mcurrent(void);
   //現在の欠損数
   int &missing(void);
+  //現在のクラスタ数
+  int &clusters_num(void);
   //オーバーラップ閾値
   double &overlap_threshold(void);
   //データ入力
@@ -218,6 +220,8 @@ protected:
   //AUCの計算，text1に読み込むROCファイル，text2に平均AUCを保存
   void precision_summary(std::vector<std::string>);
   void precision_summary2(std::vector<std::string>,
+                          int param_num, double params, ...);
+  void precision_summary3(std::vector<std::string>,
                           int param_num, double params, ...);
   //クラスタリングのみで予測値計算
   void revise_prediction(void);
@@ -272,6 +276,6 @@ Mkdir(int missing, std::vector<std::string> dirs);
 std::vector<std::string>
 Mkdir(int missing, int c, std::vector<std::string> dirs);
 std::vector<std::string>
-Mkdir(int missing, double threshold, int c, std::vector<std::string> dirs);
+Mkdir(int c, double threshold, int missing, std::vector<std::string> dirs);
 std::vector<std::string> Mkdir(std::vector<std::string> methods);
 #endif
