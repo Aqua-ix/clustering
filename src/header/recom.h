@@ -10,7 +10,7 @@
 #ifdef TEST
 #define MISSINGTRIALS 5
 #else
-#define MISSINGTRIALS 10000
+#define MISSINGTRIALS 20
 #endif
 //クラスタリングの初期値
 #define CLUSTERINGTRIALS 10
@@ -64,8 +64,8 @@
 //オーバーラップ閾値
 #ifdef ARTIFICIALITY
 #define OT_START 1.0
-#define OT_END 0.1
-#define OT_DIFF 0.1
+#define OT_END 0.2
+#define OT_DIFF 0.2
 #elif defined TEST
 #define OT_START 1.0
 #define OT_END 0.0
