@@ -216,7 +216,12 @@ void Recom::mae(std::string text, int method_number){
     result+=fabs(SparseCorrectData[KessonIndex[m][0]].elementIndex(SparseIndex[m])-Prediction[m]);
   }
   resultMAE[method_number][CCurrent]=result/(double)Missing;
-  std::ofstream ofs(text+"/"+METHOD_NAME+"_MAE.txt",std::ios::app);
+  std::string mae_dir = text+"/"+METHOD_NAME+"_MAE.txt";
+  std::ofstream ofs(mae_dir,std::ios::app);
+  if(!ofs){
+    std::cerr << mae_dir <<" could not open "<<std::endl;
+    exit(1);
+  }
   ofs<<Missing<<"\t"
     //<<Seed<<"\t"
      <<Current<<"\t"
@@ -236,7 +241,12 @@ void Recom::mae(std::string text, int method_number,
                  .elementIndex(SparseIndex[m])-Prediction[m]);
   }
   resultMAE[method_number][CCurrent]=result/(double)Missing;
-  std::ofstream ofs(text+"/"+METHOD_NAME+"_MAE.txt",std::ios::app);
+  std::string mae_dir = text+"/"+METHOD_NAME+"_MAE.txt";
+  std::ofstream ofs(mae_dir, std::ios::app);
+  if(!ofs){
+    std::cerr << mae_dir <<" could not open "<<std::endl;
+    exit(1);
+  }
   for(int i=0; i<(int)param.size(); i++){
     ofs<<param[i]<<"\t";
   }
@@ -420,7 +430,7 @@ void Recom::fmeasure(std::string text, int method_number,
 
 //ROC
 void Recom::roc(std::string dir){
-  std::string ROC_STR
+  std::string roc_dir
     =dir+"/ROC/"+METHOD_NAME+"_ROC_"
     +std::to_string(Missing)+"_"+std::to_string(Current)+"_"
     +std::to_string(CCurrent)+"_sort.txt";
@@ -429,9 +439,9 @@ void Recom::roc(std::string dir){
   //一旦保存
   Vector False=FP_TN;
   Vector True=TP_FN;
-  std::ofstream ofs(ROC_STR,std::ios::app);
+  std::ofstream ofs(roc_dir,std::ios::app);
   if(!ofs){
-    std::cerr << ROC_STR <<" could not open "<<std::endl;
+    std::cerr << roc_dir <<" could not open "<<std::endl;
     exit(1);
   }
   else{
@@ -661,7 +671,9 @@ void Recom::out_min_mae(std::vector<std::string> dirs,
 
 void Recom::out_min_mae2(std::vector<std::string> dirs){
   for(int i=0; i<(int)dirs.size(); i++){
-    std::ofstream ofs(dirs[i]+"/missing_pattern"+std::to_string(Current)
+    std::ofstream ofs(dirs[i]
+                      +"/clusters_number"+std::to_string(ClustersNum)
+                      +"/missing_pattern"+std::to_string(Current)
                       +"/"+METHOD_NAME+"_minimalMAE.txt",
                       std::ios::out);
     if(!ofs){
@@ -707,7 +719,7 @@ void Recom::precision_summary(std::vector<std::string> dir){
                         +"_"+std::to_string(x)+"_sort.txt");
       if(!ifs){
         std::cerr<<"precision_summary: file input failed"<<std::endl;
-        break;
+        exit(1);
       }
       for(int i=0;i<max;i++)
         ifs>>array1[i]>>array2[i];
@@ -738,6 +750,7 @@ void Recom::precision_summary(std::vector<std::string> dir){
                       std::ios::app);
     if(!ofs){
       std::cerr << "precision_summary: file could not open" << std::endl;
+      exit(1);
     }
     double averageMAE = sumMAE/(double)MISSINGTRIALS;
     double averageF = sumF/(double)MISSINGTRIALS;
@@ -779,7 +792,7 @@ void Recom::precision_summary2(std::vector<std::string> dir,
                         +"_minimalMAE.txt");
       if(!ifs){
         std::cerr<<"precision_summary: MAE file input failed"<<std::endl;
-        break;
+        exit(1);
       }
       for(int miss=0;miss<(int)sumMAE.size();miss++){
         ifs>>tmp>>mae;
@@ -799,7 +812,7 @@ void Recom::precision_summary2(std::vector<std::string> dir,
     //                         +"_"+std::to_string(mt)+"_sort.txt");
     //       if(!ifs){
     //         std::cerr<<"precision_summary: ROC file input failed"<<std::endl;
-    //         break;
+    //         exit(1);
     //       }
     //       for(int i=0;i<max;i++)
     //         ifs>>array1[i]>>array2[i];
@@ -825,6 +838,7 @@ void Recom::precision_summary2(std::vector<std::string> dir,
                           std::ios::app);
     if(!ofs_mae){
       std::cerr << "precision_summary: MAE file could not open" << std::endl;
+      exit(1);
     }
     std::vector<double> aveMAE(MCurrent, 0.0);
     double missing=MISSING_MIN;
@@ -868,14 +882,16 @@ void Recom::precision_summary3(std::vector<std::string> dir,
     double tmp=0, mae=0;
     
     for(int mt=0;mt<Current+1;mt++){
-      std::ifstream ifs(dir[method]
-                        +"/clusters_number"+std::to_string(ClustersNum)
-                        +"/overlap_threshold"+std::to_string(OverlapThreshold)
-                        +"/missing_pattern"+std::to_string(mt)
-                        +"/"+METHOD_NAME+"_minimalMAE.txt");
+      std::string minMAE_dir =
+        dir[method]
+        +"/clusters_number"+std::to_string(ClustersNum)
+        +"/overlap_threshold"+std::to_string(OverlapThreshold)
+        +"/missing_pattern"+std::to_string(mt)
+        +"/"+METHOD_NAME+"_minimalMAE.txt";
+      std::ifstream ifs(minMAE_dir);
       if(!ifs){
-        std::cerr<<"precision_summary: MAE file input failed"<<std::endl;
-        break;
+        std::cerr<<"precision_summary: minimalMAE file input failed"<<std::endl;
+        exit(1);
       }
       for(int miss=0;miss<(int)sumMAE.size();miss++){
         ifs>>tmp>>mae;
@@ -895,7 +911,7 @@ void Recom::precision_summary3(std::vector<std::string> dir,
     //                         +"_"+std::to_string(mt)+"_sort.txt");
     //       if(!ifs){
     //         std::cerr<<"precision_summary: ROC file input failed"<<std::endl;
-    //         break;
+    //         exit(1);
     //       }
     //       for(int i=0;i<max;i++)
     //         ifs>>array1[i]>>array2[i];
@@ -914,13 +930,18 @@ void Recom::precision_summary3(std::vector<std::string> dir,
     //     }
     //   }
     // }
-
+    
     //平均MAE出力
-    std::ofstream ofs_mae(dir[method]+"/missing_pattern"
-                          +std::to_string(Current)+"/"+METHOD_NAME+"_averageMAE.txt",
-                          std::ios::app);
+    std::string aveMAE_dir =
+      dir[method]
+      +"/clusters_number"+std::to_string(ClustersNum)
+      +"/overlap_threshold"+std::to_string(OverlapThreshold)
+      +"/missing_pattern"+std::to_string(Current)
+      +"/"+METHOD_NAME+"_averageMAE.txt";
+    std::ofstream ofs_mae(aveMAE_dir, std::ios::app);
     if(!ofs_mae){
-      std::cerr << "precision_summary: MAE file could not open" << std::endl;
+      std::cerr << "precision_summary: averageMAE file could not open" << std::endl;
+      exit(1);
     }
     std::vector<double> aveMAE(MCurrent, 0.0);
     double missing=MISSING_MIN;
@@ -1801,13 +1822,16 @@ std::vector<std::string>
 Mkdir(int missing, int c, std::vector<std::string> dirs){
   std::vector<std::string> v;  
   for(int i=0;i<(int)dirs.size();i++){
-    const std::string dir=
-      dirs[i]+"/clusters_number"+std::to_string(c)
-      +"/missing_pattern"+std::to_string(missing);
-    v.push_back(dir);
-    mkdir(dir.c_str(),0755);
+    //クラスタ数フォルダ作成
+    const std::string c_dir = dirs[i]+"/clusters_number"+std::to_string(c);
+    mkdir(c_dir.c_str(),0755);
+    //欠損パターンフォルダ作成
+    const std::string m_dir
+      = c_dir + "/missing_pattern"+std::to_string(missing);
+    mkdir(m_dir.c_str(),0755);
+    v.push_back(m_dir);
     //ROCフォルダ作成
-    const std::string roc=dir+"/ROC";
+    const std::string roc=m_dir+"/ROC";
     mkdir(roc.c_str(),0755);
     //選ばれるROCファイルをまとめるフォルダ作成
     const std::string choice=roc+"/choice";
@@ -1821,14 +1845,20 @@ std::vector<std::string>
 Mkdir(int c, double threshold, int missing, std::vector<std::string> dirs){
   std::vector<std::string> v;  
   for(int i=0;i<(int)dirs.size();i++){
-    const std::string dir=
-      dirs[i]+"/clusters_number"+std::to_string(c)
-      +"/overlap_threshold"+std::to_string(threshold)
-      +"/missing_pattern"+std::to_string(missing);
-    v.push_back(dir);
-    mkdir(dir.c_str(),0755);
+    //クラスタ数フォルダ作成
+    const std::string c_dir = dirs[i]+"/clusters_number"+std::to_string(c);
+    mkdir(c_dir.c_str(),0755);
+    //オーバーラップ閾値フォルダ作成
+    const std::string t_dir
+      = c_dir+"/overlap_threshold"+std::to_string(threshold);
+    mkdir(t_dir.c_str(),0755);
+    //欠損パターンフォルダ作成
+    const std::string m_dir
+      = t_dir + "/missing_pattern"+std::to_string(missing);
+    mkdir(m_dir.c_str(),0755);
+    v.push_back(m_dir);
     //ROCフォルダ作成
-    const std::string roc=dir+"/ROC";
+    const std::string roc=m_dir+"/ROC";
     mkdir(roc.c_str(),0755);
     //選ばれるROCファイルをまとめるフォルダ作成
     const std::string choice=roc+"/choice";

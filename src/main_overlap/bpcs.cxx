@@ -99,13 +99,10 @@ int main(void){
       //欠損数ごとのMAEが今までのMAEより小さければ保存する
       recom.save_min_mae2(dir, parameter);
     }//パラメータm
-    
     //最小MAE出力
     recom.out_min_mae2(dirs);
-    
     //AUC，MAE，F-measureの平均を計算，出力
     recom.precision_summary2(dirs, 1, M_START, M_END, M_DIFF);
-    
   }//欠損パターン
   return 0;
 }
