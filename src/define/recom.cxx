@@ -786,12 +786,12 @@ void Recom::precision_summary2(std::vector<std::string> dir,
     double tmp=0, mae=0;
     
     for(int mt=0;mt<Current+1;mt++){
-      std::ifstream ifs(dir[method]+"/missing_pattern"
-                        +std::to_string(mt)
-                        +"/"+METHOD_NAME
-                        +"_minimalMAE.txt");
+      std::ifstream ifs(dir[method]+
+                        +"/clusters_number"+std::to_string(ClustersNum)
+                        +"/missing_pattern"+std::to_string(mt)
+                        +"/"+METHOD_NAME+"_minimalMAE.txt");
       if(!ifs){
-        std::cerr<<"precision_summary: MAE file input failed"<<std::endl;
+        std::cerr<<"precision_summary: minimalMAE file input failed"<<std::endl;
         exit(1);
       }
       for(int miss=0;miss<(int)sumMAE.size();miss++){
@@ -833,11 +833,13 @@ void Recom::precision_summary2(std::vector<std::string> dir,
     // }
 
     //平均MAE出力
-    std::ofstream ofs_mae(dir[method]+"/missing_pattern"
-                          +std::to_string(Current)+"/"+METHOD_NAME+"_averageMAE.txt",
+    std::ofstream ofs_mae(dir[method]+
+                          +"/clusters_number"+std::to_string(ClustersNum)
+                          +"/missing_pattern"+std::to_string(Current)
+                          +"/"+METHOD_NAME+"_averageMAE.txt",
                           std::ios::app);
     if(!ofs_mae){
-      std::cerr << "precision_summary: MAE file could not open" << std::endl;
+      std::cerr<<"precision_summary: averageMAE file could not open"<<std::endl;
       exit(1);
     }
     std::vector<double> aveMAE(MCurrent, 0.0);
@@ -1819,7 +1821,7 @@ Mkdir(int missing, std::vector<std::string> dirs){
 }
 
 std::vector<std::string>
-Mkdir(int missing, int c, std::vector<std::string> dirs){
+Mkdir(int c, int missing, std::vector<std::string> dirs){
   std::vector<std::string> v;  
   for(int i=0;i<(int)dirs.size();i++){
     //クラスタ数フォルダ作成

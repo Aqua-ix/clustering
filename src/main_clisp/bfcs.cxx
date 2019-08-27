@@ -23,14 +23,15 @@ int main(void){
     Recom recom(user_number, item_number,
                 clusters_number, clusters_number, MISSING_MAX);
     recom.method_name()=METHOD_NAME;
-
+    recom.clusters_num()=clusters_number;
     //シード値の初期化
     recom.seed();    
     //欠損パターン
     for(recom.current()=0;recom.current()<MISSINGTRIALS;recom.current()++){
       std::cout<<"missing pattern: "<<recom.current()<<std::endl;
-      //missing_pattern_xのフォルダ作成
-      std::vector<std::string> dir = Mkdir(recom.current(), dirs);
+      //フォルダ作成
+      std::vector<std::string> dir = Mkdir(recom.clusters_num(),
+                                           recom.current(),dirs);
       //パラメータm
       for(double m=M_START;m<=M_END;m+=M_DIFF){
         std::cout<<"m: "<<m<<std::endl;

@@ -19,15 +19,15 @@ int main(void){
   Recom recom(user_number, item_number, user_number, item_number, MISSING_MAX);
   std::vector<std::string> dirs = MkdirFCS(METHOD_NAME);
   recom.method_name()=METHOD_NAME;
-
+  recom.clusters_num()=clusters_number;
   //シード値の初期化
   recom.seed();    
   //欠損パターン
   for(recom.current()=0;recom.current()<MISSINGTRIALS;recom.current()++){
     std::cout<<"missing pattern: "<<recom.current()<<std::endl;
-    //missing_pattern_xのフォルダ作成
-    std::vector<std::string> dir = Mkdir(recom.current(), dirs);
-   
+    //フォルダ作成
+    std::vector<std::string> dir = Mkdir(recom.clusters_num(),
+                                         recom.current(),dirs);
     double alpha=ALPHA;
     //パラメータlambda
     for(double lambda=LAMBDA_START;lambda<=LAMBDA_END;lambda*=LAMBDA_DIFF){
@@ -98,13 +98,10 @@ int main(void){
       //欠損数ごとのMAEが今までのMAEより小さければ保存する
       recom.save_min_mae2(dir, parameter);
     }//パラメータlambda
-    
     //最小MAE出力
     recom.out_min_mae2(dirs);
-    
     //AUC，MAE，F-measureの平均を計算，出力
     recom.precision_summary2(dirs, 1, LAMBDA_START, LAMBDA_END, LAMBDA_DIFF);
-    
   }//欠損パターン
   return 0;
 }

@@ -8,7 +8,7 @@
 
 //欠損パターン
 #ifdef TEST
-#define MISSINGTRIALS 5
+#define MISSINGTRIALS 2
 #else
 #define MISSINGTRIALS 20
 #endif
@@ -36,7 +36,7 @@
 #define MISSING_DIFF 300000
 #else
 #define MISSING_MIN 10
-#define MISSING_MAX 20
+#define MISSING_MAX 11
 #define MISSING_DIFF 1
 #endif
 
@@ -46,7 +46,7 @@
 #define C_END 5
 #elif defined TEST
 #define C_START 1
-#define C_END 10
+#define C_END 2
 #else
 #define C_START 1
 #define C_END 10
@@ -87,10 +87,10 @@
 #define LAMBDA_DIFF 2
 #elif defined TEST
 #define M_START 1.1
-#define M_END 2.1
+#define M_END 1.2
 #define M_DIFF 0.1
 #define LAMBDA_START 2
-#define LAMBDA_END 1024
+#define LAMBDA_END 10
 #define LAMBDA_DIFF 2
 #else
 #define M_START 1.1
@@ -274,7 +274,7 @@ Mkdir(std::vector<double> param, int c, std::vector<std::string> dirs);
 std::vector<std::string>
 Mkdir(int missing, std::vector<std::string> dirs);
 std::vector<std::string>
-Mkdir(int missing, int c, std::vector<std::string> dirs);
+Mkdir(int c, int missing, std::vector<std::string> dirs);
 std::vector<std::string>
 Mkdir(int c, double threshold, int missing, std::vector<std::string> dirs);
 std::vector<std::string> Mkdir(std::vector<std::string> methods);

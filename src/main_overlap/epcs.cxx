@@ -20,96 +20,100 @@ int main(void){
   //Recomクラスの生成
   Recom recom(user_number, item_number, user_number, item_number, MISSING_MAX);
   recom.method_name()=METHOD_NAME;
-
-  //シード値の初期化
-  recom.seed();
-  //欠損パターン
-  for(recom.current()=0;recom.current()<MISSINGTRIALS;recom.current()++){
-    std::cout<<"missing pattern: "<<recom.current()<<std::endl;
-    //missing_pattern_xのフォルダ作成
-    std::vector<std::string> dir = Mkdir(recom.current(), dirs);
-    
-    double alpha=ALPHA;
-    //パラメータlambda
-    for(double lambda=LAMBDA_START;lambda<=LAMBDA_END;lambda*=LAMBDA_DIFF){
-      std::cout<<"lambda: "<<lambda<<std::endl;
-      EPCS test(item_number, user_number,clusters_number, lambda, alpha);
-      //マージのしきい値設定
-      test.centers_threshold()=CENTERS_THRESHOLD;
+  recom.clusters_num()=clusters_number;
+  //オーバーラップ閾値
+  for(recom.overlap_threshold()=OT_START;
+      recom.overlap_threshold()>=OT_END;
+      recom.overlap_threshold()-=OT_DIFF){
+    //シード値の初期化
+    recom.seed();
+    //欠損パターン
+    for(recom.current()=0;recom.current()<MISSINGTRIALS;recom.current()++){
+      std::cout<<"missing pattern: "<<recom.current()<<std::endl;
+      //フォルダ作成
+      std::vector<std::string> dir =
+        Mkdir(recom.clusters_num(),
+              recom.overlap_threshold(),
+              recom.current(), dirs);
+      double alpha=ALPHA;
+      //パラメータlambda
+      for(double lambda=LAMBDA_START;lambda<=LAMBDA_END;lambda*=LAMBDA_DIFF){
+        std::cout<<"lambda: "<<lambda<<std::endl;
+        EPCS test(item_number, user_number,clusters_number, lambda, alpha);
+        //マージのしきい値設定
+        test.centers_threshold()=CENTERS_THRESHOLD;
       
-      std::vector<double> parameter= {lambda};
+        std::vector<double> parameter= {lambda};
     
-      //データ入力
-      recom.input(DATA_DIR+InputDataName);
-      //欠損数
-      recom.Mcurrent()=0;
-      for(recom.missing()=MISSING_MIN;
-          recom.missing()<=MISSING_MAX;recom.missing()+=MISSING_DIFF){
+        //データ入力
+        recom.input(DATA_DIR+InputDataName);
+        //欠損数
+        recom.Mcurrent()=0;
+        for(recom.missing()=MISSING_MIN;
+            recom.missing()<=MISSING_MAX;recom.missing()+=MISSING_DIFF){
     
-        //初期化
-        recom.reset();
-        //データを欠損
-        recom.revise_missing_values_new();
-        //データをtestに渡す
-        test.copydata(recom.sparseincompletedata());
-        //データをスパース化
-        test.ForSphericalData();
-        //PCM用クラスタ中心の初期化
-        test.centers_pcm_reset();
-        //クラスタ数カウント
-        test.clusters_count()=1;
-        //ユーザ数回ループ
-        for(int k=0;k<user_number;k++){
-          test.reset();
-          //初期クラスタ中心
-          test.initialize_centers_one_cluster(k);
-          test.iterates()=0;
-          while(1){
-            test.revise_dissimilarities();//hcs
-            test.revise_membership();//bpcs
-            test.revise_centers();//bfcs
+          //初期化
+          recom.reset();
+          //データを欠損
+          recom.revise_missing_values_new();
+          //データをtestに渡す
+          test.copydata(recom.sparseincompletedata());
+          //データをスパース化
+          test.ForSphericalData();
+          //PCM用クラスタ中心の初期化
+          test.centers_pcm_reset();
+          //クラスタ数カウント
+          test.clusters_count()=1;
+          //ユーザ数回ループ
+          for(int k=0;k<user_number;k++){
+            test.reset();
+            //初期クラスタ中心
+            test.initialize_centers_one_cluster(k);
+            test.iterates()=0;
+            while(1){
+              test.revise_dissimilarities();//hcs
+              test.revise_membership();//bpcs
+              test.revise_centers();//bfcs
           
-            double diff_v=max_norm(test.tmp_centers()-test.centers());
-            double diff_u=max_norm(test.tmp_membership()-test.membership());
-            double diff=diff_u+diff_v;
-            if(std::isnan(diff)){
-              std::cout<<"diff is nan"<<std::endl;
-              test.reset();
-              exit(1);
+              double diff_v=max_norm(test.tmp_centers()-test.centers());
+              double diff_u=max_norm(test.tmp_membership()-test.membership());
+              double diff=diff_u+diff_v;
+              if(std::isnan(diff)){
+                std::cout<<"diff is nan"<<std::endl;
+                test.reset();
+                exit(1);
+              }
+              if(diff<DIFF_FOR_STOP)break;
+              if(test.iterates()>=MAX_ITE)break;
+              test.iterates()++;
             }
-            if(diff<DIFF_FOR_STOP)break;
-            if(test.iterates()>=MAX_ITE)break;
-            test.iterates()++;
-          }
-          //クラスタ中心のマージ
-          test.marge_centers();
-        }//ユーザー数回ループ
-        recom.overlap(test.membership_pcm(), test.clusters_count());
+            //クラスタ中心のマージ
+            test.marge_centers();
+          }//ユーザー数回ループ
+          recom.overlap(test.membership_pcm(), test.clusters_count());
         
-        recom.pearsonsim_for_pcm(test.clusters_count());
-        recom.pearsonpred2();
+          recom.pearsonsim_for_pcm(test.clusters_count());
+          recom.pearsonpred2();
  
-        recom.pearsonpred2();
-        recom.mae(dir[0], 0, parameter);
-        recom.fmeasure(dir[0], 0, parameter);
-        recom.roc(dir[0],parameter);
-        recom.obje(recom.Ccurrent())=-1;
-        recom.ofs_objective(dir[0]);
-        test.ofs_selected_data(dir[0]);
-        recom.choice_mae_f(dir, parameter);
-        recom.Mcurrent()++;
-      }//欠損数
-      //欠損数ごとのMAEが今までのMAEより小さければ保存する
-      recom.save_min_mae2(dir, parameter);
-    }//パラメータlambda
-    
-    //最小MAE出力
-    recom.out_min_mae2(dirs);
-    
-    //AUC，MAE，F-measureの平均を計算，出力
-    recom.precision_summary2(dirs, 1, LAMBDA_START, LAMBDA_END, LAMBDA_DIFF);
-    
-  }//欠損パターン
+          recom.pearsonpred2();
+          recom.mae(dir[0], 0, parameter);
+          recom.fmeasure(dir[0], 0, parameter);
+          recom.roc(dir[0],parameter);
+          recom.obje(recom.Ccurrent())=-1;
+          recom.ofs_objective(dir[0]);
+          test.ofs_selected_data(dir[0]);
+          recom.choice_mae_f(dir, parameter);
+          recom.Mcurrent()++;
+        }//欠損数
+        //欠損数ごとのMAEが今までのMAEより小さければ保存する
+        recom.save_min_mae2(dir, parameter);
+      }//パラメータlambda
+      //最小MAE出力
+      recom.out_min_mae3(dirs);
+      //AUC，MAE，F-measureの平均を計算，出力
+      recom.precision_summary3(dirs, 1, LAMBDA_START, LAMBDA_END, LAMBDA_DIFF);
+    }//欠損パターン
+  }//オーバーラップ閾値
   return 0;
 }
 
