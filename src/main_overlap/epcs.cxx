@@ -25,6 +25,7 @@ int main(void){
   for(recom.overlap_threshold()=OT_START;
       recom.overlap_threshold()>=OT_END;
       recom.overlap_threshold()-=OT_DIFF){
+    std::cout<<"overlap threshold: "<<recom.overlap_threshold()<<std::endl;
     //シード値の初期化
     recom.seed();
     //欠損パターン
