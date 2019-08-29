@@ -54,7 +54,7 @@ int main(void){
             //初期化
             recom.reset();
             //データを欠損
-            recom.revise_missing_values_new();
+            recom.revise_missing_values();
             recom.pearsonsim();
             //データをtestに渡す
             test.copydata(recom.sparseincompletedata());
@@ -78,7 +78,7 @@ int main(void){
                 if(InitCentLoopis10>9){
                   test.reset();
                   recom.obje(recom.Ccurrent())=DBL_MAX;
-                  recom.pearsonpred2();
+                  recom.revise_prediction();
                   recom.mae(dir[0], 0, parameter);
                   recom.fmeasure(dir[0], 0, parameter);
                   recom.roc(dir[0], parameter);
@@ -119,10 +119,10 @@ int main(void){
                 //recomに帰属度を渡してオーバーラップ
                 recom.overlap(test.membership());
                 //GroupLens Methodで予測
-                recom.reset2();
+                recom.reset_pred();
                 //クラスタリング＋ピアソン相関係数の計算
-                recom.pearsonsim_clustering();
-                recom.pearsonpred2();
+                recom.pearsonsim_fcs();
+                recom.revise_prediction();
                 recom.mae(dir[0], 0, parameter);
                 recom.fmeasure(dir[0], 0, parameter);
                 recom.roc(dir[0], parameter);
@@ -131,16 +131,16 @@ int main(void){
                 InitCentLoopis10=0;
               }
             }//初期値パターン
-            recom.choice_mae_f(dir, parameter);
+            recom.choice_mae(dir, parameter);
             recom.Mcurrent()++;         
           }//欠損数
           //欠損数ごとのMAEが今までのMAEより小さければ保存する
-          recom.save_min_mae2(dir, parameter);
+          recom.save_min_mae(dir, parameter);
         }//パラメータm
         //最小MAE出力
-        recom.out_min_mae3(dirs);
+        recom.out_min_mae_overlap(dirs);
         //AUC，MAEの平均を計算，出力
-        recom.precision_summary3(dirs, 1, M_START, M_END, M_DIFF);
+        recom.precision_summary_overlap(dirs, 1, M_START, M_END, M_DIFF);
       }//欠損パターン
     }//オーバーラップ閾値
   }//クラスタ数

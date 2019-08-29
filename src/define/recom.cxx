@@ -86,6 +86,23 @@ double &Recom::overlap_threshold(void){
   return OverlapThreshold;
 }
 
+SparseMatrix Recom::sparsecorrectdata(void) const{
+  return SparseCorrectData;
+}
+
+SparseVector &Recom::sparsecorrectdata(int index){
+  return SparseCorrectData[index];
+}
+
+SparseMatrix Recom::sparseincompletedata(void) const{
+  return SparseIncompleteData;
+}
+
+SparseVector &Recom::sparseincompletedata(const int &index){
+  return SparseIncompleteData[index];
+}
+
+
 void Recom::input(std::string InputDataName){
   std::ifstream ifs(InputDataName);
   if(!ifs){
@@ -105,12 +122,6 @@ void Recom::input(std::string InputDataName){
   ifs.close();
 }
 
-//シード値の初期化
-void Recom::seed(void){
-  Seed=0;
-  return;
-}
-
 void Recom::reset(void){
   SparseIncompleteData=SparseCorrectData;
   for(int k=0;k<return_user_number();k++){
@@ -121,7 +132,7 @@ void Recom::reset(void){
   return;
 }
 
-void Recom::reset2(){
+void Recom::reset_pred(){
   for(int miss=0;miss<Missing;miss++)
     Prediction[miss]=0.0;
   for(int i=0;i<(int)return_max_value()*10;i++){
@@ -131,47 +142,12 @@ void Recom::reset2(){
   return;
 }
 
-//欠損の作り方
-void Recom::revise_missing_values(void){
-  int tmprow,tmpcol;
-  for(int m=0; m<Missing;){
-    /****乱数生成****/
-    std::mt19937_64 mt;
-    mt.seed(Seed);
-    std::uniform_int_distribution<>
-      randRow(0,return_user_number()-1);
-    //ランダムに行番号生成
-    tmprow=randRow(mt);
-    std::uniform_int_distribution<>
-      randCol(0,SparseCorrectData[tmprow].essencialSize()-1);
-    //ランダムに列番号生成
-    tmpcol=randCol(mt);
-    //データ行すべて欠損させないように
-    int c=-1;
-    for(int i=0;i<SparseIncompleteData[tmprow].essencialSize();i++)
-      if(SparseIncompleteData[tmprow].elementIndex(i)==0)
-        c++;
-    //既に欠損していない場合
-    if(SparseIncompleteData[tmprow].elementIndex(tmpcol)>0
-       && SparseIncompleteData[tmprow].essencialSize()>c){
-      //要素を0にする
-      SparseIncompleteData[tmprow].elementIndex(tmpcol)=0;
-      //欠損した行番号を保存
-      KessonIndex[m][0]=tmprow;
-      //欠損した列番号を保存
-      KessonIndex[m][1]=SparseIncompleteData[tmprow]
-        .indexIndex(tmpcol);
-      //スパースデータの列番号を保存
-      SparseIndex[m]=tmpcol;
-      m++;
-    }
-    Seed++;
-  }
+void Recom::seed(void){
+  Seed=0;
   return;
 }
 
-//一行に2要素は必ず残す
-void Recom::revise_missing_values_new(void){
+void Recom::revise_missing_values(void){
   int tmprow,tmpcol;
   for(int m=0; m<Missing;){
     /****乱数生成****/
@@ -209,30 +185,6 @@ void Recom::revise_missing_values_new(void){
   return;
 }
 
-//精度評価 MAE
-void Recom::mae(std::string text, int method_number){
-  double result=0.0;
-  for(int m=0;m<Missing;m++){
-    result+=fabs(SparseCorrectData[KessonIndex[m][0]].elementIndex(SparseIndex[m])-Prediction[m]);
-  }
-  resultMAE[method_number][CCurrent]=result/(double)Missing;
-  std::string mae_dir = text+"/"+METHOD_NAME+"_MAE.txt";
-  std::ofstream ofs(mae_dir,std::ios::app);
-  if(!ofs){
-    std::cerr << mae_dir <<" could not open "<<std::endl;
-    exit(1);
-  }
-  ofs<<Missing<<"\t"
-    //<<Seed<<"\t"
-     <<Current<<"\t"
-    //<<CCurrent<<"\t"
-     <<std::fixed<<std::setprecision(10)
-     <<resultMAE[method_number][CCurrent]<<std::endl;
-  ofs.close();
-  return;
-}
-
-//精度評価 MAE
 void Recom::mae(std::string text, int method_number,
                 std::vector<double> param){
   double result=0.0;
@@ -257,93 +209,6 @@ void Recom::mae(std::string text, int method_number,
   return;
 }
 
-
-//fmeasure
-void Recom::fmeasure(std::string text, int method_number){
-  std::ofstream ofs(text+"/"+METHOD_NAME+"_Fmeasure.txt",
-                    std::ios::app);
-  for(int index=1;index<(int)return_max_value()*10;index++){
-    double TP=0.0,FP=0.0,FN=0.0,TN=0.0;
-    //閾値の設定
-    double siki=(double)index/10.0;
-    for(int m=0;m<Missing;m++){
-      //正解値が閾値以上かつ，予測値が閾値以上の場合
-      if((siki<=SparseCorrectData[KessonIndex[m][0]]
-          .elementIndex(SparseIndex[m]))
-         &&(siki<=Prediction[m]))
-        TP+=1.0;
-      //正解値が閾値を下回ったかつ，予測値が閾値上回った場合
-      else if((siki>SparseCorrectData[KessonIndex[m][0]]
-               .elementIndex(SparseIndex[m]))
-              &&(siki<=Prediction[m]))
-        FP+=1.0;
-      //正解値が閾値上回ったかつ，予測値が閾値を下回った場合
-      else if((siki<=SparseCorrectData[KessonIndex[m][0]]
-               .elementIndex(SparseIndex[m]))
-              &&(siki>Prediction[m]))
-        FN+=1.0;
-      //それ以外
-      else if((siki>SparseCorrectData[KessonIndex[m][0]]
-               .elementIndex(SparseIndex[m]))
-              &&(siki>Prediction[m]))
-        TN+=1.0;
-      else
-        continue;
-    }
-    //閾値がF-measureで設定した閾値だった場合
-    if(siki==return_threshold()){
-      double Precision=TP/(TP+FP);
-      double Recall=TP/(TP+FN);
-      resultFmeasure[method_number][CCurrent]
-        =(2.0*Recall*Precision)/(Recall+Precision);
-      if(std::isnan(resultFmeasure[method_number][CCurrent]))
-        resultFmeasure[method_number][CCurrent]=0.0;
-      ofs<<Missing<<"\t"
-        //<<Seed<<"\t"
-         <<current()<<"\t"
-        //<<Ccurrent()<<"\t"
-         <<TP<<" "
-         <<FP<<" "
-         <<FN<<" "
-         <<TN<<" "
-         <<std::fixed<<std::setprecision(10)
-         <<resultFmeasure[method_number][CCurrent]
-         <<std::endl;
-    }
-    /*~2017/12/25
-    //0で割る場合，無理やり回避
-    if((TP+FN)==0||(FP+TN)==0){
-    TP_FN[index]=0.0;
-    FP_TN[index]=0.0;
-    }
-    */
-    if(TP+TN==Missing){
-      TP_FN[index]=1.0;
-      FP_TN[index]=1.0;
-    }
-    //Recall，Falloutの計算
-    else{
-      TP_FN[index]=TP/(TP+FN);
-      FP_TN[index]=FP/(FP+TN);
-      if((TP+FN)==0||(FP+TN)==0){
-        TP_FN[index]=1.0;
-        FP_TN[index]=1.0;
-      }
-      //~2017/12/25
-      /*
-        if(TP_FN[index]==0||FP_TN[index]==0){
-        TP_FN[index]=0;
-        FP_TN[index]=0;
-        }
-      */
-    }
-  }
-  ofs.close();
-  return;
-}
-
-
-//fmeasure
 void Recom::fmeasure(std::string text, int method_number,
                      std::vector<double> param){
   std::ofstream ofs(text+"/"+METHOD_NAME+"_Fmeasure.txt",
@@ -396,13 +261,6 @@ void Recom::fmeasure(std::string text, int method_number,
          <<resultFmeasure[method_number][CCurrent]
          <<std::endl;
     }
-    /*~2017/12/25
-    //0で割る場合，無理やり回避
-    if((TP+FN)==0||(FP+TN)==0){
-    TP_FN[index]=0.0;
-    FP_TN[index]=0.0;
-    }
-    */
     if(TP+TN==Missing){
       TP_FN[index]=1.0;
       FP_TN[index]=1.0;
@@ -415,47 +273,12 @@ void Recom::fmeasure(std::string text, int method_number,
         TP_FN[index]=1.0;
         FP_TN[index]=1.0;
       }
-      //~2017/12/25
-      /*
-        if(TP_FN[index]==0||FP_TN[index]==0){
-        TP_FN[index]=0;
-        FP_TN[index]=0;
-        }
-      */
     }
   }
   ofs.close();
   return;
 }
 
-//ROC
-void Recom::roc(std::string dir){
-  std::string roc_dir
-    =dir+"/ROC/"+METHOD_NAME+"_ROC_"
-    +std::to_string(Missing)+"_"+std::to_string(Current)+"_"
-    +std::to_string(CCurrent)+"_sort.txt";
-  //ROCでプロットする点の数
-  int max_index=(int)return_max_value()*10;
-  //一旦保存
-  Vector False=FP_TN;
-  Vector True=TP_FN;
-  std::ofstream ofs(roc_dir,std::ios::app);
-  if(!ofs){
-    std::cerr << roc_dir <<" could not open "<<std::endl;
-    exit(1);
-  }
-  else{
-    //横軸でソート
-    Sort(False,True,max_index);
-    for(int i=0;i<max_index;i++)
-      ofs<<std::fixed<<std::setprecision(10)
-         <<False[i]<<"\t"<<True[i]<<std::endl;
-  }
-  ofs.close();
-  return;
-}
-
-//ROC
 void Recom::roc(std::string dir, std::vector<double> param){
   std::string param_str="";
   for(int i=0; i<(int)param.size(); i++){
@@ -523,29 +346,7 @@ int Recom::min_objective_index(void){
   return obje_index;
 }
   
-void Recom::choice_mae_f(std::vector<std::string> dir, int p){
-  int obje_index=0;
-  if(p==1)
-    obje_index=min_objective_index();
-  for(int method=0;method<(int)dir.size();method++){
-    choiceMAE[method][Current]=resultMAE[method][obje_index];
-    choiceFmeasure[method][Current]=resultFmeasure[method][obje_index];
-    //選ばれたROCをchoiceフォルダに移す
-    std::string oldname
-      =dir[method]+"/ROC"+"/"+METHOD_NAME+"_ROC_"
-      +std::to_string(Missing)+"_"
-      +std::to_string(Current)+"_"
-      +std::to_string(obje_index)+"_sort.txt";
-    std::string newname
-      =dir[method]+"/ROC/choice"+"/"+METHOD_NAME+"_ROC_"
-      +std::to_string(Missing)+"_"
-      +std::to_string(Current)+"_sort.txt";
-    Rename(oldname,newname);
-  }
-  return;
-}
-
-void Recom::choice_mae_f(std::vector<std::string> dir,
+void Recom::choice_mae(std::vector<std::string> dir,
                          std::vector<double> param, int p){
   int obje_index=0;
   if(p==1)
@@ -570,55 +371,7 @@ void Recom::choice_mae_f(std::vector<std::string> dir,
   return;
 }
 
-void Recom::save_mae_f(std::vector<std::string> dir){
-  for(int method=0;method<(int)dir.size();method++){
-    choiceMAE[method][Current]=resultMAE[method][0];
-    choiceFmeasure[method][Current]=resultFmeasure[method][0];
-  }
-  return;
-}
-
-void Recom::out_mae_f(std::vector<std::string> dir){
-  for(int method=0;method<(int)dir.size();method++){
-    std::ofstream ofs(dir[method]+"/average_MaeFmeasure.txt",
-                      std::ios::app);
-    double sumMAE=0.0,sumF=0.0;
-    for(int i=0;i<MISSINGTRIALS;i++){
-      sumMAE+=choiceMAE[method][i];
-      sumF+=choiceFmeasure[method][i];
-    }
-    if(!ofs){
-      std::cerr << "out_mae_f : file could not open" <<std::endl;
-      exit(1);
-    }
-    ofs<<Missing<<"\t"<<std::fixed<<std::setprecision(10)
-       <<sumMAE/(double)MISSINGTRIALS
-       <<"\t"<<sumF/(double)MISSINGTRIALS<<std::endl;
-    ofs.close();
-  }
-  return;
-}
-
 void Recom::save_min_mae(std::vector<std::string> dir,
-                         std::vector<double> param){
-  for(int method=0;method<(int)dir.size();method++){
-    double sumMAE=0.0;
-    for(int i=0;i<MISSINGTRIALS;i++){
-      sumMAE+=choiceMAE[method][i];
-    }
-    double averageMAE = sumMAE/(double)MISSINGTRIALS;
-    
-    if(averageMAE<MinMAE[MCurrent]){
-      MinMAE[MCurrent]=averageMAE;
-      for(int i=0; i<(int)param.size(); i++){
-        MinMAEParam[MCurrent][i]=param[i];
-      }
-    }
-  }
-  return;
-}
-
-void Recom::save_min_mae2(std::vector<std::string> dir,
                          std::vector<double> param){
   for(int method=0;method<(int)dir.size();method++){
     for(int i=0;i<MCurrent;i++){
@@ -633,43 +386,25 @@ void Recom::save_min_mae2(std::vector<std::string> dir,
   return;
 }
 
-void Recom::out_min_mae(std::vector<std::string> dirs){
+void Recom::out_min_mae_gl(std::vector<std::string> dirs){
   for(int i=0; i<(int)dirs.size(); i++){
-    std::ofstream ofs(dirs[0]+"/"+METHOD_NAME+"_minimalMAE.txt",
+    std::ofstream ofs(dirs[i]
+                      +"/missing_pattern"+std::to_string(Current)
+                      +"/"+METHOD_NAME+"_minimalMAE.txt",
                       std::ios::out);
     if(!ofs){
       std::cerr << "out_min_mae: file could not open" << std::endl;
     }
     int missing_index=0;
-    for(int missing=MISSING_MIN;missing<=MISSING_MAX;
+    for(int missing=MISSING_MIN;
+        missing<=MISSING_MAX;
         missing+=MISSING_DIFF){
       ofs<<missing<<"\t"<<MinMAE[missing_index++]<<std::endl;
     }
   }
 }
 
-void Recom::out_min_mae(std::vector<std::string> dirs,
-                        std::vector<double> param){
-  for(int i=0; i<(int)dirs.size(); i++){
-    std::ofstream ofs(dirs[0]+"/"+METHOD_NAME+"_minimalMAE.txt",
-                      std::ios::out);
-    if(!ofs){
-      std::cerr << "out_min_mae: file could not open" << std::endl;
-    }
-    int missing_index=0;
-    for(int missing=MISSING_MIN;missing<=MISSING_MAX;
-        missing+=MISSING_DIFF){
-      ofs<<missing<<"\t"<<MinMAE[missing_index]<<"\t";
-      for(int i=0; i<(int)param.size(); i++){
-        ofs<<MinMAEParam[missing_index][i]<<"\t";
-      }
-      missing_index++;
-      ofs<<std::endl;
-    }
-  }
-}
-
-void Recom::out_min_mae2(std::vector<std::string> dirs){
+void Recom::out_min_mae_crisp(std::vector<std::string> dirs){
   for(int i=0; i<(int)dirs.size(); i++){
     std::ofstream ofs(dirs[i]
                       +"/clusters_number"+std::to_string(ClustersNum)
@@ -688,7 +423,7 @@ void Recom::out_min_mae2(std::vector<std::string> dirs){
   }
 }
 
-void Recom::out_min_mae3(std::vector<std::string> dirs){
+void Recom::out_min_mae_overlap(std::vector<std::string> dirs){
   for(int i=0; i<(int)dirs.size(); i++){
     std::ofstream ofs(dirs[i]
                       +"/clusters_number"+std::to_string(ClustersNum)
@@ -708,63 +443,102 @@ void Recom::out_min_mae3(std::vector<std::string> dirs){
   }
 }
 
-void Recom::precision_summary(std::vector<std::string> dir){
-  int max=(int)return_max_value()*10;
+void Recom::precision_summary_gl(std::vector<std::string> dir,
+                               int param_num, double params, ...){
+
+  //パラメータ設定
+  std::vector< std::vector<double> >
+    param(param_num,std::vector<double>(3,0) );
+  
+  va_list arg;
+  va_start(arg,params);
+
+  for(int pnum=0;pnum<param_num;pnum++){
+    for(int parg=0;parg<3;parg++){
+      param[pnum][parg]=va_arg(arg, double);
+    }
+  }
+ 
   for(int method=0;method<(int)dir.size();method++){
-    double rocarea=0.0;
-    for(int x=0;x<MISSINGTRIALS;x++){
-      Vector array1(max,0.0,"all"),array2(max,0.0,"all");
-      std::ifstream ifs(dir[method]+"/ROC/choice/"+METHOD_NAME+"_ROC_"
-                        +std::to_string(Missing)
-                        +"_"+std::to_string(x)+"_sort.txt");
+    //MAE
+    std::vector<double> sumMAE(MCurrent, 0.0);
+    double tmp=0, mae=0;
+    
+    for(int mt=0;mt<Current+1;mt++){
+      std::ifstream ifs(dir[method]
+                        +"/missing_pattern"+std::to_string(mt)
+                        +"/"+METHOD_NAME+"_minimalMAE.txt");
       if(!ifs){
-        std::cerr<<"precision_summary: file input failed"<<std::endl;
+        std::cerr<<"precision_summary: minimalMAE file input failed"<<std::endl;
         exit(1);
       }
-      for(int i=0;i<max;i++)
-        ifs>>array1[i]>>array2[i];
-      ifs.close();
-      for(int i=0;i<max-1;i++){
-        /*~2017/12/25
-          if((array1[i]<array1[i+1])||(array1[i]!=0)||(array2[i]!=0)){
-        */
-        if((array1[i]<array1[i+1])){
-          double low=array1[i+1]-array1[i];
-          double height=fabs(array2[i+1]-array2[i]);
-          double squarearea=low*array2[i];
-          double triangle=(low*height)/2.0;
-          rocarea+=squarearea+triangle;
-        }
-        if(array2[i]==1.0)
-          break;
+      for(int miss=0;miss<(int)sumMAE.size();miss++){
+        ifs>>tmp>>mae;
+        sumMAE[miss]+=mae;
       }
     }
-    double sumMAE=0.0,sumF=0.0;
-    for(int i=0;i<MISSINGTRIALS;i++){
-      sumMAE+=choiceMAE[method][i];
-      sumF+=choiceFmeasure[method][i];
-      // std::cout<<"sumMAE"<<i<<": "
-      //          <<sumMAE<<std::endl;
-    }
-    std::ofstream ofs(dir[method]+"/average_MaeFmeasureAuc.txt",
-                      std::ios::app);
-    if(!ofs){
-      std::cerr << "precision_summary: file could not open" << std::endl;
+
+    // //AUC
+    // int max=(int)return_max_value()*10;
+    // double rocarea=0.0;
+    // for(int mt=0;mt<Current+1;mt++){
+    //   for(double p1=param[0][0]; p1<param[0][1]; p1+=param[0][2]){
+    //     for(double p2=param[1][0]; p2<param[1][1]; p2+=param[1][2]){
+    //       Vector array1(max,0.0,"all"),array2(max,0.0,"all");
+    //       std::ifstream ifs(dir[method]+"/ROC/choice/"+METHOD_NAME
+    //                         +"_ROC_"+std::to_string(Missing)
+    //                         +"_"+std::to_string(mt)+"_sort.txt");
+    //       if(!ifs){
+    //         std::cerr<<"precision_summary: ROC file input failed"<<std::endl;
+    //         exit(1);
+    //       }
+    //       for(int i=0;i<max;i++)
+    //         ifs>>array1[i]>>array2[i];
+    //       ifs.close();
+    //       for(int i=0;i<max-1;i++){
+    //         if((array1[i]<array1[i+1])){
+    //           double low=array1[i+1]-array1[i];
+    //           double height=fabs(array2[i+1]-array2[i]);
+    //           double squarearea=low*array2[i];
+    //           double triangle=(low*height)/2.0;
+    //           rocarea+=squarearea+triangle;
+    //         }
+    //         if(array2[i]==1.0)
+    //           break;
+    //       }
+    //     }
+    //   }
+    // }
+
+    //平均MAE出力
+    std::ofstream ofs_mae(dir[method]
+                          +"/missing_pattern"+std::to_string(Current)
+                          +"/"+METHOD_NAME+"_averageMAE.txt",
+                          std::ios::app);
+    if(!ofs_mae){
+      std::cerr<<"precision_summary: averageMAE file could not open"<<std::endl;
       exit(1);
     }
-    double averageMAE = sumMAE/(double)MISSINGTRIALS;
-    double averageF = sumF/(double)MISSINGTRIALS;
-    double AUC = rocarea/(double)MISSINGTRIALS;
+    std::vector<double> aveMAE(MCurrent, 0.0);
+    double missing=MISSING_MIN;
+    for(int miss=0;miss<(int)sumMAE.size();miss++){
+      aveMAE[miss]=sumMAE[miss]/(Current+1);
+      ofs_mae<<missing<<"\t"<<aveMAE[miss]<<std::endl;
+      missing+=MISSING_DIFF;
+    }
+
+    // //平均AUC出力
+    // std::ofstream ofs_auc(dir[method]+"/aveMAE.txt", std::ios::app);
+    // if(!ofs_auc){
+    //   std::cerr << "precision_summary: MAE file could not open" << std::endl;
+    // }
+    // double AUC = rocarea/(double)Current;
     
-    std::cout<<"miss:"<<Missing<<"\tMAE="<<averageMAE
-             <<"\tF-measure="<<averageF<<"\tAUC="<<AUC<<std::endl;
-    ofs<<Missing<<"\t"<<std::fixed<<std::setprecision(10)<<averageMAE
-       <<"\t"<<averageF<<"\t"<<AUC<<std::endl;
   }
   return;
 }
 
-void Recom::precision_summary2(std::vector<std::string> dir,
+void Recom::precision_summary_crisp(std::vector<std::string> dir,
                                int param_num, double params, ...){
 
   //パラメータ設定
@@ -861,8 +635,7 @@ void Recom::precision_summary2(std::vector<std::string> dir,
   return;
 }
 
-
-void Recom::precision_summary3(std::vector<std::string> dir,
+void Recom::precision_summary_overlap(std::vector<std::string> dir,
                                int param_num, double params, ...){
 
   //パラメータ設定
@@ -964,152 +737,6 @@ void Recom::precision_summary3(std::vector<std::string> dir,
   return;
 }
 
-
-void Recom::out_mem(std::vector<std::string> dir){
-  for(int method=0;method<(int)dir.size();method++){
-    std::ofstream ofs_membership(dir[method]+"/result_membership.txt");
-    
-    for(int k=0;k<Mem.cols();k++){
-        for(int i=0;i<Mem.rows();i++){
-          ofs_membership<<Mem[i][k]<<"\t";
-      }
-      ofs_membership << std::endl;
-    }
-  }
-}
-
-void Recom::revise_prediction(void){//クラスタリングのみで予測値計算
-  for(int index=0;index<Missing;index++){
-    double RecomItem=0.0, RecomUSER=0.0,RecomITEM=0.0,RecomUserItem=0.0;
-    double numerator=0.0,denominator=0.0;
-    double numerator1=0.0,denominator1=0.0;
-    double numerator2=0.0,denominator2=0.0;
-    double numerator3=0.0,denominator3=0.0;
-    /******RecomUser********/
-    double RecomUser=user_average(KessonIndex[index][0]);
-    int index1=0,index2=0;
-    //行クラスタと列クラスタで数が異なる場合も考える
-    for(int i=0;i<Mem.rows();i++)
-      if(Mem[i][KessonIndex[index][0]]==1.0)
-        index1=i;
-    for(int i=0;i<ItemMem.rows();i++)
-      if(ItemMem[i][KessonIndex[index][1]]==1.0)
-        index2=i;
-    for(int k=0;k<return_user_number();k++){      
-      int user_size=
-        SparseIncompleteData[k].essencialSize();
-      /******RecomItem********/
-      for(int ell=0;ell<user_size;ell++){
-        int user_index=SparseIncompleteData[k].indexIndex(ell);
-        if(user_index>KessonIndex[index][1])
-          break;
-        double user_element=SparseIncompleteData[k].elementIndex(ell);
-        if((user_element>0)&&(user_index==KessonIndex[index][1])){
-          numerator1+=user_element;
-          denominator1++;
-          break;
-        }
-      }      
-      /******RecomUSER********/
-      if(Mem[index1][k]==1.0){
-        for(int ell=0;ell<user_size;ell++){
-          double user_element=SparseIncompleteData[k].elementIndex(ell);
-          if(user_element>0){
-            numerator2+=user_element;
-            denominator2++;
-          }
-        }
-      }
-      /******RecomITEM********/
-      for(int ell=0;ell<user_size;ell++){	
-        int user_index=SparseIncompleteData[k].indexIndex(ell);	
-        if(ItemMem[index2][user_index]==1.0){
-          double user_element=SparseIncompleteData[k].elementIndex(ell);
-          if(user_element>0){
-            numerator3+=user_element;
-            denominator3++;
-          }
-        }
-      }
-      /******RecomUserItem********/
-      if(Mem[index1][k]==1.0){
-        for(int ell=0;ell<user_size;ell++){
-          int user_index=SparseIncompleteData[k].indexIndex(ell);
-          if(ItemMem[index2][user_index]==1.0){
-            double user_element=SparseIncompleteData[k]
-              .elementIndex(ell);
-            if(user_element>0){
-              numerator+=user_element;
-              denominator++;
-            }
-          }
-        }
-      }
-    }
-    if(denominator1>0)
-      RecomItem=numerator1/denominator1;
-    if(denominator2>0)
-      RecomUSER=numerator2/denominator2;
-    if(denominator3>0)
-      RecomITEM=numerator3/denominator3;
-    if(denominator>0)
-      RecomUserItem=numerator/denominator;
-    Prediction[index]
-      =RecomUser+RecomItem-RecomUSER-RecomITEM+RecomUserItem;
-  }
-  return;
-}
-
-void Recom::computation_w(void){
-  for(int k=0;k<return_user_number();k++){
-    double m=0.0,s=0.0;
-    double ave=user_average(k);
-    int size=SparseIncompleteData[k].essencialSize();
-    for(int ell=0;ell<size;ell++){
-      double element=SparseIncompleteData[k].elementIndex(ell);
-      if(element>0.0){
-        m++;
-        s+=pow((element-ave),2.0);
-      }
-    }
-    W[k]=m*sqrt(s/(double)size);
-  }
-  return;
-}
-
-void Recom::revise_prediction2(const Matrix &V){
-  for(int index=0;index<Missing;index++){
-    int h=0, a=KessonIndex[index][0];
-    double numerator=0.0,denominator=0.0;
-    for(int i=0;i<Mem.rows();i++)
-      if(Mem[i][a]==1.0)
-        h=i;
-    for(int k=0;k<return_user_number();k++){
-      double rTv=0.0;
-      for(int ell=0;ell<SparseIncompleteData[k].essencialSize();ell++)
-        rTv+=SparseIncompleteData[k].elementIndex(ell)
-          *V[h][SparseIncompleteData[k].indexIndex(ell)];
-      denominator+=/*W[k]*/Mem[h][k]*rTv;
-      for(int ell=0;ell<SparseIncompleteData[k].essencialSize();ell++){
-        if(KessonIndex[index][1]
-           <SparseIncompleteData[k].indexIndex(ell))
-          break;
-        if(KessonIndex[index][1]
-           ==SparseIncompleteData[k].indexIndex(ell)){
-          numerator+=/*W[k]*/Mem[h][k]*rTv
-            *SparseIncompleteData[k].elementIndex(ell);
-          break;
-        }
-      }
-    }
-    if(denominator==0)
-      Prediction[index]=0.0;
-    else
-      Prediction[index]=numerator/denominator;
-  }
-  return;
-}
-
 void Recom::pearsonsim(void){
   for(int user1=0;user1<return_user_number();user1++){
     /*ユーザ1の非ゼロサイズ*/
@@ -1181,8 +808,7 @@ void Recom::pearsonsim(void){
   return;
 }
 
-//ピアソン相関係数計算(ファジー)
-void Recom::pearsonsim_clustering(void){
+void Recom::pearsonsim_fcs(void){
   for(int user1=0;user1<return_user_number();user1++){
     int user1_size/*ユーザ1の既評価数*/
       =SparseIncompleteData[user1].essencialSize();
@@ -1256,7 +882,7 @@ void Recom::pearsonsim_clustering(void){
   return;
 }
 
-void Recom::pearsonsim_for_pcm(const int clusters_number){
+void Recom::pearsonsim_pcs(const int clusters_number){
   for(int user1=0;user1<return_user_number();user1++){
     int user1_size/*ユーザ1の既評価数*/
       =SparseIncompleteData[user1].essencialSize();
@@ -1330,119 +956,27 @@ void Recom::pearsonsim_for_pcm(const int clusters_number){
   return;
 }
 
-//ピアソン相関係数計算(可能性)
-void Recom::pearsonsim_for_pcm(const Matrix &Membership_PCM,const Vector &Threshold){
-  for(int user1=0;user1<return_user_number();user1++){
-    int user1_size/*ユーザ1の既評価数*/
-      = SparseIncompleteData[user1].essencialSize();
-    for(int user2=0;user2<return_user_number();user2++){
-      double psum=0.0,sum1=0.0,sum2=0.0,sum1sq=0.0,sum2sq=0.0;
-      double hyokasu=0.0;
-      /*ユーザ2がユーザ1である，または
-        ユーザ1が属すユーザクラスタに属さないユーザであった場合(中央値未満)
-        ユーザ2とユーザ1の類似度を0にすることで計算させない*/
-      if(user1==user2 || Membership_PCM[user1][user2]<Threshold[user1])
-        Similarity[user1][user2]=0.0;
-      else{
-        int user2_size/*ユーザ2の既評価数*/
-          = SparseIncompleteData[user2].essencialSize();
-        int user2_ell=0;/*現在のユーザ2の既評価値インデックス*/
-	
-        for(int ell=0;ell<user1_size;ell++){
-          /*ユーザ2の既評価値インデックスがユーザ2の既評価数を上回ったらbreak*/
-          if(user2_size<user2_ell)break;
-          double user1_element/*ユーザ1の現在の既評価値*/
-            =SparseIncompleteData[user1].elementIndex(ell);
-	  
-          /*ユーザ1の現在の既評価値が欠損されてなければ計算*/
-          if(user1_element>0){
-            int user1_index/*ユーザ1の現在の評価値インデックスのインデックス*/
-              =SparseIncompleteData[user1].indexIndex(ell);
-	    
-            while(1){
-              if(user2_size==user2_ell)break;
-              int user2_index/*ユーザ2の現在の評価値インデックスのインデックス*/
-                =SparseIncompleteData[user2].indexIndex(user2_ell);      
-              if(user1_index<user2_index)break;/*ユーザ2の方が上回ったらbreak*/	
-              double user2_element/*現在のユーザの既評価値*/
-                =SparseIncompleteData[user2].elementIndex(user2_ell);
-	      
-              /*インデックスが揃った場合とユーザ既評価値が欠損されてなければ計算*/
-              if((user1_index==user2_index)&&(user2_element>0)){
-                hyokasu+=1.0;
-                psum+=user1_element*user2_element;
-                sum1+=user1_element;
-                sum2+=user2_element;
-                sum1sq+=pow(user1_element,2.0);
-                sum2sq+=pow(user2_element,2.0);
-                user2_ell++;
-                break;
-              }
-              /*現在のユーザの既評価値インデックスインクリメント*/
-              user2_ell++;
-            }//while(1)
-          }//user1_element>0
-        }//ell<user1_size
-        double numerator=psum-(sum1*sum2/hyokasu);
-        double denominator=sqrt((sum1sq-pow(sum1,2.0)/hyokasu)
-                                *(sum2sq-pow(sum2,2.0)/hyokasu));
-        if(denominator==0 || std::isnan(denominator))//分母が0かnanなら
-          Similarity[user1][user2]=0.0;//計算させない
-        else
-          Similarity[user1][user2]=numerator/denominator;//類似度計算
-      }
-    }
-  }
-  return;
-}
-
-void Recom::pearsonpred1(void){//使わない
+void Recom::revise_prediction(void){
+  //Missingは現在の欠損数
   for(int index=0;index<Missing;index++){
     double numerator=0.0,denominator=0.0;
+    //KessonIndexは欠損させた場所
     int miss_user_index=KessonIndex[index][1];
+    //ユーザ数
     for(int i=0;i<return_user_number();i++){
       if(Similarity[KessonIndex[index][0]][i]>0.0){
-        int user_size=
-          SparseIncompleteData[i].essencialSize();
+        //ユーザの既評価値スパース化後サイズ
+        int user_size
+          =SparseIncompleteData[i].essencialSize();
+        //ユーザのサイズ分
         for(int ell=0;ell<user_size;ell++){
+          //ユーザの既評価値インデックス
           int user_index
             =SparseIncompleteData[i].indexIndex(ell);
-          if(user_index>miss_user_index)
-            break;
-          double user_element
-            =SparseIncompleteData[i].elementIndex(ell);
-          if((user_element>0.0)&&(user_index==miss_user_index)){
-            numerator+=Similarity[KessonIndex[index][0]][i]
-              *user_element;
-            denominator+=Similarity[KessonIndex[index][0]][i];
-            break;
-          }
-        }
-      }
-    }
-    if(denominator==0)
-      Prediction[index]=0.0;
-    else
-      Prediction[index]=numerator/denominator;
-  }
-  return; 
-}
-
-void Recom::pearsonpred2(void){//GroupLens(アクティブユーザの欠損値予測)
-  for(int index=0;index<Missing;index++){//Missingは現在の欠損数
-    double numerator=0.0,denominator=0.0;
-    int miss_user_index=KessonIndex[index][1];//KessonIndexは欠損させた場所
-    
-    for(int i=0;i<return_user_number();i++){//ユーザ数分
-      if(Similarity[KessonIndex[index][0]][i]>0.0){
-        int user_size//ユーザの既評価値スパース化後サイズ
-          =SparseIncompleteData[i].essencialSize();
-        for(int ell=0;ell<user_size;ell++){//ユーザのサイズ分
-          int user_index//ユーザの既評価値インデックス
-            =SparseIncompleteData[i].indexIndex(ell);
-          /*ユーザの欠損インデックスがユーザの既評価インデックスを上回ったらbreak*/
+          //ユーザの欠損インデックスがユーザの既評価インデックスを上回ったらbreak
           if(user_index>miss_user_index)break;
-          double user_element//ユーザの既評価値
+          //ユーザの既評価値
+          double user_element
             =SparseIncompleteData[i].elementIndex(ell);
           //ユーザの既評価値が欠損してない、またはインデックスが一致したら計算
           if((user_element>0.0)&&(user_index==miss_user_index)){
@@ -1451,17 +985,19 @@ void Recom::pearsonpred2(void){//GroupLens(アクティブユーザの欠損値�
             denominator+=Similarity[KessonIndex[index][0]][i];
             break;
           }
-        }//ユーザのサイズ分
+        }//ユーザ数
       }
     }
-    if(denominator==0)//分母０なら
-      //予測欠損値は既評価値の平均
+    if(denominator==0)
+      //分母０なら予測欠損値は既評価値の平均
       Prediction[index]=user_average(KessonIndex[index][0]);
-    else {//そうでなければ
+    else {
+      //そうでなければ式の通り
       Prediction[index]=user_average(KessonIndex[index][0])
-        +numerator/denominator;//式の通り
+        +numerator/denominator;
     }
-    if(std::isnan(Prediction[index])) Prediction[index]=0.0;//nanの処理
+    //nanの処理
+    if(std::isnan(Prediction[index])) Prediction[index]=0.0;
   }
   return;
 }
@@ -1476,53 +1012,6 @@ double Recom::user_average(int index){
     }
   }
   return result/hyokazu;
-}
-
-SparseMatrix Recom::sparsecorrectdata(void) const{
-  return SparseCorrectData;
-}
-
-SparseVector &Recom::sparsecorrectdata(int index){
-  return SparseCorrectData[index];
-}
-
-SparseMatrix Recom::sparseincompletedata(void) const{
-  return SparseIncompleteData;
-}
-
-SparseVector &Recom::sparseincompletedata(const int &index){
-  return SparseIncompleteData[index];
-}
-
-void Recom::crisp(const Matrix &Membership,
-                  const Matrix &ItemMembership){
-  for(int k=0;k<return_user_number();k++){
-    for(int i=0;i<Membership.rows();i++)
-      Mem[i][k]=0.0;
-    double max=-DBL_MAX;
-    int max_index=-1;
-    for(int i=0;i<Membership.rows();i++){
-      if(Membership[i][k]>max){
-        max=Membership[i][k];
-        max_index=i;
-      }
-    }
-    Mem[max_index][k]=1.0;
-  }
-  for(int ell=0;ell<return_item_number();ell++){
-    for(int j=0;j<ItemMembership.rows();j++)
-      ItemMem[j][ell]=0.0;
-    double max=-DBL_MAX;
-    int max_index=-1;
-    for(int j=0;j<ItemMembership.rows();j++){
-      if(ItemMembership[j][ell]>max){
-        max=ItemMembership[j][ell];
-        max_index=j;
-      }
-    }
-    ItemMem[max_index][ell]=1.0;
-  }
-  return;
 }
 
 void Recom::crisp(const Matrix &Membership){
@@ -1656,7 +1145,7 @@ int return_item_number(){//アイテム数
 #endif
 }
 
-double return_threshold(){//しきい値
+double return_threshold(){//閾値
 #ifdef MOVIE
   return 3.5;
 #elif defined BOOK
@@ -1779,30 +1268,6 @@ std::vector<std::string> MkdirFCS(std::string method){
 }
 
 std::vector<std::string>
-Mkdir(std::vector<double> param, int c, std::vector<std::string> dirs){
-  std::vector<std::string> v;
-  std::string fuzzifier="";
-  for(int i=0;i<(int)param.size();i++){
-    std::ostringstream oss;
-    oss<<std::setprecision(5)<<param[i];
-    std::string f(oss.str());
-    fuzzifier+=f+"_";
-  }
-  for(int i=0;i<(int)dirs.size();i++){
-    const std::string dir=dirs[i]+"/"+fuzzifier+"C"+std::to_string(c);
-    v.push_back(dir);
-    mkdir(dir.c_str(),0755);
-    //ROCフォルダ作成
-    const std::string roc=dir+"/ROC";
-    mkdir(roc.c_str(),0755);
-    //選ばれるROCファイルをまとめるフォルダ作成
-    const std::string choice=roc+"/choice";
-    mkdir(choice.c_str(),0755);
-  }
-  return v;
-}
-
-std::vector<std::string>
 Mkdir(int missing, std::vector<std::string> dirs){
   std::vector<std::string> v;  
   for(int i=0;i<(int)dirs.size();i++){
@@ -1841,7 +1306,6 @@ Mkdir(int c, int missing, std::vector<std::string> dirs){
   }
   return v;
 }
-
 
 std::vector<std::string>
 Mkdir(int c, double threshold, int missing, std::vector<std::string> dirs){

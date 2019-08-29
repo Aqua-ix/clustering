@@ -30,6 +30,26 @@ bpcs = $(bfcs) .o/pcm.o .o/bpcs.o
 epcs = $(efcs) .o/pcm.o .o/epcs.o
 qpcs = $(qfcs) .o/pcm.o .o/qpcs.o
 
+crisp = \
+$(bfcs) $(efcs) $(qfcs) \
+$(bpcs) $(epcs) $(qpcs) \
+bfcs_crisp.out \
+efcs_crisp.out \
+qfcs_crisp.out \
+bpcs_crisp.out \
+epcs_crisp.out \
+qpcs_crisp.out \
+
+overlap = \
+$(bfcs) $(efcs) $(qfcs) \
+$(bpcs) $(epcs) $(qpcs) \
+bfcs_overlap.out \
+efcs_overlap.out \
+qfcs_overlap.out \
+bpcs_overlap.out \
+epcs_overlap.out \
+qpcs_overlap.out \
+
 method_all = $(all) \
 $(bfcs) $(efcs) $(qfcs) \
 $(bpcs) $(epcs) $(qpcs) \
@@ -40,12 +60,12 @@ qfcs_overlap.out \
 bpcs_overlap.out \
 epcs_overlap.out \
 qpcs_overlap.out \
-bfcs_clisp.out \
-efcs_clisp.out \
-qfcs_clisp.out \
-bpcs_clisp.out \
-epcs_clisp.out \
-qpcs_clisp.out \
+bfcs_crisp.out \
+efcs_crisp.out \
+qfcs_crisp.out \
+bpcs_crisp.out \
+epcs_crisp.out \
+qpcs_crisp.out \
 
 ifdef data
 	DATASET=-D$(data) 
@@ -62,8 +82,9 @@ else
 	GDB=-O3
 endif
 
-all : $(objects) 
-
+all : $(objects)
+crisp : $(crisp)
+overlap : $(overlap)
 method_all : $(method_all)
 
 .o/vector.o : src/define/vector.cxx 
@@ -131,22 +152,22 @@ qpcs_overlap.out : $(qpcs) src/define/recom.cxx src/main_overlap/qpcs.cxx
 	$(DATASET)$(MACRO)$(FS) -o $@
 
 #推薦システム(クリスプ)
-bfcs_clisp.out : $(bfcs) src/define/recom.cxx src/main_clisp/bfcs.cxx
+bfcs_crisp.out : $(bfcs) src/define/recom.cxx src/main_crisp/bfcs.cxx
 	$(CXX) $(CXXFLAGS) $^ \
 	$(DATASET)$(MACRO)$(FS) -o $@
-efcs_clisp.out : $(efcs) src/define/recom.cxx src/main_clisp/efcs.cxx
+efcs_crisp.out : $(efcs) src/define/recom.cxx src/main_crisp/efcs.cxx
 	$(CXX) $(CXXFLAGS) $^ \
 	$(DATASET)$(MACRO)$(FS) -o $@
-qfcs_clisp.out : $(qfcs) src/define/recom.cxx src/main_clisp/qfcs.cxx
+qfcs_crisp.out : $(qfcs) src/define/recom.cxx src/main_crisp/qfcs.cxx
 	$(CXX) $(CXXFLAGS) $^ \
 	$(DATASET)$(MACRO)$(FS) -o $@
-bpcs_clisp.out : $(bpcs) src/define/recom.cxx src/main_clisp/bpcs.cxx
+bpcs_crisp.out : $(bpcs) src/define/recom.cxx src/main_crisp/bpcs.cxx
 	$(CXX) $(CXXFLAGS) $^ \
 	$(DATASET)$(MACRO)$(FS) -o $@
-epcs_clisp.out : $(epcs) src/define/recom.cxx src/main_clisp/epcs.cxx
+epcs_crisp.out : $(epcs) src/define/recom.cxx src/main_crisp/epcs.cxx
 	$(CXX) $(CXXFLAGS) $^ \
 	$(DATASET)$(MACRO)$(FS) -o $@
-qpcs_clisp.out : $(qpcs) src/define/recom.cxx src/main_clisp/qpcs.cxx
+qpcs_crisp.out : $(qpcs) src/define/recom.cxx src/main_crisp/qpcs.cxx
 	$(CXX) $(CXXFLAGS) $^ \
 	$(DATASET)$(MACRO)$(FS) -o $@
 
@@ -154,3 +175,5 @@ clean :
 	rm -f *.out
 clean.o :
 	rm -f .o/*.o
+clean.log :
+	rm -f .log/*.log

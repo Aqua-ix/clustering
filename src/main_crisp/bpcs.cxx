@@ -47,7 +47,7 @@ int main(void){
         //初期化
         recom.reset();
         //データを欠損
-        recom.revise_missing_values_new();
+        recom.revise_missing_values();
         //データをtestに渡す
         test.copydata(recom.sparseincompletedata());
         //データをスパース化
@@ -83,8 +83,8 @@ int main(void){
         }//ユーザー数回ループ
         recom.crisp(test.membership_pcm(), test.clusters_count());
         
-        recom.pearsonsim_for_pcm(test.clusters_count());
-        recom.pearsonpred2();
+        recom.pearsonsim_pcs(test.clusters_count());
+        recom.revise_prediction();
 
         recom.mae(dir[0], 0, parameter);
         recom.fmeasure(dir[0], 0, parameter);
@@ -92,16 +92,16 @@ int main(void){
         recom.obje(recom.Ccurrent())=-1;
         recom.ofs_objective(dir[0]);
         test.ofs_selected_data(dir[0]);
-        recom.choice_mae_f(dir, parameter);
+        recom.choice_mae(dir, parameter);
         recom.Mcurrent()++;
       }//欠損数
       //欠損数ごとのMAEが今までのMAEより小さければ保存する
-      recom.save_min_mae2(dir, parameter);
+      recom.save_min_mae(dir, parameter);
     }//パラメータm
     //最小MAE出力
-    recom.out_min_mae2(dirs);
+    recom.out_min_mae_crisp(dirs);
     //AUC，MAE，F-measureの平均を計算，出力
-    recom.precision_summary2(dirs, 1, M_START, M_END, M_DIFF);
+    recom.precision_summary_crisp(dirs, 1, M_START, M_END, M_DIFF);
   }//欠損パターン
   return 0;
 }

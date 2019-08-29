@@ -63,7 +63,7 @@
 
 //オーバーラップ閾値
 #ifdef ARTIFICIALITY
-#define OT_START 1.0
+#define OT_START 0.6
 #define OT_END 0.2
 #define OT_DIFF 0.2
 #elif defined TEST
@@ -170,89 +170,67 @@ protected:
   int &clusters_num(void);
   //オーバーラップ閾値
   double &overlap_threshold(void);
+  //欠損前スパースデータ
+  SparseMatrix sparsecorrectdata(void) const;
+  SparseVector &sparsecorrectdata(int index);
+  //欠損済スパースデータ
+  SparseMatrix sparseincompletedata(void) const;
+  SparseVector &sparseincompletedata(const int &index);
   //データ入力
   void input(std::string);
   //欠損パターン初期化
   void seed(void);
   //初期化
   void reset(void);
-  void reset2(void);
+  void reset_pred(void);
   //データを欠損
-  void revise_missing_values_new(void);
   void revise_missing_values(void);
   //MAEの計算，textに保存
-  void mae(std::string, int);
   void mae(std::string, int, std::vector<double>);
   //F-measureの計算，textに保存，indexはROC用ループ添字
-  void fmeasure(std::string, int);
   void fmeasure(std::string, int, std::vector<double>);
   //ROCで必要な値をtextに保存
-  void roc(std::string);
   void roc(std::string, std::vector<double>);
   //ROCの横軸の値で小さい順にソート
   void Sort(Vector &fal, Vector &tru, int index);
-  //Seedとか保存
+  //目的関数の保存
   void ofs_objective(std::string);
   //選ばれたクラスタリング初期値によるMAE,Fmeasureの欠損させ方数平均
   int min_objective_index(void);
-  void choice_mae_f(std::vector<std::string>, int p=1);
-  void choice_mae_f(std::vector<std::string>,
+  //目的関数が最小になるMAEを選択
+  void choice_mae(std::vector<std::string>,
                     std::vector<double>, int p=1);
-  //maeとfmeasure出力:人工データ用
-  void save_mae_f(std::vector<std::string>);
-  //MAEを出力
-  void out_mae_f(std::vector<std::string>);
-  //帰属度を出力
-  void out_mem(std::vector<std::string>);
   //最小MAEを保存
   void save_min_mae(std::vector<std::string>,
                     std::vector<double>);
-  //最小MAEを保存(パラメータ毎)
-  void save_min_mae2(std::vector<std::string>,
-                    std::vector<double>);
   //最小MAEを出力
-  void out_min_mae(std::vector<std::string>);
-  void out_min_mae(std::vector<std::string>,
-                   std::vector<double>);
-  //最小MAEを出力(パラメータ毎)
-  void out_min_mae2(std::vector<std::string>);
-  void out_min_mae3(std::vector<std::string>);
-  //AUCの計算，text1に読み込むROCファイル，text2に平均AUCを保存
-  void precision_summary(std::vector<std::string>);
-  void precision_summary2(std::vector<std::string>,
+  void out_min_mae_gl(std::vector<std::string>);
+  void out_min_mae_crisp(std::vector<std::string>);
+  void out_min_mae_overlap(std::vector<std::string>);
+  //AUCの計算
+  void precision_summary_gl(std::vector<std::string>,
+                               int param_num, double params, ...);
+  void precision_summary_crisp(std::vector<std::string>,
                           int param_num, double params, ...);
-  void precision_summary3(std::vector<std::string>,
+  void precision_summary_overlap(std::vector<std::string>,
                           int param_num, double params, ...);
-  //クラスタリングのみで予測値計算
-  void revise_prediction(void);
-  //Efficient Incremental Collaborative Filtering system
-  void computation_w(void);
-  void revise_prediction2(const Matrix &V);
   //ピアソン相関係数計算
   void pearsonsim(void);
-  //行クラスタでフィルタにかけた状態で相関係数計算
-  void pearsonsim_clustering(void);
-  //PCM用類似度計算
-  void pearsonsim_for_pcm(const int clusters_number);
-  void pearsonsim_for_pcm(const Matrix &Membership,
-                          const Vector &Threshold);
-  //予測値計算:FireFly
-  void pearsonpred1(void);
-  //予測値計算:GroupLens
-  void pearsonpred2(void);
+  //ファジィクラスタリングの結果を用いたピアソン相関係数計算
+  void pearsonsim_fcs(void);
+  //可能性クラスタリングの結果を用いたピアソン相関係数計算
+  void pearsonsim_pcs(const int clusters_number);
+  //GroupLensの結果を用いた予測値計算
+  void revise_prediction(void);
   //indexのユーザの既評価値平均を計算
   double user_average(int index);
-  SparseMatrix sparsecorrectdata(void) const;
-  SparseVector &sparsecorrectdata(int index);
-  SparseMatrix sparseincompletedata(void) const;
-  SparseVector &sparseincompletedata(const int &index);
+ 
   //収束した帰属度をクリスプ化
-  void crisp(const Matrix &Membership, const Matrix &ItemMembership);
   void crisp(const Matrix &Membership);
   void crisp(const Matrix &Membership, const int clusters_number);
   //収束した帰属度をオーバーラップ
   void overlap(const Matrix &Membership);
-  void overlap(const Matrix &Membership,int clusters_number);
+  void overlap(const Matrix &Membership, const int clusters_number);
 };
 //ユーザ数を返す
 int return_user_number(void);
@@ -268,9 +246,8 @@ std::string return_data_name(void);
 void FILE_ENDL(std::string text);
 //何通りかの初期値を与えた場合，目的関数最大時のROCを選ぶ
 void Rename(std::string filename, std::string newname);
+//ディレクトリ作成関数
 std::vector<std::string> MkdirFCS(std::string);
-std::vector<std::string>
-Mkdir(std::vector<double> param, int c, std::vector<std::string> dirs);
 std::vector<std::string>
 Mkdir(int missing, std::vector<std::string> dirs);
 std::vector<std::string>

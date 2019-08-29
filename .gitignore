@@ -2,6 +2,7 @@
 *.out
 core
 .o/*
+.log/*
 data/result_data/*
 !data/result_data/MAE/
 GPATH

@@ -35,24 +35,24 @@ int main(void){
       //初期化
       recom.reset();
       //データを欠損
-      recom.revise_missing_values_new();
+      recom.revise_missing_values();
       //GloupLens Methodで予測
-      recom.reset2();
+      recom.reset_pred();
       recom.pearsonsim();
-      recom.pearsonpred2();
+      recom.revise_prediction();
       recom.mae(dir[0], 0, {});
       recom.fmeasure(dir[0], 0, {});
       recom.roc(dir[0], {});
-      recom.choice_mae_f(dir, {}, 0);
+      recom.choice_mae(dir, {}, 0);
       recom.Mcurrent()++;
     }//欠損数
     
     //最小MAEを計算
-    recom.save_min_mae2(dir,{});
+    recom.save_min_mae(dir,{});
     //欠損数ごとの最小MAEを出力する
-    recom.out_min_mae2(dirs);
+    recom.out_min_mae_gl(dirs);
     //AUC，MAE，F-measureの平均を計算，出力
-    recom.precision_summary2(dirs,0,0);
+    recom.precision_summary_gl(dirs,0,0);
    
   }//欠損パターン
   return 0;
