@@ -24,6 +24,7 @@ int main(void){
   for(recom.overlap_threshold()=OT_START;
       recom.overlap_threshold()>=OT_END;
       recom.overlap_threshold()-=OT_DIFF){
+    std::cout<<"overlap threshold: "<<recom.overlap_threshold()<<std::endl;
     //シード値の初期化
     recom.seed();
     //欠損パターン
@@ -80,7 +81,6 @@ int main(void){
                 double diff_u=max_norm(test.tmp_membership()-test.membership());
                 double diff=diff_u+diff_v;
                 if(std::isnan(diff)){
-                  std::cout<<"diff is nan"<<std::endl;
                   test.reset();
                   exit(1);
                 }

@@ -41,9 +41,7 @@ int main(void){
         BPCS test(item_number, user_number, clusters_number, m, alpha);
         //マージのしきい値設定
         test.centers_threshold()=CENTERS_THRESHOLD;
-      
         std::vector<double> parameter= {m};
-      
         //データ入力
         recom.input(DATA_DIR+InputDataName);
         //欠損数

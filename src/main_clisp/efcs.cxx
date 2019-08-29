@@ -92,7 +92,6 @@ int main(void){
                 =max_norm(test.tmp_clusters_size()-test.clusters_size());
               double diff=diff_u+diff_v+diff_p;
               if(std::isnan(diff)){
-                std::cout<<"diff is nan"<<std::endl;
                 test.reset();
                 recom.Ccurrent()--;p=0;
                 ForBadChoiceData++;
