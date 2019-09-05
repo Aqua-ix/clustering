@@ -81,6 +81,7 @@ int main(void){
                 double diff_u=max_norm(test.tmp_membership()-test.membership());
                 double diff=diff_u+diff_v;
                 if(std::isnan(diff)){
+                  std::cout<<"diff is nan"<<std::endl;
                   test.reset();
                   exit(1);
                 }
