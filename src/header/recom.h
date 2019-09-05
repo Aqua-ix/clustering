@@ -63,8 +63,8 @@
 
 //オーバーラップ閾値
 #ifdef ARTIFICIALITY
-#define OT_START 0.2
-#define OT_END 0.0
+#define OT_START 0.5
+#define OT_END 0.05
 #define OT_DIFF 0.2
 #elif defined TEST
 #define OT_START 1.0
