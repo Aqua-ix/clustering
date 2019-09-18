@@ -32,8 +32,9 @@ if [ $2 = "clisp" ]; then
      done                
     exit 0
 elif [ $2 = "overlap" ]; then
-    echo "overlap threshold>"
-    read OT_VAL
+    ## echo "overlap threshold>"
+    ## read OT_VAL
+    OT_VAL="0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7"
     for MN in $METHOD_NAME ; do
         for FP in $FCS_PCS ; do
             METHOD="${MN}${FP}_OVERLAP"
