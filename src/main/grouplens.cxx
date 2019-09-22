@@ -51,8 +51,8 @@ int main(void){
     recom.save_min_mae(dir,{});
     //欠損数ごとの最小MAEを出力する
     recom.out_min_mae_gl(dirs);
-    //AUC，MAE，F-measureの平均を計算，出力
-    recom.precision_summary_gl(dirs,0,0);
+    //MAE, AUCの平均を計算，出力
+    recom.precision_summary_gl(dirs);
    
   }//欠損パターン
   return 0;

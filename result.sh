@@ -34,7 +34,7 @@ if [ $2 = "clisp" ]; then
 elif [ $2 = "overlap" ]; then
     ## echo "overlap threshold>"
     ## read OT_VAL
-    OT_VAL="0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7"
+    OT_VAL="0.000000 0.100000 0.200000 0.300000 0.400000 0.500000 0.600000 0.700000"
     for MN in $METHOD_NAME ; do
         for FP in $FCS_PCS ; do
             METHOD="${MN}${FP}_OVERLAP"
@@ -44,7 +44,7 @@ elif [ $2 = "overlap" ]; then
                 fi
                 CLUSTERS="clusters_number${CN}"
                 for OT in $OT_VAL ; do
-                    OVERLAP="overlap_threshold${OT}00000"
+                    OVERLAP="overlap_threshold${OT}"
                     MISSING="missing_pattern${MP}"
                     MAE="averageMAE.txt"
                     FROM="${ROOT}/${METHOD}_${DN}/${CLUSTERS}/${OVERLAP}/${MISSING}/${METHOD}_${MAE}"

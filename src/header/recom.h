@@ -114,7 +114,7 @@ protected:
   std::string METHOD_NAME;
   //欠損のさせ方を決めるシード値
   int Seed;
-  //欠損のさせ方ループ数,クラスタリング初期値ループ数,欠損値ループ数,現在の欠損数
+  //欠損パターン数,クラスタリング初期値パターン数,欠損値ループ数,欠損数,クラスタ数
   int Current, CCurrent, MCurrent, Missing, ClustersNum;
   //オーバーラップ閾値
   double OverlapThreshold;
@@ -130,8 +130,7 @@ protected:
   Matrix Mem, ItemMem;
   //MAE, F-measure, AUC
   Matrix resultMAE, resultFmeasure;
-  Matrix choiceMAE, choiceFmeasure;
-  Matrix choiceMAE_M, choiceFmeasure_M;
+  Matrix choiceMAE;
   //欠損数ごとの最小MAE
   Vector MinMAE;
   //MAE最小時ファジィ化パラメータ
@@ -208,8 +207,7 @@ protected:
   void out_min_mae_crisp(std::vector<std::string>);
   void out_min_mae_overlap(std::vector<std::string>);
   //AUCの計算
-  void precision_summary_gl(std::vector<std::string>,
-                               int param_num, double params, ...);
+  void precision_summary_gl(std::vector<std::string>);
   void precision_summary_crisp(std::vector<std::string>,
                           int param_num, double params, ...);
   void precision_summary_overlap(std::vector<std::string>,

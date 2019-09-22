@@ -17,12 +17,8 @@ Recom::Recom(int user,
   ItemMem(item_cen, item),
   resultMAE(METHOD_NUMBER,CLUSTERINGTRIALS),
   resultFmeasure(METHOD_NUMBER,CLUSTERINGTRIALS),
-  choiceMAE(METHOD_NUMBER, MISSINGTRIALS),
-  choiceFmeasure(METHOD_NUMBER, MISSINGTRIALS),
-  choiceMAE_M(METHOD_NUMBER, MISSING_MAX/MISSING_DIFF
+  choiceMAE(METHOD_NUMBER, MISSING_MAX/MISSING_DIFF
             -MISSING_MIN/MISSING_DIFF+1),
-  choiceFmeasure_M(METHOD_NUMBER, MISSING_MAX/MISSING_DIFF
-                 -MISSING_MIN/MISSING_DIFF+1),
   MinMAE(MISSING_MAX/MISSING_DIFF
          -MISSING_MIN/MISSING_DIFF+1,DBL_MAX,"all"),
   MinMAEParam(MISSING_MAX/MISSING_DIFF
@@ -352,8 +348,7 @@ void Recom::choice_mae(std::vector<std::string> dir,
   if(p==1)
     obje_index=min_objective_index();
   for(int method=0;method<(int)dir.size();method++){
-    choiceMAE_M[method][MCurrent]=resultMAE[method][obje_index];
-    choiceFmeasure_M[method][MCurrent]=resultFmeasure[method][obje_index];
+    choiceMAE[method][MCurrent]=resultMAE[method][obje_index];
     //選ばれたROCをchoiceフォルダに移す
     std::string param_str="";
     for(int i=0; i<(int)param.size(); i++){
@@ -375,8 +370,8 @@ void Recom::save_min_mae(std::vector<std::string> dir,
                          std::vector<double> param){
   for(int method=0;method<(int)dir.size();method++){
     for(int i=0;i<MCurrent;i++){
-      if(choiceMAE_M[method][i]<MinMAE[i]){
-        MinMAE[i]=choiceMAE_M[method][i];
+      if(choiceMAE[method][i]<MinMAE[i]){
+        MinMAE[i]=choiceMAE[method][i];
         for(int j=0; j<(int)param.size(); j++){
           MinMAEParam[i][j]=param[j];
         }
@@ -443,24 +438,12 @@ void Recom::out_min_mae_overlap(std::vector<std::string> dirs){
   }
 }
 
-void Recom::precision_summary_gl(std::vector<std::string> dir,
-                               int param_num, double params, ...){
+void Recom::precision_summary_gl(std::vector<std::string> dir){
 
-  //パラメータ設定
-  std::vector< std::vector<double> >
-    param(param_num,std::vector<double>(3,0) );
-  
-  va_list arg;
-  va_start(arg,params);
-
-  for(int pnum=0;pnum<param_num;pnum++){
-    for(int parg=0;parg<3;parg++){
-      param[pnum][parg]=va_arg(arg, double);
-    }
-  }
- 
   for(int method=0;method<(int)dir.size();method++){
-    //MAE
+
+    /*** MAE結果出力 ここから ***/
+    //全ての欠損パターンのMAEを入力し欠損数ごとに配列に格納
     std::vector<double> sumMAE(MCurrent, 0.0);
     double tmp=0, mae=0;
     
@@ -477,40 +460,8 @@ void Recom::precision_summary_gl(std::vector<std::string> dir,
         sumMAE[miss]+=mae;
       }
     }
-
-    // //AUC
-    // int max=(int)return_max_value()*10;
-    // double rocarea=0.0;
-    // for(int mt=0;mt<Current+1;mt++){
-    //   for(double p1=param[0][0]; p1<param[0][1]; p1+=param[0][2]){
-    //     for(double p2=param[1][0]; p2<param[1][1]; p2+=param[1][2]){
-    //       Vector array1(max,0.0,"all"),array2(max,0.0,"all");
-    //       std::ifstream ifs(dir[method]+"/ROC/choice/"+METHOD_NAME
-    //                         +"_ROC_"+std::to_string(Missing)
-    //                         +"_"+std::to_string(mt)+"_sort.txt");
-    //       if(!ifs){
-    //         std::cerr<<"precision_summary: ROC file input failed"<<std::endl;
-    //         exit(1);
-    //       }
-    //       for(int i=0;i<max;i++)
-    //         ifs>>array1[i]>>array2[i];
-    //       ifs.close();
-    //       for(int i=0;i<max-1;i++){
-    //         if((array1[i]<array1[i+1])){
-    //           double low=array1[i+1]-array1[i];
-    //           double height=fabs(array2[i+1]-array2[i]);
-    //           double squarearea=low*array2[i];
-    //           double triangle=(low*height)/2.0;
-    //           rocarea+=squarearea+triangle;
-    //         }
-    //         if(array2[i]==1.0)
-    //           break;
-    //       }
-    //     }
-    //   }
-    // }
-
-    //平均MAE出力
+        
+    //現時点の欠損パターン数で平均したMAEをファイル出力
     std::ofstream ofs_mae(dir[method]
                           +"/missing_pattern"+std::to_string(Current)
                           +"/"+METHOD_NAME+"_averageMAE.txt",
@@ -520,20 +471,69 @@ void Recom::precision_summary_gl(std::vector<std::string> dir,
       exit(1);
     }
     std::vector<double> aveMAE(MCurrent, 0.0);
-    double missing=MISSING_MIN;
+    int missing=MISSING_MIN;
     for(int miss=0;miss<(int)sumMAE.size();miss++){
       aveMAE[miss]=sumMAE[miss]/(Current+1);
       ofs_mae<<missing<<"\t"<<aveMAE[miss]<<std::endl;
       missing+=MISSING_DIFF;
     }
+    /*** MAE結果出力 ここまで ***/
 
-    // //平均AUC出力
-    // std::ofstream ofs_auc(dir[method]+"/aveMAE.txt", std::ios::app);
-    // if(!ofs_auc){
-    //   std::cerr << "precision_summary: MAE file could not open" << std::endl;
-    // }
-    // double AUC = rocarea/(double)Current;
+    /*** AUC結果出力 ここから ***/
+    //全ての欠損パターンのROCをchoiceフォルダから入力し欠損数ごとに配列に格納
+    int max=(int)return_max_value()*10;
+    std::vector<double> sumAUC(MCurrent, 0.0);
     
+    for(int mt=0;mt<Current+1;mt++){
+      missing=MISSING_MIN;
+      for(int miss=0;miss<(int)sumAUC.size();miss++){
+        Vector array1(max,0.0,"all"), array2(max,0.0,"all");
+        std::string roc_str =
+          dir[method]+
+          +"/missing_pattern"+std::to_string(Current)
+          +"/ROC/choice/"+METHOD_NAME
+          +"_ROC_"+std::to_string(missing)+"_sort.txt";
+        std::ifstream ifs(roc_str);
+        if(!ifs){
+          std::cerr<<roc_str<<std::endl;
+          std::cerr<<"precision_summary: ROC file input failed"<<std::endl;
+          exit(1);
+        }
+        for(int i=0;i<max;i++)
+          ifs>>array1[i]>>array2[i];
+        ifs.close();
+        for(int i=0;i<max-1;i++){
+          if((array1[i]<array1[i+1])){
+            double low=array1[i+1]-array1[i];
+            double height=fabs(array2[i+1]-array2[i]);
+            double squarearea=low*array2[i];
+            double triangle=(low*height)/2.0;
+            sumAUC[miss]+=squarearea+triangle;
+          }
+          if(array2[i]==1.0)
+            break;
+        }
+        missing+=MISSING_DIFF;
+      }
+    }
+
+    //現時点の欠損パターン数で平均したAUCをファイル出力
+    std::ofstream ofs_auc(dir[method]
+                          +"/missing_pattern"+std::to_string(Current)
+                          +"/"+METHOD_NAME+"_AUC.txt",
+                          std::ios::app);
+    if(!ofs_auc){
+      std::cerr << "precision_summary: AUC file could not open" << std::endl;
+    }
+    
+    std::vector<double> aveAUC(MCurrent, 0.0);
+    missing=MISSING_MIN;
+    for(int miss=0;miss<(int)sumMAE.size();miss++){
+      aveAUC[miss]=sumAUC[miss]/(Current+1);
+      ofs_auc<<missing<<"\t"<<aveAUC[miss]<<std::endl;
+      missing+=MISSING_DIFF;
+    }
+    /*** AUC結果出力 ここまで ***/
   }
   return;
 }
