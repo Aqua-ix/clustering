@@ -123,7 +123,7 @@ int main(void){
               InitCentLoopis10=0;
             }
           }//初期値パターン
-          recom.choice_mae(dir, parameter);
+          recom.choice(dir, parameter);
           recom.Mcurrent()++;         
         }//欠損数
         //欠損数ごとのMAEが今までのMAEより小さければ保存する

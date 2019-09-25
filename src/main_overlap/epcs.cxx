@@ -101,7 +101,7 @@ int main(void){
           recom.obje(recom.Ccurrent())=-1;
           recom.ofs_objective(dir[0]);
           test.ofs_selected_data(dir[0]);
-          recom.choice_mae(dir, parameter);
+          recom.choice(dir, parameter);
           recom.Mcurrent()++;
         }//欠損数
         //欠損数ごとのMAEが今までのMAEより小さければ保存する

@@ -130,11 +130,11 @@ protected:
   Matrix Mem, ItemMem;
   //MAE, F-measure, AUC
   Matrix resultMAE, resultFmeasure;
-  Matrix choiceMAE;
+  Matrix choiceMAE, choiceAUC;
   //欠損数ごとの最小MAE
-  Vector MinMAE;
+  Vector MinMAE, MinAUC;
   //MAE最小時ファジィ化パラメータ
-  Matrix MinMAEParam;
+  Matrix MinMAEParam, MinAUCParam;
   //予測評価値
   Vector Prediction;
   //欠損させた箇所のスパースデータの列番号
@@ -197,16 +197,25 @@ protected:
   //選ばれたクラスタリング初期値によるMAE,Fmeasureの欠損させ方数平均
   int min_objective_index(void);
   //目的関数が最小になるMAEを選択
-  void choice_mae(std::vector<std::string>,
+  void choice(std::vector<std::string>,
                     std::vector<double>, int p=1);
   //最小MAEを保存
   void save_min_mae(std::vector<std::string>,
                     std::vector<double>);
-  //最小MAEを出力
-  void out_min_mae_gl(std::vector<std::string>);
+  //最小AUCを保存
+  void save_min_auc(std::vector<std::string>,
+                    std::vector<double>);
+  //MAEをファイル出力
+  void out_mae(std::vector<std::string>);
+  //パラメータ毎最小MAEをファイル出力
   void out_min_mae_crisp(std::vector<std::string>);
   void out_min_mae_overlap(std::vector<std::string>);
-  //AUCの計算
+  //AUCをファイル出力
+  void out_auc(std::vector<std::string>);
+  //パラメータ毎最小AUCをファイル出力
+  void out_min_auc_crisp(std::vector<std::string>);
+  void out_min_auc_overlap(std::vector<std::string>);
+  //平均MAE, AUCの計算
   void precision_summary_gl(std::vector<std::string>);
   void precision_summary_crisp(std::vector<std::string>,
                           int param_num, double params, ...);

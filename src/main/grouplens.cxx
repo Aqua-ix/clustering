@@ -43,14 +43,16 @@ int main(void){
       recom.mae(dir[0], 0, {});
       recom.fmeasure(dir[0], 0, {});
       recom.roc(dir[0], {});
-      recom.choice_mae(dir, {}, 0);
+      recom.choice(dir, {}, 0);
       recom.Mcurrent()++;
     }//欠損数
     
-    //最小MAEを計算
+    //MAE, AUCを計算
     recom.save_min_mae(dir,{});
-    //欠損数ごとの最小MAEを出力する
-    recom.out_min_mae_gl(dirs);
+    recom.save_min_auc(dir,{});
+    //欠損数ごとの最小MAE, AUCを出力する
+    recom.out_mae(dirs);
+    recom.out_auc(dirs);
     //MAE, AUCの平均を計算，出力
     recom.precision_summary_gl(dirs);
    

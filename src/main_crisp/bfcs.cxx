@@ -124,14 +124,16 @@ int main(void){
               InitCentLoopis10=0;
             }
           }//初期値パターン
-          recom.choice_mae(dir, parameter);
+          recom.choice(dir, parameter);
           recom.Mcurrent()++;         
         }//欠損数
-        //欠損数ごとのMAEが今までのMAEより小さければ保存する
+        //欠損数ごとのMAE, AUCが今までのMAEより小さければ保存する
         recom.save_min_mae(dir, parameter);
+        recom.save_min_auc(dir, parameter);
       }//パラメータm
-      //最小MAE出力
+      //最小MAE, AUC出力
       recom.out_min_mae_crisp(dirs);
+      recom.out_min_auc_crisp(dirs);
       //AUC，MAEの平均を計算，出力
       recom.precision_summary_crisp(dirs, 1, M_START, M_END, M_DIFF);
     }//欠損パターン
