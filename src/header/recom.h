@@ -8,7 +8,7 @@
 
 //欠損パターン
 #ifdef TEST
-#define MISSINGTRIALS 2
+#define MISSINGTRIALS 10
 #else
 #define MISSINGTRIALS 20
 #endif
@@ -35,8 +35,8 @@
 #define MISSING_MAX 300000
 #define MISSING_DIFF 300000
 #else
-#define MISSING_MIN 10
-#define MISSING_MAX 11
+#define MISSING_MIN 0
+#define MISSING_MAX 10
 #define MISSING_DIFF 1
 #endif
 
@@ -131,10 +131,10 @@ protected:
   //MAE, F-measure, AUC
   Matrix resultMAE, resultFmeasure;
   Matrix choiceMAE, choiceAUC;
-  //欠損数ごとの最小MAE
-  Vector MinMAE, MinAUC;
-  //MAE最小時ファジィ化パラメータ
-  Matrix MinMAEParam, MinAUCParam;
+  //欠損数ごとの最小MAE, 最大AUC
+  Vector MinMAE, MaxAUC;
+  //MAE最小時, AUC最大時ファジィ化パラメータ
+  Matrix MinMAEParam, MaxAUCParam;
   //予測評価値
   Vector Prediction;
   //欠損させた箇所のスパースデータの列番号
@@ -202,8 +202,8 @@ protected:
   //最小MAEを保存
   void save_min_mae(std::vector<std::string>,
                     std::vector<double>);
-  //最小AUCを保存
-  void save_min_auc(std::vector<std::string>,
+  //最大AUCを保存
+  void save_max_auc(std::vector<std::string>,
                     std::vector<double>);
   //MAEをファイル出力
   void out_mae(std::vector<std::string>);
@@ -213,14 +213,12 @@ protected:
   //AUCをファイル出力
   void out_auc(std::vector<std::string>);
   //パラメータ毎最小AUCをファイル出力
-  void out_min_auc_crisp(std::vector<std::string>);
-  void out_min_auc_overlap(std::vector<std::string>);
+  void out_max_auc_crisp(std::vector<std::string>);
+  void out_max_auc_overlap(std::vector<std::string>);
   //平均MAE, AUCの計算
   void precision_summary_gl(std::vector<std::string>);
-  void precision_summary_crisp(std::vector<std::string>,
-                          int param_num, double params, ...);
-  void precision_summary_overlap(std::vector<std::string>,
-                          int param_num, double params, ...);
+  void precision_summary_crisp(std::vector<std::string>);
+  void precision_summary_overlap(std::vector<std::string>);
   //ピアソン相関係数計算
   void pearsonsim(void);
   //ファジィクラスタリングの結果を用いたピアソン相関係数計算

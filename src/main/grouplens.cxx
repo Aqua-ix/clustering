@@ -49,7 +49,7 @@ int main(void){
     
     //MAE, AUCを計算
     recom.save_min_mae(dir,{});
-    recom.save_min_auc(dir,{});
+    recom.save_max_auc(dir,{});
     //欠損数ごとの最小MAE, AUCを出力する
     recom.out_mae(dirs);
     recom.out_auc(dirs);
