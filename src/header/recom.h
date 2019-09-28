@@ -208,13 +208,13 @@ protected:
   //MAEをファイル出力
   void out_mae(std::vector<std::string>);
   //パラメータ毎最小MAEをファイル出力
-  void out_min_mae_crisp(std::vector<std::string>);
-  void out_min_mae_overlap(std::vector<std::string>);
+  void out_mae_crisp(std::vector<std::string>);
+  void out_mae_overlap(std::vector<std::string>);
   //AUCをファイル出力
   void out_auc(std::vector<std::string>);
-  //パラメータ毎最小AUCをファイル出力
-  void out_max_auc_crisp(std::vector<std::string>);
-  void out_max_auc_overlap(std::vector<std::string>);
+  //パラメータ毎最大AUCをファイル出力
+  void out_auc_crisp(std::vector<std::string>);
+  void out_auc_overlap(std::vector<std::string>);
   //平均MAE, AUCの計算
   void precision_summary_gl(std::vector<std::string>);
   void precision_summary_crisp(std::vector<std::string>);

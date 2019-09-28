@@ -393,18 +393,18 @@ void Recom::out_mae(std::vector<std::string> dirs){
                       +"/"+METHOD_NAME+"_minimalMAE.txt",
                       std::ios::out);
     if(!ofs){
-      std::cerr << "out_min_mae: file could not open" << std::endl;
+      std::cerr << "out_mae: file could not open" << std::endl;
     }
-    int missing_index=0;
+    int m_index=0;
     for(int missing=MISSING_MIN;
         missing<=MISSING_MAX;
         missing+=MISSING_DIFF){
-      ofs<<missing<<"\t"<<MinMAE[missing_index++]<<std::endl;
+      ofs<<missing<<"\t"<<MinMAE[m_index++]<<std::endl;
     }
   }
 }
 
-void Recom::out_min_mae_crisp(std::vector<std::string> dirs){
+void Recom::out_mae_crisp(std::vector<std::string> dirs){
   for(int i=0; i<(int)dirs.size(); i++){
     std::ofstream ofs(dirs[i]
                       +"/clusters_number"+std::to_string(ClustersNum)
@@ -412,18 +412,18 @@ void Recom::out_min_mae_crisp(std::vector<std::string> dirs){
                       +"/"+METHOD_NAME+"_minimalMAE.txt",
                       std::ios::out);
     if(!ofs){
-      std::cerr << "out_min_mae: file could not open" << std::endl;
+      std::cerr << "out_mae: file could not open" << std::endl;
     }
-    int missing_index=0;
+    int m_index=0;
     for(int missing=MISSING_MIN;
         missing<=MISSING_MAX;
         missing+=MISSING_DIFF){
-      ofs<<missing<<"\t"<<MinMAE[missing_index++]<<std::endl;
+      ofs<<missing<<"\t"<<MinMAE[m_index++]<<std::endl;
     }
   }
 }
 
-void Recom::out_min_mae_overlap(std::vector<std::string> dirs){
+void Recom::out_mae_overlap(std::vector<std::string> dirs){
   for(int i=0; i<(int)dirs.size(); i++){
     std::ofstream ofs(dirs[i]
                       +"/clusters_number"+std::to_string(ClustersNum)
@@ -432,13 +432,13 @@ void Recom::out_min_mae_overlap(std::vector<std::string> dirs){
                       +"/"+METHOD_NAME+"_minimalMAE.txt",
                       std::ios::out);
     if(!ofs){
-      std::cerr << "out_min_mae: file could not open" << std::endl;
+      std::cerr << "out_mae: file could not open" << std::endl;
     }
-    int missing_index=0;
+    int m_index=0;
     for(int missing=MISSING_MIN;
         missing<=MISSING_MAX;
         missing+=MISSING_DIFF){
-      ofs<<missing<<"\t"<<MinMAE[missing_index++]<<std::endl;
+      ofs<<missing<<"\t"<<MinMAE[m_index++]<<std::endl;
     }
   }
 }
@@ -446,54 +446,54 @@ void Recom::out_min_mae_overlap(std::vector<std::string> dirs){
 void Recom::save_max_auc(std::vector<std::string> dir,
                          std::vector<double> param){
   for(int method=0;method<(int)dir.size();method++){
-    //全ての欠損パターンのROCをchoiceフォルダから入力し欠損数ごとに配列に格納
+    //欠損数ごとにAUCを保存
     std::string param_str="";
     for(int i=0; i<(int)param.size(); i++){
       param_str+=std::to_string(param[i])+"_";
     }
     int max=(int)return_max_value()*10;
-    Matrix rocarea((int)dir.size(), choiceAUC.rows(), 0.0);
-    
-    for(int mt=0;mt<Current+1;mt++){
-      int missing=MISSING_MIN;
-      for(int missing_index=0;missing_index<(int)choiceAUC.rows();missing_index++){
-        Vector array1(max,0.0,"all"), array2(max,0.0,"all");
+    Matrix rocarea((int)dir.size(), MCurrent, 0.0);
+
+    int missing=MISSING_MIN;
+    //欠損数
+    for(int m_index=0;m_index<MCurrent;m_index++){
+      Vector array1(max,0.0,"all"), array2(max,0.0,"all");
         
-        std::string roc_str =
-          dir[method]+
-          +"/ROC/choice/"+METHOD_NAME
-          +"_ROC_"+param_str+std::to_string(missing)+"_sort.txt";
-        std::ifstream ifs(roc_str);
-        if(!ifs){
-          std::cerr<<roc_str<<std::endl;
-          std::cerr<<"precision_summary: ROC file input failed"<<std::endl;
-          exit(1);
-        }
-        for(int i=0;i<max;i++)
-          ifs>>array1[i]>>array2[i];
-        ifs.close();
-        for(int i=0;i<max-1;i++){
-          if((array1[i]<array1[i+1])){
-            double low=array1[i+1]-array1[i];
-            double height=fabs(array2[i+1]-array2[i]);
-            double squarearea=low*array2[i];
-            double triangle=(low*height)/2.0;
-            rocarea[method][missing_index]+=squarearea+triangle;
-          }
-          if(array2[i]==1.0)
-            break;
-        }
-        missing+=MISSING_DIFF;
+      std::string roc_str =
+        dir[method]
+        +"/ROC/choice/"+METHOD_NAME
+        +"_ROC_"+param_str+std::to_string(missing)+"_sort.txt";
+      std::ifstream ifs(roc_str);
+      if(!ifs){
+        std::cerr<<roc_str<<std::endl;
+        std::cerr<<"precision_summary: ROC file input failed"<<std::endl;
+        exit(1);
       }
-    }
-    
-    for(int i=0;i<MCurrent;i++){
-      //AUCは面積合計を欠損パターンで平均したもの
-      choiceAUC[method][i]=rocarea[method][i]/(Current+1);
-      if(choiceAUC[method][i]>MaxAUC[i]){
-        MaxAUC[i]=choiceAUC[method][i];
-        for(int j=0;j<(int)param.size();j++){
-          MaxAUCParam[i][j]=param[j];
+      
+      for(int i=0;i<max;i++)
+        ifs>>array1[i]>>array2[i];
+      ifs.close();
+      for(int i=0;i<max-1;i++){
+        if((array1[i]<array1[i+1])){
+          double low=array1[i+1]-array1[i];
+          double height=fabs(array2[i+1]-array2[i]);
+          double squarearea=low*array2[i];
+          double triangle=(low*height)/2.0;
+          rocarea[method][m_index]+=squarearea+triangle;
+        }
+        if(array2[i]==1.0)
+          break;
+      }
+      missing+=MISSING_DIFF;
+    }//欠損数
+
+    //全パラメータの中での最大値を保存
+    for(int m_index=0;m_index<MCurrent;m_index++){
+      choiceAUC[method][m_index]=rocarea[method][m_index];
+      if(choiceAUC[method][m_index]>MaxAUC[m_index]){
+        MaxAUC[m_index]=choiceAUC[method][m_index];
+        for(int p_index=0; p_index<(int)param.size(); p_index++){
+          MaxAUCParam[m_index][p_index]=param[p_index];
         }
       }
     }
@@ -510,16 +510,16 @@ void Recom::out_auc(std::vector<std::string> dirs){
     if(!ofs){
       std::cerr << "out_auc: file could not open" << std::endl;
     }
-    int missing_index=0;
+    int m_index=0;
     for(int missing=MISSING_MIN;
         missing<=MISSING_MAX;
         missing+=MISSING_DIFF){
-      ofs<<missing<<"\t"<<MaxAUC[missing_index++]<<std::endl;
+      ofs<<missing<<"\t"<<MaxAUC[m_index++]<<std::endl;
     }
   }
 }
 
-void Recom::out_max_auc_crisp(std::vector<std::string> dirs){
+void Recom::out_auc_crisp(std::vector<std::string> dirs){
   for(int i=0; i<(int)dirs.size(); i++){
     std::ofstream ofs(dirs[i]
                       +"/clusters_number"+std::to_string(ClustersNum)
@@ -527,18 +527,18 @@ void Recom::out_max_auc_crisp(std::vector<std::string> dirs){
                       +"/"+METHOD_NAME+"_maximumAUC.txt",
                       std::ios::out);
     if(!ofs){
-      std::cerr << "out_min_mae: file could not open" << std::endl;
+      std::cerr << "out_mae: file could not open" << std::endl;
     }
-    int missing_index=0;
+    int m_index=0;
     for(int missing=MISSING_MIN;
         missing<=MISSING_MAX;
         missing+=MISSING_DIFF){
-      ofs<<missing<<"\t"<<MaxAUC[missing_index++]<<std::endl;
+      ofs<<missing<<"\t"<<MaxAUC[m_index++]<<std::endl;
     }
   }
 }
 
-void Recom::out_max_auc_overlap(std::vector<std::string> dirs){
+void Recom::out_auc_overlap(std::vector<std::string> dirs){
   for(int i=0; i<(int)dirs.size(); i++){
     std::ofstream ofs(dirs[i]
                       +"/clusters_number"+std::to_string(ClustersNum)
@@ -547,13 +547,13 @@ void Recom::out_max_auc_overlap(std::vector<std::string> dirs){
                       +"/"+METHOD_NAME+"_maximumAUC.txt",
                       std::ios::out);
     if(!ofs){
-      std::cerr << "out_min_mae: file could not open" << std::endl;
+      std::cerr << "out_mae: file could not open" << std::endl;
     }
-    int missing_index=0;
+    int m_index=0;
     for(int missing=MISSING_MIN;
         missing<=MISSING_MAX;
         missing+=MISSING_DIFF){
-      ofs<<missing<<"\t"<<MaxAUC[missing_index++]<<std::endl;
+      ofs<<missing<<"\t"<<MaxAUC[m_index++]<<std::endl;
     }
   }
 }
@@ -564,7 +564,7 @@ void Recom::precision_summary_gl(std::vector<std::string> dir){
 
     /*** MAE結果出力 ここから ***/
     //全ての欠損パターンのMAEを入力し欠損数ごとに配列に格納
-    std::vector<double> sumMAE(MCurrent, 0.0);
+    std::vector<double> sum_mae(MCurrent, 0.0);
     double mae_miss=0, mae=0;
     
     for(int mt=0;mt<Current+1;mt++){
@@ -575,9 +575,9 @@ void Recom::precision_summary_gl(std::vector<std::string> dir){
         std::cerr<<"precision_summary: minimalMAE file input failed"<<std::endl;
         exit(1);
       }
-      for(int miss=0;miss<(int)sumMAE.size();miss++){
+      for(int miss=0;miss<(int)sum_mae.size();miss++){
         ifs>>mae_miss>>mae;
-        sumMAE[miss]+=mae;
+        sum_mae[miss]+=mae;
       }
     }
         
@@ -590,18 +590,18 @@ void Recom::precision_summary_gl(std::vector<std::string> dir){
       std::cerr<<"precision_summary: averageMAE file could not open"<<std::endl;
       exit(1);
     }
-    std::vector<double> aveMAE(MCurrent, 0.0);
+    std::vector<double> ave_mae(MCurrent, 0.0);
     int missing=MISSING_MIN;
-    for(int miss=0;miss<(int)sumMAE.size();miss++){
-      aveMAE[miss]=sumMAE[miss]/(Current+1);
-      ofs_mae<<missing<<"\t"<<aveMAE[miss]<<std::endl;
+    for(int miss=0;miss<(int)sum_mae.size();miss++){
+      ave_mae[miss]=sum_mae[miss]/(Current+1);
+      ofs_mae<<missing<<"\t"<<ave_mae[miss]<<std::endl;
       missing+=MISSING_DIFF;
     }
     /*** MAE結果出力 ここまで ***/
 
     /*** AUC結果出力 ここから ***/
     //全ての欠損パターンのAUCを入力し欠損数ごとに配列に格納
-    std::vector<double> sumAUC(MCurrent, 0.0);
+    std::vector<double> sum_auc(MCurrent, 0.0);
     double auc_miss=0, auc=0;
     
     for(int mt=0;mt<Current+1;mt++){
@@ -612,9 +612,9 @@ void Recom::precision_summary_gl(std::vector<std::string> dir){
         std::cerr<<"precision_summary: maximumAUC file input failed"<<std::endl;
         exit(1);
       }
-      for(int miss=0;miss<(int)sumAUC.size();miss++){
+      for(int miss=0;miss<(int)sum_auc.size();miss++){
         ifs>>auc_miss>>auc;
-        sumAUC[miss]+=auc;
+        sum_auc[miss]+=auc;
       }
     }
     
@@ -627,11 +627,11 @@ void Recom::precision_summary_gl(std::vector<std::string> dir){
       std::cerr << "precision_summary: AUC file could not open" << std::endl;
     }
     
-    std::vector<double> aveAUC(MCurrent, 0.0);
+    std::vector<double> ave_auc(MCurrent, 0.0);
     missing=MISSING_MIN;
-    for(int miss=0;miss<(int)sumAUC.size();miss++){
-      aveAUC[miss]=MaxAUC[miss]/(Current+1);
-      ofs_auc<<missing<<"\t"<<aveAUC[miss]<<std::endl;
+    for(int miss=0;miss<(int)sum_auc.size();miss++){
+      ave_auc[miss]=sum_auc[miss]/(Current+1);
+      ofs_auc<<missing<<"\t"<<ave_auc[miss]<<std::endl;
       missing+=MISSING_DIFF;
     }
     /*** AUC結果出力 ここまで ***/
@@ -645,7 +645,7 @@ void Recom::precision_summary_crisp(std::vector<std::string> dir){
 
     /*** MAE結果出力 ここから ***/
     //全ての欠損パターンのMAEを入力し欠損数ごとに配列に格納
-    std::vector<double> sumMAE(MCurrent, 0.0);
+    std::vector<double> sum_mae(MCurrent, 0.0);
     double tmp=0, mae=0;
     
     for(int mt=0;mt<Current+1;mt++){
@@ -657,9 +657,9 @@ void Recom::precision_summary_crisp(std::vector<std::string> dir){
         std::cerr<<"precision_summary: minimalMAE file input failed"<<std::endl;
         exit(1);
       }
-      for(int miss=0;miss<(int)sumMAE.size();miss++){
+      for(int miss=0;miss<(int)sum_mae.size();miss++){
         ifs>>tmp>>mae;
-        sumMAE[miss]+=mae;
+        sum_mae[miss]+=mae;
       }
     }
 
@@ -673,22 +673,22 @@ void Recom::precision_summary_crisp(std::vector<std::string> dir){
       std::cerr<<"precision_summary: averageMAE file could not open"<<std::endl;
       exit(1);
     }
-    std::vector<double> aveMAE(MCurrent, 0.0);
+    std::vector<double> ave_mae(MCurrent, 0.0);
     double missing=MISSING_MIN;
-    for(int miss=0;miss<(int)sumMAE.size();miss++){
-      aveMAE[miss]=sumMAE[miss]/(Current+1);
-      ofs_mae<<missing<<"\t"<<aveMAE[miss]<<std::endl;
+    for(int miss=0;miss<(int)sum_mae.size();miss++){
+      ave_mae[miss]=sum_mae[miss]/(Current+1);
+      ofs_mae<<missing<<"\t"<<ave_mae[miss]<<std::endl;
       missing+=MISSING_DIFF;
     }
     /*** MAE結果出力 ここまで ***/
 
     /*** AUC結果出力 ここから ***/
     //全ての欠損パターンのAUCを入力し欠損数ごとに配列に格納
-    std::vector<double> sumAUC(MCurrent, 0.0);
+    std::vector<double> sum_auc(MCurrent, 0.0);
     double auc_miss=0, auc=0;
     
     for(int mt=0;mt<Current+1;mt++){
-      std::ifstream ifs(dir[method]+
+      std::ifstream ifs(dir[method]
                         +"/clusters_number"+std::to_string(ClustersNum)
                         +"/missing_pattern"+std::to_string(mt)
                         +"/"+METHOD_NAME+"_maximumAUC.txt");
@@ -696,14 +696,14 @@ void Recom::precision_summary_crisp(std::vector<std::string> dir){
         std::cerr<<"precision_summary: maximumAUC file input failed"<<std::endl;
         exit(1);
       }
-      for(int miss=0;miss<(int)sumAUC.size();miss++){
+      for(int miss=0;miss<(int)sum_auc.size();miss++){
         ifs>>auc_miss>>auc;
-        sumAUC[miss]+=auc;
+        sum_auc[miss]+=auc;
       }
     }
     
     //現時点の欠損パターン数で平均したAUCをファイル出力
-    std::ofstream ofs_auc(dir[method]+
+    std::ofstream ofs_auc(dir[method]
                           +"/clusters_number"+std::to_string(ClustersNum)
                           +"/missing_pattern"+std::to_string(Current)
                           +"/"+METHOD_NAME+"_averageAUC.txt",
@@ -712,15 +712,14 @@ void Recom::precision_summary_crisp(std::vector<std::string> dir){
       std::cerr << "precision_summary: AUC file could not open" << std::endl;
     }
     
-    std::vector<double> aveAUC(MCurrent, 0.0);
+    std::vector<double> ave_auc(MCurrent, 0.0);
     missing=MISSING_MIN;
-    for(int miss=0;miss<(int)sumMAE.size();miss++){
-      aveAUC[miss]=MaxAUC[miss]/(Current+1);
-      ofs_auc<<missing<<"\t"<<aveAUC[miss]<<std::endl;
+    for(int miss=0;miss<(int)sum_auc.size();miss++){
+      ave_auc[miss]=sum_auc[miss]/(Current+1);
+      ofs_auc<<missing<<"\t"<<ave_auc[miss]<<std::endl;
       missing+=MISSING_DIFF;
     }
     /*** AUC結果出力 ここまで ***/
-    
   }
   return;
 }
@@ -728,48 +727,87 @@ void Recom::precision_summary_crisp(std::vector<std::string> dir){
 void Recom::precision_summary_overlap(std::vector<std::string> dir){
  
   for(int method=0;method<(int)dir.size();method++){
-    //MAE
-    std::vector<double> sumMAE(MCurrent, 0.0);
+    
+    /*** MAE結果出力 ここから ***/
+    //全ての欠損パターンのMAEを入力し欠損数ごとに配列に格納
+    std::vector<double> sum_mae(MCurrent, 0.0);
     double tmp=0, mae=0;
     
     for(int mt=0;mt<Current+1;mt++){
-      std::string minMAE_dir =
-        dir[method]
-        +"/clusters_number"+std::to_string(ClustersNum)
-        +"/overlap_threshold"+std::to_string(OverlapThreshold)
-        +"/missing_pattern"+std::to_string(mt)
-        +"/"+METHOD_NAME+"_minimalMAE.txt";
-      std::ifstream ifs(minMAE_dir);
+      std::ifstream ifs(dir[method]
+                        +"/clusters_number"+std::to_string(ClustersNum)
+                        +"/overlap_threshold"+std::to_string(OverlapThreshold)
+                        +"/missing_pattern"+std::to_string(mt)
+                        +"/"+METHOD_NAME+"_minimalMAE.txt");
       if(!ifs){
         std::cerr<<"precision_summary: minimalMAE file input failed"<<std::endl;
         exit(1);
       }
-      for(int miss=0;miss<(int)sumMAE.size();miss++){
+      for(int miss=0;miss<(int)sum_mae.size();miss++){
         ifs>>tmp>>mae;
-        sumMAE[miss]+=mae;
+        sum_mae[miss]+=mae;
       }
     }
     
-    //平均MAE出力
-    std::string aveMAE_dir =
-      dir[method]
-      +"/clusters_number"+std::to_string(ClustersNum)
-      +"/overlap_threshold"+std::to_string(OverlapThreshold)
-      +"/missing_pattern"+std::to_string(Current)
-      +"/"+METHOD_NAME+"_averageMAE.txt";
-    std::ofstream ofs_mae(aveMAE_dir, std::ios::out);
+    //現時点の欠損パターン数で平均したMAEをファイル出力
+    std::ofstream ofs_mae(dir[method]
+                          +"/clusters_number"+std::to_string(ClustersNum)
+                          +"/overlap_threshold"+std::to_string(OverlapThreshold)
+                          +"/missing_pattern"+std::to_string(Current)
+                          +"/"+METHOD_NAME+"_averageMAE.txt", std::ios::out);
     if(!ofs_mae){
       std::cerr << "precision_summary: averageMAE file could not open" << std::endl;
       exit(1);
     }
-    std::vector<double> aveMAE(MCurrent, 0.0);
+    std::vector<double> ave_mae(MCurrent, 0.0);
     double missing=MISSING_MIN;
-    for(int miss=0;miss<(int)sumMAE.size();miss++){
-      aveMAE[miss]=sumMAE[miss]/(Current+1);
-      ofs_mae<<missing<<"\t"<<aveMAE[miss]<<std::endl;
+    for(int miss=0;miss<(int)sum_mae.size();miss++){
+      ave_mae[miss]=sum_mae[miss]/(Current+1);
+      ofs_mae<<missing<<"\t"<<ave_mae[miss]<<std::endl;
       missing+=MISSING_DIFF;
     }
+    /*** MAE結果出力 ここまで ***/
+
+    /*** AUC結果出力 ここから ***/
+    //全ての欠損パターンのAUCを入力し欠損数ごとに配列に格納
+    std::vector<double> sum_auc(MCurrent, 0.0);
+    double auc_miss=0, auc=0;
     
+    for(int mt=0;mt<Current+1;mt++){
+      std::ifstream ifs(dir[method]
+                        +"/clusters_number"+std::to_string(ClustersNum)
+                        +"/overlap_threshold"+std::to_string(OverlapThreshold)
+                        +"/missing_pattern"+std::to_string(mt)
+                        +"/"+METHOD_NAME+"_maximumAUC.txt");
+      if(!ifs){
+        std::cerr<<"precision_summary: maximumAUC file input failed"<<std::endl;
+        exit(1);
+      }
+      for(int miss=0;miss<(int)sum_auc.size();miss++){
+        ifs>>auc_miss>>auc;
+        sum_auc[miss]+=auc;
+      }
+    }
+    
+    //現時点の欠損パターン数で平均したAUCをファイル出力
+    std::ofstream ofs_auc(dir[method]
+                          +"/clusters_number"+std::to_string(ClustersNum)
+                          +"/overlap_threshold"+std::to_string(OverlapThreshold)
+                          +"/missing_pattern"+std::to_string(Current)
+                          +"/"+METHOD_NAME+"_averageAUC.txt",
+                          std::ios::out);
+    if(!ofs_auc){
+      std::cerr << "precision_summary: AUC file could not open" << std::endl;
+    }
+    
+    std::vector<double> ave_auc(MCurrent, 0.0);
+    missing=MISSING_MIN;
+    for(int miss=0;miss<(int)sum_auc.size();miss++){
+      ave_auc[miss]=sum_auc[miss]/(Current+1);
+      ofs_auc<<missing<<"\t"<<ave_auc[miss]<<std::endl;
+      missing+=MISSING_DIFF;
+    }
+    /*** AUC結果出力 ここまで ***/
   }
   return;
 }

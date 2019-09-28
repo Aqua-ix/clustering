@@ -129,16 +129,16 @@ int main(void){
             recom.choice(dir, parameter);
             recom.Mcurrent()++;         
           }//欠損数
-          //欠損数ごとのMAEが今までのMAEより小さければ保存する
+          //欠損数ごとのMAEとAUCを保存
           recom.save_min_mae(dir, parameter);
+          recom.save_max_auc(dir, parameter);
         }//パラメータm
       }//パラメータlambda
-      //最小MAE出力
-      recom.out_min_mae_crisp(dirs);
+      //MAEとAUCをファイル出力
+      recom.out_mae_crisp(dirs);
+      recom.out_auc_crisp(dirs);
       //AUC，MAEの平均を計算，出力
-      recom.precision_summary_crisp(dirs, 2,
-                               M_START, M_END, M_DIFF,
-                               LAMBDA_START, LAMBDA_END, LAMBDA_DIFF);
+      recom.precision_summary_crisp(dirs);
     }//欠損パターン
   }//クラスタ数
   return 0;

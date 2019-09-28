@@ -47,13 +47,13 @@ int main(void){
       recom.Mcurrent()++;
     }//欠損数
     
-    //MAE, AUCを計算
+    //MAEとAUCを保存
     recom.save_min_mae(dir,{});
     recom.save_max_auc(dir,{});
-    //欠損数ごとの最小MAE, AUCを出力する
+    //欠損数ごとのMAEとAUCを出力する
     recom.out_mae(dirs);
     recom.out_auc(dirs);
-    //MAE, AUCの平均を計算，出力
+    //MAEとAUCの計算及び出力
     recom.precision_summary_gl(dirs);
    
   }//欠損パターン
