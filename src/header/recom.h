@@ -6,14 +6,18 @@
 #ifndef __RECOM__
 #define __RECOM__
 
-//欠損パターン
-#ifdef TEST
+//欠損パターン数
+#ifdef ARTIFICIALITY
 #define MISSINGTRIALS 10
+#elif defined TEST
+#define 2
 #else
-#define MISSINGTRIALS 20
+#define MISSINGTRIALS 5
 #endif
-//クラスタリングの初期値
+
+//初期値パターン数
 #define CLUSTERINGTRIALS 10
+
 //pearson, eicf, co-clustering
 #define METHOD_NUMBER 2
 
@@ -47,6 +51,9 @@
 #elif defined TEST
 #define C_START 1
 #define C_END 2
+#elif defined MOVIE
+#define C_START 1
+#define C_END 10
 #else
 #define C_START 1
 #define C_END 10
@@ -58,44 +65,44 @@
 #elif defined TEST
 #define CENTERS_THRESHOLD 1.0E-05
 #else
-#define CENTERS_THRESHOLD 1.0
+#define CENTERS_THRESHOLD 1.0E-03
 #endif
 
 //オーバーラップ閾値
 #ifdef ARTIFICIALITY
-#define OT_START 0.7
-#define OT_END 0.01
-#define OT_DIFF 0.2
+#define OT_START 1.00
+#define OT_END 0.00
+#define OT_DIFF 0.20
 #elif defined TEST
-#define OT_START 1.0
-#define OT_END 0.0
-#define OT_DIFF 0.2
+#define OT_START 1.00
+#define OT_END 0.00
+#define OT_DIFF 0.20
 #else
-#define OT_START 1.0
-#define OT_END 0.1
-#define OT_DIFF 0.1
+#define OT_START 8.00
+#define OT_END 0.00
+#define OT_DIFF 0.20
 #endif
 
 //パラメータ
 #define ALPHA 0.03
 #ifdef ARTIFICIALITY
-#define M_START 1.1
-#define M_END 3.1
-#define M_DIFF 0.2
+#define M_START 1.10
+#define M_END 3.10
+#define M_DIFF 0.20
 #define LAMBDA_START 2
 #define LAMBDA_END 1024
 #define LAMBDA_DIFF 2
 #elif defined TEST
-#define M_START 1.1
-#define M_END 1.2
-#define M_DIFF 0.1
+#define M_START 1.10
+#define M_END 1.20
+#define M_DIFF 0.10
 #define LAMBDA_START 2
 #define LAMBDA_END 10
 #define LAMBDA_DIFF 2
 #else
-#define M_START 1.1
-#define M_END 1.5
-#define M_DIFF 0.1
+#define M_START 1.10
+#define M_END 1.50
+#define M_DIFF 0.10
 #define LAMBDA_START 10
 #define LAMBDA_END 100000
 #define LAMBDA_DIFF 10

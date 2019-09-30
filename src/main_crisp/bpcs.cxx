@@ -11,7 +11,7 @@ const std::string data_name=return_data_name();
 const std::string InputDataName="sparse_"+data_name
   +"_"+std::to_string(user_number)+"_"+std::to_string(item_number)+".txt";
 //クラスタリング手法名
-const std::string METHOD_NAME="BPCS_CLISP";
+const std::string METHOD_NAME="BPCS_CRISP";
 //クラスタ数
 constexpr int clusters_number=1;
 
