@@ -22,7 +22,7 @@ if [ $2 = "crisp" ]; then
                 MAE="averageMAE.txt"
                 FROM="${ROOT}/${METHOD}_${DN}/${CLUSTERS}/${MISSING}/${METHOD}_${MAE}"
                 echo "FROM: ${FROM}"
-                TO="${ROOT}/MAE/${DN}_MP${MP}/"
+                TO="${ROOT}/MAE/${DN}/${DN}_MP${MP}/"
                 echo "TO: ${TO}"
                 mkdir -p ${TO}
                 cp ${FROM} ${TO}
@@ -49,7 +49,7 @@ elif [ $2 = "overlap" ]; then
                     MAE="averageMAE.txt"
                     FROM="${ROOT}/${METHOD}_${DN}/${CLUSTERS}/${OVERLAP}/${MISSING}/${METHOD}_${MAE}"
                     echo "FROM: ${FROM}"
-                    TO="${ROOT}/MAE/${DN}_MP${MP}_${OVERLAP}/"
+                    TO="${ROOT}/MAE/${DN}/${DN}_MP${MP}_${OVERLAP}/"
                     echo "TO: ${TO}"
                     mkdir -p ${TO}
                     cp ${FROM} ${TO}
