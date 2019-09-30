@@ -16,3 +16,4 @@ plot \
 "../artificiality_MP19_overlap_threshold0.600000/EFCS_OVERLAP_averageMAE.txt" with linespoints title "EFCS(40%)",\
 "../artificiality_MP19_overlap_threshold0.700000/EFCS_OVERLAP_averageMAE.txt" with linespoints title "EFCS(30%)",\
 "../artificiality_MP19_overlap_threshold0.800000/EFCS_OVERLAP_averageMAE.txt" with linespoints title "EFCS(20%)",\
+"../artificiality_MP19_overlap_threshold0.800000/EFCS_OVERLAP_averageMAE.txt" with linespoints title "EFCS(10%)",\
