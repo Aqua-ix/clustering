@@ -8,7 +8,7 @@
 
 //欠損パターン数
 #ifdef ARTIFICIALITY
-#define MISSINGTRIALS 10
+#define MISSINGTRIALS 20
 #elif defined TEST
 #define 2
 #else
@@ -70,9 +70,9 @@
 
 //オーバーラップ閾値
 #ifdef ARTIFICIALITY
-#define OT_START 1.00
-#define OT_END 0.00
-#define OT_DIFF 0.20
+#define OT_START 0.90
+#define OT_END 0.90
+#define OT_DIFF 0.10
 #elif defined TEST
 #define OT_START 1.00
 #define OT_END 0.00
