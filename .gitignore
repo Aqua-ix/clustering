@@ -5,6 +5,7 @@ core
 .log/*
 data/result_data/*
 !data/result_data/MAE/
+!data/result_data/AUC/
 GPATH
 GTAGS
 GRTAGS

@@ -1,7 +1,8 @@
 #!/bin/bash
 
 DN=$1
-MP=$3
+echo "missing pattern>"
+read MP
 echo "clusters number>"
 read CN_VAL
 
@@ -19,13 +20,23 @@ if [ $2 = "crisp" ]; then
                 fi
                 CLUSTERS="clusters_number${CN}"
                 MISSING="missing_pattern${MP}"
+                # MAE
                 MAE="averageMAE.txt"
-                FROM="${ROOT}/${METHOD}_${DN}/${CLUSTERS}/${MISSING}/${METHOD}_${MAE}"
-                echo "FROM: ${FROM}"
-                TO="${ROOT}/MAE/${DN}/${DN}_MP${MP}/"
-                echo "TO: ${TO}"
-                mkdir -p ${TO}
-                cp ${FROM} ${TO}
+                MAE_FROM="${ROOT}/${METHOD}_${DN}/${CLUSTERS}/${MISSING}/${METHOD}_${MAE}"
+                echo "MAE_FROM: ${MAE_FROM}"
+                MAE_TO="${ROOT}/MAE/${DN}/${DN}_MP${MP}/"
+                echo "MAE_TO: ${MAE_TO}"
+                mkdir -p ${MAE_TO}
+                cp ${MAE_FROM} ${MAE_TO}
+                echo ""
+                # AUC
+                AUC="averageAUC.txt"
+                AUC_FROM="${ROOT}/${METHOD}_${DN}/${CLUSTERS}/${MISSING}/${METHOD}_${AUC}"
+                echo "AUC_FROM: ${AUC_FROM}"
+                AUC_TO="${ROOT}/AUC/${DN}/${DN}_MP${MP}/"
+                echo "AUC_TO: ${AUC_TO}"
+                mkdir -p ${AUC_TO}
+                cp ${AUC_FROM} ${AUC_TO}
                 echo ""
             done
         done
@@ -46,13 +57,23 @@ elif [ $2 = "overlap" ]; then
                 for OT in $OT_VAL ; do
                     OVERLAP="overlap_threshold${OT}"
                     MISSING="missing_pattern${MP}"
+                    # MAE
                     MAE="averageMAE.txt"
-                    FROM="${ROOT}/${METHOD}_${DN}/${CLUSTERS}/${OVERLAP}/${MISSING}/${METHOD}_${MAE}"
-                    echo "FROM: ${FROM}"
-                    TO="${ROOT}/MAE/${DN}/${DN}_MP${MP}_${OVERLAP}/"
-                    echo "TO: ${TO}"
-                    mkdir -p ${TO}
-                    cp ${FROM} ${TO}
+                    MAE_FROM="${ROOT}/${METHOD}_${DN}/${CLUSTERS}/${OVERLAP}/${MISSING}/${METHOD}_${MAE}"
+                    echo "MAE_FROM: ${MAE_FROM}"
+                    MAE_TO="${ROOT}/MAE/${DN}/${DN}_MP${MP}_${OVERLAP}/"
+                    echo "MAE_TO: ${MAE_TO}"
+                    mkdir -p ${MAE_TO}
+                    cp ${MAE_FROM} ${MAE_TO}
+                    echo ""
+                    # AUC
+                    AUC="averageAUC.txt"
+                    AUC_FROM="${ROOT}/${METHOD}_${DN}/${CLUSTERS}/${OVERLAP}/${MISSING}/${METHOD}_${AUC}"
+                    echo "AUC_FROM: ${AUC_FROM}"
+                    AUC_TO="${ROOT}/AUC/${DN}/${DN}_MP${MP}_${OVERLAP}/"
+                    echo "AUC_TO: ${AUC_TO}"
+                    mkdir -p ${AUC_TO}
+                    cp ${AUC_FROM} ${AUC_TO}
                     echo ""
                 done
             done

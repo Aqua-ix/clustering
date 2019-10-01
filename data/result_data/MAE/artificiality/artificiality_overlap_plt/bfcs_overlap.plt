@@ -17,3 +17,4 @@ plot \
 "../artificiality_MP19_overlap_threshold0.700000/BFCS_OVERLAP_averageMAE.txt" with linespoints title "BFCS(30%)",\
 "../artificiality_MP19_overlap_threshold0.800000/BFCS_OVERLAP_averageMAE.txt" with linespoints title "BFCS(20%)",\
 "../artificiality_MP19_overlap_threshold0.900000/BFCS_OVERLAP_averageMAE.txt" with linespoints title "BFCS(10%)",\
+"../artificiality_MP19_overlap_threshold1.000000/BFCS_OVERLAP_averageMAE.txt" with linespoints title "BFCS(0%)",\
