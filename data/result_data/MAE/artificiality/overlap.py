@@ -13,6 +13,7 @@ ots = ['0.000000',
        '0.600000',
        '0.700000',
        '0.800000',
+       '0.900000',
        '1.000000']
 
 methods = ['BFCS', 'EFCS', 'QFCS', 'BPCS', 'EPCS', 'QPCS']
@@ -28,7 +29,7 @@ for ot in ots:
             missing = row[0]
             outputPath = outputDir + str(missing) + '/'
             if not os.path.exists(outputPath):
-                os.makedirs(outputPath + str(missing) + '/')
+                os.makedirs(outputPath)
             outputFileName = outputPath + method + '.txt'
             outputFile = open(outputFileName, 'a')
             outputFile.write(ot + '\t' + row[1] + '\n')
