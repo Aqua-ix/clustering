@@ -6,43 +6,16 @@
 #ifndef __RECOM__
 #define __RECOM__
 
-//欠損パターン数
-#ifdef ARTIFICIALITY
-#define MISSINGTRIALS 20
-#elif defined TEST
-#define 2
-#else
-#define MISSINGTRIALS 5
-#endif
+//データディレクトリ
+#define DATA_DIR "data/dataset/"
+#define RESULT_DIR "data/result_data/"
 
-//初期値パターン数
-#define CLUSTERINGTRIALS 10
+//収束条件
+#define MAX_ITE 1000
+#define DIFF_FOR_STOP 1.0E-10
 
-//pearson, eicf, co-clustering
+//手法数の最大値
 #define METHOD_NUMBER 2
-
-//欠損数
-#ifdef ARTIFICIALITY
-#define MISSING_MIN 1500
-#define MISSING_MAX 7500
-#define MISSING_DIFF 500
-#elif defined BOOK
-#define MISSING_MIN 30000
-#define MISSING_MAX 30000
-#define MISSING_DIFF 30000
-#elif defined MOVIE
-#define MISSING_MIN 100000
-#define MISSING_MAX 100000
-#define MISSING_DIFF 100000
-#elif defined LIBIMSETI
-#define MISSING_MIN 300000
-#define MISSING_MAX 300000
-#define MISSING_DIFF 300000
-#else
-#define MISSING_MIN 0
-#define MISSING_MAX 10
-#define MISSING_DIFF 1
-#endif
 
 //ファジィクラスタリング用クラスタ数設定値
 #ifdef ARTIFICIALITY
@@ -59,19 +32,10 @@
 #define C_END 10
 #endif
 
-//可能性クラスタリング用クラスタ中心閾値
-#ifdef ARTIFICIALITY
-#define CENTERS_THRESHOLD 1.0
-#elif defined TEST
-#define CENTERS_THRESHOLD 1.0E-05
-#else
-#define CENTERS_THRESHOLD 1.0E-03
-#endif
-
 //オーバーラップ閾値
 #ifdef ARTIFICIALITY
-#define OT_START 0.90
-#define OT_END 0.90
+#define OT_START 1.0
+#define OT_END 0.0
 #define OT_DIFF 0.10
 #elif defined TEST
 #define OT_START 1.00
@@ -108,13 +72,49 @@
 #define LAMBDA_DIFF 10
 #endif
 
-//収束条件
-#define MAX_ITE 1000
-#define DIFF_FOR_STOP 1.0E-10
+//可能性クラスタリング用クラスタ中心閾値
+#ifdef ARTIFICIALITY
+#define CENTERS_THRESHOLD 1.0
+#elif defined TEST
+#define CENTERS_THRESHOLD 1.0E-05
+#else
+#define CENTERS_THRESHOLD 1.0E-03
+#endif
 
-//データディレクトリ
-#define DATA_DIR "data/dataset/"
-#define RESULT_DIR "data/result_data/"
+//欠損数
+#ifdef ARTIFICIALITY
+#define MISSING_MIN 1500
+#define MISSING_MAX 7500
+#define MISSING_DIFF 500
+#elif defined BOOK
+#define MISSING_MIN 30000
+#define MISSING_MAX 30000
+#define MISSING_DIFF 30000
+#elif defined MOVIE
+#define MISSING_MIN 100000
+#define MISSING_MAX 100000
+#define MISSING_DIFF 100000
+#elif defined LIBIMSETI
+#define MISSING_MIN 300000
+#define MISSING_MAX 300000
+#define MISSING_DIFF 300000
+#else
+#define MISSING_MIN 0
+#define MISSING_MAX 10
+#define MISSING_DIFF 1
+#endif
+
+//欠損パターン数
+#ifdef ARTIFICIALITY
+#define MISSINGTRIALS 20
+#elif defined TEST
+#define MISSINGTRIALS 2
+#else
+#define MISSINGTRIALS 5
+#endif
+
+//初期値パターン数
+#define CLUSTERINGTRIALS 10
 
 class Recom{
 protected:
@@ -136,12 +136,8 @@ protected:
   //行帰属度，列帰属度
   Matrix Mem, ItemMem;
   //MAE, F-measure, AUC
-  Matrix resultMAE, resultFmeasure;
-  Matrix choiceMAE, choiceAUC;
-  //欠損数ごとの最小MAE, 最大AUC
-  Vector MinMAE, MaxAUC;
-  //MAE最小時, AUC最大時ファジィ化パラメータ
-  Matrix MinMAEParam, MaxAUCParam;
+  Matrix ResultMAE, ResultFmeasure;
+  Vector ChoicedMAE, ChoicedAUC;
   //予測評価値
   Vector Prediction;
   //欠損させた箇所のスパースデータの列番号
@@ -184,48 +180,29 @@ protected:
   SparseVector &sparseincompletedata(const int &index);
   //データ入力
   void input(std::string);
-  //欠損パターン初期化
-  void seed(void);
   //初期化
   void reset(void);
+  void reset_seed(void);
   void reset_pred(void);
+  void reset_choice(void);
   //データを欠損
   void revise_missing_values(void);
   //MAEの計算，textに保存
-  void mae(std::string, int, std::vector<double>);
+  void mae(std::string, int);
   //F-measureの計算，textに保存，indexはROC用ループ添字
-  void fmeasure(std::string, int, std::vector<double>);
+  void fmeasure(std::string, int);
   //ROCで必要な値をtextに保存
-  void roc(std::string, std::vector<double>);
+  void roc(std::string);
   //ROCの横軸の値で小さい順にソート
   void Sort(Vector &fal, Vector &tru, int index);
   //目的関数の保存
   void ofs_objective(std::string);
   //選ばれたクラスタリング初期値によるMAE,Fmeasureの欠損させ方数平均
   int min_objective_index(void);
-  //目的関数が最小になるMAEを選択
-  void choice(std::vector<std::string>,
-                    std::vector<double>, int p=1);
-  //最小MAEを保存
-  void save_min_mae(std::vector<std::string>,
-                    std::vector<double>);
-  //最大AUCを保存
-  void save_max_auc(std::vector<std::string>,
-                    std::vector<double>);
-  //MAEをファイル出力
-  void out_mae(std::vector<std::string>);
-  //パラメータ毎最小MAEをファイル出力
-  void out_mae_crisp(std::vector<std::string>);
-  void out_mae_overlap(std::vector<std::string>);
-  //AUCをファイル出力
-  void out_auc(std::vector<std::string>);
-  //パラメータ毎最大AUCをファイル出力
-  void out_auc_crisp(std::vector<std::string>);
-  void out_auc_overlap(std::vector<std::string>);
+  //目的関数が最小になるMAEとROCを選択
+  void choice(std::vector<std::string>, int p=1);
   //平均MAE, AUCの計算
-  void precision_summary_gl(std::vector<std::string>);
-  void precision_summary_crisp(std::vector<std::string>);
-  void precision_summary_overlap(std::vector<std::string>);
+  void precision_summary(std::vector<std::string>);
   //ピアソン相関係数計算
   void pearsonsim(void);
   //ファジィクラスタリングの結果を用いたピアソン相関係数計算
@@ -263,8 +240,10 @@ std::vector<std::string> MkdirFCS(std::string);
 std::vector<std::string>
 Mkdir(int missing, std::vector<std::string> dirs);
 std::vector<std::string>
-Mkdir(int c, int missing, std::vector<std::string> dirs);
+Mkdir(int c, std::vector<double> params,
+      int missing, std::vector<std::string> dirs);
 std::vector<std::string>
-Mkdir(int c, double threshold, int missing, std::vector<std::string> dirs);
+Mkdir(int c, double threshold, std::vector<double> params,
+      int missing, std::vector<std::string> dirs);
 std::vector<std::string> Mkdir(std::vector<std::string> methods);
 #endif

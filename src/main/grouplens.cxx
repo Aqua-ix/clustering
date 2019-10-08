@@ -21,7 +21,7 @@ int main(void){
   //データ入力
   recom.input(DATA_DIR+InputDataName);
   //シード値の初期化
-  recom.seed();
+  recom.reset_seed();
   //欠損パターン
   for(recom.current()=0;recom.current()
         <MISSINGTRIALS;recom.current()++){
@@ -40,22 +40,14 @@ int main(void){
       recom.reset_pred();
       recom.pearsonsim();
       recom.revise_prediction();
-      recom.mae(dir[0], 0, {});
-      recom.fmeasure(dir[0], 0, {});
-      recom.roc(dir[0], {});
-      recom.choice(dir, {}, 0);
+      recom.mae(dir[0], 0);
+      recom.fmeasure(dir[0], 0);
+      recom.roc(dir[0]);
+      recom.choice(dir, 0);
       recom.Mcurrent()++;
     }//欠損数
-    
-    //MAEとAUCを保存
-    recom.save_min_mae(dir,{});
-    recom.save_max_auc(dir,{});
-    //欠損数ごとのMAEとAUCを出力する
-    recom.out_mae(dirs);
-    recom.out_auc(dirs);
     //MAEとAUCの計算及び出力
-    recom.precision_summary_gl(dirs);
-   
+    recom.precision_summary(dir);
   }//欠損パターン
   return 0;
 }

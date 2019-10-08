@@ -29,31 +29,31 @@ int main(void){
         recom.overlap_threshold()>=OT_END;
         recom.overlap_threshold()-=OT_DIFF){
       std::cout<<"overlap threshold: "<<recom.overlap_threshold()<<std::endl;
-      //シード値の初期化
-      recom.seed();    
-      //欠損パターン
-      for(recom.current()=0;recom.current()<MISSINGTRIALS;recom.current()++){
-        std::cout<<"missing pattern: "<<recom.current()<<std::endl;
-        //フォルダ作成
-        std::vector<std::string> dir =
-          Mkdir(recom.clusters_num(),
-                recom.overlap_threshold(),
-                recom.current(), dirs);
-        //パラメータm
-        for(double m=M_START;m<=M_END;m+=M_DIFF){
-          //パラメータlambda
-          for(double lambda=LAMBDA_START;lambda<=LAMBDA_END;lambda*=LAMBDA_DIFF){
-            std::cout<<"m: "<<m<<"\tlambda: "<<lambda<<std::endl;
-            QFCS test(item_number, user_number, 
-                      clusters_number, m, lambda);
-            std::vector<double> parameter= {m, lambda};
-            //データ入力
-            recom.input(DATA_DIR+InputDataName);
+      //パラメータm
+      for(double m=M_START;m<=M_END;m+=M_DIFF){
+        //パラメータlambda
+        for(double lambda=LAMBDA_START;lambda<=LAMBDA_END;lambda*=LAMBDA_DIFF){
+          std::cout<<"m: "<<m<<"\tlambda: "<<lambda<<std::endl;
+          QFCS test(item_number, user_number, 
+                    clusters_number, m, lambda);
+          std::vector<double> parameter= {m, lambda};
+          //データ入力
+          recom.input(DATA_DIR+InputDataName);
+          //初期化
+          recom.reset_seed();
+          recom.reset_choice();
+          //欠損パターン
+          for(recom.current()=0;recom.current()<MISSINGTRIALS;recom.current()++){
+            std::cout<<"missing pattern: "<<recom.current()<<std::endl;
+            //フォルダ作成
+            std::vector<std::string> dir = Mkdir(recom.clusters_num(),
+                                                 recom.overlap_threshold(),
+                                                 parameter,
+                                                 recom.current(),dirs);
             //欠損数
             recom.Mcurrent()=0;
             for(recom.missing()=MISSING_MIN;
                 recom.missing()<=MISSING_MAX;recom.missing()+=MISSING_DIFF){
-       
               //初期化
               recom.reset();
               //データを欠損
@@ -82,9 +82,9 @@ int main(void){
                     test.reset();
                     recom.obje(recom.Ccurrent())=DBL_MAX;
                     recom.revise_prediction();
-                    recom.mae(dir[0], 0, parameter);
-                    recom.fmeasure(dir[0], 0, parameter);
-                    recom.roc(dir[0], parameter);
+                    recom.mae(dir[0], 0);
+                    recom.fmeasure(dir[0], 0);
+                    recom.roc(dir[0]);
                     recom.ofs_objective(dir[0]);
                     test.ofs_selected_data(dir[0]);
                     InitCentLoopis10=0;
@@ -125,29 +125,28 @@ int main(void){
                   recom.reset_pred();
                   //クラスタリング＋ピアソン相関係数の計算
                   recom.pearsonsim_fcs();
+                  //予測値を計算
                   recom.revise_prediction();
-                  recom.mae(dir[0], 0, parameter);
-                  recom.fmeasure(dir[0], 0, parameter);
-                  recom.roc(dir[0], parameter);
+                  //MAEを計算
+                  recom.mae(dir[0], 0);
+                  //F-measureを計算
+                  recom.fmeasure(dir[0], 0);
+                  //ROCを計算
+                  recom.roc(dir[0]);
+                  //目的関数をファイル出力
                   recom.ofs_objective(dir[0]);
                   test.ofs_selected_data(dir[0]);
                   InitCentLoopis10=0;
                 }
               }//初期値パターン
-              recom.choice(dir, parameter);
+              recom.choice(dir);
               recom.Mcurrent()++;         
             }//欠損数
-            //欠損数ごとのMAEとAUCを保存
-            recom.save_min_mae(dir, parameter);
-            recom.save_max_auc(dir, parameter);
-          }//パラメータlambda
-        }//パラメータm
-        //MAEとAUCをファイル出力
-        recom.out_mae_overlap(dirs);
-        recom.out_auc_overlap(dirs);
-        //AUC，MAEの平均を計算，出力
-        recom.precision_summary_overlap(dirs);
-      }//欠損パターン
+            //AUC，MAEの平均を計算，出力
+            recom.precision_summary(dir);
+          }//欠損パターン
+        }//パラメータlambda
+      }//パラメータm
     }//オーバーラップ閾値
   }//クラスタ数
   return 0;
