@@ -104,9 +104,9 @@ int main(void){
           recom.choice(dir);
           recom.Mcurrent()++;
         }//欠損数
+        //AUC，MAEの平均を計算，出力
+        recom.precision_summary(dir);
       }//欠損パターン
-      //AUC，MAEの平均を計算，出力
-      recom.precision_summary(dir);
     }//パラメータlambda
   }//パラメータm
   return 0;
