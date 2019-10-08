@@ -107,7 +107,7 @@ int main(void){
       }//欠損数
     }//欠損パターン
     //AUC，MAEの平均を計算，出力
-    recom.precision_summary(dirs);
+    recom.precision_summary(dir);
   }//パラメータlambda
   return 0;
 }
