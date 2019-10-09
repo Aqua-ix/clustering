@@ -9,6 +9,7 @@ git pull
 echo ===========================
 echo git pull end
 echo ===========================
+mkdir -p .o
 make clean clean.o
 rm -rf core
 emacs . &
