@@ -46,6 +46,7 @@ elif [ $2 = "overlap" ]; then
     ## echo "overlap threshold>"
     ## read OT_VAL
     OT_VAL="0.000000 0.100000 0.200000 0.300000 0.400000 0.500000 0.600000 0.700000 0.800000 0.900000"
+    PARAM_VAL
     for MN in $METHOD_NAME ; do
         for FP in $FCS_PCS ; do
             METHOD="${MN}${FP}_OVERLAP"
