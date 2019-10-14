@@ -81,7 +81,7 @@ for m1 in method1:
                                     saved_mae_em[n] = em
                                     saved_mae_lm[n] = lm
                         result_auc = pd.read_table(auc, header=None, usecols=[2])
-                        leng = len(result_mae)
+                        leng = len(result_auc)
                         for n in range(leng):
                             if result_auc[n] > saved_auc[n]:
                                 saved_auc[n] = result_auc[n]
