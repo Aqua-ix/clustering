@@ -38,11 +38,17 @@ int main(void){
       recom.revise_missing_values();
       //GloupLens Methodで予測
       recom.reset_pred();
+      //ピアソン相関係数の計算
       recom.pearsonsim();
+      //予測値を計算
       recom.revise_prediction();
+      //MAEを計算
       recom.mae(dir[0], 0);
+      //F-measureを計算
       recom.fmeasure(dir[0], 0);
+      //ROCを計算
       recom.roc(dir[0]);
+      //最適解を選択
       recom.choice(dir, 0);
       recom.Mcurrent()++;
     }//欠損数

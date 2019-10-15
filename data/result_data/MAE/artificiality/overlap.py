@@ -32,6 +32,6 @@ for ot in ots:
                 os.makedirs(outputPath)
             outputFileName = outputPath + method + '.txt'
             outputFile = open(outputFileName, 'a')
-            outputFile.write(ot + '\t' + row[1] + '\n')
+            outputFile.write(ot + '\t' + row[1] + '\t' + row[2] + '\n')
         outputFile.close()
     inputFile.close()

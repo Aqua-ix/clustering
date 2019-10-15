@@ -318,7 +318,7 @@ void Recom::Sort(Vector &fal, Vector &tru, int index){
 void Recom::ofs_objective(std::string dir){
   std::ofstream ofs(dir+"/object.txt",std::ios::app);
   if(!ofs){
-    std::cerr << "ofs_objective : file could not open"<<std::endl;
+    std::cerr << "ofs_objective : file could not open" << std::endl;
     exit(1);
   }
   ofs<<Missing<<"\t"<<Seed<<"\t";
@@ -342,6 +342,15 @@ void Recom::choice(std::vector<std::string> dir, int p){
   for(int method=0;method<(int)dir.size();method++){
     /*** MAE ***/
     ChoicedMAE[MCurrent]+=ResultMAE[method][obje_index];
+    std::ofstream ofs_mae(dir[method]+"/"+METHOD_NAME+"_choicedMAE.txt",
+                          std::ios::app);
+    if(!ofs_mae){
+      std::cerr << "choice: MAE file could not open" << std::endl;
+      exit(1);
+    }
+    ofs_mae << Missing << "\t"
+            <<std::fixed<<std::setprecision(6)
+            << ResultMAE[method][obje_index] << std::endl;
 
     /*** ROC ***/
     std::string oldname
@@ -359,24 +368,35 @@ void Recom::choice(std::vector<std::string> dir, int p){
     Vector array1(max,0.0,"all"), array2(max,0.0,"all");
     std::ifstream ifs(newname);
     if(!ifs){
-      std::cerr<<"precision_summary: ROC file input failed"<<std::endl;
+      std::cerr << "choice: ROC file input failed" << std::endl;
       exit(1);
     }
       
     for(int i=0;i<max;i++)
       ifs>>array1[i]>>array2[i];
     ifs.close();
+    double resultAUC = 0;
     for(int i=0;i<max-1;i++){
       if((array1[i]<array1[i+1])){
         double low=array1[i+1]-array1[i];
         double height=fabs(array2[i+1]-array2[i]);
         double squarearea=low*array2[i];
         double triangle=(low*height)/2.0;
-        ChoicedAUC[MCurrent]+=squarearea+triangle;
+        resultAUC+=squarearea+triangle;
       }
       if(array2[i]==1.0)
         break;
     }
+    ChoicedAUC[MCurrent]+=resultAUC;
+    std::ofstream ofs_auc(dir[method]+"/"+METHOD_NAME+"_choicedAUC.txt",
+                          std::ios::app);
+    if(!ofs_auc){
+      std::cerr << "choice: AUC file could not open" << std::endl;
+      exit(1);
+    }
+    ofs_auc << Missing << "\t"
+            <<std::fixed<<std::setprecision(6)
+            << resultAUC << std::endl;
   }
   return;
 }
@@ -397,7 +417,9 @@ void Recom::precision_summary(std::vector<std::string> dir){
     int missing=MISSING_MIN;
     for(int miss=0;miss<(int)ChoicedMAE.size();miss++){
       ave_mae[miss]=ChoicedMAE[miss]/(Current+1);
-      ofs_mae<<missing<<"\t"<<ave_mae[miss]<<std::endl;
+      ofs_mae<<missing<<"\t"
+             <<std::fixed<<std::setprecision(6)
+             <<ave_mae[miss]<<std::endl;
       missing+=MISSING_DIFF;
     }
 
@@ -414,7 +436,9 @@ void Recom::precision_summary(std::vector<std::string> dir){
     missing=MISSING_MIN;
     for(int miss=0;miss<(int)ChoicedAUC.size();miss++){
       ave_auc[miss]=ChoicedAUC[miss]/(Current+1);
-      ofs_auc<<missing<<"\t"<<ave_auc[miss]<<std::endl;
+      ofs_auc<<missing<<"\t"
+             <<std::fixed<<std::setprecision(6)
+             <<ave_auc[miss]<<std::endl;
       missing+=MISSING_DIFF;
     }
     
