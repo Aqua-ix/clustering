@@ -7,7 +7,6 @@ import pandas as pd
 
 data_dir="data/result_data/"
 b_e_q = ['B', 'E', 'Q']
-#b_e_q = ['B']
 f_p = ['FCS', 'PCS']
 m_a = ['MAE', 'AUC']
 overlap = '_OVERLAP_'
