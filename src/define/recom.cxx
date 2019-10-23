@@ -155,39 +155,42 @@ void Recom::increment_seed(void){
 }
 
 void Recom::revise_missing_values(void){
-  int tmprow,tmpcol;
+  int tmpRow,tmpCol;
+  int seedLocal = Seed;
   for(int m=0; m<Missing;){
     /****乱数生成****/
     std::mt19937_64 mt;
-    mt.seed(Seed);
+    mt.seed(seedLocal);
     std::uniform_int_distribution<>
       randRow(0,return_user_number()-1);
     //ランダムに行番号生成
-    tmprow=randRow(mt);
+    tmpRow=randRow(mt);
     std::uniform_int_distribution<>
-      randCol(0,SparseCorrectData[tmprow].essencialSize()-1);
+      randCol(0,SparseCorrectData[tmpRow].essencialSize()-1);
     //ランダムに列番号生成
-    tmpcol=randCol(mt);
+    tmpCol=randCol(mt);
     //データ行すべて欠損させないように,一行に2要素は必ず残す
     int c=0;
-    for(int i=0;i<SparseIncompleteData[tmprow].essencialSize();i++)
-      if(SparseIncompleteData[tmprow].elementIndex(i)==0)
+    for(int i=0;i<SparseIncompleteData[tmpRow].essencialSize();i++)
+      if(SparseIncompleteData[tmpRow].elementIndex(i)==0)
         c++;
     //既に欠損していない場合
-    if(SparseIncompleteData[tmprow].elementIndex(tmpcol)>0
-       && SparseIncompleteData[tmprow].essencialSize()-c>1){
+    if(SparseIncompleteData[tmpRow].elementIndex(tmpCol)>0
+       && SparseIncompleteData[tmpRow].essencialSize()-c>1){
       //要素を0にする
-      SparseIncompleteData[tmprow].elementIndex(tmpcol)=0;
+      SparseIncompleteData[tmpRow].elementIndex(tmpCol)=0;
       //欠損した行番号を保存
-      KessonIndex[m][0]=tmprow;
+      KessonIndex[m][0]=tmpRow;
       //欠損した列番号を保存
-      KessonIndex[m][1]=SparseIncompleteData[tmprow]
-        .indexIndex(tmpcol);
+      KessonIndex[m][1]=SparseIncompleteData[tmpRow]
+        .indexIndex(tmpCol);
       //スパースデータの列番号を保存
-      SparseIndex[m]=tmpcol;
+      SparseIndex[m]=tmpCol;
       m++;
     }
+    seedLocal++;
   }
+  Seed++;
   return;
 }
 
