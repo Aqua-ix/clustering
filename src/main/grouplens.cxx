@@ -20,13 +20,11 @@ int main(void){
   recom.method_name()=METHOD_NAME;
   //データ入力
   recom.input(DATA_DIR+InputDataName);
-  //シード値の初期化
-  recom.reset_seed();
   //欠損パターン
   for(recom.current()=0;recom.current()
         <MISSINGTRIALS;recom.current()++){
     std::cout<<"missing pattern: "<<recom.current()<<std::endl;
-    //missing_pattern_xのフォルダ作成
+    //ディレクトリ作成
     std::vector<std::string> dir = Mkdir(recom.current(), dirs);
     //欠損数
     recom.Mcurrent()=0;
