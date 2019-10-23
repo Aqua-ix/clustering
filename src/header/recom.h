@@ -34,9 +34,9 @@
 
 //オーバーラップ閾値
 #ifdef ARTIFICIALITY
-#define OT_START 0.90
-#define OT_END 0.10
-#define OT_DIFF 0.20
+#define OT_START 0.00
+#define OT_END 0.00
+#define OT_DIFF 0.10
 #elif defined TEST
 #define OT_START 1.00
 #define OT_END 0.00
@@ -185,6 +185,8 @@ protected:
   void reset_seed(void);
   void reset_pred(void);
   void reset_choice(void);
+  //欠損シード値のインクリメント
+  void increment_seed(void);
   //データを欠損
   void revise_missing_values(void);
   //MAEの計算，textに保存

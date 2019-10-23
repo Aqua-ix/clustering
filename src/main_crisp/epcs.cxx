@@ -40,7 +40,9 @@ int main(void){
     //欠損パターン
     for(recom.current()=0;recom.current()<MISSINGTRIALS;recom.current()++){
       std::cout<<"missing pattern: "<<recom.current()<<std::endl;
-      //フォルダ作成
+      //シード値をインクリメント
+      recom.increment_seed();
+      //ディレクトリ作成
       std::vector<std::string> dir = Mkdir(recom.clusters_num(),
                                            parameter,
                                            recom.current(),dirs);

@@ -149,6 +149,11 @@ void Recom::reset_seed(void){
   return;
 }
 
+void Recom::increment_seed(void){
+  Seed++;
+  return;
+}
+
 void Recom::revise_missing_values(void){
   int tmprow,tmpcol;
   for(int m=0; m<Missing;){
@@ -182,7 +187,6 @@ void Recom::revise_missing_values(void){
       SparseIndex[m]=tmpcol;
       m++;
     }
-    Seed++;
   }
   return;
 }

@@ -26,7 +26,9 @@ int main(void){
   for(recom.current()=0;recom.current()
         <MISSINGTRIALS;recom.current()++){
     std::cout<<"missing pattern: "<<recom.current()<<std::endl;
-    //missing_pattern_xのフォルダ作成
+    //シード値をインクリメント
+    recom.increment_seed();
+    //ディレクトリ作成
     std::vector<std::string> dir = Mkdir(recom.current(), dirs);
     //欠損数
     recom.Mcurrent()=0;
