@@ -119,8 +119,6 @@
 class Recom{
 protected:
   std::string METHOD_NAME;
-  //欠損のさせ方を決めるシード値
-  int Seed;
   //欠損パターン数,クラスタリング初期値パターン数,欠損値ループ数,欠損数,クラスタ数
   int Current, CCurrent, MCurrent, Missing, ClustersNum;
   //オーバーラップ閾値
@@ -182,7 +180,6 @@ protected:
   void input(std::string);
   //初期化
   void reset(void);
-  void reset_seed(void);
   void reset_pred(void);
   void reset_choice(void);
   //データを欠損

@@ -35,7 +35,6 @@ int main(void){
         //データ入力
         recom.input(DATA_DIR+InputDataName);
         //初期化
-        recom.reset_seed();
         recom.reset_choice();
         //欠損パターン
         for(recom.current()=0;recom.current()<MISSINGTRIALS;recom.current()++){

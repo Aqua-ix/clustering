@@ -20,8 +20,6 @@ int main(void){
   recom.method_name()=METHOD_NAME;
   //データ入力
   recom.input(DATA_DIR+InputDataName);
-  //シード値の初期化
-  recom.reset_seed();
   //欠損パターン
   for(recom.current()=0;recom.current()
         <MISSINGTRIALS;recom.current()++){

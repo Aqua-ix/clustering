@@ -5,7 +5,7 @@ Recom::Recom(int user,
              int user_cen,
              int item_cen,
              int miss):
-  Seed(0),Current(0),CCurrent(0),MCurrent(0),
+  Current(0),CCurrent(0),MCurrent(0),
   Missing(0),ClustersNum(0),
   OverlapThreshold(0),
   SparseIncompleteData(user, item),
@@ -144,18 +144,13 @@ void Recom::reset_choice(){
   return;
 }
 
-void Recom::reset_seed(void){
-  Seed=0;
-  return;
-}
-
 void Recom::revise_missing_values(void){
   int tmpRow,tmpCol;
-  int seedLocal = Seed;
+  int seed = Current;
   for(int m=0; m<Missing;){
     /****乱数生成****/
     std::mt19937_64 mt;
-    mt.seed(seedLocal);
+    mt.seed(seed);
     std::uniform_int_distribution<>
       randRow(0,return_user_number()-1);
     //ランダムに行番号生成
@@ -183,9 +178,8 @@ void Recom::revise_missing_values(void){
       SparseIndex[m]=tmpCol;
       m++;
     }
-    seedLocal++;
+    seed++;
   }
-  Seed++;
   return;
 }
 
@@ -323,7 +317,7 @@ void Recom::ofs_objective(std::string dir){
     std::cerr << "ofs_objective : file could not open" << std::endl;
     exit(1);
   }
-  ofs<<Missing<<"\t"<<Seed<<"\t";
+  ofs<<Missing<<"\t"<<Current<<"\t";
   return;
 }
 
