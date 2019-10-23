@@ -185,8 +185,6 @@ protected:
   void reset_seed(void);
   void reset_pred(void);
   void reset_choice(void);
-  //欠損シード値のインクリメント
-  void increment_seed(void);
   //データを欠損
   void revise_missing_values(void);
   //MAEの計算，textに保存

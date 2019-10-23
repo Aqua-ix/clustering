@@ -149,11 +149,6 @@ void Recom::reset_seed(void){
   return;
 }
 
-void Recom::increment_seed(void){
-  Seed++;
-  return;
-}
-
 void Recom::revise_missing_values(void){
   int tmpRow,tmpCol;
   int seedLocal = Seed;
