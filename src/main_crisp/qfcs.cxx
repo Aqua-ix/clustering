@@ -35,12 +35,11 @@ int main(void){
         //データ入力
         recom.input(DATA_DIR+InputDataName);
         //初期化
-        recom.reset_seed();
         recom.reset_choice();
         //欠損パターン
         for(recom.current()=0;recom.current()<MISSINGTRIALS;recom.current()++){
           std::cout<<"missing pattern: "<<recom.current()<<std::endl;
-          //フォルダ作成
+          //ディレクトリ作成
           std::vector<std::string> dir = Mkdir(recom.clusters_num(),
                                                parameter,
                                                recom.current(),dirs);

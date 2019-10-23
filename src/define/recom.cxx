@@ -5,7 +5,7 @@ Recom::Recom(int user,
              int user_cen,
              int item_cen,
              int miss):
-  Seed(0),Current(0),CCurrent(0),MCurrent(0),
+  Current(0),CCurrent(0),MCurrent(0),
   Missing(0),ClustersNum(0),
   OverlapThreshold(0),
   SparseIncompleteData(user, item),
@@ -144,45 +144,41 @@ void Recom::reset_choice(){
   return;
 }
 
-void Recom::reset_seed(void){
-  Seed=0;
-  return;
-}
-
 void Recom::revise_missing_values(void){
-  int tmprow,tmpcol;
+  int tmpRow,tmpCol;
+  int seed = Current;
   for(int m=0; m<Missing;){
     /****乱数生成****/
     std::mt19937_64 mt;
-    mt.seed(Seed);
+    mt.seed(seed);
     std::uniform_int_distribution<>
       randRow(0,return_user_number()-1);
     //ランダムに行番号生成
-    tmprow=randRow(mt);
+    tmpRow=randRow(mt);
     std::uniform_int_distribution<>
-      randCol(0,SparseCorrectData[tmprow].essencialSize()-1);
+      randCol(0,SparseCorrectData[tmpRow].essencialSize()-1);
     //ランダムに列番号生成
-    tmpcol=randCol(mt);
+    tmpCol=randCol(mt);
     //データ行すべて欠損させないように,一行に2要素は必ず残す
     int c=0;
-    for(int i=0;i<SparseIncompleteData[tmprow].essencialSize();i++)
-      if(SparseIncompleteData[tmprow].elementIndex(i)==0)
+    for(int i=0;i<SparseIncompleteData[tmpRow].essencialSize();i++)
+      if(SparseIncompleteData[tmpRow].elementIndex(i)==0)
         c++;
     //既に欠損していない場合
-    if(SparseIncompleteData[tmprow].elementIndex(tmpcol)>0
-       && SparseIncompleteData[tmprow].essencialSize()-c>1){
+    if(SparseIncompleteData[tmpRow].elementIndex(tmpCol)>0
+       && SparseIncompleteData[tmpRow].essencialSize()-c>1){
       //要素を0にする
-      SparseIncompleteData[tmprow].elementIndex(tmpcol)=0;
+      SparseIncompleteData[tmpRow].elementIndex(tmpCol)=0;
       //欠損した行番号を保存
-      KessonIndex[m][0]=tmprow;
+      KessonIndex[m][0]=tmpRow;
       //欠損した列番号を保存
-      KessonIndex[m][1]=SparseIncompleteData[tmprow]
-        .indexIndex(tmpcol);
+      KessonIndex[m][1]=SparseIncompleteData[tmpRow]
+        .indexIndex(tmpCol);
       //スパースデータの列番号を保存
-      SparseIndex[m]=tmpcol;
+      SparseIndex[m]=tmpCol;
       m++;
     }
-    Seed++;
+    seed++;
   }
   return;
 }
@@ -321,7 +317,7 @@ void Recom::ofs_objective(std::string dir){
     std::cerr << "ofs_objective : file could not open" << std::endl;
     exit(1);
   }
-  ofs<<Missing<<"\t"<<Seed<<"\t";
+  ofs<<Missing<<"\t"<<Current<<"\t";
   return;
 }
 
