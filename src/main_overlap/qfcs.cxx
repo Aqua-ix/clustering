@@ -54,7 +54,7 @@ int main(void){
             for(recom.missing()=MISSING_MIN;
                 recom.missing()<=MISSING_MAX;recom.missing()+=MISSING_DIFF){
               //初期化
-              recom.reset();
+              recom.reset_data();
               //データを欠損
               recom.revise_missing_values();
               recom.pearsonsim();

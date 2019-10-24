@@ -179,7 +179,7 @@ protected:
   //データ入力
   void input(std::string);
   //初期化
-  void reset(void);
+  void reset_data(void);
   void reset_pred(void);
   void reset_choice(void);
   //データを欠損

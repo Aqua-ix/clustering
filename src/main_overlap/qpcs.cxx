@@ -53,7 +53,7 @@ int main(void){
           for(recom.missing()=MISSING_MIN;
               recom.missing()<=MISSING_MAX;recom.missing()+=MISSING_DIFF){
             //初期化
-            recom.reset();
+            recom.reset_data();
             //データを欠損
             recom.revise_missing_values();
             //データをtestに渡す
@@ -72,8 +72,8 @@ int main(void){
               test.iterates()=0;
               while(1){//クラスタリング
                 test.revise_dissimilarities();//hcs
-                test.revise_membership();//bpcs
-                test.revise_centers();//bfcs
+                test.revise_membership();//qpcs
+                test.revise_centers();//qfcs
 	  
                 double diff_v=max_norm(test.tmp_centers()-test.centers());
                 double diff_u=max_norm(test.tmp_membership()-test.membership());
