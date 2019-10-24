@@ -116,7 +116,7 @@ void Recom::input(std::string InputDataName){
   ifs.close();
 }
 
-void Recom::reset(void){
+void Recom::reset_data(void){
   SparseIncompleteData=SparseCorrectData;
   for(int k=0;k<return_user_number();k++){
     for(int l=0;l<return_user_number();l++){
@@ -146,7 +146,7 @@ void Recom::reset_choice(){
 
 void Recom::revise_missing_values(void){
   int tmpRow,tmpCol;
-  int seed = Current;
+  int seed = Current*MISSING_MAX;
   for(int m=0; m<Missing;){
     /****乱数生成****/
     std::mt19937_64 mt;
