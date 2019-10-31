@@ -31,16 +31,16 @@
 
 //オーバーラップ閾値
 #ifdef ARTIFICIALITY
-#define OT_START 0.20
-#define OT_END -0.10
+#define OT_START 1.00
+#define OT_END 0.00
 #define OT_DIFF 0.10
 #elif defined TEST
 #define OT_START 1.00
 #define OT_END 0.00
 #define OT_DIFF 0.20
 #else
-#define OT_START 8.00
-#define OT_END 0.00
+#define OT_START 1.00
+#define OT_END 0.20
 #define OT_DIFF 0.20
 #endif
 
