@@ -809,7 +809,7 @@ int return_user_number(){//ユーザ数
   return 2916;
 #elif defined MOVIE
   return 500;
-#elif defined LIBIMISETI
+#elif defined LIBIMSETI
   return 866;//500;
 #elif defined EPINIONS
   return 1022;//2000;
@@ -834,7 +834,7 @@ int return_item_number(){//アイテム数
   return 140;
 #elif defined MOVIE
   return 2523;
-#elif defined LIBIMISETI
+#elif defined LIBIMSETI
   return 1156;//2041;
 #elif defined EPINIONS
   return 835;//517;
@@ -859,7 +859,7 @@ double return_threshold(){//閾値
   return 14.7;
 #elif defined MOVIE
   return 3.5;
-#elif defined LIBIMISETI
+#elif defined LIBIMSETI
   return 7.0;
 #elif defined EPINIONS
   return 3.5;
@@ -884,7 +884,7 @@ double return_max_value(){
   return 21.0;
 #elif defined MOVIE
   return 5.0;
-#elif defined LIBIMISETI
+#elif defined LIBIMSETI
   return 10.0;
 #elif defined EPINIONS
   return 5.0;
