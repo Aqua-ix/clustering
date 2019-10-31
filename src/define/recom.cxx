@@ -807,9 +807,9 @@ int return_user_number(){//ユーザ数
   return 1091;//1090;
 #elif defined JESTER
   return 2916;
-#elif defined MOVIE2
+#elif defined MOVIE
   return 500;
-#elif defined LIBIMSETI
+#elif defined LIBIMISETI
   return 866;//500;
 #elif defined EPINIONS
   return 1022;//2000;
@@ -832,9 +832,9 @@ int return_item_number(){//アイテム数
   return 2248;//2247;
 #elif defined JESTER
   return 140;
-#elif defined MOVIE2
+#elif defined MOVIE
   return 2523;
-#elif defined LIBIMSETI
+#elif defined LIBIMISETI
   return 1156;//2041;
 #elif defined EPINIONS
   return 835;//517;
@@ -857,9 +857,9 @@ double return_threshold(){//閾値
   return 7.0;
 #elif defined JESTER
   return 14.7;
-#elif defined MOVIE2
+#elif defined MOVIE
   return 3.5;
-#elif defined LIBIMSETI
+#elif defined LIBIMISETI
   return 7.0;
 #elif defined EPINIONS
   return 3.5;
@@ -882,9 +882,9 @@ double return_max_value(){
   return 10.0;
 #elif defined JESTER
   return 21.0;
-#elif defined MOVIE2
+#elif defined MOVIE
   return 5.0;
-#elif defined LIBIMSETI
+#elif defined LIBIMISETI
   return 10.0;
 #elif defined EPINIONS
   return 5.0;
@@ -907,7 +907,7 @@ std::string return_data_name(){//データ名
   return "book";
 #elif defined JESTER
   return "jester";
-#elif defined MOVIE2
+#elif defined MOVIE
   return "movie10M";
 #elif defined LIBIMSETI
   return "libimseti";
