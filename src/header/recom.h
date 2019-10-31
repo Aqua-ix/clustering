@@ -24,12 +24,9 @@
 #elif defined TEST
 #define C_START 1
 #define C_END 2
-#elif defined MOVIE
-#define C_START 1
-#define C_END 10
 #else
 #define C_START 1
-#define C_END 10
+#define C_END 50
 #endif
 
 //オーバーラップ閾値
