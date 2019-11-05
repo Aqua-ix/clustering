@@ -16,19 +16,6 @@ for M in $MISS ; do
 done
 
 cd unite
-pdfunite \
-    1500.pdf \
-    2000.pdf \
-    2500.pdf \
-    3000.pdf \
-    3500.pdf \
-    4000.pdf \
-    4500.pdf \
-    5000.pdf \
-    5500.pdf \
-    6000.pdf \
-    6500.pdf \
-    7000.pdf \
-    7500.pdf \
-    unite.pdf
+rm -f unite_threshold.pdf
+pdfunite *.pdf unite_threshold.pdf
 cd ..
