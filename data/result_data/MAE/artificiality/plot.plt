@@ -1,6 +1,5 @@
 set terminal pdf
 set output "output/".ms."_".ts.".pdf"
-set title ms." ".ts
 set key left font "Arial,15"
 set xlabel "欠損数" font "Arial,15"
 set ylabel "MAE" font "Arial,15"
@@ -13,4 +12,3 @@ for [m in ms] \
 for[t in ts] \
 file(t, m) \
 using 1:3 with linespoints \
-title m."(".t.")"
