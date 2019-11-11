@@ -24,7 +24,7 @@ int main(void){
   recom.clusters_num()=clusters_number;
   double alpha=ALPHA;
   //パラメータm
-  for(double m=M_START;m<=M_END;m+=M_DIFF){
+  for(double m=M_START;m>=M_END;m-=M_DIFF){
     std::cout<<"m: "<<m<<std::endl;
     std::vector<double> parameter= {m};
     BPCS test(item_number, user_number, clusters_number, m, alpha);

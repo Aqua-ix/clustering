@@ -31,41 +31,43 @@
 
 //オーバーラップ閾値
 #ifdef ARTIFICIALITY
-#define OT_START 1.00
-#define OT_END 0.00
+#define OT_START 0.00
+#define OT_END 0.10
 #define OT_DIFF 0.10
 #elif defined TEST
-#define OT_START 1.00
-#define OT_END 0.00
+#define OT_START 0.00
+#define OT_END 1.10
 #define OT_DIFF 0.20
 #else
-#define OT_START 1.00
-#define OT_END 0.20
+#define OT_START 0.00
+#define OT_END 1.10
 #define OT_DIFF 0.20
 #endif
 
 //パラメータ
 #define ALPHA 0.03
+//M_DIFF 設定した値で減算
+//LAMBDA_DIFF 設定した値で乗算
 #ifdef ARTIFICIALITY
-#define M_START 1.10
-#define M_END 3.10
-#define M_DIFF 0.20
-#define LAMBDA_START 2
-#define LAMBDA_END 1024
-#define LAMBDA_DIFF 2
+#define M_START 1.100
+#define M_END 1.010
+#define M_DIFF 0.010
+#define LAMBDA_START 1.0E03
+#define LAMBDA_END 1.0E12
+#define LAMBDA_DIFF 10
 #elif defined TEST
-#define M_START 1.10
-#define M_END 1.20
+#define M_START 1.20
+#define M_END 1.10
 #define M_DIFF 0.10
 #define LAMBDA_START 2
 #define LAMBDA_END 10
 #define LAMBDA_DIFF 2
 #else
-#define M_START 1.10
-#define M_END 1.50
+#define M_START 1.50
+#define M_END 1.10
 #define M_DIFF 0.10
 #define LAMBDA_START 10
-#define LAMBDA_END 100000
+#define LAMBDA_END 1.0E05
 #define LAMBDA_DIFF 10
 #endif
 

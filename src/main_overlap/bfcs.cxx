@@ -26,11 +26,11 @@ int main(void){
     recom.clusters_num()=clusters_number;
     //オーバーラップ閾値
     for(recom.overlap_threshold()=OT_START;
-        recom.overlap_threshold()>=OT_END;
-        recom.overlap_threshold()-=OT_DIFF){
+        recom.overlap_threshold()<=OT_END;
+        recom.overlap_threshold()+=OT_DIFF){
       std::cout<<"overlap threshold: "<<recom.overlap_threshold()<<std::endl;
       //パラメータm
-      for(double m=M_START;m<=M_END;m+=M_DIFF){
+      for(double m=M_START;m>=M_END;m-=M_DIFF){
         std::cout<<"m: "<<m<<std::endl;
         BFCS test(item_number, user_number, clusters_number, m);
         std::vector<double> parameter= {m};

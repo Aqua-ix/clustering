@@ -26,8 +26,8 @@ int main(void){
     recom.clusters_num()=clusters_number;
     //オーバーラップ閾値
     for(recom.overlap_threshold()=OT_START;
-        recom.overlap_threshold()>=OT_END;
-        recom.overlap_threshold()-=OT_DIFF){
+        recom.overlap_threshold()<=OT_END;
+        recom.overlap_threshold()+=OT_DIFF){
       std::cout<<"overlap threshold: "<<recom.overlap_threshold()<<std::endl;
       //パラメータlambda
       for(double lambda=LAMBDA_START;lambda<=LAMBDA_END;lambda*=LAMBDA_DIFF){

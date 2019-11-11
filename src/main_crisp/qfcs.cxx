@@ -25,7 +25,7 @@ int main(void){
     recom.method_name()=METHOD_NAME;
     recom.clusters_num()=clusters_number;
     //パラメータm
-    for(double m=M_START;m<=M_END;m+=M_DIFF){
+    for(double m=M_START;m>=M_END;m-=M_DIFF){
       //パラメータlambda
       for(double lambda=LAMBDA_START;lambda<=LAMBDA_END;lambda*=LAMBDA_DIFF){
         std::cout<<"m: "<<m<<"\tlambda: "<<lambda<<std::endl;
