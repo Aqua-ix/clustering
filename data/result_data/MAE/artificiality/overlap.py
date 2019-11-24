@@ -3,7 +3,7 @@ import csv
 import os
 
 dataname = 'artificiality'
-mp = '19'
+mp = '4'
 ots = ['0.000000',
        '0.100000',
        '0.200000',
