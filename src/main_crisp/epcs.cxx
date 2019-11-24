@@ -75,7 +75,7 @@ int main(void){
             double diff=diff_u+diff_v;
             if(std::isnan(diff)){
               std::cout<<"diff is nan"<<std::endl;
-              test.reset();
+              std::cout<<"lambda: "<<lambda<<std::endl;
               exit(1);
             }
             if(diff<DIFF_FOR_STOP)break;

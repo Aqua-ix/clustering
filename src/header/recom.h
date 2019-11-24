@@ -2,6 +2,7 @@
 #include"matrix.h"
 #include<stdarg.h>
 #include<list>
+#include <iomanip>
 
 #ifndef __RECOM__
 #define __RECOM__
@@ -50,10 +51,10 @@
 //LAMBDA_DIFF 設定した値で乗算
 #ifdef ARTIFICIALITY
 #define M_START 1.100
-#define M_END 1.010
-#define M_DIFF 0.010
+#define M_END 1.0E-100
+#define M_DIFF 0.9
 #define LAMBDA_START 1.0E03
-#define LAMBDA_END 1.0E12
+#define LAMBDA_END 1.0E100
 #define LAMBDA_DIFF 10
 #elif defined TEST
 #define M_START 1.20

@@ -24,9 +24,13 @@ int main(void){
   recom.clusters_num()=clusters_number;
   //パラメータ
   double alpha=ALPHA;
-  for(double m=M_START;m>=M_END;m-=M_DIFF){
+  int count = -1;
+  for(double m=M_START;m>=M_END;m-=M_DIFF*(std::pow(10,count--))){
     for(double lambda=LAMBDA_START;lambda<=LAMBDA_END;lambda*=LAMBDA_DIFF){
       std::cout<<"m: "<<m<<"\tlambda: "<<lambda<<std::endl;
+      
+      std::cout << "m_diff: " << M_DIFF*(std::pow(10,count)) << std::endl;
+      
       QPCS test(item_number, user_number, clusters_number, m, lambda, alpha);
       //マージのしきい値設定
       test.centers_threshold()=CENTERS_THRESHOLD;
@@ -74,7 +78,8 @@ int main(void){
               double diff=diff_u+diff_v;
               if(std::isnan(diff)){
                 std::cout<<"diff is nan"<<std::endl;
-                test.reset();
+                std::cout<<"m: "<<m<<std::endl;
+                std::cout<<"lambda: "<<lambda<<std::endl;
                 exit(1);
               }
               if(diff<DIFF_FOR_STOP)break;
