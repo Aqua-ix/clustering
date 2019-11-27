@@ -40,7 +40,7 @@
 #define OT_END 1.10
 #define OT_DIFF 0.20
 #else
-#define OT_START 0.00
+#define OT_START 0.20
 #define OT_END 1.00
 #define OT_DIFF 0.20
 #endif
