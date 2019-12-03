@@ -8,7 +8,7 @@ import pandas as pd
 data_dir="data/result_data/"
 b_e_q = ['B', 'E', 'Q']
 f_p = ['FCS', 'PCS']
-m_a = ['MAE', 'AUC']
+m_a = ['MAE']
 overlap = '_OVERLAP_'
 data_name = 'artificiality'
 mp = 19
