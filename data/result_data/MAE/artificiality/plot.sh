@@ -2,8 +2,8 @@
 
 ms1="B E Q"
 ms2="FCS PCS"
-ts="1.0"
-mp=4
+ts="0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0"
+mp=19
 
 for m1 in $ms1; do
     for t in $ts; do
@@ -22,6 +22,6 @@ for m2 in $ms2; do
      done
 done
 
-for t in $ts; do
-    gnuplot -e "p=${mp}; ms='BFCS EFCS QFCS BPCS EPCS QPCS'; ts='$t'" -persist plot.plt
-done
+# for t in $ts; do
+#     gnuplot -e "p=${mp}; ms='BFCS EFCS QFCS BPCS EPCS QPCS'; ts='$t'" -persist plot.plt
+# done
