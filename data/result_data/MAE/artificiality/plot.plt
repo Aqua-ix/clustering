@@ -6,9 +6,9 @@ set ylabel "MAE" font "Arial,15"
 set xrange [1500:7500]
 set yrange [0:0.7]
 set xtics 500
-file(n, m) = sprintf("artificiality_MP19_overlap_threshold%s00000/%s_OVERLAP_averageMAE.txt", n, m)
+file(p, n, m) = sprintf("artificiality_MP%d_overlap_threshold%s00000/%s_OVERLAP_averageMAE.txt", p, n, m)
 plot \
 for [m in ms] \
 for[t in ts] \
-file(t, m) \
-using 1:3 with linespoints \
+file(p, t, m) \
+using 1:3 with linespoints title m."(".t.")"\
