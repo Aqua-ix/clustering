@@ -768,9 +768,11 @@ void Recom::overlap(const Matrix &Membership){
       }
     }
     Mem[max_index][k]=1.0;
-    for(int i=0;i<Membership.rows();i++){
-      if(Membership[i][k]>Membership[max_index][k]*OverlapThreshold){
-        Mem[i][k]=1.0;
+    if(OverlapThreshold < 1.0){
+      for(int i=0;i<Membership.rows();i++){
+        if(Membership[i][k]>=Membership[max_index][k]*OverlapThreshold){
+          Mem[i][k]=1.0;
+        }
       }
     }
   }
@@ -791,9 +793,11 @@ void Recom::overlap(const Matrix &Membership, int clusters_number){
       }
     }
     Mem[max_index][k]=1.0;
-    for(int i=0;i<clusters_number;i++){
-      if(Membership[i][k]>Membership[max_index][k]*OverlapThreshold){
-        Mem[i][k]=1.0;
+    if(OverlapThreshold < 1.0){
+      for(int i=0;i<clusters_number;i++){
+        if(Membership[i][k]>=Membership[max_index][k]*OverlapThreshold){
+          Mem[i][k]=1.0;
+        }
       }
     }
   }

@@ -1,5 +1,5 @@
 set terminal pdf
-set output "output/".ms."_".ts.".pdf"
+set output "output/artificiality_".ms."_".ts.".pdf"
 set key left font "Arial,15"
 set xlabel "欠損数" font "Arial,15"
 set ylabel "MAE" font "Arial,15"
