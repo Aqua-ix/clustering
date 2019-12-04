@@ -11,9 +11,9 @@ b_e_q = ['B', 'E', 'Q']
 f_p = ['FCS', 'PCS']
 m_a = ['MAE', 'AUC']
 overlap = '_OVERLAP_'
-data_name = 'book'
+data_name = 'movie'
 mp = 4
-clusters = [15, 35, 11]
+clusters = [5, 7, 3]
 
 regrex = re.compile('[0-9]+[._]?[0-9]*')
 
