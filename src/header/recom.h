@@ -85,8 +85,8 @@
 #define M_START 1.001
 #define M_END 1.0001
 #define M_DIFF 0.0003
-#define LAMBDA_START 1.0
-#define LAMBDA_END 1.0E03
+#define LAMBDA_START 10
+#define LAMBDA_END 1.0E04
 #define LAMBDA_DIFF 10
 #endif
 
