@@ -25,13 +25,10 @@ int main(void){
     recom.method_name()=METHOD_NAME;
     recom.clusters_num()=clusters_number;
     //パラメータm
-    int count = -1;
-    for(double m=M_START;m>=M_END;m-=M_DIFF*(std::pow(10,count--))){
+    for(double m=M_START;m>=M_END;m-=M_DIFF){
       //パラメータlambda
       for(double lambda=LAMBDA_START;lambda<=LAMBDA_END;lambda*=LAMBDA_DIFF){
         std::cout<<"m: "<<m<<"\tlambda: "<<lambda<<std::endl;
-
-        std::cout << "m_diff: " << M_DIFF*(std::pow(10,count)) << std::endl;
         
         QFCS test(item_number, user_number, 
                   clusters_number, m, lambda);
@@ -103,7 +100,6 @@ int main(void){
                   std::cout<<"diff is nan"<<std::endl;
                   std::cout<<"m: "<<m<<std::endl;
                   std::cout<<"lambda: "<<lambda<<std::endl;
-                  exit(1);
                   test.reset();
                   recom.Ccurrent()--;p=0;
                   ForBadChoiceData++;

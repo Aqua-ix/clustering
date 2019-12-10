@@ -95,8 +95,6 @@ int main(void){
               if(std::isnan(diff)){
                 std::cout<<"diff is nan"<<std::endl;
                 std::cout<<"lambda: "<<lambda<<std::endl;
-                exit(1);
-                
                 test.reset();
                 recom.Ccurrent()--;p=0;
                 ForBadChoiceData++;

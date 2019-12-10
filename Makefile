@@ -53,19 +53,7 @@ qpcs_overlap.out \
 method_all = $(all) \
 $(bfcs) $(efcs) $(qfcs) \
 $(bpcs) $(epcs) $(qpcs) \
-grouplens.out \
-bfcs_overlap.out \
-efcs_overlap.out \
-qfcs_overlap.out \
-bpcs_overlap.out \
-epcs_overlap.out \
-qpcs_overlap.out \
-bfcs_crisp.out \
-efcs_crisp.out \
-qfcs_crisp.out \
-bpcs_crisp.out \
-epcs_crisp.out \
-qpcs_crisp.out \
+$(crisp) $(overlap)
 
 ifdef data
 	DATASET=-D$(data) 

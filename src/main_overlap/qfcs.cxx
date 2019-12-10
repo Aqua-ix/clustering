@@ -77,7 +77,7 @@ int main(void){
                 //nanが出た時の回避で使う
                 int p=1;
                 while(1){
-                  if(InitCentLoopis10>9){
+                  if(InitCentLoopis10>2){
                     test.reset();
                     recom.obje(recom.Ccurrent())=DBL_MAX;
                     recom.revise_prediction();

@@ -25,9 +25,27 @@
 #elif defined TEST
 #define C_START 1
 #define C_END 2
+#elif defined BOOK
+#define C_START 15
+#define C_END 35
+#elif defined MOVIE
+#define C_START 5
+#define C_END 7
+#elif defined LIBIMSETI
+#define C_START 6
+#define C_END 15
+#elif defined EPINIONS
+#define C_START 2
+#define C_END 8
+#elif defined JESTER
+#define C_START 2
+#define C_END 8
+#elif defined SUSHI
+#define C_START 2
+#define C_END 8
 #else
-#define C_START 1
-#define C_END 50
+#define C_START 0
+#define C_END 0
 #endif
 
 //オーバーラップ閾値
@@ -50,11 +68,11 @@
 //M_DIFF 設定した値で減算
 //LAMBDA_DIFF 設定した値で乗算
 #ifdef ARTIFICIALITY
-#define M_START 1.100
-#define M_END 1.0E-100
-#define M_DIFF 0.9
-#define LAMBDA_START 1.0E03
-#define LAMBDA_END 1.0E100
+#define M_START 1.10
+#define M_END 1.01
+#define M_DIFF 0.01
+#define LAMBDA_START 1.0
+#define LAMBDA_END 1.0E09
 #define LAMBDA_DIFF 10
 #elif defined TEST
 #define M_START 1.20
@@ -64,11 +82,11 @@
 #define LAMBDA_END 10
 #define LAMBDA_DIFF 2
 #else
-#define M_START 1.50
-#define M_END 1.10
-#define M_DIFF 0.10
-#define LAMBDA_START 10
-#define LAMBDA_END 1.0E05
+#define M_START 1.001
+#define M_END 1.0001
+#define M_DIFF 0.0003
+#define LAMBDA_START 1.0
+#define LAMBDA_END 1.0E03
 #define LAMBDA_DIFF 10
 #endif
 
@@ -86,6 +104,10 @@
 #define MISSING_MIN 1500
 #define MISSING_MAX 7500
 #define MISSING_DIFF 500
+#elif defined TEST
+#define MISSING_MIN 0
+#define MISSING_MAX 10
+#define MISSING_DIFF 1
 #elif defined BOOK
 #define MISSING_MIN 30000
 #define MISSING_MAX 30000
@@ -98,10 +120,22 @@
 #define MISSING_MIN 300000
 #define MISSING_MAX 300000
 #define MISSING_DIFF 300000
+#elif defined EPINIONS
+#define MISSING_MIN 20000
+#define MISSING_MAX 20000
+#define MISSING_DIFF 200000
+#elif defined JESTER
+#define MISSING_MIN 200000
+#define MISSING_MAX 200000
+#define MISSING_DIFF 200000
+#elif defined SUSHI
+#define MISSING_MIN 20000
+#define MISSING_MAX 20000
+#define MISSING_DIFF 20000
 #else
 #define MISSING_MIN 0
-#define MISSING_MAX 10
-#define MISSING_DIFF 1
+#define MISSING_MAX 0
+#define MISSING_DIFF 0
 #endif
 
 //欠損パターン数
