@@ -68,12 +68,12 @@
 //M_DIFF 設定した値で減算
 //LAMBDA_DIFF 設定した値で乗算
 #ifdef ARTIFICIALITY
-#define M_START 1.10
-#define M_END 1.01
-#define M_DIFF 0.01
-#define LAMBDA_START 1.0
-#define LAMBDA_END 1.0E09
-#define LAMBDA_DIFF 10
+#define M_START 2.9
+#define M_END 1.1
+#define M_DIFF 0.2
+#define LAMBDA_START 2
+#define LAMBDA_END 1024
+#define LAMBDA_DIFF 2
 #elif defined TEST
 #define M_START 1.20
 #define M_END 1.10
@@ -240,6 +240,9 @@ protected:
   void pearsonsim_fcs(void);
   //可能性クラスタリングの結果を用いたピアソン相関係数計算
   void pearsonsim_pcs(const int clusters_number);
+  //可能性クラスタリングの結果を閾値でフィルタリングしたピアソン相関係数計算
+  void pearsonsim_pcs_threshold(const Matrix &Membership,
+                                const Vector &Threshold);
   //GroupLensの結果を用いた予測値計算
   void revise_prediction(void);
   //indexのユーザの既評価値平均を計算

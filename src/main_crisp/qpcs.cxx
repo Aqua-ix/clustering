@@ -57,8 +57,6 @@ int main(void){
           test.ForSphericalData();
           //PCM用クラスタ中心の初期化
           test.centers_pcm_reset();
-          //クラスタ数カウント
-          test.clusters_count()=1;
           //ユーザ数回ループ
           for(int k=0;k<user_number;k++){
             test.reset();
@@ -83,12 +81,11 @@ int main(void){
               if(test.iterates()>=MAX_ITE)break;
               test.iterates()++;
             }//クラスタリング
-            test.marge_centers();
+            test.save_membership(k);
           }//ユーザー数回ループ
-          //recomに帰属度を渡してクリスプ化
-          recom.crisp(test.membership_pcm(), test.clusters_count());
-          //クラスタリング＋ピアソン相関係数の計算
-          recom.pearsonsim_pcs(test.clusters_count());
+          //閾値でフィルタリング
+          recom.pearsonsim_pcs_threshold(test.membership_pcm(),
+                                         test.membership_threshold());
           //予測値を計算
           recom.revise_prediction();
           //MAEを計算

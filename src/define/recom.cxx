@@ -650,11 +650,77 @@ void Recom::pearsonsim_pcs(const int clusters_number){
           }
         }
         double numerator=psum-(sum1*sum2/hyokasu);
-        double denominator=sqrt((sum1sq-pow(sum1,2.0)/hyokasu)*(sum2sq-pow(sum2,2.0)/hyokasu));
+        double denominator=sqrt((sum1sq-pow(sum1,2.0)/hyokasu)
+                                *(sum2sq-pow(sum2,2.0)/hyokasu));
         if(denominator==0 || std::isnan(denominator))
           Similarity[user1][user2]=0.0;
         else
           Similarity[user1][user2]=numerator/denominator;
+      }
+    }
+  }
+  return;
+}
+
+void Recom::pearsonsim_pcs_threshold(const Matrix &Membership_PCM,
+                                     const Vector &Threshold){
+  for(int user1=0;user1<return_user_number();user1++){
+    int user1_size/*ユーザ1の既評価数*/
+      = SparseIncompleteData[user1].essencialSize();
+    for(int user2=0;user2<return_user_number();user2++){
+      double psum=0.0,sum1=0.0,sum2=0.0,sum1sq=0.0,sum2sq=0.0;
+      double hyokasu=0.0;
+      /*ユーザ2がユーザ1である，または
+        ユーザ1が属すユーザクラスタに属さないユーザであった場合(中央値未満)
+        ユーザ2とユーザ1の類似度を0にすることで計算させない*/
+      if(user1==user2 || Membership_PCM[user1][user2]<Threshold[user1])
+        Similarity[user1][user2]=0.0;
+      else{
+        int user2_size/*ユーザ2の既評価数*/
+          = SparseIncompleteData[user2].essencialSize();
+        int user2_ell=0;/*現在のユーザ2の既評価値インデックス*/
+	
+        for(int ell=0;ell<user1_size;ell++){
+          /*ユーザ2の既評価値インデックスがユーザ2の既評価数を上回ったらbreak*/
+          if(user2_size<user2_ell)break;
+          double user1_element/*ユーザ1の現在の既評価値*/
+            =SparseIncompleteData[user1].elementIndex(ell);
+	  
+          /*ユーザ1の現在の既評価値が欠損されてなければ計算*/
+          if(user1_element>0){
+            int user1_index/*ユーザ1の現在の評価値インデックスのインデックス*/
+              =SparseIncompleteData[user1].indexIndex(ell);
+	    
+            while(1){
+              if(user2_size==user2_ell)break;
+              int user2_index/*ユーザ2の現在の評価値インデックスのインデックス*/
+                =SparseIncompleteData[user2].indexIndex(user2_ell);      
+              if(user1_index<user2_index)break;/*ユーザ2の方が上回ったらbreak*/	
+              double user2_element/*現在のユーザの既評価値*/
+                =SparseIncompleteData[user2].elementIndex(user2_ell);
+	      
+              /*インデックスが揃った場合とユーザ既評価値が欠損されてなければ計算*/
+              if((user1_index==user2_index)&&(user2_element>0)){
+                hyokasu+=1.0;
+                psum+=user1_element*user2_element;
+                sum1+=user1_element;
+                sum2+=user2_element;
+                sum1sq+=pow(user1_element,2.0);
+                sum2sq+=pow(user2_element,2.0);
+                user2_ell++;
+                break;
+              }
+              user2_ell++;/*現在のユーザの既評価値インデックスインクリメント*/
+            }//while(1)
+          }//user1_element>0
+        }//ell<user1_size
+        double numerator=psum-(sum1*sum2/hyokasu);
+        double denominator=sqrt((sum1sq-pow(sum1,2.0)/hyokasu)
+                                *(sum2sq-pow(sum2,2.0)/hyokasu));
+        if(denominator==0 || std::isnan(denominator))//分母が0かnanなら
+          Similarity[user1][user2]=0.0;//計算させない
+        else
+          Similarity[user1][user2]=numerator/denominator;//類似度計算
       }
     }
   }

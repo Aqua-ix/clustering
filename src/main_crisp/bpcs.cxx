@@ -26,7 +26,6 @@ int main(void){
   //パラメータm
   for(double m=M_START;m>=M_END;m-=M_DIFF){
     std::cout << "m: " << m << std::endl;
-    
     std::vector<double> parameter= {m};
     BPCS test(item_number, user_number, clusters_number, m, alpha);
     //マージのしきい値設定
