@@ -546,11 +546,13 @@ void Recom::pearsonsim_fcs(void){
             .elementIndex(ell);
           /*ユーザ1の現在の既評価値が欠損されてなければ計算*/
           if(user1_element>0){
-            int user1_index/*ユーザ1の現在の評価値インデックスのインデックス*/
+            /*ユーザ1の現在の評価値インデックスのインデックス*/
+            int user1_index
               =SparseIncompleteData[user1].indexIndex(ell);
             while(1){
               if(user2_size==user2_ell)break;
-              int user2_index/*ユーザ2の現在の評価値インデックスのインデックス*/
+              /*ユーザ2の現在の評価値インデックスのインデックス*/
+              int user2_index
                 =SparseIncompleteData[user2].indexIndex(user2_ell);
               /*ユーザ2の方が上回ったらbreak*/
               if(user1_index<user2_index)
@@ -576,7 +578,8 @@ void Recom::pearsonsim_fcs(void){
           }
         }
         double numerator=psum-(sum1*sum2/hyokasu);
-        double denominator=sqrt((sum1sq-pow(sum1,2.0)/hyokasu)*(sum2sq-pow(sum2,2.0)/hyokasu));
+        double denominator=
+          sqrt((sum1sq-pow(sum1,2.0)/hyokasu)*(sum2sq-pow(sum2,2.0)/hyokasu));
         if(denominator==0 || std::isnan(denominator))
           Similarity[user1][user2]=0.0;
         else
@@ -620,11 +623,13 @@ void Recom::pearsonsim_pcs(const int clusters_number){
             .elementIndex(ell);
           /*ユーザ1の現在の既評価値が欠損されてなければ計算*/
           if(user1_element>0){
-            int user1_index/*ユーザ1の現在の評価値インデックスのインデックス*/
+            /*ユーザ1の現在の評価値インデックスのインデックス*/
+            int user1_index
               =SparseIncompleteData[user1].indexIndex(ell);
             while(1){
               if(user2_size==user2_ell)break;
-              int user2_index/*ユーザ2の現在の評価値インデックスのインデックス*/
+              /*ユーザ2の現在の評価値インデックスのインデックス*/
+              int user2_index
                 =SparseIncompleteData[user2].indexIndex(user2_ell);
               /*ユーザ2の方が上回ったらbreak*/
               if(user1_index<user2_index)
@@ -681,25 +686,32 @@ void Recom::pearsonsim_pcs_threshold(const Matrix &Membership_PCM,
         int user2_ell=0;/*現在のユーザ2の既評価値インデックス*/
 	
         for(int ell=0;ell<user1_size;ell++){
-          /*ユーザ2の既評価値インデックスがユーザ2の既評価数を上回ったらbreak*/
+          /*ユーザ2の既評価値インデックスが
+            ユーザ2の既評価数を上回ったらbreak*/
           if(user2_size<user2_ell)break;
-          double user1_element/*ユーザ1の現在の既評価値*/
+          /*ユーザ1の現在の既評価値*/
+          double user1_element
             =SparseIncompleteData[user1].elementIndex(ell);
 	  
           /*ユーザ1の現在の既評価値が欠損されてなければ計算*/
           if(user1_element>0){
-            int user1_index/*ユーザ1の現在の評価値インデックスのインデックス*/
+            /*ユーザ1の現在の評価値インデックスのインデックス*/
+            int user1_index
               =SparseIncompleteData[user1].indexIndex(ell);
 	    
             while(1){
               if(user2_size==user2_ell)break;
-              int user2_index/*ユーザ2の現在の評価値インデックスのインデックス*/
-                =SparseIncompleteData[user2].indexIndex(user2_ell);      
-              if(user1_index<user2_index)break;/*ユーザ2の方が上回ったらbreak*/	
-              double user2_element/*現在のユーザの既評価値*/
+              /*ユーザ2の現在の評価値インデックスのインデックス*/
+              int user2_index
+                =SparseIncompleteData[user2].indexIndex(user2_ell);
+              /*ユーザ2の方が上回ったらbreak*/
+              if(user1_index<user2_index)break;
+              /*現在のユーザの既評価値*/
+              double user2_element
                 =SparseIncompleteData[user2].elementIndex(user2_ell);
 	      
-              /*インデックスが揃った場合とユーザ既評価値が欠損されてなければ計算*/
+              /*インデックスが揃った場合とユーザ既評価値が
+                欠損されてなければ計算*/
               if((user1_index==user2_index)&&(user2_element>0)){
                 hyokasu+=1.0;
                 psum+=user1_element*user2_element;
@@ -710,17 +722,21 @@ void Recom::pearsonsim_pcs_threshold(const Matrix &Membership_PCM,
                 user2_ell++;
                 break;
               }
-              user2_ell++;/*現在のユーザの既評価値インデックスインクリメント*/
+              /*現在のユーザの既評価値インデックスインクリメント*/
+              user2_ell++;
             }//while(1)
           }//user1_element>0
         }//ell<user1_size
         double numerator=psum-(sum1*sum2/hyokasu);
         double denominator=sqrt((sum1sq-pow(sum1,2.0)/hyokasu)
                                 *(sum2sq-pow(sum2,2.0)/hyokasu));
-        if(denominator==0 || std::isnan(denominator))//分母が0かnanなら
-          Similarity[user1][user2]=0.0;//計算させない
+        //分母が0かnanなら
+        if(denominator==0 || std::isnan(denominator))
+          //計算させない
+          Similarity[user1][user2]=0.0;
         else
-          Similarity[user1][user2]=numerator/denominator;//類似度計算
+          //類似度計算
+          Similarity[user1][user2]=numerator/denominator;
       }
     }
   }
@@ -744,7 +760,8 @@ void Recom::revise_prediction(void){
           //ユーザの既評価値インデックス
           int user_index
             =SparseIncompleteData[i].indexIndex(ell);
-          //ユーザの欠損インデックスがユーザの既評価インデックスを上回ったらbreak
+          //ユーザの欠損インデックスが
+          //ユーザの既評価インデックスを上回ったらbreak
           if(user_index>miss_user_index)break;
           //ユーザの既評価値
           double user_element

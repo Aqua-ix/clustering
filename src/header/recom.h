@@ -153,7 +153,7 @@
 class Recom{
 protected:
   std::string METHOD_NAME;
-  //欠損パターン数,クラスタリング初期値パターン数,欠損値ループ数,欠損数,クラスタ数
+  //欠損パターン数,初期値パターン数,欠損値ループ数,欠損数,クラスタ数
   int Current, CCurrent, MCurrent, Missing, ClustersNum;
   //オーバーラップ閾値
   double OverlapThreshold;
