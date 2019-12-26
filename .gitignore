@@ -6,6 +6,7 @@ core
 data/result_data/*
 !data/result_data/MAE/
 !data/result_data/AUC/
+!data/result_data/ROC/
 GPATH
 GTAGS
 GRTAGS
