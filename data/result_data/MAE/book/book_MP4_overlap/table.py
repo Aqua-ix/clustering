@@ -4,9 +4,7 @@ import os
 from decimal import *
 import numpy as np
 
-dataname = 'artificiality'
-mp = '19'
-mRange = range(1500, 8000, 500)
+mRange = range(300000)
 tRange = np.arange(0.0, 1.1, 0.1)
 
 methods = ['BFCS', 'EFCS', 'QFCS', 'BPCS', 'EPCS', 'QPCS']
