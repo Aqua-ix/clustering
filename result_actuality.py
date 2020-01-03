@@ -96,7 +96,7 @@ for m1_index, m1 in enumerate(b_e_q):
                     for mp_i in range(mp+1):
                         roc_dir =  root_dir + '/' + 'params_' + str(params) + '/missing_pattern' + str(mp_i) + '/ROC/choice/'
                         roc_file = roc_dir + method_name + 'ROC_' + str(misses[0]) + '_sort.txt'
-                        roc_out_dir = data_dir + 'ROC/' + data_name + '/' + data_name + '_' + str(tname_array[index]) + '/missing_pattern' + str(mp_1) + '/'
+                        roc_out_dir = data_dir + 'ROC/' + data_name + '/' + data_name + '_' + str(tname_array[index]) + '/missing_pattern' + str(mp_i) + '/'
                         roc_out_file = roc_out_dir + method_name + 'ROC_' + str(mp_i) + '.txt'
                         if not os.path.exists(roc_out_dir):
                             os.makedirs(roc_out_dir)

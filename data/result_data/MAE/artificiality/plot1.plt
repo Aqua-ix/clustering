@@ -8,7 +8,8 @@ set yrange [0:0.7]
 set xtics 500
 file(p, n, m) = sprintf(data."_MP%d_overlap_threshold%s00000/%s_OVERLAP_averageMAE.txt", p, n, m)
 plot \
+"GROUPLENS_averageMAE.txt" using 1:2 with linespoints title "GroupLens", \
 for [m in ms] \
 for[t in ts] \
 file(p, t, m) \
-using 1:3 with linespoints title m."(".t.")"\
+using 1:3 with linespoints title m."(".t.")"
