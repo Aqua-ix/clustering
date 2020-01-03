@@ -18,6 +18,7 @@ overlap = '_OVERLAP_'
 mp = 4
 data_name = args[1]
 clusters = [args[2], args[3], args[4]]
+mode = args[5]
 
 regex = re.compile('[0-9]+[._]?[0-9]*')
 
@@ -81,13 +82,13 @@ for m1_index, m1 in enumerate(b_e_q):
                     res = o.min(axis='columns')
                     i_r = pd.concat([idx, res], axis = 'columns')
                     output = pd.concat([misses, i_r], axis = 'columns')
-                    output.to_csv(out_path + method_name + file_name, sep = '\t', mode='a', header=False, index = False)
+                    output.to_csv(out_path + method_name + file_name, sep = '\t', mode=str(mode), header=False, index = False)
                 else:
                     idx = o.idxmax(axis='columns')
                     res = o.max(axis='columns')
                     i_r = pd.concat([idx, res], axis = 'columns')
                     output = pd.concat([misses, i_r], axis = 'columns')
-                    output.to_csv(out_path + method_name + file_name, sep = '\t', mode='a', header=False, index = False)
+                    output.to_csv(out_path + method_name + file_name, sep = '\t', mode=str(mode), header=False, index = False)
 
                     parr = regex.findall(str(idx))
                     parr.remove('0')
