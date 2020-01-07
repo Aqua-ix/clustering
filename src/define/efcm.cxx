@@ -15,7 +15,9 @@ double &EFCM::fuzzifierLambda(void){
 
 void EFCM::revise_membership(void){
 #ifdef CHECK_CLASS
-  std::cout<<"EFCM::revise_membershipが呼び出されました"<<std::endl;;
+  std::cout
+    << "EFCM::revise_membershipが呼び出されました"
+    << std::endl;
 #endif
   Tmp_Membership=Membership;
   for(int k=0;k<data_number();k++){
@@ -34,7 +36,9 @@ void EFCM::revise_membership(void){
 
 void EFCM::revise_clusters_size(void){
 #ifdef CHECK_CLASS
-  std::cout<<"EFCM::revise_clusters_sizeが呼び出されました"<<std::endl;;
+  std::cout
+    << "EFCM::revise_clusters_sizeが呼び出されました"
+    << std::endl;
 #endif
   Tmp_Clusters_size=Clusters_size;
   for(int i=0;i<centers_number();i++){

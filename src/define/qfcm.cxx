@@ -20,10 +20,14 @@ void QFCM::revise_membership(void){
     for(int k=0;k<data_number();k++){
       double denominator=0.0;
       for(int j=0;j<centers_number();j++){
-        denominator+=(Clusters_size[j]/Clusters_size[i])
-	  *pow((1.0-FuzzifierLambda*(1.0-FuzzifierEm)*Dissimilarities[j][k])
-               /(1.0-FuzzifierLambda*(1.0-FuzzifierEm)*Dissimilarities[i][k])
-               ,1.0/(1.0-FuzzifierEm));
+        denominator
+          += (Clusters_size[j]/Clusters_size[i])
+          * pow((1.0-FuzzifierLambda*(1.0-FuzzifierEm)
+                 * Dissimilarities[j][k])
+                / (1.0-FuzzifierLambda
+                   * (1.0-FuzzifierEm)
+                   * Dissimilarities[i][k])
+                ,1.0/(1.0-FuzzifierEm));
       }
       Membership[i][k]=1.0/denominator;
     }
@@ -47,8 +51,10 @@ void QFCM::revise_clusters_size(void){
   for(int i=0;i<centers_number();i++){
     Tmp[i]=0.0;
     for(int k=0;k<data_number();k++){
-      Tmp[i]+=pow(Membership[i][k],FuzzifierEm)
-	*(1.0-FuzzifierLambda*(1.0-FuzzifierEm))*Dissimilarities[i][k];
+      Tmp[i]
+        += pow(Membership[i][k],FuzzifierEm)
+        * (1.0-FuzzifierLambda*(1.0-FuzzifierEm))
+        * Dissimilarities[i][k];
     }
   }
   for(int i=0;i<centers_number();i++){
@@ -65,11 +71,13 @@ void QFCM::set_objective(void){
   Objective=0.0;
   for(int i=0;i<centers_number();i++){
     for(int k=0;k<data_number();k++){
-      Objective+=pow(Clusters_size[i],1.0-FuzzifierEm)*
-        pow(Membership[i][k],FuzzifierEm)*Dissimilarities[i][k]
-	+1.0/(FuzzifierLambda*(FuzzifierEm-1.0))
-	*pow(Clusters_size[i],1.0-FuzzifierEm)
-	*pow(Membership[i][k],FuzzifierEm);
+      Objective
+        += pow(Clusters_size[i],1.0-FuzzifierEm)
+        * pow(Membership[i][k],FuzzifierEm)
+        * Dissimilarities[i][k]
+        + 1.0/(FuzzifierLambda*(FuzzifierEm-1.0))
+        * pow(Clusters_size[i],1.0-FuzzifierEm)
+        * pow(Membership[i][k],FuzzifierEm);
     }
   }
   return;

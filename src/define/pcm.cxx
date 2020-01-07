@@ -26,7 +26,8 @@ void PCM::initialize_centers_one_cluster(int index){
   for(int ell=0;ell<dimension();ell++)
     Centers[0][ell]=0.0;
   for(int ell=0;ell<Data[index].essencialSize();ell++)
-    Centers[0][Data[index].indexIndex(ell)]=Data[index].elementIndex(ell);
+    Centers[0][Data[index].indexIndex(ell)]
+      = Data[index].elementIndex(ell);
   return;
 }
 
@@ -76,7 +77,8 @@ void PCM::save_membership(int index){
 void PCM::marge_centers(){
   bool same=false;
   for(int i=0;i<Centers_PCM.rows();i++){
-    if(squared_norm(Centers[0]-Centers_PCM[i])<=Centers_Threshold){
+    if(squared_norm(Centers[0]-Centers_PCM[i])
+       <= Centers_Threshold){
       same=true;
       break;
     }

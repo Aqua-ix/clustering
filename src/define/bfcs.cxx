@@ -20,7 +20,8 @@ void BFCS::revise_centers(void){
     for(int k=0;k<data_number();k++){
       for(int ell=0;ell<Data[k].essencialSize();ell++){
         numerator[Data[k].indexIndex(ell)]
-          +=pow(Membership[i][k],FuzzifierEm)*Data[k].elementIndex(ell);
+          += pow(Membership[i][k],FuzzifierEm)
+          * Data[k].elementIndex(ell);
       }
     }
     Centers[i]=numerator/squared_norm(numerator);

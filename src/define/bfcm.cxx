@@ -20,7 +20,9 @@ void BFCM::revise_membership(void){
   Tmp_Membership=Membership;
   for(int k=0;k<data_number();k++){
     int numZeroDissimilarities=0;
-    Vector indexZeroDissimilarities(centers_number(), 0.0, "all");
+    Vector indexZeroDissimilarities(centers_number(),
+                                    0.0,
+                                    "all");
     for(int i=0;i<centers_number();i++){
       if(Dissimilarities[i][k]==0.0){
 	numZeroDissimilarities++;
@@ -38,7 +40,8 @@ void BFCM::revise_membership(void){
 	double denominator=0.0;
 	for(int j=0;j<centers_number();j++){
 	  denominator+=Clusters_size[j]/Clusters_size[i]
-	    *pow(Dissimilarities[j][k]/Dissimilarities[i][k], 1.0/(1.0-FuzzifierEm));
+	    * pow(Dissimilarities[j][k]/Dissimilarities[i][k],
+              1.0/(1.0-FuzzifierEm));
 	}
 	Membership[i][k]=1.0/denominator;
       }
@@ -61,7 +64,8 @@ void BFCM::revise_centers(void){
       denominator+=pow(Membership[i][k],FuzzifierEm);
       for(int ell=0;ell<Data[k].essencialSize();ell++)
 	numerator[Data[k].indexIndex(ell)]
-          +=pow(Membership[i][k],FuzzifierEm)*Data[k].elementIndex(ell);
+      += pow(Membership[i][k],FuzzifierEm)
+      * Data[k].elementIndex(ell);
     }
     Centers[i]=numerator/denominator;
   }
@@ -77,7 +81,9 @@ void BFCM::revise_clusters_size(void){
   for(int i=0;i<centers_number();i++){
     Tmp[i]=0.0;
     for(int k=0;k<data_number();k++)
-      Tmp[i]+=pow(Membership[i][k],FuzzifierEm)*Dissimilarities[i][k];
+      Tmp[i]
+        += pow(Membership[i][k],FuzzifierEm)
+        * Dissimilarities[i][k];
   }
   for(int i=0;i<centers_number();i++){
     double denominator=0.0;
@@ -92,7 +98,9 @@ void BFCM::set_objective(void){
   Objective=0.0;
   for(int i=0;i<centers_number();i++)
     for(int k=0;k<data_number();k++)
-      Objective+=pow(Clusters_size[i],1.0-FuzzifierEm)*
-        pow(Membership[i][k],FuzzifierEm)*Dissimilarities[i][k];
+      Objective
+        += pow(Clusters_size[i],1.0-FuzzifierEm)
+        * pow(Membership[i][k],FuzzifierEm)
+        * Dissimilarities[i][k];
   return;
 }

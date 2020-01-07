@@ -15,17 +15,12 @@ void HCS::revise_dissimilarities(void){
       Dissimilarities[i][k]=0.0;
       for(int ell=0;ell<Data[k].essencialSize();ell++){
         Dissimilarities[i][k]
-          +=Data[k].elementIndex(ell)*Centers[i][Data[k].indexIndex(ell)];
+          += Data[k].elementIndex(ell)
+          * Centers[i][Data[k].indexIndex(ell)];
       }
       Dissimilarities[i][k]=1.0-Dissimilarities[i][k];
       if(Dissimilarities[i][k]<0.0){
-	//if(Dissimilarities[i][k]>-1.0e-15){
 	  Dissimilarities[i][k]=0.0;
-	  //}
-      	//else{
-	//std::cout << "diff<0.0" << std::endl;
-	//exit(1);
-	//}
       }
     }
   }
@@ -38,7 +33,8 @@ void HCS::initialize_centers_dissimilarities(int index){
       Dissimilarities[i][k]=0.0;
       for(int ell=0;ell<Data[k].essencialSize();ell++){
         Dissimilarities[i][k]
-          +=Data[k].elementIndex(ell)*Centers[i][Data[k].indexIndex(ell)];
+          += Data[k].elementIndex(ell)
+          * Centers[i][Data[k].indexIndex(ell)];
       }
       Dissimilarities[i][k]=1.0-Dissimilarities[i][k];
     }
