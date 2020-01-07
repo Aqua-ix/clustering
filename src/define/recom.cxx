@@ -338,10 +338,14 @@ void Recom::choice(std::vector<std::string> dir, int p){
   for(int method=0;method<(int)dir.size();method++){
     /*** MAE ***/
     ChoicedMAE[MCurrent]+=ResultMAE[method][obje_index];
-    std::ofstream ofs_mae(dir[method]+"/"+METHOD_NAME+"_choicedMAE.txt",
+    std::ofstream ofs_mae(dir[method]
+                          + "/"+METHOD_NAME
+                          + "_choicedMAE.txt",
                           std::ios::app);
     if(!ofs_mae){
-      std::cerr << "choice: MAE file could not open" << std::endl;
+      std::cerr
+        << "choice: MAE file could not open"
+        << std::endl;
       exit(1);
     }
     ofs_mae << Missing << "\t"
@@ -384,10 +388,14 @@ void Recom::choice(std::vector<std::string> dir, int p){
         break;
     }
     ChoicedAUC[MCurrent]+=resultAUC;
-    std::ofstream ofs_auc(dir[method]+"/"+METHOD_NAME+"_choicedAUC.txt",
+    std::ofstream ofs_auc(dir[method]
+                          + "/"+METHOD_NAME
+                          + "_choicedAUC.txt",
                           std::ios::app);
     if(!ofs_auc){
-      std::cerr << "choice: AUC file could not open" << std::endl;
+      std::cerr
+        << "choice: AUC file could not open"
+        << std::endl;
       exit(1);
     }
     ofs_auc << Missing << "\t"
@@ -401,7 +409,9 @@ void Recom::precision_summary(std::vector<std::string> dir){
   for(int method=0;method<(int)dir.size();method++){
     
     /*** MAE結果出力 ***/
-    std::ofstream ofs_mae(dir[method]+"/"+METHOD_NAME+"_averageMAE.txt",
+    std::ofstream ofs_mae(dir[method]
+                          + "/"+METHOD_NAME
+                          +  "_averageMAE.txt",
                           std::ios::out);
     if(!ofs_mae){
       std::cerr
@@ -420,7 +430,9 @@ void Recom::precision_summary(std::vector<std::string> dir){
     }
 
     /*** AUC結果出力 ***/
-    std::ofstream ofs_auc(dir[method]+"/"+METHOD_NAME+"_averageAUC.txt",
+    std::ofstream ofs_auc(dir[method]
+                          + "/"+METHOD_NAME
+                          + "_averageAUC.txt",
                           std::ios::out);
     if(!ofs_auc){
       std::cerr
@@ -579,7 +591,8 @@ void Recom::pearsonsim_fcs(void){
         }
         double numerator=psum-(sum1*sum2/hyokasu);
         double denominator=
-          sqrt((sum1sq-pow(sum1,2.0)/hyokasu)*(sum2sq-pow(sum2,2.0)/hyokasu));
+          sqrt((sum1sq-pow(sum1,2.0)/hyokasu)
+               * (sum2sq-pow(sum2,2.0)/hyokasu));
         if(denominator==0 || std::isnan(denominator))
           Similarity[user1][user2]=0.0;
         else
@@ -678,7 +691,8 @@ void Recom::pearsonsim_pcs_threshold(const Matrix &Membership_PCM,
       /*ユーザ2がユーザ1である，または
         ユーザ1が属すユーザクラスタに属さないユーザであった場合(中央値未満)
         ユーザ2とユーザ1の類似度を0にすることで計算させない*/
-      if(user1==user2 || Membership_PCM[user1][user2]<Threshold[user1])
+      if(user1==user2
+         || Membership_PCM[user1][user2]<Threshold[user1])
         Similarity[user1][user2]=0.0;
       else{
         int user2_size/*ユーザ2の既評価数*/
@@ -853,7 +867,8 @@ void Recom::overlap(const Matrix &Membership){
     Mem[max_index][k]=1.0;
     if(OverlapThreshold < 1.0){
       for(int i=0;i<Membership.rows();i++){
-        if(Membership[i][k]>=Membership[max_index][k]*OverlapThreshold){
+        if(Membership[i][k]
+           >= Membership[max_index][k]*OverlapThreshold){
           Mem[i][k]=1.0;
         }
       }
@@ -878,7 +893,8 @@ void Recom::overlap(const Matrix &Membership, int clusters_number){
     Mem[max_index][k]=1.0;
     if(OverlapThreshold < 1.0){
       for(int i=0;i<clusters_number;i++){
-        if(Membership[i][k]>=Membership[max_index][k]*OverlapThreshold){
+        if(Membership[i][k]
+           >= Membership[max_index][k]*OverlapThreshold){
           Mem[i][k]=1.0;
         }
       }
@@ -1067,10 +1083,10 @@ Mkdir(int missing, std::vector<std::string> dirs){
       dirs[i]+"/missing_pattern"+std::to_string(missing);
     v.push_back(dir);
     mkdir(dir.c_str(),0755);
-    //ROCフォルダ作成
+    //ROCディレクトリ作成
     const std::string roc=dir+"/ROC";
     mkdir(roc.c_str(),0755);
-    //選ばれるROCファイルをまとめるフォルダ作成
+    //選ばれるROCファイルをまとめるディレクトリ作成
     const std::string choice=roc+"/choice";
     mkdir(choice.c_str(),0755);
   }
@@ -1082,25 +1098,30 @@ Mkdir(int c, std::vector<double> params,
       int missing, std::vector<std::string> dirs){
   std::vector<std::string> v;  
   for(int i=0;i<(int)dirs.size();i++){
-    //クラスタ数フォルダ作成
-    const std::string c_dir = dirs[i]+"/clusters_number"+std::to_string(c);
+    //クラスタ数ディレクトリ作成
+    const std::string c_dir
+      = dirs[i]
+      + "/clusters_number"
+      + std::to_string(c);
     mkdir(c_dir.c_str(),0755);
-    //パラメータフォルダ作成
+    //パラメータディレクトリ作成
     std::string p_str = "/params";
     for(int p=0;p<(int)params.size();p++){
       p_str += "_"+std::to_string(params[p]);
     }
     const std::string p_dir = c_dir + p_str;
     mkdir(p_dir.c_str(),0755);
-    //欠損パターンフォルダ作成
+    //欠損パターンディレクトリ作成
     const std::string m_dir
-      = p_dir + "/missing_pattern"+std::to_string(missing);
+      = p_dir
+      + "/missing_pattern"
+      + std::to_string(missing);
     mkdir(m_dir.c_str(),0755);
     v.push_back(m_dir);
-    //ROCフォルダ作成
+    //ROCディレクトリ作成
     const std::string roc=m_dir+"/ROC";
     mkdir(roc.c_str(),0755);
-    //選ばれるROCファイルをまとめるフォルダ作成
+    //選ばれるROCファイルをまとめるディレクトリ作成
     const std::string choice=roc+"/choice";
     mkdir(choice.c_str(),0755);
   }
@@ -1112,29 +1133,36 @@ Mkdir(int c, double threshold, std::vector<double> params,
       int missing, std::vector<std::string> dirs){
   std::vector<std::string> v;  
   for(int i=0;i<(int)dirs.size();i++){
-    //クラスタ数フォルダ作成
-    const std::string c_dir = dirs[i]+"/clusters_number"+std::to_string(c);
+    //クラスタ数ディレクトリ作成
+    const std::string c_dir
+      = dirs[i]
+      + "/clusters_number"
+      + std::to_string(c);
     mkdir(c_dir.c_str(),0755);
-    //オーバーラップ閾値フォルダ作成
+    //オーバーラップ閾値ディレクトリ作成
     const std::string t_dir
-      = c_dir+"/overlap_threshold"+std::to_string(threshold);
+      = c_dir
+      + "/overlap_threshold"
+      + std::to_string(threshold);
     mkdir(t_dir.c_str(),0755);
-    //パラメータフォルダ作成
+    //パラメータディレクトリ作成
     std::string p_str = "/params";
     for(int p=0;p<(int)params.size();p++){
       p_str += "_"+std::to_string(params[p]);
     }
     const std::string p_dir = t_dir + p_str;
     mkdir(p_dir.c_str(),0755);
-    //欠損パターンフォルダ作成
+    //欠損パターンディレクトリ作成
     const std::string m_dir
-      = p_dir + "/missing_pattern"+std::to_string(missing);
+      = p_dir
+      + "/missing_pattern"
+      + std::to_string(missing);
     mkdir(m_dir.c_str(),0755);
     v.push_back(m_dir);
-    //ROCフォルダ作成
+    //ROCディレクトリ作成
     const std::string roc=m_dir+"/ROC";
     mkdir(roc.c_str(),0755);
-    //選ばれるROCファイルをまとめるフォルダ作成
+    //選ばれるROCファイルをまとめるディレクトリ作成
     const std::string choice=roc+"/choice";
     mkdir(choice.c_str(),0755);
   }
@@ -1151,10 +1179,10 @@ Mkdir(std::vector<std::string> methods){
       dir+methods[i]
       +"_"+return_data_name();
     mkdir(d.c_str(),0755);
-    //ROCフォルダ作成
+    //ROCディレクトリ作成
     const std::string roc=d+"/ROC";
     mkdir(roc.c_str(),0755);
-    //選ばれるROCファイルをまとめるフォルダ作成
+    //選ばれるROCファイルをまとめるディレクトリ作成
     const std::string choice=roc+"/choice";
     mkdir(choice.c_str(),0755);
     v.push_back(d);

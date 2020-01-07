@@ -9,7 +9,9 @@ Vector::Vector(int size) try :
   }
 //例外が発生したら(メモリ確保の失敗，Sizeがあまりにも大きいなど)
 catch(std::bad_alloc){
-  std::cerr << "Vector::Vector(int size): Out of Memory!" << std::endl;
+  std::cerr
+    << "Vector::Vector(int size): Out of Memory!"
+    << std::endl;
   //エラーメッセージを投げる
   throw;
  }
@@ -34,8 +36,10 @@ Vector::Vector(int dim, double arg, const char *s) try :
     }
   }
 catch(std::bad_alloc){
-  std::cerr << "Vector::Vector(int, double, const char *): Out of Memory!"
-	    << std::endl;
+  std::cerr
+    << "Vector::Vector(int, double, const char *):"
+    << "Out of Memory!"
+    << std::endl;
   throw;
  }
 
@@ -48,8 +52,10 @@ Vector::Vector(std::initializer_list<double> args) try :
     std::copy(args.begin(),args.end(),&Element[0]);
   }
 catch(std::bad_alloc){
-  std::cerr << "Vector::Vector(std::initializer_list<double>): Out of Memory!"
-	    << std::endl;
+  std::cerr
+    << "Vector::Vector(std::initializer_list<double>): "
+    << "Out of Memory!"
+    << std::endl;
   throw;
  }
 
@@ -60,7 +66,9 @@ Vector::Vector(const Vector &arg) try :
     }
   }
 catch(std::bad_alloc){
-  std::cerr << "Vector::Vector(const Vector &): Out of Memory!" << std::endl;
+  std::cerr <<
+    "Vector::Vector(const Vector &): Out of Memory!"
+            << std::endl;
   throw;
  }
 
@@ -161,7 +169,9 @@ Vector &Vector::operator+=(const Vector &rhs){
     exit(1);
   }
   else if(Size!=rhs.Size){
-    std::cout << "Vector::operator+=:Size Unmatched" << std::endl;
+    std::cout
+      << "Vector::operator+=:Size Unmatched"
+      << std::endl;
     exit(1);
   }
   else{
@@ -315,8 +325,9 @@ Vector fraction(const Vector &arg){
 
 Vector max_fraction(const Vector &arg){
   if(arg.size()<1){
-    std::cout << "Can't calculate max_fraction for 0-sized vector"
-	      << std::endl;
+    std::cout
+      << "Can't calculate max_fraction for 0-sized vector"
+      << std::endl;
     exit(1);
   }
   Vector result(arg.size());
@@ -332,8 +343,9 @@ Vector max_fraction(const Vector &arg){
 
 Vector sum_fraction(const Vector &arg){
   if(arg.size()<1){
-    std::cout << "Can't calculate max_fraction for 0-sized vector"
-	      << std::endl;
+    std::cout
+      << "Can't calculate max_fraction for 0-sized vector"
+      << std::endl;
     exit(1);
   }
   Vector result(arg.size());
@@ -361,7 +373,9 @@ std::ostream &operator<<(std::ostream &os, const Vector &rhs){
 
 double max_norm(const Vector &arg){
   if(arg.size()<1){
-    std::cout << "Can't calculate norm for 0-sized vector" << std::endl;
+    std::cout
+      << "Can't calculate norm for 0-sized vector"
+      << std::endl;
     exit(1);
   }
   double result=fabs(arg[0]);

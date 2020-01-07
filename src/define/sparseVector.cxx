@@ -9,8 +9,10 @@ SparseVector::SparseVector(int size, int essencialSize) try :
     Element(new double[EssencialSize]){
   }
 catch(std::bad_alloc){
-  std::cerr << "SparseVector::SparseVector(int essencialSize): Out of Memory!"
-	    << std::endl;
+  std::cerr
+    << "SparseVector::SparseVector(int essencialSize): "
+    << "Out of Memory!"
+    << std::endl;
   throw;
  }
 
@@ -26,8 +28,10 @@ SparseVector::SparseVector(const SparseVector &arg) try :
     }
   }
 catch(std::bad_alloc){
-  std::cerr << "SparseVector::SparseVector(const SparseVector &): Out of Memory!"
-	    << std::endl;
+  std::cerr
+    << "SparseVector::SparseVector(const SparseVector &): "
+    << "Out of Memory!"
+    << std::endl;
   throw;
  }
 

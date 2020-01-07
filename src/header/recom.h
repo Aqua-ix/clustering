@@ -135,7 +135,7 @@
 #else
 #define MISSING_MIN 0
 #define MISSING_MAX 0
-#define MISSING_DIFF 0
+#define MISSING_DIFF 1
 #endif
 
 //欠損パターン数
