@@ -11,11 +11,11 @@ import shutil
 args = sys.argv
 
 data_dir="data/result_data/"
-b_e_q = ['B', 'E', 'Q']
-f_p = ['FCS', 'PCS']
+b_e_q = ['Q']
+f_p = ['PCS']
 m_a = ['MAE', 'AUC']
-overlap = '_OVERLAP_'
-mp = 4
+overlap = '_CRISP_'
+mp = 1
 data_name = args[1]
 
 regex = re.compile('[0-9]+[._]?[0-9]*')
