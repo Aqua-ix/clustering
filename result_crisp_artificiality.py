@@ -13,9 +13,9 @@ args = sys.argv
 data_dir="data/result_data/"
 b_e_q = ['Q']
 f_p = ['PCS']
-m_a = ['MAE', 'AUC']
+m_a = ['MAE']
 overlap = '_CRISP_'
-mp = 1
+mp = 19
 data_name = args[1]
 
 regex = re.compile('[0-9]+[._]?[0-9]*')
@@ -39,21 +39,12 @@ for m1_index, m1 in enumerate(b_e_q):
             print('========== ' + m3 + ' in ' + method_dir + ' ==========')
             files = sorted(glob.glob(input_name))
             out = []
-            prev_tname = ''
-            tname_array = []
             if 'result' in locals():
                 del result
             
             for file in files:
                 p_file = pathlib.Path(file)
                 param = "_".join(regex.findall(p_file.parents[1].name))
-            
-                if threshold.name != prev_tname:
-                    tname_array.append(threshold.name)
-                    if 'result' in locals():
-                        out.append(result)
-                        del result
-                prev_tname = threshold.name
             
                 table = (pd.read_table(str(p_file), names=('miss', param)))
                 if 'result' not in locals():
@@ -66,8 +57,7 @@ for m1_index, m1 in enumerate(b_e_q):
             for index, o in enumerate(out):
                 misses = o['miss']
                 del o['miss']
-                print(tname_array[index])
-                out_dir = data_name + '_MP' + str(mp) + '_' + str(tname_array[index])
+                out_dir = data_name + '_MP' + str(mp) + '_crisp'
                 out_path = data_dir + m3 + '/'  + data_name + '/' + out_dir + '/'
                 if not os.path.exists(out_path):
                     os.makedirs(out_path)
@@ -84,17 +74,3 @@ for m1_index, m1 in enumerate(b_e_q):
                     i_r = pd.concat([idx, res], axis = 'columns')
                     output = pd.concat([misses, i_r], axis = 'columns')
                     output.to_csv(out_path + method_name + file_name, sep = '\t', header=False, index = False)
-
-                    parr = regex.findall(str(idx))
-                    parr.remove('0')
-                    params = "_".join(parr)
-                    root_dir = method_dir + cn + '/' + tname_array[index]
-                    for mp_i in range(mp+1):
-                        roc_dir =  root_dir + '/' + 'params_' + str(params) + '/missing_pattern' + str(mp_i) + '/ROC/choice/'
-                        roc_file = roc_dir + method_name + 'ROC_' + str(misses[0]) + '_sort.txt'
-                        roc_out_dir = data_dir + 'ROC/' + data_name + '/' + data_name + '_' + str(tname_array[index]) + '/' + m1 + m2 + '/'
-                        roc_out_file = roc_out_dir + method_name + 'ROC_' + str(mp_i) + '.txt'
-                        if not os.path.exists(roc_out_dir):
-                            os.makedirs(roc_out_dir)
-                        shutil.copy(roc_file, roc_out_file)
-                    
