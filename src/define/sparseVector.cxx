@@ -129,24 +129,29 @@ SparseVector SparseVector::operator-(void) const{
 }
 
 bool SparseVector::operator==(const SparseVector &rhs) const{
-  if(Size!=rhs.Size||EssencialSize!=rhs.essencialSize()) return false;
+  if(Size!=rhs.Size||EssencialSize!=rhs.essencialSize())
+    return false;
   for(int i=0;i<EssencialSize;i++){
-    if(Element[i]!=rhs.elementIndex(i)||Index[i]!=rhs.indexIndex(i))
+    if(Element[i]!=rhs.elementIndex(i)
+       ||Index[i]!=rhs.indexIndex(i))
       return false;
   }
   return true;
 }
 
 bool SparseVector::operator!=(const SparseVector &rhs) const{
-  if(Size!=rhs.Size||EssencialSize!=rhs.essencialSize()) return true;
+  if(Size!=rhs.Size||EssencialSize!=rhs.essencialSize())
+    return true;
   for(int i=0;i<EssencialSize;i++){
-    if(Element[i]!=rhs.elementIndex(i)||Index[i]!=rhs.indexIndex(i))
+    if(Element[i]!=rhs.elementIndex(i)
+       ||Index[i]!=rhs.indexIndex(i))
       return true;
   }
   return false;
 }
 
-std::ostream &operator<<(std::ostream &os, const SparseVector &rhs){
+std::ostream &operator<<(std::ostream &os,
+                         const SparseVector &rhs){
   os << "(";
   if(rhs.essencialSize()>0){
     for(int i=0;;i++){

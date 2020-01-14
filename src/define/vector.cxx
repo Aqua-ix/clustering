@@ -188,7 +188,9 @@ Vector &Vector::operator-=(const Vector &rhs){
     exit(1);
   }
   else if(Size!=rhs.Size){
-    std::cout << "Vector::operator-=:Size Unmatched" << std::endl;
+    std::cout
+      << "Vector::operator-=:Size Unmatched"
+      << std::endl;
     exit(1);
   }
   else{

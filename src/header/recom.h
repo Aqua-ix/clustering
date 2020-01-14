@@ -23,7 +23,7 @@
 #define C_START 5
 #define C_END 5
 #elif defined TEST
-#define C_START 1
+#define C_START 2
 #define C_END 2
 #elif defined BOOK
 #define C_START 15
@@ -54,9 +54,9 @@
 #define OT_END 1.00
 #define OT_DIFF 0.10
 #elif defined TEST
-#define OT_START 0.00
-#define OT_END 1.10
-#define OT_DIFF 0.20
+#define OT_START 0.10
+#define OT_END 0.10
+#define OT_DIFF 0.10
 #else
 #define OT_START 0.20
 #define OT_END 1.00
@@ -75,10 +75,10 @@
 #define LAMBDA_END 1024
 #define LAMBDA_DIFF 2
 #elif defined TEST
-#define M_START 1.20
+#define M_START 2.00
 #define M_END 1.10
 #define M_DIFF 0.10
-#define LAMBDA_START 2
+#define LAMBDA_START 10
 #define LAMBDA_END 10
 #define LAMBDA_DIFF 2
 #else
@@ -106,7 +106,7 @@
 #define MISSING_DIFF 500
 #elif defined TEST
 #define MISSING_MIN 0
-#define MISSING_MAX 10
+#define MISSING_MAX 0
 #define MISSING_DIFF 1
 #elif defined BOOK
 #define MISSING_MIN 30000
@@ -142,7 +142,7 @@
 #ifdef ARTIFICIALITY
 #define MISSINGTRIALS 20
 #elif defined TEST
-#define MISSINGTRIALS 2
+#define MISSINGTRIALS 1
 #else
 #define MISSINGTRIALS 5
 #endif
@@ -216,6 +216,8 @@ protected:
   void reset_data(void);
   void reset_pred(void);
   void reset_choice(void);
+  //帰属度出力
+  void out_mem(std::vector<std::string> dir);
   //データを欠損
   void revise_missing_values(void);
   //MAEの計算，textに保存
@@ -240,7 +242,7 @@ protected:
   void pearsonsim_fcs(void);
   //可能性クラスタリングの結果を用いたピアソン相関係数計算
   void pearsonsim_pcs(const int clusters_number);
-  //可能性クラスタリングの結果を閾値でフィルタリングしたピアソン相関係数計算
+  //可能性クラスタリングを閾値でフィルタリングしたピアソン相関係数計算
   void pearsonsim_pcs_threshold(const Matrix &Membership,
                                 const Vector &Threshold);
   //GroupLensの結果を用いた予測値計算
@@ -250,10 +252,12 @@ protected:
  
   //収束した帰属度をクリスプ化
   void crisp(const Matrix &Membership);
-  void crisp(const Matrix &Membership, const int clusters_number);
+  void crisp(const Matrix &Membership,
+             const int clusters_number);
   //収束した帰属度をオーバーラップ
   void overlap(const Matrix &Membership);
-  void overlap(const Matrix &Membership, const int clusters_number);
+  void overlap(const Matrix &Membership,
+               const int clusters_number);
 };
 //ユーザ数を返す
 int return_user_number(void);
@@ -279,5 +283,6 @@ Mkdir(int c, std::vector<double> params,
 std::vector<std::string>
 Mkdir(int c, double threshold, std::vector<double> params,
       int missing, std::vector<std::string> dirs);
-std::vector<std::string> Mkdir(std::vector<std::string> methods);
+std::vector<std::string>
+Mkdir(std::vector<std::string> methods);
 #endif

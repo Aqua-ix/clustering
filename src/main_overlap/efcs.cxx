@@ -36,9 +36,12 @@ int main(void){
         << recom.overlap_threshold()
         << std::endl;
       //パラメータlambda
-      for(double lambda=LAMBDA_START;lambda<=LAMBDA_END;lambda*=LAMBDA_DIFF){
+      for(double lambda=LAMBDA_START;
+          lambda<=LAMBDA_END;
+          lambda*=LAMBDA_DIFF){
         std::cout<<"lambda: "<<lambda<<std::endl;
-        EFCS test(item_number, user_number, clusters_number, lambda);
+        EFCS test(item_number, user_number,
+                  clusters_number, lambda);
         std::vector<double> parameter= {lambda};
         //データ入力
         recom.input(DATA_DIR+InputDataName);

@@ -13,8 +13,8 @@
 # Sushi		:SUSHI		:5000ユーザ100アイテム
 # 実データの場合:
 # $ make ターゲット data=マクロ名
-# 例(klfcsをBookCrossingに適用する場合):
-# $ make rklfcs.out data=BOOK
+# 例(bfcsをBookCrossingに適用する場合):
+# $ make bfcs.out data=BOOK
 # クラスの呼び出し等デバグしたいとき
 # $ make ターゲット data=マクロ名 class=1
 

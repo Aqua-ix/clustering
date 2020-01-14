@@ -29,7 +29,8 @@ int main(void){
     //欠損数
     recom.Mcurrent()=0;
     for(recom.missing()=MISSING_MIN;
-        recom.missing()<=MISSING_MAX;recom.missing()+=MISSING_DIFF){
+        recom.missing()<=MISSING_MAX;
+        recom.missing()+=MISSING_DIFF){
       //初期化
       recom.reset_data();
       //データを欠損

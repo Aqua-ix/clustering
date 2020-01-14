@@ -151,10 +151,11 @@ int main(void){
               }
             }//初期値パターン
             recom.choice(dir);
-            recom.Mcurrent()++;         
+            recom.Mcurrent()++; 
           }//欠損数
           //AUC，MAEの平均を計算，出力
           recom.precision_summary(dir);
+          recom.out_mem(dir);
         }//欠損パターン
       }//パラメータm
     }//オーバーラップ閾値

@@ -107,11 +107,11 @@ void Recom::input(std::string InputDataName){
   for(int cnt=0;cnt<return_user_number();cnt++){
     int essencialSize;
     ifs >> essencialSize;
-    SparseVector dummy(return_item_number(), essencialSize);
+    SparseVector data(return_item_number(), essencialSize);
     for(int ell=0;ell<essencialSize;ell++){
-      ifs >> dummy.indexIndex(ell) >> dummy.elementIndex(ell);
+      ifs >> data.indexIndex(ell) >> data.elementIndex(ell);
     }
-    SparseCorrectData[cnt]=dummy;
+    SparseCorrectData[cnt]=data;
   }
   ifs.close();
 }
@@ -144,6 +144,24 @@ void Recom::reset_choice(){
   return;
 }
 
+void Recom::out_mem(std::vector<std::string> dir){
+  for(int method=0;method<(int)dir.size();method++){
+    std::ofstream ofs_membership(dir[method]+"/result_membership.txt",
+                                 std::ios::out);
+
+    Matrix membership = transpose(Mem);
+    for(int i=0;i<return_user_number();i++){
+      for(int k=0;k<return_item_number();k++){
+        ofs_membership<<SparseCorrectData[i].elementIndex(k)<<"\t";
+      }
+      for(int k=0;k<return_item_number();k++){
+        ofs_membership<<membership[i][k]<<"\t";
+      }
+      ofs_membership << std::endl;
+    }
+  }
+}
+
 void Recom::revise_missing_values(void){
   int tmpRow,tmpCol;
   int seed = Current*MISSING_MAX;
@@ -161,10 +179,12 @@ void Recom::revise_missing_values(void){
     tmpCol=randCol(mt);
     //データ行すべて欠損させないように,一行に2要素は必ず残す
     int c=0;
-    for(int i=0;i<SparseIncompleteData[tmpRow].essencialSize();i++)
+    for(int i=0;
+        i<SparseIncompleteData[tmpRow].essencialSize();
+        i++)
       if(SparseIncompleteData[tmpRow].elementIndex(i)==0)
         c++;
-    //既に欠損していない場合
+    //欠損していなければ欠損させる
     if(SparseIncompleteData[tmpRow].elementIndex(tmpCol)>0
        && SparseIncompleteData[tmpRow].essencialSize()-c>1){
       //要素を0にする
@@ -314,7 +334,9 @@ void Recom::Sort(Vector &fal, Vector &tru, int index){
 void Recom::ofs_objective(std::string dir){
   std::ofstream ofs(dir+"/object.txt",std::ios::app);
   if(!ofs){
-    std::cerr << "ofs_objective : file could not open" << std::endl;
+    std::cerr
+      << "ofs_objective : file could not open"
+      << std::endl;
     exit(1);
   }
   ofs<<Missing<<"\t"<<Current<<"\t";
@@ -368,7 +390,9 @@ void Recom::choice(std::vector<std::string> dir, int p){
     Vector array1(max,0.0,"all"), array2(max,0.0,"all");
     std::ifstream ifs(newname);
     if(!ifs){
-      std::cerr << "choice: ROC file input failed" << std::endl;
+      std::cerr
+        << "choice: ROC file input failed"
+        << std::endl;
       exit(1);
     }
       
@@ -490,15 +514,18 @@ void Recom::pearsonsim(void){
               if(user2_size==user2_ell)break;
               /*ユーザ2のインデックス*/
               int user2_index
-                =SparseIncompleteData[user2].indexIndex(user2_ell);
+                =SparseIncompleteData[user2]
+                .indexIndex(user2_ell);
               /*ユーザ2の方が上回ったらbreak*/
               if(user1_index<user2_index)break;	      
               /*ユーザ1の既評価値*/
               double user2_element
-                =SparseIncompleteData[user2].elementIndex(user2_ell);
+                =SparseIncompleteData[user2]
+                .elementIndex(user2_ell);
               /*インデックスが揃った場合とユーザ既評価値が
                 欠損されてなければ計算*/
-              if((user1_index==user2_index)&&(user2_element>0)){
+              if((user1_index==user2_index)
+                 &&(user2_element>0)){
                 hyokasu+=1.0;
                 psum+=user1_element*user2_element;
                 sum1+=user1_element;
@@ -513,8 +540,9 @@ void Recom::pearsonsim(void){
           }
         }
         double numerator=psum-(sum1*sum2/hyokasu);
-        double denominator=sqrt((sum1sq-pow(sum1,2.0)/hyokasu)
-                                *(sum2sq-pow(sum2,2.0)/hyokasu));
+        double denominator
+          =sqrt((sum1sq-pow(sum1,2.0)/hyokasu)
+                *(sum2sq-pow(sum2,2.0)/hyokasu));
         if(denominator==0 || std::isnan(denominator))
           Similarity[user1][user2]=0.0;
         else
@@ -565,16 +593,19 @@ void Recom::pearsonsim_fcs(void){
               if(user2_size==user2_ell)break;
               /*ユーザ2の現在の評価値インデックスのインデックス*/
               int user2_index
-                =SparseIncompleteData[user2].indexIndex(user2_ell);
+                =SparseIncompleteData[user2]
+                .indexIndex(user2_ell);
               /*ユーザ2の方が上回ったらbreak*/
               if(user1_index<user2_index)
                 break;
               /*現在のユーザの既評価値*/
               double user2_element
-                =SparseIncompleteData[user2].elementIndex(user2_ell);
+                =SparseIncompleteData[user2]
+                .elementIndex(user2_ell);
               /*インデックスが揃った場合とユーザ既評価値が
                 欠損されてなければ計算*/
-              if((user1_index==user2_index)&&(user2_element>0)){
+              if((user1_index==user2_index)
+                 &&(user2_element>0)){
                 hyokasu+=1.0;
                 psum+=user1_element*user2_element;
                 sum1+=user1_element;
@@ -643,16 +674,19 @@ void Recom::pearsonsim_pcs(const int clusters_number){
               if(user2_size==user2_ell)break;
               /*ユーザ2の現在の評価値インデックスのインデックス*/
               int user2_index
-                =SparseIncompleteData[user2].indexIndex(user2_ell);
+                =SparseIncompleteData[user2]
+                .indexIndex(user2_ell);
               /*ユーザ2の方が上回ったらbreak*/
               if(user1_index<user2_index)
                 break;
               /*現在のユーザの既評価値*/
               double user2_element
-                =SparseIncompleteData[user2].elementIndex(user2_ell);
+                =SparseIncompleteData[user2]
+                .elementIndex(user2_ell);
               /*インデックスが揃った場合とユーザ既評価値が
                 欠損されてなければ計算*/
-              if((user1_index==user2_index)&&(user2_element>0)){
+              if((user1_index==user2_index)
+                 &&(user2_element>0)){
                 hyokasu+=1.0;
                 psum+=user1_element*user2_element;
                 sum1+=user1_element;
@@ -668,8 +702,9 @@ void Recom::pearsonsim_pcs(const int clusters_number){
           }
         }
         double numerator=psum-(sum1*sum2/hyokasu);
-        double denominator=sqrt((sum1sq-pow(sum1,2.0)/hyokasu)
-                                *(sum2sq-pow(sum2,2.0)/hyokasu));
+        double denominator
+          =sqrt((sum1sq-pow(sum1,2.0)/hyokasu)
+                *(sum2sq-pow(sum2,2.0)/hyokasu));
         if(denominator==0 || std::isnan(denominator))
           Similarity[user1][user2]=0.0;
         else
@@ -680,8 +715,9 @@ void Recom::pearsonsim_pcs(const int clusters_number){
   return;
 }
 
-void Recom::pearsonsim_pcs_threshold(const Matrix &Membership_PCM,
-                                     const Vector &Threshold){
+void Recom::pearsonsim_pcs_threshold
+(const Matrix &Membership_PCM,
+ const Vector &Threshold){
   for(int user1=0;user1<return_user_number();user1++){
     int user1_size/*ユーザ1の既評価数*/
       = SparseIncompleteData[user1].essencialSize();
@@ -717,16 +753,19 @@ void Recom::pearsonsim_pcs_threshold(const Matrix &Membership_PCM,
               if(user2_size==user2_ell)break;
               /*ユーザ2の現在の評価値インデックスのインデックス*/
               int user2_index
-                =SparseIncompleteData[user2].indexIndex(user2_ell);
+                =SparseIncompleteData[user2]
+                .indexIndex(user2_ell);
               /*ユーザ2の方が上回ったらbreak*/
               if(user1_index<user2_index)break;
               /*現在のユーザの既評価値*/
               double user2_element
-                =SparseIncompleteData[user2].elementIndex(user2_ell);
+                =SparseIncompleteData[user2]
+                .elementIndex(user2_ell);
 	      
               /*インデックスが揃った場合とユーザ既評価値が
                 欠損されてなければ計算*/
-              if((user1_index==user2_index)&&(user2_element>0)){
+              if((user1_index==user2_index)
+                 &&(user2_element>0)){
                 hyokasu+=1.0;
                 psum+=user1_element*user2_element;
                 sum1+=user1_element;
@@ -742,8 +781,9 @@ void Recom::pearsonsim_pcs_threshold(const Matrix &Membership_PCM,
           }//user1_element>0
         }//ell<user1_size
         double numerator=psum-(sum1*sum2/hyokasu);
-        double denominator=sqrt((sum1sq-pow(sum1,2.0)/hyokasu)
-                                *(sum2sq-pow(sum2,2.0)/hyokasu));
+        double denominator
+          =sqrt((sum1sq-pow(sum1,2.0)/hyokasu)
+                *(sum2sq-pow(sum2,2.0)/hyokasu));
         //分母が0かnanなら
         if(denominator==0 || std::isnan(denominator))
           //計算させない
@@ -781,7 +821,8 @@ void Recom::revise_prediction(void){
           double user_element
             =SparseIncompleteData[i].elementIndex(ell);
           //ユーザの既評価値が欠損してない、またはインデックスが一致したら計算
-          if((user_element>0.0)&&(user_index==miss_user_index)){
+          if((user_element>0.0)
+             &&(user_index==miss_user_index)){
             numerator+=Similarity[KessonIndex[index][0]][i]
               *(user_element-user_average(i));
             denominator+=Similarity[KessonIndex[index][0]][i];
@@ -807,7 +848,9 @@ void Recom::revise_prediction(void){
 double Recom::user_average(int index){
   double result=0.0;
   int hyokazu=0;
-  for(int i=0;i<SparseIncompleteData[index].essencialSize();i++){
+  for(int i=0;
+      i<SparseIncompleteData[index].essencialSize();
+      i++){
     if(SparseIncompleteData[index].elementIndex(i)>0.0){
       result+=SparseIncompleteData[index].elementIndex(i);
       hyokazu++;
@@ -834,7 +877,8 @@ void Recom::crisp(const Matrix &Membership){
   return;
 }
 
-void Recom::crisp(const Matrix &Membership, int clusters_number){
+void Recom::crisp(const Matrix &Membership,
+                  int clusters_number){
   for(int k=0;k<return_user_number();k++){
     for(int i=0;i<clusters_number;i++){
       Mem[i][k]=0.0;
@@ -877,7 +921,8 @@ void Recom::overlap(const Matrix &Membership){
   return;
 }
 
-void Recom::overlap(const Matrix &Membership, int clusters_number){
+void Recom::overlap(const Matrix &Membership,
+                    int clusters_number){
   for(int k=0;k<return_user_number();k++){
     for(int i=0;i<clusters_number;i++){
       Mem[i][k]=0.0;
@@ -921,7 +966,7 @@ int return_user_number(){//ユーザ数
 #elif defined ARTIFICIALITY
   return 100;
 #elif defined TEST
-  return 100;
+  return 1000;
 #else
   std::cout<<"Error: Please specify USER NUMBER.\n";
   exit(1);
@@ -946,7 +991,7 @@ int return_item_number(){//アイテム数
 #elif defined ARTIFICIALITY
   return 100;
 #elif defined TEST
-  return 1002;
+  return 2;
 #else
   std::cout<<"Error: Please specify ITEM NUMBER.\n";
   exit(1);
@@ -971,7 +1016,7 @@ double return_threshold(){//閾値
 #elif defined ARTIFICIALITY
   return 3.5;
 #elif defined TEST
-  return 3.5;
+  return 0;
 #else
   std::cout<<"Error: Please specify THRESHOLD.\n";
   exit(1); 
@@ -996,7 +1041,7 @@ double return_max_value(){
 #elif defined ARTIFICIALITY
   return 5.0;
 #elif defined TEST
-  return 5.0;
+  return 0;
 #else
   std::cout<<"Error: Please specify MAX VALUE.\n";
   exit(1);
@@ -1021,7 +1066,7 @@ std::string return_data_name(){//データ名
 #elif defined ARTIFICIALITY
   return "artificiality";
 #elif defined TEST
-  return "artificiality_overlap";
+  return "test";
 #else
   std::cout<<"Error: Please specify DATA NAME.\n";
   exit(1);
@@ -1037,13 +1082,16 @@ void FILE_ENDL(std::string text){
 
 void Rename(std::string filename, std::string newname){
   if(!access(filename.c_str(),0)){ //If the file exists
-    //Successfully deleted
+    // Successfully deleted
     if(!rename(filename.c_str(),newname.c_str())){
-      // std::cout<<"roctxtFile successfully  renamed"
-      //          <<std::endl ;
+      // std::cout
+      //   <<"roctxtFile successfully  renamed"
+      //   <<std::endl ;
       // std::cout<<newname<<std::endl;
     }
-    else//Cannot rename: file not open or insufficient permissions
+    else
+      //Cannot rename:
+      //file not open or insufficient permissions
       {
         std::cout
           <<"The file cannot be renamed"
@@ -1056,7 +1104,8 @@ void Rename(std::string filename, std::string newname){
                  <<" Being used, not closed"
                  <<std::endl
                  <<"\t"<<"3. "
-                 <<"You do not have permission to rename this file"
+                 <<"You do not have permission "
+                 <<"to rename this file"
                  <<std::endl;
       }
   }else{//The file does not exist

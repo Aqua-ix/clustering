@@ -17,7 +17,9 @@ const std::string METHOD_NAME="EFCS_CRISP";
 int main(void){
   std::vector<std::string> dirs = MkdirFCS(METHOD_NAME);
   //クラスタ数
-  for(int clusters_number=C_START;clusters_number<=C_END;clusters_number++){
+  for(int clusters_number=C_START;
+      clusters_number<=C_END;
+      clusters_number++){
     std::cout<<"clusters number: "<<clusters_number<<std::endl;
     //Recomクラスの生成
     Recom recom(user_number, item_number,
@@ -25,25 +27,35 @@ int main(void){
     recom.method_name()=METHOD_NAME;
     recom.clusters_num()=clusters_number;
     //パラメータlambda
-    for(double lambda=LAMBDA_START;lambda<=LAMBDA_END;lambda*=LAMBDA_DIFF){
+    for(double lambda=LAMBDA_START;
+        lambda<=LAMBDA_END;
+        lambda*=LAMBDA_DIFF){
       std::cout<<"lambda: "<<lambda<<std::endl;
-      EFCS test(item_number, user_number, clusters_number, lambda);
+      EFCS test(item_number, user_number,
+                clusters_number, lambda);
       std::vector<double> parameter= {lambda};
       //データ入力
       recom.input(DATA_DIR+InputDataName);
       //初期化
       recom.reset_choice();
       //欠損パターン
-      for(recom.current()=0;recom.current()<MISSINGTRIALS;recom.current()++){
-        std::cout<<"missing pattern: "<<recom.current()<<std::endl;
+      for(recom.current()=0;
+          recom.current()<MISSINGTRIALS;
+          recom.current()++){
+        std::cout
+          <<"missing pattern: "
+          <<recom.current()
+          <<std::endl;
         //ディレクトリ作成
-        std::vector<std::string> dir = Mkdir(recom.clusters_num(),
-                                             parameter,
-                                             recom.current(),dirs);
+        std::vector<std::string> dir
+          = Mkdir(recom.clusters_num(),
+                  parameter,
+                  recom.current(),dirs);
         //欠損数
         recom.Mcurrent()=0;
         for(recom.missing()=MISSING_MIN;
-            recom.missing()<=MISSING_MAX;recom.missing()+=MISSING_DIFF){
+            recom.missing()<=MISSING_MAX;
+            recom.missing()+=MISSING_DIFF){
           //初期化
           recom.reset_data();
           //データを欠損
@@ -88,9 +100,11 @@ int main(void){
               double diff_v
                 =max_norm(test.tmp_centers()-test.centers());
               double diff_u
-                =max_norm(test.tmp_membership()-test.membership());
+                =max_norm(test.tmp_membership()
+                          -test.membership());
               double diff_p
-                =max_norm(test.tmp_clusters_size()-test.clusters_size());
+                =max_norm(test.tmp_clusters_size()
+                          -test.clusters_size());
               double diff=diff_u+diff_v+diff_p;
               if(std::isnan(diff)){
                 std::cout<<"diff is nan"<<std::endl;

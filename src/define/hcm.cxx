@@ -50,7 +50,8 @@ void HCM::revise_membership(void){
 #endif
   Tmp_Membership=Membership;
   for(int k=0;k<data_number();k++){
-    int min_index=0; double min_dissimilarity=Dissimilarities[0][k];
+    int min_index=0;
+    double min_dissimilarity=Dissimilarities[0][k];
     for(int i=1;i<centers_number();i++){
       if(min_dissimilarity>Dissimilarities[i][k]){
 	min_index=i;
@@ -219,7 +220,9 @@ void HCM::set_contingencyTable(void){
 	+=ContingencyTable[i][j];
     }
   }
-  ContingencyTable[ContingencyTable.rows()-1][ContingencyTable.cols()-1]
+  ContingencyTable
+    [ContingencyTable.rows()-1]
+    [ContingencyTable.cols()-1]
     =data_number();
   return;
 }
@@ -238,19 +241,16 @@ double HCM::ARI(void) const{
   }
   Index=0.5*(Index-ContingencyTable[ContingencyTable.rows()-1]
 	     [ContingencyTable.cols()-1]);
-  //  std::cout << "Index:" << Index << std::endl;
   double ExpectedIndexI=0.0;
   for(int i=0;i<ContingencyTable.rows()-1;i++){
     ExpectedIndexI+=combination
       (ContingencyTable[i][ContingencyTable.cols()-1], 2);
   }
-  //  std::cout << "ExpectedIndexI:" << ExpectedIndexI << std::endl;
   double ExpectedIndexJ=0.0;
   for(int j=0;j<ContingencyTable.cols()-1;j++){
     ExpectedIndexJ+=combination
       (ContingencyTable[ContingencyTable.rows()-1][j], 2);
   }
-  //  std::cout << "ExpectedIndexJ:" << ExpectedIndexJ << std::endl;
   double ExpectedIndex=ExpectedIndexI*ExpectedIndexJ
     /combination(ContingencyTable[ContingencyTable.rows()-1]
 		 [ContingencyTable.cols()-1], 2);
@@ -304,7 +304,7 @@ void HCM::initialize_centers(int random_index){
   InitializeC[0]=randNum(mt);
   //step1で選ばれたデータを第一クラスタ中心とする
   for(int ell=0;ell<Data[InitializeC[0]].essencialSize();ell++)
-    Centers[0][Data[InitializeC[0]].indexIndex(ell)]	  	  	  
+    Centers[0][Data[InitializeC[0]].indexIndex(ell)]
       =Data[InitializeC[0]].elementIndex(ell);
   for(int i=1;i<centers_number();i++){
     //step:2
@@ -340,9 +340,12 @@ void HCM::initialize_centers(int random_index){
     //0~1をランダムで選び，選ばれたデータをクラスタ中心へ
     double rnd01=rand01(mt);
     for(int k=0;k<data_number();k++)
-      if(Tmp_Similarities[k]<rnd01&&Tmp_Similarities[k+1]>=rnd01)
+      if(Tmp_Similarities[k]<rnd01
+         && Tmp_Similarities[k+1]>=rnd01)
 	InitializeC[i]=k;
-    for(int ell=0;ell<Data[InitializeC[i]].essencialSize();ell++)
+    for(int ell=0;
+        ell<Data[InitializeC[i]].essencialSize();
+        ell++)
       Centers[i][Data[InitializeC[i]].indexIndex(ell)]
 	=Data[InitializeC[i]].elementIndex(ell);
   }
@@ -437,7 +440,8 @@ void tfidf1(SparseMatrix &Data){
     for(int ell=0;ell<Data[k].essencialSize();ell++)
       denominator+=Data[k].elementIndex(ell);
     for(int ell=0;ell<Data[k].essencialSize();ell++)
-      TF[k].elementIndex(ell)=Data[k].elementIndex(ell)/denominator;
+      TF[k].elementIndex(ell)
+        =Data[k].elementIndex(ell)/denominator;
   }
   for(int ell=0;ell<Data.cols();ell++){
     IDF[ell]=0.0;
@@ -463,7 +467,8 @@ void tfidf2(SparseMatrix &Data){
   Vector IDF(Data.cols());
   for(int k=0;k<Data.rows();k++)
     for(int ell=0;ell<Data[k].essencialSize();ell++)
-      TF[k].elementIndex(ell)=1.0+log(Data[k].elementIndex(ell));
+      TF[k].elementIndex(ell)
+        =1.0+log(Data[k].elementIndex(ell));
   for(int ell=0;ell<Data.cols();ell++){
     IDF[ell]=0.0;
     double df=0.0;

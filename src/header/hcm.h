@@ -13,7 +13,9 @@ protected:
   //帰属度，前ループの帰属度，非類似度
   Matrix Membership, Tmp_Membership, Dissimilarities;
   //クリスプ化した帰属度，正解の帰属度，分割表
-  Matrix CrispMembership, CorrectCrispMembership, ContingencyTable;
+  Matrix CrispMembership,
+    CorrectCrispMembership,
+    ContingencyTable;
   //初期クラスタ中心に選ばれたデータ番号を保存
   Vector InitializeC;
   //更新式計算のループ回数

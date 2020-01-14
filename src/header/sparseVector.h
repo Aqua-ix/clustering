@@ -46,7 +46,8 @@ class SparseVector{
   bool operator!=(const SparseVector &rhs) const;
 };
 
-std::ostream &operator<<(std::ostream &os, const SparseVector &rhs);
+std::ostream &operator<<(std::ostream &os,
+                         const SparseVector &rhs);
 //絶対値をとった要素の最大
 double max_norm(const SparseVector &arg);
 //2ノルム

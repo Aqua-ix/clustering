@@ -31,8 +31,10 @@ class SparseMatrix{
   SparseMatrix operator-(void) const;
 };
 
-std::ostream &operator<<(std::ostream &os, const SparseMatrix &rhs);
-bool operator==(const SparseMatrix &lhs, const SparseMatrix &rhs);
+std::ostream &operator<<(std::ostream &os,
+                         const SparseMatrix &rhs);
+bool operator==(const SparseMatrix &lhs,
+                const SparseMatrix &rhs);
 double frobenius_norm(const SparseMatrix &arg);
 
 #endif

@@ -21,7 +21,11 @@ void QPCS::revise_membership(void){
   for(int i=0;i<centers_number();i++){
     for(int k=0;k<data_number();k++){
       double formula=0.0;
-      formula=(1.01-FuzzifierLambda*(1.01-FuzzifierEm)*Dissimilarities[i][k]);
+      formula
+        =(1.01
+          -FuzzifierLambda
+          *(1.01-FuzzifierEm)
+          *Dissimilarities[i][k]);
       if(formula<0){
 	formula=0;
       }

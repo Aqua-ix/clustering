@@ -12,7 +12,9 @@ catch(std::bad_alloc){
 
 //コピーコンストラクタ
 SparseMatrix::SparseMatrix(const SparseMatrix &arg) try :
-  Rows(arg.Rows), Cols(arg.Cols), Element(new SparseVector[Rows]){
+  Rows(arg.Rows),
+    Cols(arg.Cols),
+    Element(new SparseVector[Rows]){
     for(int i=0;i<Rows;i++)
       Element[i]=arg.Element[i];
   }
@@ -102,7 +104,8 @@ SparseMatrix SparseMatrix::operator-(void) const{
   return result;
 }
 
-std::ostream &operator<<(std::ostream &os, const SparseMatrix &rhs){
+std::ostream &operator<<(std::ostream &os,
+                         const SparseMatrix &rhs){
   os << "(";
   if(rhs.rows()>0){
     for(int i=0;;i++){
@@ -115,7 +118,8 @@ std::ostream &operator<<(std::ostream &os, const SparseMatrix &rhs){
   return os;
 }
 
-bool operator==(const SparseMatrix &lhs, const SparseMatrix &rhs){
+bool operator==(const SparseMatrix &lhs,
+                const SparseMatrix &rhs){
   if(lhs.rows()!=rhs.rows())	return false;
   for(int i=0;i<lhs.rows();i++){
     if(lhs[i]!=rhs[i])	return false;
