@@ -54,7 +54,7 @@
 #define OT_END 1.00
 #define OT_DIFF 0.10
 #elif defined TEST
-#define OT_START 0.10
+#define OT_START 0.1/0
 #define OT_END 0.10
 #define OT_DIFF 0.10
 #else
