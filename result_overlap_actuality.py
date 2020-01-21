@@ -18,7 +18,7 @@ overlap = '_OVERLAP_'
 mp = 4
 data_name = args[1]
 clusters = [args[2], args[3], args[4]]
-mode = args[5]
+mode = 'w'
 
 regex = re.compile('[0-9]+[._]?[0-9]*')
 
