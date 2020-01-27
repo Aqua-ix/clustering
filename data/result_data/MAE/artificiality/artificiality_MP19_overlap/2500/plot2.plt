@@ -2,7 +2,7 @@ set terminal pdf
 set output data."_".miss."_ALL_MAE.pdf"
 set key outside font "Arial,15"
 set xlabel "オーバーラップ閾値" font "Arial,15"
-set xrange [0.2:1.0]
+set xrange [0.1:1.0]
 set xtics 0.1
 set ylabel "MAE" font "Arial,15"
 set ytics 0.01
