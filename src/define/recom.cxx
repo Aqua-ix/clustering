@@ -955,8 +955,6 @@ int return_user_number(){//ユーザ数
   return 1091;//1090;
 #elif defined JESTER
   return 2916;
-#elif defined MOVIE
-  return 500;
 #elif defined LIBIMSETI
   return 866;//500;
 #elif defined EPINIONS
@@ -980,8 +978,6 @@ int return_item_number(){//アイテム数
   return 2248;//2247;
 #elif defined JESTER
   return 140;
-#elif defined MOVIE
-  return 2523;
 #elif defined LIBIMSETI
   return 1156;//2041;
 #elif defined EPINIONS
@@ -1005,8 +1001,6 @@ double return_threshold(){//閾値
   return 7.0;
 #elif defined JESTER
   return 14.7;
-#elif defined MOVIE
-  return 3.5;
 #elif defined LIBIMSETI
   return 7.0;
 #elif defined EPINIONS
@@ -1030,8 +1024,6 @@ double return_max_value(){
   return 10.0;
 #elif defined JESTER
   return 21.0;
-#elif defined MOVIE
-  return 5.0;
 #elif defined LIBIMSETI
   return 10.0;
 #elif defined EPINIONS
