@@ -49,4 +49,40 @@ for mi, method in enumerate(methods):
         a = Decimal(float(average[mi, oi])).quantize(Decimal("0.000001"), rounding=ROUND_HALF_UP)
         outputFile.write('\t' + str(a))
     outputFile.write('\n')
+
+csum = 0
+cave = 0
+for di, data in enumerate(datasets):
+    inputDir = data + '/' + data + '_MP' + mp + '_crisp/'
+    inputFileName = inputDir + 'QPCS_CRISP_averageMAE.txt'
+    inputFile = open(inputFileName, 'r')
+    tsv = csv.reader(inputFile, delimiter = '\t')
+    
+    for ri, row in enumerate(tsv):
+        csum+= float(row[2])
+        
+    inputFile.close()
+
+cave = Decimal(csum/len(datasets)).quantize(Decimal("0.000001"), rounding=ROUND_HALF_UP)
+outputFile.write('QPCS(A)\t' + str(cave))
+
+outputFile.write('\n')
+
+gsum = 0
+gave = 0
+for di, data in enumerate(datasets):
+    inputDir = data + '/'
+    inputFileName = inputDir + 'GROUPLENS_averageMAE.txt'
+    inputFile = open(inputFileName, 'r')
+    tsv = csv.reader(inputFile, delimiter = '\t')
+    
+    for ri, row in enumerate(tsv):
+        gsum+= float(row[1])
+        
+    inputFile.close()
+
+gave = Decimal(gsum/len(datasets)).quantize(Decimal("0.000001"), rounding=ROUND_HALF_UP)
+outputFile.write('GroupLens\t' + str(gave))
+
 outputFile.close()
+

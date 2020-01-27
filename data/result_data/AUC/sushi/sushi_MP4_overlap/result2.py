@@ -4,7 +4,7 @@ import os
 from decimal import *
 import numpy as np
 
-mRange = range(20000,20001)
+mRange = range(40000,40001)
 tRange = np.arange(0.2, 1.1, 0.2)
 
 methods = ['BFCS', 'EFCS', 'QFCS', 'BPCS', 'EPCS', 'QPCS']
