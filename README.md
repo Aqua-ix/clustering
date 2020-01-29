@@ -23,7 +23,7 @@ emacs設定ファイル
 ## Makefile
 make実行ファイル
 
-```bash
+```sh
 $ make (vectorクラス等の中間ファイル作成、-Bで強制コンパイル) 
 $ make ターゲット(.out)で実行ファイルコンパイル
 $ make ターゲット data=マクロ名
@@ -32,13 +32,13 @@ $ make ターゲット data=マクロ名
 # 例
 ## bfcsをBookCrossingに適用する場合
 
-```bash
+```sh
 $ make bfcs.out data=BOOK
 ```
 
 ## クラスの呼び出し等デバグしたいとき
 
-```bash
+```sh
 $ make ターゲット data=マクロ名 class=1
 ```
 
@@ -54,7 +54,7 @@ $ make ターゲット data=マクロ名 class=1
 
 プログラム実行用スクリプトファイル
 
-```bash
+```sh
 $ sh run.sh [プログラム名]
 ```
 
@@ -62,7 +62,7 @@ $ sh run.sh [プログラム名]
 
 ## 例
 
-```bash
+```sh
 $ sh run.sh overlap
 ```
 
@@ -96,7 +96,7 @@ $ sh run.sh overlap
 
 ## コマンド例
 
-```bash
+```sh
 $ result_overlap_actuality.py book 2 2 2
 ```
 
@@ -110,25 +110,25 @@ $ result_overlap_actuality.py book 2 2 2
 
 #### 閾値ごとに抽出されたファイルを欠損数ごとにまとめる
 
-```bash
+```sh
 $ python result1.py
 ```
 
 #### 横軸欠損数・縦軸MAEのグラフ出力
 
-```bash
+```sh
 $ sh plot1.sh
 ```
 
 #### TeX用に表を出力
 
-```bash
+```sh
 $ python result2.py
 ```
 
 #### 横軸閾値・縦軸MAEのグラフ出力
 
-```bash
+```sh
 $ sh plot2.sh
 ```
 
@@ -145,13 +145,13 @@ $ sh plot2.sh
 
 #### 欠損パターンごとのディレクトリにまとめる
 
-```bash
+```sh
 $ sh convert.sh [データ名]
 ```
 
 #### ROC曲線出力
 
-```bash
+```sh
 $ sh plot.sh
 ```
 
