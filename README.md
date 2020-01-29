@@ -27,27 +27,26 @@ $ make ターゲット(.out)で実行ファイルコンパイル
 $ make ターゲット data=マクロ名
 ```
 
-# 例
-## bfcsをBookCrossingに適用する場合
+## 例
+### bfcsをBookCrossingに適用する場合
 
 ```sh
 $ make bfcs.out data=BOOK
 ```
 
-## クラスの呼び出し等デバグしたいとき
+### クラスの呼び出し等デバグしたいとき
 
 ```sh
 $ make ターゲット data=マクロ名 class=1
 ```
 
-## ターゲット名
+### ターゲット名
 
 - `overlap`: オーバーラップ
 - `crisp`: オーバーラップしない
 - ※注意: `qpcs_crisp.out`のみ中村方式のオーバーラップ
 
 # プログラム実行方法
-
 ## run.sh
 
 プログラム実行用スクリプトファイル
@@ -70,14 +69,20 @@ $ sh run.sh overlap
 ## 各オーバーラップ閾値ごとに最良パラメータの結果を抽出するPythonスクリプト
 ### result_overlap_artificiality.py
 
-- 実データ実験結果の抽出(オーバーラップ)
+- 人工データ実験結果の抽出(オーバーラップ)
 - 引数不要
 
 ### result_overlap_actuality.py
 
-- 実データ実験結果の抽出(オーバーラップ)
+- 人工データ実験結果の抽出(オーバーラップ)
 - 第1引数: データ名
 - 第2, 3, 4引数: 抽出するBFCS, EFCS, QFCSのクラスタ数
+
+#### 例
+
+```sh
+$ python result_overlap_actuality.py book 2 2 2
+```
 
 ### result_crisp_artificiality.py
 
@@ -90,13 +95,13 @@ $ sh run.sh overlap
 - 第1引数: データ名
 - 第2, 3, 4引数: 抽出するBFCS, EFCS, QFCSのクラスタ数
 
-## コマンド例
+#### 例
 
 ```sh
-$ result_overlap_actuality.py book 2 2 2
+$ python result_crisp_actuality.py book 2 2 2
 ```
 
-# 実験結果
+# 実験結果ディレクトリの説明
 ## data/result_data/MAE
 
 抽出済MAE実験結果
