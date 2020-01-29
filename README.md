@@ -23,7 +23,7 @@ emacs設定ファイル
 ## Makefile
 make実行ファイル
 
-```
+```bash
 $ make (vectorクラス等の中間ファイル作成、-Bで強制コンパイル) 
 $ make ターゲット(.out)で実行ファイルコンパイル
 $ make ターゲット data=マクロ名
@@ -32,21 +32,21 @@ $ make ターゲット data=マクロ名
 # 例
 ## bfcsをBookCrossingに適用する場合
 
-```
+```bash
 $ make bfcs.out data=BOOK
 ```
 
 ## クラスの呼び出し等デバグしたいとき
 
-```
+```bash
 $ make ターゲット data=マクロ名 class=1
 ```
 
-##ターゲット名
+## ターゲット名
 
-`overlap`: オーバーラップ
-`crisp`: オーバーラップしない
-※注意: `qpcs_crisp.out`のみ中村方式のオーバーラップ
+- `overlap`: オーバーラップ
+- `crisp`: オーバーラップしない
+- ※注意: `qpcs_crisp.out`のみ中村方式のオーバーラップ
 
 # プログラム実行方法
 
@@ -54,7 +54,7 @@ $ make ターゲット data=マクロ名 class=1
 
 プログラム実行用スクリプトファイル
 
-```
+```bash
 $ sh run.sh [プログラム名]
 ```
 
@@ -62,7 +62,7 @@ $ sh run.sh [プログラム名]
 
 ## 例
 
-```
+```bash
 $ sh run.sh overlap
 ```
 
@@ -74,30 +74,29 @@ $ sh run.sh overlap
 
 ### result_overlap_artificiality.py
 
-実データ実験結果の抽出(オーバーラップ)
-引数不要
+- 実データ実験結果の抽出(オーバーラップ)
+- 引数不要
 
 ### result_overlap_actuality.py
 
-実データ実験結果の抽出(オーバーラップ)
-第1引数: データ名
-第2, 3, 4引数: 抽出するBFCS, EFCS, QFCSのクラスタ数
-
+- 実データ実験結果の抽出(オーバーラップ)
+- 第1引数: データ名
+- 第2, 3, 4引数: 抽出するBFCS, EFCS, QFCSのクラスタ数
 
 ### result_crisp_artificiality.py
 
-実データ実験結果の抽出(クリスプ)
-引数不要
+- 実データ実験結果の抽出(クリスプ)
+- 引数不要
 
 ### result_crisp_actuality.py
 
-実データ実験結果の抽出(クリスプ)
-第1引数: データ名
-第2, 3, 4引数: 抽出するBFCS, EFCS, QFCSのクラスタ数
+- 実データ実験結果の抽出(クリスプ)
+- 第1引数: データ名
+- 第2, 3, 4引数: 抽出するBFCS, EFCS, QFCSのクラスタ数
 
 ## コマンド例
 
-```
+```bash
 $ result_overlap_actuality.py book 2 2 2
 ```
 
@@ -111,32 +110,32 @@ $ result_overlap_actuality.py book 2 2 2
 
 #### 閾値ごとに抽出されたファイルを欠損数ごとにまとめる
 
-```
+```bash
 $ python result1.py
 ```
 
 #### 横軸欠損数・縦軸MAEのグラフ出力
 
-```
+```bash
 $ sh plot1.sh
 ```
 
 #### TeX用に表を出力
 
-```
+```bash
 $ python result2.py
 ```
 
 #### 横軸閾値・縦軸MAEのグラフ出力
 
-```
+```bash
 $ sh plot2.sh
 ```
 
 ## data/result_data/AUC
 
-抽出済AUC実験結果
-スクリプトの扱い方はMAEと同様
+- 抽出済AUC実験結果
+- スクリプトの扱いはMAEと同様
 
 ## data/result_data/ROC
 
@@ -146,13 +145,13 @@ $ sh plot2.sh
 
 #### 欠損パターンごとのディレクトリにまとめる
 
-```
+```bash
 $ sh convert.sh [データ名]
 ```
 
 #### ROC曲線出力
 
-```
+```bash
 $ sh plot.sh
 ```
 
