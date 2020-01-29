@@ -16,18 +16,38 @@
 詳しくはファイルの中身参照
 ## .dir-locals.el
 emacs設定ファイル
+## Makefile
+コンパイル実行ファイル
 
 # プログラムコンパイル方法
-## Makefile
-make実行ファイル
+
+vectorクラス等の中間ファイル作成、-Bで強制コンパイル
 
 ```sh
-$ make (vectorクラス等の中間ファイル作成、-Bで強制コンパイル) 
-$ make ターゲット(.out)で実行ファイルコンパイル
-$ make ターゲット data=マクロ名
+$ make
 ```
 
+実行ファイルのコンパイル
+
+```sh
+$ make ターゲット data=データ名
+```
+
+### ターゲット名
+
+- `overlap`: オーバーラップあり
+- `crisp`: オーバーラップなし
+- `grouplens.out`: GroupLens
+- `bfcs_overlap.out`のように個別指定することも可能
+- ※注意: `qpcs_crisp.out`のみ中村方式のオーバーラップ
+
 ## 例
+### 人工データのをまとめてコンパイルする場合
+
+```sh
+$ make overlap data=BOOK
+```
+
 ### bfcsをBookCrossingに適用する場合
 
 ```sh
@@ -37,14 +57,8 @@ $ make bfcs.out data=BOOK
 ### クラスの呼び出し等デバグしたいとき
 
 ```sh
-$ make ターゲット data=マクロ名 class=1
+$ make ターゲット data=データ名 class=1
 ```
-
-### ターゲット名
-
-- `overlap`: オーバーラップ
-- `crisp`: オーバーラップしない
-- ※注意: `qpcs_crisp.out`のみ中村方式のオーバーラップ
 
 # プログラム実行方法
 ## run.sh
@@ -69,12 +83,12 @@ $ sh run.sh overlap
 ## 各オーバーラップ閾値ごとに最良パラメータの結果を抽出するPythonスクリプト
 ### result_overlap_artificiality.py
 
-- 人工データ実験結果の抽出(オーバーラップ)
+- 人工データ実験結果の抽出(オーバーラップ有り)
 - 引数不要
 
 ### result_overlap_actuality.py
 
-- 人工データ実験結果の抽出(オーバーラップ)
+- 人工データ実験結果の抽出(オーバーラップ有り)
 - 第1引数: データ名
 - 第2, 3, 4引数: 抽出するBFCS, EFCS, QFCSのクラスタ数
 
@@ -86,12 +100,12 @@ $ python result_overlap_actuality.py book 2 2 2
 
 ### result_crisp_artificiality.py
 
-- 実データ実験結果の抽出(クリスプ)
+- 実データ実験結果の抽出(オーバーラップ無し)
 - 引数不要
 
 ### result_crisp_actuality.py
 
-- 実データ実験結果の抽出(クリスプ)
+- 実データ実験結果の抽出(オーバーラップ無し)
 - 第1引数: データ名
 - 第2, 3, 4引数: 抽出するBFCS, EFCS, QFCSのクラスタ数
 
