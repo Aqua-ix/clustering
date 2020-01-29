@@ -10,7 +10,7 @@ import shutil
 
 args = sys.argv
 
-data_dir="data/result_data/"
+data_dir='data/result_data/'
 b_e_q = ['B', 'E', 'Q']
 f_p = ['FCS', 'PCS']
 m_a = ['MAE', 'AUC']

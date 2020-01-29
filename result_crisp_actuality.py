@@ -10,9 +10,9 @@ import shutil
 
 args = sys.argv
 
-data_dir="data/result_data/"
-b_e_q = ['Q']
-f_p = ['PCS']
+data_dir = 'data/result_data/'
+b_e_q = ['B', 'E', 'Q']
+f_p = ['FCS', 'PCS']
 m_a = ['MAE', 'AUC']
 overlap = '_CRISP_'
 mp = 4

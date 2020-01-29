@@ -10,13 +10,13 @@ import shutil
 
 args = sys.argv
 
-data_dir="data/result_data/"
-b_e_q = ['Q']
-f_p = ['PCS']
-m_a = ['MAE']
+data_dir = 'data/result_data/'
+b_e_q = ['B', 'E', 'Q']
+f_p = ['FCS', 'PCS']
+m_a = ['MAE', 'AUC']
 overlap = '_CRISP_'
-mp = 19
-data_name = args[1]
+mp = 4
+data_name = 'artificiality'
 
 regex = re.compile('[0-9]+[._]?[0-9]*')
 
