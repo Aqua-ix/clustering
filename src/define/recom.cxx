@@ -966,7 +966,7 @@ int return_user_number(){//ユーザ数
 #elif defined BOOK2
   return 1456;
 #elif defined JESTER2
-  return 7848;
+  return 7878;
 #elif defined LIBIMSETI2
   return 1139;
 #elif defined EPINIONS2
