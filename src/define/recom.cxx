@@ -970,7 +970,7 @@ int return_user_number(){//ユーザ数
 #elif defined LIBIMSETI2
   return 1139;
 #elif defined EPINIONS2
-  return 2677;
+  return 1778;
 #elif defined ARTIFICIALITY
   return 100;
 #elif defined TEST
