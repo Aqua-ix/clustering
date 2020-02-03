@@ -1,12 +1,12 @@
 # ディレクトリ一覧
 ## src
 ソースコード
-### define
+### src/define
 #### recom.cxx
 推薦システムクラス
 #### [手法名].cxx
 各手法クラス
-### header
+### src/header
 #### recom.h
 推薦システムクラスのヘッダファイル
 
@@ -23,21 +23,21 @@
 
 #### [手法名].h
 各手法クラスのヘッダファイル
-### main
+### src/main
 #### grouplens.cxx
 grouplensのmainファイル
-#### main_overlap
+### src/main_overlap
 #### [手法名].cxx
 クラスタリング各手法(オーバーラップ有り)のmainファイル
-#### main_crisp
+### src/main_crisp
 #### [手法名].cxx
 クラスタリング各手法(オーバーラップ無し)のmainファイル
 
 (QPCSだけ中村方式のオーバーラップに改良済)
 ## data
-### resule_data
+### data/resule_data
 実験結果の出力先
-### dataset
+### data/dataset
 実験用データセット
 ## documents
 論文・概要書・プレゼン資料
