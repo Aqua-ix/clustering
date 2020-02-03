@@ -1,3 +1,4 @@
+#clustering
 # ディレクトリ一覧
 ## src
 ソースコード
@@ -39,6 +40,21 @@ grouplensのmainファイル
 実験結果の出力先
 ### data/dataset
 実験用データセット
+
+|データ名|ユーザ数|アイテム数|
+|:---|:---|:---|
+|**[MovieLens100k](https://github.com/Aqua-ix/some-datasets/blob/master/2019_recom_datasets/movie/sparse_movielens874_598.txt)**|874|598|
+|**[MovieLens1M](https://github.com/Aqua-ix/some-datasets/blob/master/2019_recom_datasets/movie/sparse_movielens1m905_684.txt)**|905|684|
+|**[MovieLens10M](https://github.com/Aqua-ix/some-datasets/blob/master/2019_recom_datasets/movie/sparse_movielens10m1299_1695.txt)**|1299|1695|
+|**[Book-Crossing](https://github.com/Aqua-ix/some-datasets/blob/master/2019_recom_datasets/book/sparse_bookcrossing1091_2248.txt)**|1091|2248|
+|**[Book-Crossing2](https://github.com/Aqua-ix/some-datasets/blob/master/2019_recom_datasets/book/sparse_bookcrossing2375_6491.txt)**|2375|6491|
+|**[Jester](https://github.com/Aqua-ix/some-datasets/blob/master/2019_recom_datasets/jester/sparse_jester2916_140.txt)**|2916|140|
+|**[Jester2](https://github.com/Aqua-ix/some-datasets/blob/master/2019_recom_datasets/jester/sparse_jester7848_140.txt)**|7848|140|
+|**[Libimseti](https://github.com/Aqua-ix/some-datasets/blob/master/2019_recom_datasets/libimseti/sparse_libimseti866_1156.txt)**|866|1156|
+|**[Epinions](https://github.com/Aqua-ix/some-datasets/blob/master/2019_recom_datasets/epinions/sparse_epinions1022_835.txt)**|1022|835|
+|**[Epinions](https://github.com/Aqua-ix/some-datasets/blob/master/2019_recom_datasets/epinions/sparse_epinions2677_2060.txt)**|2677|2060|
+|**[Sushi](https://github.com/Aqua-ix/some-datasets/blob/master/2019_recom_datasets/sushi/sparse_sushi5000_100.txt)**|5000|100|
+
 ## documents
 論文・概要書・プレゼン資料
 このディレクトリ内に別途READMEあり
