@@ -43,11 +43,11 @@ grouplensのmainファイル
 ## some-datasets
 整形前データセット等
 
-詳細な説明はsome-datasets内のREADMEにあり
+詳細な説明は`some-datasets`内のREADMEにあり
 ## documents
 論文・概要書・プレゼン資料
 
-このディレクトリ内に別途READMEあり
+詳細な説明は`documents`内のREADMEにあり
 ## .o
 中間ファイル出力用ディレクトリ
 
