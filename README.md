@@ -78,7 +78,7 @@ $ make ターゲット data=データ名
 - ※注意: `qpcs_crisp.out`のみ中村方式のオーバーラップ
 
 ## 例
-### 人工データのをまとめてコンパイルする場合
+### オーバーラップ全手法を人工データに適用する場合
 
 ```sh
 $ make overlap data=BOOK
@@ -93,7 +93,7 @@ $ make bfcs.out data=BOOK
 ### クラスの呼び出し等デバッグしたいとき
 
 ```sh
-$ make ターゲット data=データ名 class=1
+$ make [ターゲット] data=データ名 class=1
 ```
 
 # プログラム実行方法
