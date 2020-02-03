@@ -968,7 +968,7 @@ int return_user_number(){//ユーザ数
 #elif defined JESTER2
   return 7878;
 #elif defined LIBIMSETI2
-  return 1139;
+  return 1000;
 #elif defined EPINIONS2
   return 1404;
 #elif defined ARTIFICIALITY
@@ -1001,7 +1001,7 @@ int return_item_number(){//アイテム数
 #elif defined JESTER2
   return 140;
 #elif defined LIBIMSETI2
-  return 1493;
+  return 1349;
 #elif defined EPINIONS2
   return 1117;
 #elif defined ARTIFICIALITY
