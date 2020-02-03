@@ -970,7 +970,7 @@ int return_user_number(){//ユーザ数
 #elif defined LIBIMSETI2
   return 1000;
 #elif defined EPINIONS2
-  return 1404;
+  return 1290;
 #elif defined ARTIFICIALITY
   return 100;
 #elif defined TEST
@@ -1003,7 +1003,7 @@ int return_item_number(){//アイテム数
 #elif defined LIBIMSETI2
   return 1349;
 #elif defined EPINIONS2
-  return 1117;
+  return 984;
 #elif defined ARTIFICIALITY
   return 100;
 #elif defined TEST
