@@ -1,0 +1,3 @@
+[submodule "some-datasets"]
+	path = some-datasets
+	url = https://github.com/Aqua-ix/some-datasets
