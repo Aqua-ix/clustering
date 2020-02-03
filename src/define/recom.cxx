@@ -1027,6 +1027,16 @@ double return_threshold(){//閾値
   return 3.5;
 #elif defined SUSHI
   return 3.5;
+#elif defined MOVIE2
+  return 3.5;
+#elif defined BOOK2
+  return 7.0;
+#elif defined JESTER2
+  return 14.7;
+#elif defined LIBIMSETI2
+  return 7.0;
+#elif defined EPINIONS2
+  return 3.5;
 #elif defined ARTIFICIALITY
   return 3.5;
 #elif defined TEST
@@ -1050,6 +1060,16 @@ double return_max_value(){
   return 5.0;
 #elif defined SUSHI
   return 5.0;
+#elif defined MOVIE2
+  return 5.0;
+#elif defined BOOK2
+  return 10.0;
+#elif defined JESTER2
+  return 21.0;
+#elif defined LIBIMSETI2
+  return 10.0;
+#elif defined EPINIONS2
+  return 5.0;
 #elif defined ARTIFICIALITY
   return 5.0;
 #elif defined TEST
@@ -1067,14 +1087,22 @@ std::string return_data_name(){//データ名
   return "book";
 #elif defined JESTER
   return "jester";
-#elif defined MOVIE
-  return "movie10M";
 #elif defined LIBIMSETI
   return "libimseti";
 #elif defined EPINIONS
   return "epinions";
 #elif defined SUSHI
   return "sushi";
+#elif defined MOVIE2
+  return "movie2";
+#elif defined BOOK2
+  return "book2";
+#elif defined JESTER2
+  return "jester2";
+#elif defined LIBIMSETI2
+  return "libimseti2";
+#elif defined EPINIONS2
+  return "epinions2";
 #elif defined ARTIFICIALITY
   return "artificiality";
 #elif defined TEST
