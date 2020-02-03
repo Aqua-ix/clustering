@@ -952,15 +952,25 @@ int return_user_number(){//ユーザ数
 #ifdef MOVIE
   return 905;
 #elif defined BOOK
-  return 1091;//1090;
+  return 1091;
 #elif defined JESTER
   return 2916;
 #elif defined LIBIMSETI
-  return 866;//500;
+  return 866;
 #elif defined EPINIONS
-  return 1022;//2000;
+  return 1022;
 #elif defined SUSHI
   return 5000;
+#elif defined MOVIE2
+  return 1299;
+#elif defined BOOK2
+  return 2375;
+#elif defined JESTER2
+  return 7848;
+#elif defined LIBIMSETI2
+  return 1764;
+#elif defined EPINIONS2
+  return 2677;
 #elif defined ARTIFICIALITY
   return 100;
 #elif defined TEST
@@ -975,15 +985,25 @@ int return_item_number(){//アイテム数
 #ifdef MOVIE
   return 684;
 #elif defined BOOK
-  return 2248;//2247;
+  return 2248;
 #elif defined JESTER
   return 140;
 #elif defined LIBIMSETI
-  return 1156;//2041;
+  return 1156;
 #elif defined EPINIONS
-  return 835;//517;
+  return 835;
 #elif defined SUSHI
   return 100;
+#elif defined MOVIE2
+  return 1695;
+#elif defined BOOK2
+  return 6491;
+#elif defined JESTER2
+  return 140;
+#elif defined LIBIMSETI2
+  return 2123;
+#elif defined EPINIONS2
+  return 2060;
 #elif defined ARTIFICIALITY
   return 100;
 #elif defined TEST
