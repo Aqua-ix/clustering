@@ -968,7 +968,7 @@ int return_user_number(){//ユーザ数
 #elif defined JESTER2
   return 7878;
 #elif defined LIBIMSETI2
-  return 1000;
+  return 1764;
 #elif defined EPINIONS2
   return 8282;
 #elif defined ARTIFICIALITY
@@ -985,7 +985,7 @@ int return_item_number(){//アイテム数
 #ifdef MOVIE
   return 684;
 #elif defined BOOK
-  return 11395;
+  return 2248;
 #elif defined JESTER
   return 140;
 #elif defined LIBIMSETI
@@ -997,11 +997,11 @@ int return_item_number(){//アイテム数
 #elif defined MOVIE2
   return 1695;
 #elif defined BOOK2
-  return 3157;
+  return 11395;
 #elif defined JESTER2
   return 140;
 #elif defined LIBIMSETI2
-  return 1349;
+  return 2123;
 #elif defined EPINIONS2
   return 6606;
 #elif defined ARTIFICIALITY
