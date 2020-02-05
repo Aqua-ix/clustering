@@ -88,7 +88,7 @@ $ make ターゲット data=データ名
 ### オーバーラップ全手法を人工データに適用する場合
 
 ```sh
-$ make overlap data=BOOK
+$ make overlap data=ARTIFICIALITY
 ```
 
 ### bfcsをBookCrossingに適用する場合
